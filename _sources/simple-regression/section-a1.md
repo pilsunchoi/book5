@@ -64,7 +64,7 @@ $n$ = 7,366 · $R^2$ = 0.542 · 잔차 표준오차 1.62억원
 - 이 결과는 상관이지 인과가 아니다. 전용면적은 층, 연식, 단지와 얽혀 있으므로, "다른 조건이 같을 때"의 면적 효과는 다중회귀가 필요하다.
 
 :::{container} report-dl
-{download}`보고서 원문 내려받기 (.md) <report-simple-regression.md>`
+보고서 내려받기: {download}`PDF(그림 포함) <report-simple-regression.pdf>` · {download}`원문(.md) <report-simple-regression.md>`
 :::
 
 ::::
