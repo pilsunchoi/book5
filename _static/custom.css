@@ -1,0 +1,34 @@
+/* 책·보고서·영상을 한 디자인으로 — 글꼴 Pretendard, 바탕 #fcfcfb (영상·보고서와 같은 색) */
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
+html { --pst-font-family-base: "Pretendard", -apple-system, "Malgun Gothic", sans-serif;
+       --pst-font-family-heading: "Pretendard", -apple-system, "Malgun Gothic", sans-serif; }
+html[data-theme="light"] { --pst-color-background: #fcfcfb; }
+body { word-break: keep-all; line-height: 1.75; }
+
+/* 위쪽 머리줄의 검색창은 사이드바 검색과 겹친다 (book4에서도 두 개였다) */
+.bd-header .search-button-field, .bd-header .search-button { display: none !important; }
+@media (min-width: 960px) { .bd-header { display: none !important; } }   /* 검색을 숨기면 빈 띠만 남는다 */
+
+/* 보고서 박스 (plan.md 보고서 삽입 규칙)
+   docutils container에는 bootstrap의 .container가 같이 붙어 여백·폭이 덮이므로 div.report-box.container로 명시 */
+div.report-box.container {
+  max-width: none; background: #f6f5f1; border: 1px solid #e4e2dc; border-radius: 14px;
+  padding: 1.6rem 1.9rem 1.2rem !important; margin: 1.6rem 0;
+  box-shadow: 0 6px 22px rgba(11, 11, 11, .05);
+}
+html[data-theme="dark"] div.report-box.container { background: #23221f; border-color: #3a3833; }
+.report-box p.report-caption { font-size: .85rem; font-weight: 600; color: #1f8a77; margin: 0 0 .4rem; letter-spacing: .02em; }
+.report-box p.rubric { border-bottom: none !important; }
+.report-box p.rubric.report-title { font-size: 1.35rem; font-weight: 700; margin: .2rem 0 .6rem; }
+.report-box p.rubric.report-h2 { font-size: 1.05rem; font-weight: 700; margin: 1.1rem 0 .3rem; }
+.report-box p.report-dl { font-size: .85rem; margin-top: 1rem; }
+.report-box img { border-radius: 6px; }
+
+/* 강의영상 상자 — 보라(영상 콜아웃과 같은 색) */
+div.admonition.video-box { border-color: #4a3aa7; }
+div.admonition.video-box > .admonition-title { background: rgba(74, 58, 167, .08); }
+div.admonition.video-box > .admonition-title::after { content: none; }
+
+/* 그림 */
+article img { max-width: 100%; }

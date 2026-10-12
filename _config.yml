@@ -1,0 +1,47 @@
+# 이 파일은 book5/publish/site-template에서 조립된다 — 여기서 고치면 다음 조립 때 덮어써진다.
+title: AI 데이터 분석
+author: 최필선
+copyright: "2026 최필선"
+only_build_toc_files: true
+
+execute:
+  execute_notebooks: 'off'      # 노트북은 저장된 실행 결과를 그대로 쓴다
+
+repository:
+  url: https://github.com/pilsunchoi/book5
+  branch: main
+
+html:
+  use_repository_button: true
+  use_issues_button: false
+  extra_footer: ""
+
+parse:
+  myst_enable_extensions:
+    - colon_fence
+    - dollarmath
+    - html_image
+
+sphinx:
+  extra_extensions:
+    - sphinxext.opengraph
+  config:
+    language: ko
+    html_static_path: [_static]
+    html_css_files: [custom.css]
+    html_show_copyright: true
+    html_theme_options:
+      repository_url: https://github.com/pilsunchoi/book5
+      use_repository_button: true
+      use_download_button: true
+      use_fullscreen_button: true
+      footer_content_items: [copyright]   # 기본 "By 저자"가 "으로 최필선"으로 번역돼 어색하다
+    ogp_site_url: "https://pilsunchoi.github.io/book5/"
+    ogp_site_name: "AI 데이터 분석"
+    ogp_description_length: 160
+    ogp_enable_meta_description: true
+    ogp_social_cards:
+      enable: false
+
+url: "https://pilsunchoi.github.io"
+base_url: "/book5/"

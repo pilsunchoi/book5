@@ -1,0 +1,6 @@
+*.ipynb text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.css text eol=lf
+*.csv -text
+*.png binary

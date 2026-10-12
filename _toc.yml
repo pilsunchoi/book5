@@ -1,0 +1,13 @@
+format: jb-book
+root: index
+
+chapters:
+  - file: simple-regression/index
+    sections:
+      - file: simple-regression/section-a1
+      - file: simple-regression/section-a2
+      - file: simple-regression/section-a3
+      - file: simple-regression/section-a4
+      - file: simple-regression/section-a5
+      - file: simple-regression/practice-prompt
+      - file: simple-regression/practice-notebook
