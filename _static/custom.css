@@ -22,7 +22,7 @@ html[data-theme="dark"] div.report-box.container { background: #23221f; border-c
 .report-box p.rubric { border-bottom: none !important; }
 .report-box p.rubric.report-title { font-size: 1.35rem; font-weight: 700; margin: .2rem 0 .6rem; }
 .report-box p.rubric.report-h2 { font-size: 1.05rem; font-weight: 700; margin: 1.1rem 0 .3rem; }
-.report-box p.report-dl { font-size: .85rem; margin-top: 1rem; }
+.report-box div.report-dl.container { max-width: none; padding: 0 !important; margin-top: 1rem; font-size: .85rem; }
 .report-box img { border-radius: 6px; }
 
 /* 강의영상 상자 — 보라(영상 콜아웃과 같은 색) */
