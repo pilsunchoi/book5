@@ -35,7 +35,11 @@ sphinx:
       use_repository_button: true
       use_download_button: true
       use_fullscreen_button: true
-      footer_content_items: [copyright]   # 기본 "By 저자"가 "으로 최필선"으로 번역돼 어색하다
+      footer_content_items: [copyright]
+      logo:                                 # 사이드바 책 제목 로고 (publish/make_logo.py로 생성, 화면 모드별)
+        image_light: _static/logo-light.png
+        image_dark: _static/logo-dark.png
+        alt_text: AI 데이터 분석   # 기본 "By 저자"가 "으로 최필선"으로 번역돼 어색하다
     ogp_site_url: "https://pilsunchoi.github.io/book5/"
     ogp_site_name: "AI 데이터 분석"
     ogp_description_length: 160
