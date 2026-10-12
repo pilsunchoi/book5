@@ -46,3 +46,6 @@ article img { max-width: 100%; }
 /* 사이드바 로고 크기 (저자 2026-10-12): 글자만 남기자 사이드바 폭을 꽉 채워 커졌다 —
    마크가 있던 직전 판의 글자 폭(약 182px)보다 아주 약간 크게 */
 .navbar-brand.logo img.logo__image { width: 192px; max-width: 100%; height: auto; }
+
+/* "보고서의 그림" 링크로 왔을 때 그림이 화면 맨 위에 붙지 않게 */
+.report-box [id^="report-figure-"] { scroll-margin-top: 2rem; }
