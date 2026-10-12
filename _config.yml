@@ -14,7 +14,6 @@ repository:
 html:
   use_repository_button: true
   use_issues_button: false
-  extra_footer: "<p>자료: 국토교통부 실거래가 공개시스템 — 계약일 기준 참고용 자료이며 국토교통부 공식통계가 아닙니다.</p>"
 
 parse:
   myst_enable_extensions:
