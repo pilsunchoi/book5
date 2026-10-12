@@ -14,7 +14,7 @@ repository:
 html:
   use_repository_button: true
   use_issues_button: false
-  extra_footer: ""
+  extra_footer: "<p>자료: 국토교통부 실거래가 공개시스템 — 계약일 기준 참고용 자료이며 국토교통부 공식통계가 아닙니다.</p>"
 
 parse:
   myst_enable_extensions:
@@ -35,7 +35,9 @@ sphinx:
       use_repository_button: true
       use_download_button: true
       use_fullscreen_button: true
-      footer_content_items: [copyright]
+      footer_content_items: [copyright, extra-footer]   # 기본 "By 저자"는 "으로 최필선"으로 번역돼 뺀다
+      # html_theme_options를 직접 주면 html: 의 extra_footer가 전달되지 않는다 — 여기에 둔다
+      extra_footer: "<p>자료: 국토교통부 실거래가 공개시스템 — 계약일 기준 참고용 자료이며 국토교통부 공식통계가 아닙니다.</p>"
       logo:                                 # 사이드바 책 제목 로고 (publish/make_logo.py로 생성, 화면 모드별)
         image_light: _static/logo-light.png
         image_dark: _static/logo-dark.png
