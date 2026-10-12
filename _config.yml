@@ -28,13 +28,15 @@ sphinx:
     language: ko
     html_static_path: [_static]
     html_css_files: [custom.css]
-    html_show_copyright: true
+    html_show_copyright: false
     html_theme_options:
       repository_url: https://github.com/pilsunchoi/book5
       use_repository_button: true
       use_download_button: true
       use_fullscreen_button: true
-      footer_content_items: [copyright]   # 기본 "By 저자"는 "으로 최필선"으로 번역돼 뺀다
+      # 기본 "By 저자"는 "으로 최필선"으로, 기본 저작권 줄은 끝에 마침표가 붙는다 → 직접 쓴 한 줄로 (저자 2026-10-12)
+      footer_content_items: [extra-footer]
+      extra_footer: "<p>© 2026 최필선</p>"
       logo:                                 # 사이드바 책 제목 로고 (publish/make_logo.py로 생성, 화면 모드별)
         image_light: _static/logo-light.png
         image_dark: _static/logo-dark.png
