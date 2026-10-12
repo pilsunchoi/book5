@@ -1,0 +1,1139 @@
+
+<!DOCTYPE html>
+
+
+<html lang="ko" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="직접 해 보기 2 — 파이썬 코드로 따라 해 보기" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://pilsunchoi.github.io/book5/simple-regression/practice-notebook.html" />
+<meta property="og:site_name" content="AI 데이터 분석" />
+<meta property="og:description" content="AI가 내놓은 결과만 보고 그것이 어떻게 나왔는지 모르면, 그 결과를 믿을 근거도 없다. AI도 실수를 하므로 결과는 점검해야 하고, 점검하려면 결과를 만든 파이썬 코드를 읽을 줄 알아야 한다. 이 노트북은 이 장에서 다룬 계산과 그림, 시뮬레이션을 파이썬으로 직접 해 본다. 보고..." />
+<meta name="description" content="AI가 내놓은 결과만 보고 그것이 어떻게 나왔는지 모르면, 그 결과를 믿을 근거도 없다. AI도 실수를 하므로 결과는 점검해야 하고, 점검하려면 결과를 만든 파이썬 코드를 읽을 줄 알아야 한다. 이 노트북은 이 장에서 다룬 계산과 그림, 시뮬레이션을 파이썬으로 직접 해 본다. 보고..." />
+
+    <title>직접 해 보기 2 — 파이썬 코드로 따라 해 보기 &#8212; AI 데이터 분석</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=90f5259a" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=ae323b5b"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = '표시하려면 클릭';</script>
+    <script>let toggleHintHide = '숨기려면 클릭';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/translations.js?v=e33e7ba0"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'simple-regression/practice-notebook';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="색인" href="../genindex.html" />
+    <link rel="search" title="검색" href="../search.html" />
+    <link rel="prev" title="직접 해 보기 1 — 프롬프트로 내 보고서 받기" href="practice-prompt.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="ko"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">AI 데이터 분석</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">단순회귀분석 — 직선 하나로 관계 읽기</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="section-a1.html">1. 완성된 보고서 — 노원구에서 1㎡는 얼마인가</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-a2.html">2. 직선은 어떻게 정해지나 — 잔차와 최소제곱</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-a3.html">3. 이 기울기를 믿어도 되나 — 표준오차, 신뢰구간, <span class="math notranslate nohighlight">\(p\)</span>값</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-a4.html">4. 얼마나 설명하나 — <span class="math notranslate nohighlight">\(R^2\)</span>과 잔차</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-a5.html">5. 로그로 읽는 가격 — 탄력성과 % 해석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/pilsunchoi/book5" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="소스 저장소"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="이 페이지 다운로드">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/simple-regression/practice-notebook.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="소스 파일 다운로드"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="PDF로 인쇄"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="전체 화면으로보기"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>직접 해 보기 2 — 파이썬 코드로 따라 해 보기</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 내용 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">준비 — 패키지와 글꼴</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">1. 데이터 수집</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">2. 데이터 정리</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">3. 단순회귀분석</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">4. 산점도와 회귀직선</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">5. 시뮬레이션 ① 직선들의 시합</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">6. 시뮬레이션 ② 기울기의 흔들림</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">7. 시뮬레이션 ③ 무관한 세상</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#r-2">8. <span class="math notranslate nohighlight">\(R^2\)</span> 직접 계산</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">9. 로그 변환과 로그-로그 회귀</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">10. 잔차 산점도 비교</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">정리</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>직접 해 보기 2 — 파이썬 코드로 따라 해 보기<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>AI가 내놓은 결과만 보고 그것이 어떻게 나왔는지 모르면, 그 결과를 믿을 근거도 없다. AI도 실수를 하므로 결과는 점검해야 하고, 점검하려면 결과를 만든 파이썬 코드를 읽을 줄 알아야 한다.</p>
+<p>이 노트북은 이 장에서 다룬 계산과 그림, 시뮬레이션을 파이썬으로 직접 해 본다. 보고서의 수치를 다시 만들어 보고, 보고서에는 자세히 나오지 않은 데이터 수집과 로그-로그 회귀도 함께 다룬다. 코드는 될 수 있는 한 단순하게 썼다.</p>
+<ol class="arabic simple">
+<li><p>데이터 수집 — 실거래가 CSV를 받아 읽는다</p></li>
+<li><p>데이터 정리 — 노원구 매매만 남긴다</p></li>
+<li><p>단순회귀분석 — 가격을 면적에 회귀한다</p></li>
+<li><p>산점도와 회귀직선 — 보고서의 그림을 그린다</p></li>
+<li><p>시뮬레이션 ① 직선들의 시합 — 최소제곱이 고른 기울기</p></li>
+<li><p>시뮬레이션 ② 기울기의 흔들림 — 표본을 바꿔 가며 다시 추정한다</p></li>
+<li><p>시뮬레이션 ③ 무관한 세상 — 가격표를 섞어 본다</p></li>
+<li><p><span class="math notranslate nohighlight">\(R^2\)</span> 직접 계산 — 평균으로 추측할 때와 직선으로 추측할 때</p></li>
+<li><p>로그 변환과 로그-로그 회귀 — 탄력성을 추정한다</p></li>
+<li><p>잔차 산점도 비교 — 로그가 깔때기를 고쳤는지 본다</p></li>
+</ol>
+<section id="id2">
+<h2>준비 — 패키지와 글꼴<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">import</span></code>로 쓸 패키지를 불러온다. <code class="docutils literal notranslate"><span class="pre">as</span></code> 뒤의 이름은 줄임말이고, 이후 코드에서는 <code class="docutils literal notranslate"><span class="pre">np</span></code>, <code class="docutils literal notranslate"><span class="pre">pd</span></code>처럼 줄임말로 부른다. 네 패키지는 Anaconda와 Colab에 모두 들어 있다.</p>
+<p>matplotlib는 기본 글꼴에 한글이 없어서 그림의 한글이 네모로 깨진다. 그래서 한글 글꼴을 지정한다. 윈도우는 맑은 고딕(<code class="docutils literal notranslate"><span class="pre">Malgun</span> <span class="pre">Gothic</span></code>), 맥은 애플고딕(<code class="docutils literal notranslate"><span class="pre">AppleGothic</span></code>)을 쓴다. Colab에는 한글 글꼴이 없으므로 새 셀에서 <code class="docutils literal notranslate"><span class="pre">!apt-get</span> <span class="pre">-qq</span> <span class="pre">install</span> <span class="pre">fonts-nanum</span></code>을 실행하고, 런타임을 다시 시작한 뒤 <code class="docutils literal notranslate"><span class="pre">NanumGothic</span></code>을 지정한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>                       <span class="c1"># 수치 계산</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>                      <span class="c1"># 표(데이터프레임) 다루기</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.formula.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">smf</span>    <span class="c1"># 회귀분석</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>          <span class="c1"># 그림</span>
+
+<span class="c1"># 그림의 한글 글꼴</span>
+<span class="c1"># 맥은 'AppleGothic', Colab은 'NanumGothic'(설치 필요)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'font.family'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Malgun Gothic'</span>   <span class="c1"># 윈도우</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'axes.unicode_minus'</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>      <span class="c1"># 음수 부호(-) 깨짐 방지</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id3">
+<h2>1. 데이터 수집<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p><strong>국토교통부 실거래가 공개시스템에서 CSV 받기</strong> — https://rt.molit.go.kr</p>
+<ol class="arabic simple">
+<li><p>위쪽 메뉴의 <strong>자료제공 → 조건별 자료제공</strong>으로 들어간다.</p></li>
+<li><p>부동산 종류는 <strong>아파트</strong>, 거래 유형은 <strong>매매</strong>를 고른다.</p></li>
+<li><p><strong>계약일자</strong>로 기간을 정한다. 이 장은 1년치를 썼다.</p></li>
+<li><p>지역을 고른다. 시도만 고르면(예: 서울특별시) 그 안의 모든 구가 들어 있고, 시군구까지 고르면 그 구만 들어 있다. 어느 쪽이든 아래 코드가 구 이름으로 다시 거르므로 그대로 쓸 수 있다.</p></li>
+<li><p><strong>CSV 다운</strong> 버튼을 누른다. EXCEL이 아니라 CSV로 받아야 아래 코드가 그대로 읽는다.</p></li>
+</ol>
+<p>받은 파일은 엑셀로 열었다가 저장하지 말고 그대로 둔다. 저장하는 순간 형식이 바뀔 수 있다. 공개시스템의 자료는 신고에 따라 계속 바뀌므로, 같은 기간을 받아도 이 장의 건수와 조금 다를 수 있다.</p>
+<p><strong>노트북에서 불러오기</strong></p>
+<ul class="simple">
+<li><p>내 컴퓨터의 주피터: CSV를 이 노트북 파일과 같은 폴더에 두고, 아래 코드의 <code class="docutils literal notranslate"><span class="pre">CSV</span> <span class="pre">=</span></code> 줄에 파일 이름을 그대로 적는다. 다른 폴더에 두었다면 전체 경로를 적는다. 예: <code class="docutils literal notranslate"><span class="pre">CSV</span> <span class="pre">=</span> <span class="pre">r'C:\Users\나\Downloads\아파트(매매)_실거래가.csv'</span></code>(윈도우 경로는 따옴표 앞에 <code class="docutils literal notranslate"><span class="pre">r</span></code>을 붙인다).</p></li>
+<li><p>Colab: 왼쪽의 폴더 아이콘을 누르고 업로드 버튼으로 CSV를 올린다. 올린 파일은 <code class="docutils literal notranslate"><span class="pre">/content/</span></code> 아래에 놓이므로 <code class="docutils literal notranslate"><span class="pre">CSV</span> <span class="pre">=</span> <span class="pre">'/content/파일이름.csv'</span></code>로 적는다. 업로드한 파일은 런타임이 끝나면 지워진다.</p></li>
+</ul>
+<p><strong>읽기</strong></p>
+<p>받은 CSV에는 세 가지 특징이 있고, <code class="docutils literal notranslate"><span class="pre">pd.read_csv</span></code>의 옵션 셋이 하나씩 맡는다.</p>
+<ul class="simple">
+<li><p>한글 인코딩이 cp949다 → <code class="docutils literal notranslate"><span class="pre">encoding='cp949'</span></code></p></li>
+<li><p>표 위에 안내문 15줄이 붙어 있다 → <code class="docutils literal notranslate"><span class="pre">skiprows=15</span></code></p></li>
+<li><p>거래금액에 천 단위 쉼표가 있다(51,500) → <code class="docutils literal notranslate"><span class="pre">thousands=','</span></code></p></li>
+</ul>
+<p>읽은 뒤 열 이름이 이상하게 나오면 안내문 줄 수가 다른 것이다. CSV를 메모장으로 열어 <code class="docutils literal notranslate"><span class="pre">&quot;NO&quot;</span></code>로 시작하는 머리글 줄 앞에 몇 줄이 있는지 세어 <code class="docutils literal notranslate"><span class="pre">skiprows</span></code>를 고친다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">CSV</span> <span class="o">=</span> <span class="s1">'seoul-apt-sales-2025-10-2026-10.csv'</span>   <span class="c1"># 자기 파일 이름으로 바꾼다</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">CSV</span><span class="p">,</span>
+                 <span class="n">encoding</span><span class="o">=</span><span class="s1">'cp949'</span><span class="p">,</span>   <span class="c1"># 한글 인코딩</span>
+                 <span class="n">skiprows</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>        <span class="c1"># 표 위 안내문 15줄 건너뜀</span>
+                 <span class="n">thousands</span><span class="o">=</span><span class="s1">','</span><span class="p">)</span>      <span class="c1"># 51,500 → 51500</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'서울 전체'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">),</span> <span class="s1">'건'</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>                           <span class="c1"># 앞 3줄 확인</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>서울 전체 68767 건
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>NO</th>
+      <th>시군구</th>
+      <th>번지</th>
+      <th>본번</th>
+      <th>부번</th>
+      <th>단지명</th>
+      <th>전용면적(㎡)</th>
+      <th>계약년월</th>
+      <th>계약일</th>
+      <th>거래금액(만원)</th>
+      <th>동</th>
+      <th>층</th>
+      <th>매수자</th>
+      <th>매도자</th>
+      <th>건축년도</th>
+      <th>도로명</th>
+      <th>해제사유발생일</th>
+      <th>거래유형</th>
+      <th>중개사소재지</th>
+      <th>등기일자</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>서울특별시 도봉구 방학동</td>
+      <td>732</td>
+      <td>732</td>
+      <td>0</td>
+      <td>신동아아파트4</td>
+      <td>84.9000</td>
+      <td>202610</td>
+      <td>6</td>
+      <td>51500</td>
+      <td>-</td>
+      <td>4</td>
+      <td>개인</td>
+      <td>개인</td>
+      <td>1995</td>
+      <td>방학로 200</td>
+      <td>-</td>
+      <td>중개거래</td>
+      <td>서울 도봉구</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>서울특별시 금천구 독산동</td>
+      <td>1155</td>
+      <td>1155</td>
+      <td>0</td>
+      <td>금천롯데캐슬골드파크3차</td>
+      <td>59.9662</td>
+      <td>202610</td>
+      <td>6</td>
+      <td>110000</td>
+      <td>-</td>
+      <td>8</td>
+      <td>개인</td>
+      <td>개인</td>
+      <td>2018</td>
+      <td>시흥대로 291</td>
+      <td>-</td>
+      <td>중개거래</td>
+      <td>서울 금천구</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>서울특별시 중랑구 면목동</td>
+      <td>193-1</td>
+      <td>193</td>
+      <td>1</td>
+      <td>면목한신</td>
+      <td>35.3000</td>
+      <td>202610</td>
+      <td>5</td>
+      <td>36800</td>
+      <td>-</td>
+      <td>8</td>
+      <td>개인</td>
+      <td>개인</td>
+      <td>1988</td>
+      <td>중랑천로 20</td>
+      <td>-</td>
+      <td>중개거래</td>
+      <td>서울 중랑구</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="id4">
+<h2>2. 데이터 정리<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p>보고서의 분석 대상은 “노원구 아파트 매매, 해제거래 제외”다. 세 단계로 좁힌다.</p>
+<ol class="arabic simple">
+<li><p>계약이 해제된 거래를 뺀다. 해제되지 않은 거래는 <code class="docutils literal notranslate"><span class="pre">해제사유발생일</span></code> 열에 <code class="docutils literal notranslate"><span class="pre">-</span></code>가 적혀 있다.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">시군구</span></code> 열(“서울특별시 노원구 상계동” 꼴)에 “노원구”가 들어 있는 거래만 남긴다.</p></li>
+<li><p>거래금액을 만원에서 억원으로 바꾸고, 짧은 이름의 새 열(<code class="docutils literal notranslate"><span class="pre">가격</span></code>, <code class="docutils literal notranslate"><span class="pre">면적</span></code>)로 둔다. 괄호가 든 열 이름은 다음 절의 회귀식에 그대로 쓸 수 없기 때문이다.</p></li>
+</ol>
+<p><code class="docutils literal notranslate"><span class="pre">df[조건]</span></code>은 조건이 참인 행만 남긴다. 판다스에서 표를 거르는 가장 기본적인 방법이다. 끝의 <code class="docutils literal notranslate"><span class="pre">.copy()</span></code>는 걸러 낸 표를 별도의 표로 만든다. 이것이 없으면 새 열을 만들 때 경고가 나올 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">'해제사유발생일'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'-'</span><span class="p">]</span>                  <span class="c1"># 1) 해제거래 제외</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">'시군구'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">'노원구'</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>    <span class="c1"># 2) 노원구만</span>
+
+<span class="n">d</span><span class="p">[</span><span class="s1">'가격'</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">'거래금액(만원)'</span><span class="p">]</span> <span class="o">/</span> <span class="mi">10000</span>              <span class="c1"># 3) 만원 → 억원</span>
+<span class="n">d</span><span class="p">[</span><span class="s1">'면적'</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">'전용면적(㎡)'</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'노원구 매매'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">),</span> <span class="s1">'건'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'중위 가격'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">'가격'</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">(),</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">'억원'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'평균 가격'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">'가격'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">'억원'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>노원구 매매 7366 건
+중위 가격 6.1 억원
+평균 가격 6.6 억원
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id5">
+<h2>3. 단순회귀분석<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">smf.ols('가격</span> <span class="pre">~</span> <span class="pre">면적',</span> <span class="pre">data=d)</span></code>가 회귀식을 정한다. <code class="docutils literal notranslate"><span class="pre">~</span></code> 왼쪽이 설명되는 변수(가격), 오른쪽이 설명하는 변수(면적)다. 절편은 자동으로 들어간다. <code class="docutils literal notranslate"><span class="pre">.fit()</span></code>이 최소제곱으로 절편과 기울기를 계산한다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">summary()</span></code>는 결과를 표로 보여 준다. 보고서의 회귀 결과 표와는 이렇게 대응한다.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>summary</p></th>
+<th class="head"><p>보고서</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">coef</span></code></p></td>
+<td><p>추정값</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">std</span> <span class="pre">err</span></code></p></td>
+<td><p>표준오차</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">t</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(t\)</span>값</p></td>
+</tr>
+<tr class="row-odd"><td><p>P&gt;|t|</p></td>
+<td><p><span class="math notranslate nohighlight">\(p\)</span>값</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">[0.025</span>&#160; <span class="pre">0.975]</span></code></p></td>
+<td><p>95% 신뢰구간</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">R-squared</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(R^2\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">No.</span> <span class="pre">Observations</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(n\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>P&gt;|t|가 <code class="docutils literal notranslate"><span class="pre">0.000</span></code>으로 나오는 것은 <span class="math notranslate nohighlight">\(p\)</span>값이 0이라는 뜻이 아니다. 소수 셋째 자리까지 0일 만큼 작다는 뜻이고, 보고서는 이것을 “&lt; 0.001”로 적는다.</p>
+<p>summary는 소수 셋째 자리까지만 보여 준다. 그래서 기울기의 표준오차 0.0009가 <code class="docutils literal notranslate"><span class="pre">0.001</span></code>로 보인다. 정확한 값은 다음 셀에서 <code class="docutils literal notranslate"><span class="pre">m.bse</span></code>로 꺼내 본다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">'가격 ~ 면적'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>   <span class="c1"># 가격 = a + b × 면적</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                     가격   R-squared:                       0.542
+Model:                            OLS   Adj. R-squared:                  0.542
+Method:                 Least Squares   F-statistic:                     8731.
+Date:                Mon, 12 Oct 2026   Prob (F-statistic):               0.00
+Time:                        01:39:33   Log-Likelihood:                -13986.
+No. Observations:                7366   AIC:                         2.798e+04
+Df Residuals:                    7364   BIC:                         2.799e+04
+Df Model:                           1                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept      1.4783      0.058     25.521      0.000       1.365       1.592
+면적             0.0818      0.001     93.439      0.000       0.080       0.084
+==============================================================================
+Omnibus:                      496.150   Durbin-Watson:                   1.733
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              696.053
+Skew:                           0.583   Prob(JB):                    7.14e-152
+Kurtosis:                       3.954   Cond. No.                         204.
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+</pre></div>
+</div>
+</div>
+</div>
+<p>summary에 없는 숫자는 결과에서 꺼내 계산한다. <code class="docutils literal notranslate"><span class="pre">m.params</span></code>에 절편과 기울기가 들어 있다.</p>
+<ul class="simple">
+<li><p>기울기 0.0818억원은 만원 단위로 바꾸면 818만원이다.</p></li>
+<li><p>잔차 표준오차는 잔차제곱의 평균(<code class="docutils literal notranslate"><span class="pre">m.mse_resid</span></code>)에 제곱근을 씌운 값이다. 같은 면적이라도 실제 가격이 회귀직선에서 보통 얼마나 떨어져 있는지를 원래 단위(억원)로 보여 준다.</p></li>
+<li><p>표준오차는 <code class="docutils literal notranslate"><span class="pre">m.bse</span></code>에 들어 있다. summary보다 자릿수를 늘려 찍으면 보고서의 0.0009가 보인다.</p></li>
+<li><p>회귀식 기준 가격은 회귀식에 면적을 넣어 계산한다.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">'Intercept'</span><span class="p">]</span>   <span class="c1"># 절편</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">'면적'</span><span class="p">]</span>        <span class="c1"># 기울기</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'기울기'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="s1">'억원 ='</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="mi">10000</span><span class="p">),</span> <span class="s1">'만원'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'기울기의 표준오차'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">bse</span><span class="p">[</span><span class="s1">'면적'</span><span class="p">],</span> <span class="mi">4</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'잔차 표준오차'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">mse_resid</span><span class="p">),</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">'억원'</span><span class="p">)</span>
+
+<span class="c1"># 회귀식 기준 가격</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'전용 59㎡'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">'억원'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'전용 84㎡'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="mi">84</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">'억원'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>기울기 0.0818 억원 = 818 만원
+기울기의 표준오차 0.0009
+잔차 표준오차 1.62 억원
+전용 59㎡ 6.3 억원
+전용 84㎡ 8.3 억원
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id6">
+<h2>4. 산점도와 회귀직선<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">plt.scatter</span></code>가 점을, <code class="docutils literal notranslate"><span class="pre">plt.plot</span></code>이 선을 그린다. 점 하나가 거래 한 건이다. 점이 7천 개가 넘어 겹침이 심하므로 점을 작게(<code class="docutils literal notranslate"><span class="pre">s=5</span></code>), 투명하게(<code class="docutils literal notranslate"><span class="pre">alpha=0.3</span></code>) 찍는다.</p>
+<p>회귀직선은 면적의 최솟값부터 최댓값까지 100개 점을 만들고(<code class="docutils literal notranslate"><span class="pre">np.linspace</span></code>), 각 점에서 회귀식의 값을 계산해 이어 그린다. 색은 책의 그림과 같게 점은 파랑, 회귀직선은 주황으로 했다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">))</span>
+
+<span class="c1"># 점: 거래 한 건씩</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">'면적'</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="s1">'가격'</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#2a78d6'</span><span class="p">)</span>
+
+<span class="c1"># 회귀직선: x 100개에서 a + b × x</span>
+<span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">'면적'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">d</span><span class="p">[</span><span class="s1">'면적'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">xs</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#eb6834'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'전용면적 (㎡)'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'거래가격 (억원)'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/8008911fc1659737c2d81651dab1d073edc0746474571dbeac3b7043c2862836.png" src="../_images/8008911fc1659737c2d81651dab1d073edc0746474571dbeac3b7043c2862836.png" />
+</div>
+</div>
+</section>
+<section id="id7">
+<h2>5. 시뮬레이션 ① 직선들의 시합<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
+<p>2절에서 본 시합을 숫자로 재현한다. 직선의 벌점은 평균 잔차제곱이다. 잔차(실제 가격 − 직선의 예측)를 제곱해 평균한 값이다.</p>
+<p>후보 직선은 모두 평균점(평균 면적, 평균 가격)을 지나게 하고 기울기만 바꾼다. 너무 완만한 0.04, 최소제곱이 고른 기울기, 너무 가파른 0.13을 시합시킨다. 최소제곱이 고른 기울기의 벌점이 가장 낮게 나와야 한다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">def</span></code>는 함수를 만든다. 기울기를 넣으면 벌점을 돌려주는 함수를 만들어 세 번 부른다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">'면적'</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">'가격'</span><span class="p">]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">penalty</span><span class="p">(</span><span class="n">slope</span><span class="p">):</span>
+    <span class="c1"># 평균점을 지나고 기울기가 slope인 직선의 평균 잔차제곱</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">+</span> <span class="n">slope</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="n">pred</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">slope</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">0.04</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="mf">0.13</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'기울기'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">slope</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="s1">'→ 벌점'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">penalty</span><span class="p">(</span><span class="n">slope</span><span class="p">),</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>기울기 0.04 → 벌점 3.42
+기울기 0.0818 → 벌점 2.61
+기울기 0.13 → 벌점 3.69
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id8">
+<h2>6. 시뮬레이션 ② 기울기의 흔들림<a class="headerlink" href="#id8" title="Link to this heading">#</a></h2>
+<p>3절의 가상 실험이다. 노원구 7,366건을 잠시 “모집단”으로 두고, 그 가운데 200건을 무작위로 뽑아 기울기를 추정한다. 이것을 2,000번 되풀이하면 기울기가 표본에 따라 얼마나 흔들리는지 보인다. 흔들림의 크기(기울기들의 표준편차)가 표준오차의 뜻이다.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">np.random.default_rng(시드)</span></code>는 난수 생성기다. 시드를 정해 두면 몇 번을 실행해도 같은 결과가 나온다.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rng.integers(0,</span> <span class="pre">n,</span> <span class="pre">200)</span></code>은 0부터 n−1 사이의 번호 200개를 뽑는다. 같은 번호가 다시 뽑힐 수 있다(복원추출).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">np.polyfit(x,</span> <span class="pre">y,</span> <span class="pre">1)</span></code>은 직선(1차식)을 최소제곱으로 맞추고 <code class="docutils literal notranslate"><span class="pre">[기울기,</span> <span class="pre">절편]</span></code>을 돌려준다. 회귀식 표가 필요 없을 때 쓰는 간단한 방법이다. 2,000번 반복하므로 빠른 쪽을 쓴다.</p></li>
+</ul>
+<p>뽑는 건수를 200 → 1,000 → 7,366으로 늘리면 흔들림이 줄어든다. 7,366건에서의 흔들림은 보고서의 표준오차 0.0009와 거의 같은 크기다. 보고서의 표준오차는 이런 반복 없이 공식으로 한 번에 계산한 값이지만, 그 공식이 재는 것이 바로 이 흔들림이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">20261007</span><span class="p">)</span>   <span class="c1"># 시드 고정</span>
+<span class="n">xv</span><span class="p">,</span> <span class="n">yv</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>     <span class="c1"># 빠른 계산용 배열</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xv</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">slopes</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">reps</span><span class="o">=</span><span class="mi">2000</span><span class="p">):</span>
+    <span class="c1"># size건씩 뽑아 기울기를 reps번 추정</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">reps</span><span class="p">):</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>                    <span class="c1"># 번호 size개 (복원추출)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">xv</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">yv</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>    <span class="c1"># [0] = 기울기</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+<span class="n">s200</span> <span class="o">=</span> <span class="n">slopes</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'200건: 평균'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">s200</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="mi">4</span><span class="p">),</span> <span class="s1">' 흔들림(표준편차)'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">s200</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">size</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="n">n</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="s1">'건: 흔들림'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">slopes</span><span class="p">(</span><span class="n">size</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">s200</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#2a78d6'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#eb6834'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>   <span class="c1"># 7,366건 전체의 기울기</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'200건으로 추정한 기울기'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'횟수'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>200건: 평균 0.082  흔들림(표준편차) 0.0066
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1000 건: 흔들림 0.0028
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>7366 건: 흔들림 0.0011
+</pre></div>
+</div>
+<img alt="../_images/da4b97c37129262f104e45ec95fb428d6bacb07e55ec11a04096aa0c66f0c6e1.png" src="../_images/da4b97c37129262f104e45ec95fb428d6bacb07e55ec11a04096aa0c66f0c6e1.png" />
+</div>
+</div>
+</section>
+<section id="id9">
+<h2>7. 시뮬레이션 ③ 무관한 세상<a class="headerlink" href="#id9" title="Link to this heading">#</a></h2>
+<p>3절의 두 번째 실험이다. 7,366건의 가격표를 떼어 무작위로 뒤섞어 다시 붙이면, 면적과 가격의 관계가 완전히 끊어진 세상이 된다. <code class="docutils literal notranslate"><span class="pre">rng.permutation(yv)</span></code>가 가격의 순서를 무작위로 섞는다.</p>
+<p>이런 세상에서도 우연 때문에 기울기가 정확히 0은 아니다. 2,000번 섞어 보면 우연이 만드는 기울기가 어느 정도인지 알 수 있다. 실제 기울기 0.0818이 그 범위 안에 들어오는지 본다. 아득히 바깥이면 “면적과 가격이 무관하다”는 가정으로는 실제 기울기를 설명할 수 없다. 이것이 <span class="math notranslate nohighlight">\(t\)</span>값과 <span class="math notranslate nohighlight">\(p\)</span>값의 직관이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">null</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2000</span><span class="p">):</span>
+    <span class="n">y_mixed</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">yv</span><span class="p">)</span>                   <span class="c1"># 가격표 섞기</span>
+    <span class="n">null</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">xv</span><span class="p">,</span> <span class="n">y_mixed</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">null</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">null</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'무관한 세상의 기울기: 가장 큰 값'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">null</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">4</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'실제 기울기'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">null</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#4a3aa7'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'가격을 섞은 세상의 기울기'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'횟수'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>무관한 세상의 기울기: 가장 큰 값 0.0045
+실제 기울기 0.0818
+</pre></div>
+</div>
+<img alt="../_images/61552a984e686b0e83fa6059597de7c1e4bc6e99c532902eee271f0086a8cce2.png" src="../_images/61552a984e686b0e83fa6059597de7c1e4bc6e99c532902eee271f0086a8cce2.png" />
+</div>
+</div>
+</section>
+<section id="r-2">
+<h2>8. <span class="math notranslate nohighlight">\(R^2\)</span> 직접 계산<a class="headerlink" href="#r-2" title="Link to this heading">#</a></h2>
+<p>4절의 계산이다. 면적을 모를 때 가격을 맞히는 최선의 추측은 평균이다. 이때의 벌점(평균 잔차제곱)이 원래 흩어짐이다. 면적을 알고 회귀직선으로 추측하면 벌점이 줄어든다. <span class="math notranslate nohighlight">\(R^2\)</span>는 원래 흩어짐 가운데 회귀직선이 줄여 준 몫이다.</p>
+<p><span class="math notranslate nohighlight">\(R^2\)</span> = (원래 흩어짐 − 남은 흩어짐) ÷ 원래 흩어짐</p>
+<p><code class="docutils literal notranslate"><span class="pre">m.resid</span></code>에 회귀직선의 잔차가 들어 있다. 계산한 값이 summary의 <code class="docutils literal notranslate"><span class="pre">R-squared</span></code>와 같은지 확인한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">before</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>   <span class="c1"># 평균으로 추측: 원래 흩어짐</span>
+<span class="n">after</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">resid</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>           <span class="c1"># 직선으로 추측: 남은 흩어짐</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'원래 흩어짐'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">before</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'남은 흩어짐'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">after</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'R² ='</span><span class="p">,</span> <span class="nb">round</span><span class="p">((</span><span class="n">before</span> <span class="o">-</span> <span class="n">after</span><span class="p">)</span> <span class="o">/</span> <span class="n">before</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'summary의 R²:'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">rsquared</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>원래 흩어짐 5.7
+남은 흩어짐 2.6
+R² = 0.542
+summary의 R²: 0.542
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id10">
+<h2>9. 로그 변환과 로그-로그 회귀<a class="headerlink" href="#id10" title="Link to this heading">#</a></h2>
+<p>가격과 면적에 모두 로그를 취해 회귀하면 기울기가 탄력성이 된다. 면적이 1% 넓을 때 가격이 몇 % 높은지를 뜻한다. <code class="docutils literal notranslate"><span class="pre">np.log</span></code>는 자연로그다.</p>
+<p>로그를 취한 값을 새 열로 만들어 두면 회귀식을 앞과 똑같은 꼴로 쓸 수 있다.</p>
+<p>탄력성 추정값 0.84는 면적이 1% 넓으면 가격이 평균 약 0.84% 높다는 뜻이다. 1보다 작으므로 큰 평수일수록 ㎡당 단가는 낮아진다.</p>
+<p>summary의 <code class="docutils literal notranslate"><span class="pre">R-squared</span></code>도 0.54에서 0.61로 높아진다. 다만 두 <span class="math notranslate nohighlight">\(R^2\)</span>는 설명하는 대상(가격, 로그가격)이 서로 달라서, 크기를 그대로 비교하는 것은 엄밀하지 않다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d</span><span class="p">[</span><span class="s1">'로그가격'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">'가격'</span><span class="p">])</span>   <span class="c1"># 자연로그</span>
+<span class="n">d</span><span class="p">[</span><span class="s1">'로그면적'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">'면적'</span><span class="p">])</span>
+
+<span class="n">mlog</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">'로그가격 ~ 로그면적'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mlog</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                   로그가격   R-squared:                       0.606
+Model:                            OLS   Adj. R-squared:                  0.606
+Method:                 Least Squares   F-statistic:                 1.134e+04
+Date:                Mon, 12 Oct 2026   Prob (F-statistic):               0.00
+Time:                        01:39:35   Log-Likelihood:                 319.20
+No. Observations:                7366   AIC:                            -634.4
+Df Residuals:                    7364   BIC:                            -620.6
+Df Model:                           1                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept     -1.5880      0.032    -49.433      0.000      -1.651      -1.525
+로그면적           0.8358      0.008    106.494      0.000       0.820       0.851
+==============================================================================
+Omnibus:                       20.259   Durbin-Watson:                   1.710
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):               22.946
+Skew:                           0.076   Prob(JB):                     1.04e-05
+Kurtosis:                       3.228   Cond. No.                         51.6
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e</span> <span class="o">=</span> <span class="n">mlog</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">'로그면적'</span><span class="p">]</span>   <span class="c1"># 기울기 = 탄력성</span>
+<span class="n">ci</span> <span class="o">=</span> <span class="n">mlog</span><span class="o">.</span><span class="n">conf_int</span><span class="p">()</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">'로그면적'</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'탄력성'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'95% 신뢰구간'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">ci</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">'~'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">ci</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>탄력성 0.84
+95% 신뢰구간 0.82 ~ 0.85
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id11">
+<h2>10. 잔차 산점도 비교<a class="headerlink" href="#id11" title="Link to this heading">#</a></h2>
+<p>4절에서 원래 단위 모형의 잔차는 큰 평수로 갈수록 넓게 흩어지는 깔때기 모양이었다. 5절은 로그를 처방으로 제시했다. 두 모형의 잔차를 나란히 그려 처방이 통했는지 본다.</p>
+<ul class="simple">
+<li><p>원래 단위 모형의 잔차는 억원 단위다.</p></li>
+<li><p>로그-로그 모형의 잔차에 100을 곱하면 대략 % 단위의 빗나감으로 읽을 수 있다.</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">plt.subplots(1,</span> <span class="pre">2)</span></code>는 그림 칸 두 개를 가로로 만든다. <code class="docutils literal notranslate"><span class="pre">ax[0]</span></code>이 왼쪽, <code class="docutils literal notranslate"><span class="pre">ax[1]</span></code>이 오른쪽 칸이다. <code class="docutils literal notranslate"><span class="pre">axhline(0)</span></code>은 잔차 0인 수평선, 곧 회귀직선의 자리다.</p>
+<p>그림만으로 판단하지 않고 숫자로도 확인한다. 소형(40㎡ 미만)과 대형(100㎡ 초과)의 잔차 표준편차를 비교한다. 원래 단위는 ±1.1억에서 ±2.4억으로 두 배 넘게 벌어지고, 로그-로그는 ±25%와 ±24%로 거의 같아야 한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">resid</span>               <span class="c1"># 원래 단위 잔차 (억원)</span>
+<span class="n">rlog</span> <span class="o">=</span> <span class="n">mlog</span><span class="o">.</span><span class="n">resid</span> <span class="o">*</span> <span class="mi">100</span>   <span class="c1"># 로그 잔차 × 100 ≈ % 빗나감</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#2a78d6'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#eb6834'</span><span class="p">)</span>          <span class="c1"># 회귀직선 자리</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'원래 단위 모형의 잔차 (억원)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'전용면적 (㎡)'</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">rlog</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#2a78d6'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#eb6834'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'로그-로그 모형의 잔차 (%, 근사)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'전용면적 (㎡)'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/0c12744e64c4d31b2a3c1b30c106d5624f65ceba09052bae68949966d04e12ab.png" src="../_images/0c12744e64c4d31b2a3c1b30c106d5624f65ceba09052bae68949966d04e12ab.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">small</span> <span class="o">=</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">40</span>    <span class="c1"># 소형</span>
+<span class="n">large</span> <span class="o">=</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">100</span>   <span class="c1"># 대형</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'원래 단위  소형 ±'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="n">small</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">'억'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'원래 단위  대형 ±'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="n">large</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">'억'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'로그-로그  소형 ±'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">rlog</span><span class="p">[</span><span class="n">small</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()),</span> <span class="s1">'%'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'로그-로그  대형 ±'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">rlog</span><span class="p">[</span><span class="n">large</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()),</span> <span class="s1">'%'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>원래 단위  소형 ± 1.1 억
+원래 단위  대형 ± 2.4 억
+로그-로그  소형 ± 25 %
+로그-로그  대형 ± 24 %
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id12">
+<h2>정리<a class="headerlink" href="#id12" title="Link to this heading">#</a></h2>
+<p>이 노트북의 코드는 이 장에서 본 숫자와 그림을 직접 만들어 냈다. 보고서의 회귀 결과는 <code class="docutils literal notranslate"><span class="pre">smf.ols(...).fit()</span></code>과 <code class="docutils literal notranslate"><span class="pre">summary()</span></code> 두 줄에서 나오고, 책의 시뮬레이션은 뽑기·섞기·반복을 몇 줄로 쓴 것이다.</p>
+<p>다른 구를 분석하려면 2절의 <code class="docutils literal notranslate"><span class="pre">'노원구'</span></code>를 원하는 구 이름(예: <code class="docutils literal notranslate"><span class="pre">'강서구'</span></code>)으로 바꾸고 처음부터 다시 실행한다. AI가 만든 보고서를 받았다면, 이 코드로 같은 숫자가 나오는지 확인해 보는 것이 가장 확실한 점검이다.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./simple-regression"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="practice-prompt.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">이전</p>
+        <p class="prev-next-title">직접 해 보기 1 — 프롬프트로 내 보고서 받기</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 내용
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">준비 — 패키지와 글꼴</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">1. 데이터 수집</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">2. 데이터 정리</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">3. 단순회귀분석</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">4. 산점도와 회귀직선</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">5. 시뮬레이션 ① 직선들의 시합</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">6. 시뮬레이션 ② 기울기의 흔들림</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">7. 시뮬레이션 ③ 무관한 세상</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#r-2">8. <span class="math notranslate nohighlight">\(R^2\)</span> 직접 계산</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">9. 로그 변환과 로그-로그 회귀</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">10. 잔차 산점도 비교</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">정리</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 최필선.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

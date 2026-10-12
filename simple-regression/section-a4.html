@@ -1,0 +1,585 @@
+
+<!DOCTYPE html>
+
+
+<html lang="ko" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="4. 얼마나 설명하나 — \(R^2\)과 잔차" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://pilsunchoi.github.io/book5/simple-regression/section-a4.html" />
+<meta property="og:site_name" content="AI 데이터 분석" />
+<meta property="og:description" content="4. 얼마나 설명하나 — R^2 과 잔차: 이 장 첫머리 보고서의 회귀 결과 표 아래에는 한 줄이 더 있습니다. n= 7,366 · R^2= 0.542 · 잔차 표준오차 1.62억원 앞 절에서 기울기 추정값 0.0818이 우연이 아니라는 것을 확인했습니다. 그런데 “기울기가 0이 ..." />
+<meta name="description" content="4. 얼마나 설명하나 — R^2 과 잔차: 이 장 첫머리 보고서의 회귀 결과 표 아래에는 한 줄이 더 있습니다. n= 7,366 · R^2= 0.542 · 잔차 표준오차 1.62억원 앞 절에서 기울기 추정값 0.0818이 우연이 아니라는 것을 확인했습니다. 그런데 “기울기가 0이 ..." />
+
+    <title>4. 얼마나 설명하나 — \(R^2\)과 잔차 &#8212; AI 데이터 분석</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=90f5259a" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=ae323b5b"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = '표시하려면 클릭';</script>
+    <script>let toggleHintHide = '숨기려면 클릭';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/translations.js?v=e33e7ba0"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'simple-regression/section-a4';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="색인" href="../genindex.html" />
+    <link rel="search" title="검색" href="../search.html" />
+    <link rel="next" title="5. 로그로 읽는 가격 — 탄력성과 % 해석" href="section-a5.html" />
+    <link rel="prev" title="3. 이 기울기를 믿어도 되나 — 표준오차, 신뢰구간, \(p\)값" href="section-a3.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="ko"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">AI 데이터 분석</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">단순회귀분석 — 직선 하나로 관계 읽기</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="section-a1.html">1. 완성된 보고서 — 노원구에서 1㎡는 얼마인가</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-a2.html">2. 직선은 어떻게 정해지나 — 잔차와 최소제곱</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-a3.html">3. 이 기울기를 믿어도 되나 — 표준오차, 신뢰구간, <span class="math notranslate nohighlight">\(p\)</span>값</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">4. 얼마나 설명하나 — <span class="math notranslate nohighlight">\(R^2\)</span>과 잔차</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-a5.html">5. 로그로 읽는 가격 — 탄력성과 % 해석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/pilsunchoi/book5" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="소스 저장소"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="이 페이지 다운로드">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/simple-regression/section-a4.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="소스 파일 다운로드"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="PDF로 인쇄"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="전체 화면으로보기"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>4. 얼마나 설명하나 — R^2과 잔차</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 내용 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">몸무게 맞히기가 먼저 알고 있다</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">면적을 모를 때와 알 때</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">남은 흩어짐을 원래 단위로 — 잔차 표준오차</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4"><span class="math notranslate nohighlight">\(R^2\)</span>이 말해 주지 않는 것</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">그래서 잔차를 그려 본다</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">남는 질문</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="r-2">
+<h1>4. 얼마나 설명하나 — <span class="math notranslate nohighlight">\(R^2\)</span>과 잔차<a class="headerlink" href="#r-2" title="Link to this heading">#</a></h1>
+<div class="video-box admonition">
+<p class="admonition-title">▶ 이 절의 강의영상</p>
+<p>준비 중입니다. 영상이 공개되면 이 자리에 링크가 걸립니다.</p>
+</div>
+<p>이 장 첫머리 보고서의 회귀 결과 표 아래에는 한 줄이 더 있습니다.</p>
+<blockquote>
+<div><p><span class="math notranslate nohighlight">\(n\)</span> = 7,366 · <span class="math notranslate nohighlight">\(R^2\)</span> = 0.542 · 잔차 표준오차 1.62억원</p>
+</div></blockquote>
+<p>앞 절에서 기울기 추정값 0.0818이 우연이 아니라는 것을 확인했습니다. 그런데 “기울기가 0이 아닌 게 확실하다”와 “직선이 가격을 잘 맞힌다”는 별개의 문제입니다. 이번 절의 질문은 이것입니다 — <em>면적 하나로 노원구 아파트의 가격 차이를 얼마만큼 설명할 수 있나?</em> 다르게 물으면 이렇습니다. <em>면적을 알면, 가격 맞히기가 얼마나 좋아지나?</em> 남은 두 숫자, <span class="math notranslate nohighlight">\(R^2\)</span>과 잔차 표준오차가 그 답입니다.</p>
+<section id="id1">
+<h2>몸무게 맞히기가 먼저 알고 있다<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p>본격적인 계산에 앞서, “설명한다”는 말부터 아주 익숙한 상황으로 감을 잡아 보죠. 친구들과 처음 보는 사람의 몸무게 맞히기 내기를 한다고 합시다. 아무 정보도 없다면 제일 안전한 추측은 평균입니다. 우리나라 성인 평균쯤 되는 몸무게를 부르는 거죠. 크게 틀릴 수도 있지만, 아무 숫자나 지르는 것보다는 낫습니다.</p>
+<p>그런데 그 사람의 키를 알려 준다면 어떨까요? 키가 190cm라면 평균보다 무겁겠구나, 150cm라면 가볍겠구나. 추측이 당장 좋아집니다. 여기서 물을 수 있습니다. 키를 알고 나서 맞히기가 얼마나 좋아졌나. 많이 좋아졌다면 키는 몸무게를 잘 설명하는 정보고, 거의 그대로라면 별 도움이 안 되는 정보입니다. 이것이 이 절 전체를 꿰는 한 문장입니다.</p>
+<blockquote>
+<div><p>설명력이란, 알고 나서 맞히기가 얼마나 좋아졌는가다.</p>
+</div></blockquote>
+<p>아파트로 돌아오면 키 자리에 전용면적이, 몸무게 자리에 가격이 들어갑니다. 그리고 몸무게 내기와 달리, 여기서는 “얼마나 좋아졌는가”를 정확한 숫자로 계산할 수 있습니다.</p>
+</section>
+<section id="id2">
+<h2>면적을 모를 때와 알 때<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>어느 거래의 가격을 맞혀야 한다고 해 보죠. 면적조차 모른다면 할 수 있는 최선의 추측은 평균, 6.6억입니다. 앞에서 우리가 직선을 고를 때 썼던 잣대 — 잔차를 제곱해 평균 내기 — 로 이 추측의 빗나감을 측정하면 5.7이 나옵니다.</p>
+<p>그림 4-1의 왼쪽 패널이 이것을 그림으로 표현한 것입니다. 그림이 복잡해지지 않도록 7,366건 가운데 60건만 예시로 뽑아 그렸습니다(단, 수치는 전체 기준입니다). 회색 선분 하나하나가 각 거래의 가격이 평균(주황 수평선)에서 얼마나 떨어져 있는지를 보여주고, 이 선분들을 제곱해 평균 낸 값이 5.7입니다.</p>
+<p>이제 평균이 아니라 추정한 회귀직선(regression line)으로 추측하면 어떻게 될까요? 오른쪽 패널이 같은 60건 매매에 대한 추측을 평균에서 회귀직선으로 바꾼 모습입니다. 선분들 — 추측의 빗나감 — 이 눈에 띄게 짧아지고, 잔차를 제곱해 평균 낸 값은 5.7에서 2.6으로 내려갑니다.</p>
+<p><img alt="평균으로 추측할 때와 직선으로 추측할 때" src="../_images/fig_a4_1_two_guesses.png" /></p>
+<p><strong>그림 4-1.</strong> 같은 거래들을 평균(왼쪽)과 회귀직선(오른쪽)으로 추측했을 때의 잔차. 평균 잔차제곱이 5.7에서 2.6으로 줄어든다. (노원구 7,366건 중 무작위 60건, 수치는 전체 기준)</p>
+<p>회귀직선을 사용하는 것만으로, 즉 아파트의 면적을 사용해 예측한 것만으로 흩어짐의 <strong>54</strong>%가 사라진 셈입니다. 몸무게 내기로 치면, 키를 듣고 나서 벌점(평균 잔차제곱)이 절반 아래로 줄어든 것입니다. 계산해 보면 (5.7 − 2.6) ÷ 5.7 ≈ 0.54입니다. 바로 이 몫이 <span class="math notranslate nohighlight">\(R^2\)</span>(결정계수, coefficient of determination)입니다.</p>
+<blockquote>
+<div><p><span class="math notranslate nohighlight">\(R^2\)</span> = 평균으로 추측할 때의 흩어짐 가운데, 회귀직선이 줄여 준 몫</p>
+</div></blockquote>
+<p><span class="math notranslate nohighlight">\(R^2\)</span>이 0이면 아파트 가격 예측에 면적이 아무 도움도 되지 않았다는 뜻이고, 1이면 모든 거래가 정확히 회귀직선 위에 있다는 뜻입니다. 0.542는 그 사이에서 “절반 조금 넘게”에 해당합니다. “가격 차이의 절반가량은 면적만으로 설명된다”라는 보고서의 근거가 바로 이 값입니다.</p>
+</section>
+<section id="id3">
+<h2>남은 흩어짐을 원래 단위로 — 잔차 표준오차<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>그림 4-1의 오른쪽 패널에 나와 있는 “평균 잔차제곱 2.6”은 회귀직선으로 추측한 뒤에도 남은 흩어짐을 측정한 것입니다. 그런데 여기에는 불편한 점이 하나 있습니다. 제곱해서 모은 값이라 단위가 “억원의 제곱”이어서 감이 오지 않는다는 점입니다. 제곱을 도로 풀면 √2.61 ≈ <strong>1.62억원</strong>이 되는데, 이것이 보고서의 <strong>잔차 표준오차</strong>(residual standard error)입니다. “회귀직선의 예측은 보통 ±1.6억쯤 빗나간다”라고 읽으면 됩니다. 실제로 7,366건 가운데 열에 일곱이 회귀직선에서 ±1.6억 안에 있습니다. 전용 84㎡의 예측 가격이 8.3억이었으니, 실제 가격은 대략 6.7억에서 10.0억 사이가 보통이라는 얘기입니다.</p>
+<p><span class="math notranslate nohighlight">\(R^2\)</span>과 잔차 표준오차는 같은 “남은 흩어짐”의 두 얼굴입니다. <span class="math notranslate nohighlight">\(R^2\)</span>은 단위가 없는 비율이라 자료끼리 비교하기 좋고, 잔차 표준오차는 가격과 같은 단위(억원)라 빗나감의 크기를 체감하게 해 줍니다.</p>
+</section>
+<section id="id4">
+<h2><span class="math notranslate nohighlight">\(R^2\)</span>이 말해 주지 않는 것<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p>그렇다면 <span class="math notranslate nohighlight">\(R^2\)</span> = 0.54라는 숫자만 보면 자료의 모습이 그려질까요? 그림 4-2는 <span class="math notranslate nohighlight">\(R^2\)</span>이 똑같이 0.54인 네 개의 가상 자료입니다.</p>
+<p><img alt="R²이 같은 네 가지 자료" src="../_images/fig_a4_2_same_r2.png" /></p>
+<p><strong>그림 4-2.</strong> 네 자료 모두 <span class="math notranslate nohighlight">\(R^2\)</span> = 0.54이지만 생김새는 전혀 다르다.</p>
+<p>그림에서 보듯이 같은 0.54라도 사정은 제각각입니다. 왼쪽 위의 <strong>고른 흩어짐</strong>에서는 회귀직선이 할 일을 다 했습니다. 오른쪽 위의 <strong>굽은 관계</strong>에서는 진짜 관계가 곡선인데 직선으로 요약하는 바람에 모양을 놓치고 있습니다. 왼쪽 아래의 <strong>커지는 흩어짐</strong>에서는 오른쪽으로 갈수록 예측이 점점 불안해집니다. 오른쪽 아래의 <strong>이상치 존재</strong>는 멀리 떨어진 이상치(outlier) 하나가 설명력을 통째로 만들어 낸 경우로, 그 점 하나를 빼면 관계가 사라집니다.</p>
+<p><span class="math notranslate nohighlight">\(R^2\)</span>은 성적표의 평균 점수 같은 요약입니다. 두 학생의 평균이 같아도 과목별 점수는 다를 수 있듯이, <span class="math notranslate nohighlight">\(R^2\)</span>이 같아도 빗나감의 패턴은 저마다 다릅니다. 패턴을 보려면 잔차를 직접 그려야 합니다.</p>
+</section>
+<section id="id5">
+<h2>그래서 잔차를 그려 본다<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<p>이번에는 노원구 데이터의 잔차만 따로 떼어 그려 보죠. 그림 4-3은 가로축은 그대로 전용면적으로 두고, 세로축에 가격 대신 잔차를 놓은 그림입니다. 회귀직선을 수평선(0)으로 펴 놓고 빗나감만 보는 셈입니다. 이런 그림을 <strong>잔차 그림</strong>(residual plot)이라고 부릅니다.</p>
+<p><img alt="잔차 그림" src="../_images/fig_a4_3_residual_plot.png" /></p>
+<p><strong>그림 4-3.</strong> 노원구 7,366건의 잔차. 주황 수평선(0)이 회귀직선을 수평으로 편 것이다.</p>
+<p>그림에서 보듯이 노원구 데이터도 “고른 흩어짐”은 아닙니다. 큰 평수로 갈수록 점들이 위아래로 더 넓게 흩어집니다. 40㎡ 아래에서는 보통 ±1억 안팎이던 빗나감이 100㎡를 넘으면 ±2.4억까지 커집니다. 비싼 아파트일수록 가격이 더 크게 출렁이는, 가격 자료의 일반적인 성질입니다. 이런 패턴에는 처방이 있는데, 그것이 다음 절의 주제인 <strong>로그</strong>입니다.</p>
+<p>💡 <strong>팁:</strong> 받은 보고서에 잔차 그림이 없다면, AI에게 “잔차 그림도 그려 줘”라고 한 줄 요청하면 됩니다. <span class="math notranslate nohighlight">\(R^2\)</span> 숫자만 보고 끝내지 않는 것, 그것이 보고서를 제대로 읽는 습관입니다.</p>
+<blockquote>
+<div><p><strong>요약 — 직관적 의미</strong></p>
+<p>설명력이란 알고 나서 맞히기가 얼마나 좋아졌는가다. 아래 세 개념이 그 대답이다.</p>
+<ul class="simple">
+<li><p><strong><span class="math notranslate nohighlight">\(R^2\)</span></strong> — 평균으로 추측할 때의 흩어짐 가운데 회귀직선이 줄여 준 몫. 즉, 회귀직선의 설명력.</p></li>
+<li><p><strong>잔차 표준오차</strong> — 회귀직선의 예측이 보통 빗나가는 크기. 노원구에서는 ±1.6억.</p></li>
+<li><p><strong>잔차 그림</strong> — <span class="math notranslate nohighlight">\(R^2\)</span>이 보여 주지 못하는 빗나감의 패턴을 보는 창.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id6">
+<h2>남는 질문<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
+<p>회귀직선은 가격 차이의 절반을 설명했고, 남은 빗나감의 패턴까지 읽었습니다. 패턴이 말하는 처방은 큰 값일수록 크게 흩어지는 데이터에는 로그를 취하라는 것입니다. 그 처방을 따라가면 보고서의 보조 분석에 있던 “탄력성 0.84”를 읽을 수 있게 됩니다. 다음 절에서 다룹니다.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./simple-regression"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="section-a3.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">이전</p>
+        <p class="prev-next-title">3. 이 기울기를 믿어도 되나 — 표준오차, 신뢰구간, <span class="math notranslate nohighlight">\(p\)</span>값</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="section-a5.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">다음</p>
+        <p class="prev-next-title">5. 로그로 읽는 가격 — 탄력성과 % 해석</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 내용
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">몸무게 맞히기가 먼저 알고 있다</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">면적을 모를 때와 알 때</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">남은 흩어짐을 원래 단위로 — 잔차 표준오차</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4"><span class="math notranslate nohighlight">\(R^2\)</span>이 말해 주지 않는 것</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">그래서 잔차를 그려 본다</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">남는 질문</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 최필선.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

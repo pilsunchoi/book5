@@ -1,0 +1,602 @@
+
+<!DOCTYPE html>
+
+
+<html lang="ko" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="1. 완성된 보고서 — 노원구에서 1㎡는 얼마인가" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://pilsunchoi.github.io/book5/simple-regression/section-a1.html" />
+<meta property="og:site_name" content="AI 데이터 분석" />
+<meta property="og:description" content="이번 장의 주제는 회귀분석입니다. 회귀분석은 변수들 사이의 관계를 분석하는 기법입니다. 아파트의 면적과 가격, 광고비와 매출, 교육 연수와 소득처럼 “하나가 달라지면 다른 하나는 얼마나 달라지는가”를 숫자로 답하죠. 학술 연구의 기본 도구이면서, 가격 책정이나 수요 예측 같은 기업..." />
+<meta name="description" content="이번 장의 주제는 회귀분석입니다. 회귀분석은 변수들 사이의 관계를 분석하는 기법입니다. 아파트의 면적과 가격, 광고비와 매출, 교육 연수와 소득처럼 “하나가 달라지면 다른 하나는 얼마나 달라지는가”를 숫자로 답하죠. 학술 연구의 기본 도구이면서, 가격 책정이나 수요 예측 같은 기업..." />
+
+    <title>1. 완성된 보고서 — 노원구에서 1㎡는 얼마인가 &#8212; AI 데이터 분석</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=90f5259a" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=ae323b5b"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = '표시하려면 클릭';</script>
+    <script>let toggleHintHide = '숨기려면 클릭';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/translations.js?v=e33e7ba0"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'simple-regression/section-a1';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="색인" href="../genindex.html" />
+    <link rel="search" title="검색" href="../search.html" />
+    <link rel="next" title="2. 직선은 어떻게 정해지나 — 잔차와 최소제곱" href="section-a2.html" />
+    <link rel="prev" title="단순회귀분석 — 직선 하나로 관계 읽기" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="ko"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">AI 데이터 분석</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">단순회귀분석 — 직선 하나로 관계 읽기</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">1. 완성된 보고서 — 노원구에서 1㎡는 얼마인가</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-a2.html">2. 직선은 어떻게 정해지나 — 잔차와 최소제곱</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-a3.html">3. 이 기울기를 믿어도 되나 — 표준오차, 신뢰구간, <span class="math notranslate nohighlight">\(p\)</span>값</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-a4.html">4. 얼마나 설명하나 — <span class="math notranslate nohighlight">\(R^2\)</span>과 잔차</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-a5.html">5. 로그로 읽는 가격 — 탄력성과 % 해석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/pilsunchoi/book5" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="소스 저장소"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="이 페이지 다운로드">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/simple-regression/section-a1.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="소스 파일 다운로드"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="PDF로 인쇄"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="전체 화면으로보기"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>1. 완성된 보고서 — 노원구에서 1㎡는 얼마인가</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 내용 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">데이터 — 서울 아파트 실거래가</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">보고서의 다섯 부분</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">이 장의 동선</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="m2">
+<h1>1. 완성된 보고서 — 노원구에서 1㎡는 얼마인가<a class="headerlink" href="#m2" title="Link to this heading">#</a></h1>
+<div class="video-box admonition">
+<p class="admonition-title">▶ 이 절의 강의영상</p>
+<p>준비 중입니다. 영상이 공개되면 이 자리에 링크가 걸립니다.</p>
+</div>
+<p>이번 장의 주제는 회귀분석입니다. 회귀분석은 변수들 사이의 관계를 분석하는 기법입니다. 아파트의 면적과 가격, 광고비와 매출, 교육 연수와 소득처럼 “하나가 달라지면 다른 하나는 얼마나 달라지는가”를 숫자로 답하죠. 학술 연구의 기본 도구이면서, 가격 책정이나 수요 예측 같은 기업의 전략 결정에도 늘 쓰입니다.</p>
+<p>예전에는 이 분석을 직접 배워 직접 돌려야 했습니다. 요즘은 AI에게 데이터를 넣어 주고 분석해 달라고 하면 금방 해줍니다. 우리는 AI가 만들어 준 보고서를 잘 이해하고, 잘 점검하면 됩니다. <strong>AI가 해 주는 것, 잘 이해하기. 그게 우리의 일입니다.</strong></p>
+<section id="id1">
+<h2>데이터 — 서울 아파트 실거래가<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p>재료는 실제 데이터입니다. 국토교통부 실거래가 공개시스템에서 서울 아파트 매매 1년치(계약일 2025년 10월 ~ 2026년 10월, 2026년 10월 7일 추출)를 CSV로 내려받았습니다. 계약이 취소된 해제거래 2,178건을 걸러내면 66,589건이 남습니다. 이 데이터는 이번 장만이 아니라 여러 변수를 함께 보는 다음 장까지 같이 씁니다. 참고로 이런 수집 자체도 AI에게 부탁할 수 있습니다. 어느 사이트에서 어떤 조건으로 받을지만 정해 주면 됩니다. (공개시스템 자료는 참고용이며, 신고 시점에 따라 수치가 조금 달라질 수 있습니다.)</p>
+<p>이번 장은 그 가운데 한 구, 노원구로 좁힙니다. 1년 동안 노원구에서 행해진 아파트 매매는 7,366건입니다. 중위 거래가는 6.1억원이지만, 1억이 안 되는 거래부터 15억이 넘는 거래까지 폭이 넓습니다. 같은 구 안에서 가격이 왜 이렇게 다를까요? 누구나 가장 먼저 떠올리는 요인은 면적입니다. 큰 집이 비싼 것은 상식이죠. 그런데 얼마나 비쌀까요? 노원구에서 전용면적 1㎡는 얼마일까요?</p>
+<p>이 질문을 AI에게 맡겨 봤습니다. 노원구 1년치 매매 기록을 업로드하고, 전용면적과 거래가격의 관계를 분석한 1쪽 보고서를 요청했습니다. 그렇게 받은 보고서가 아래에 있습니다. 먼저 한 번 읽어 보세요. 모르는 낱말이 나와도 괜찮습니다. 이 장이 하는 일이 바로 이 보고서를 끝까지 읽을 수 있게 만드는 것이니까요.</p>
+<div class="report-box docutils container">
+<p class="report-caption">AI가 만든 1쪽 보고서</p>
+<p class="report-title rubric">노원구에서 1㎡는 얼마인가 — 아파트 실거래가로 본 면적과 가격</p>
+<p><em>분석 대상: 서울 노원구 아파트 매매 실거래 7,366건 (계약일 2025년 10월 ~ 2026년 10월, 해제거래 제외) · 자료: 국토교통부 실거래가 공개시스템</em></p>
+<p class="report-h2 rubric">요약</p>
+<ul class="simple">
+<li><p>전용면적이 1㎡ 넓을수록 거래가격은 평균 <strong>818만원</strong> 높다 (95% 신뢰구간 801만~835만원). 평(3.3㎡)으로 환산하면 약 <strong>2,700만원</strong>이다.</p></li>
+<li><p>면적 하나로 노원구 아파트 가격 차이의 <strong>54</strong>%가 설명된다 (<span class="math notranslate nohighlight">\(R^2\)</span> = 0.54).</p></li>
+<li><p>회귀식 기준 가격은 전용 59㎡ <strong>6.3억원</strong>, 84㎡ <strong>8.3억원</strong>이다. 실제 중위 거래가는 6.1억원.</p></li>
+</ul>
+<p><img alt="전용면적과 거래가격의 산점도와 회귀직선" src="../_images/fig1_scatter_fit.png" /></p>
+<p><strong>그림.</strong> 전용면적과 거래가격. 파란 점 하나가 거래 한 건, 주황 직선이 회귀직선이다. 점들이 세로줄처럼 늘어선 곳은 같은 평형(59㎡, 84㎡ 등)이 반복 거래된 자리다.</p>
+<p class="report-h2 rubric">회귀 결과</p>
+<p>거래가격(억원) = 1.48 + 0.0818 × 전용면적(㎡)</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>추정값</p></th>
+<th class="head"><p>표준오차</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(t\)</span>값</p></th>
+<th class="head"><p>95% 신뢰구간</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(p\)</span>값</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>기울기 (면적 1㎡당, 억원)</p></td>
+<td><p>0.0818</p></td>
+<td><p>0.0009</p></td>
+<td><p>93.4</p></td>
+<td><p>0.080 ~ 0.084</p></td>
+<td><p>&lt; 0.001</p></td>
+</tr>
+<tr class="row-odd"><td><p>절편 (억원)</p></td>
+<td><p>1.48</p></td>
+<td><p>0.06</p></td>
+<td><p>25.5</p></td>
+<td><p>1.37 ~ 1.59</p></td>
+<td><p>&lt; 0.001</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><span class="math notranslate nohighlight">\(n\)</span> = 7,366 · <span class="math notranslate nohighlight">\(R^2\)</span> = 0.542 · 잔차 표준오차 1.62억원</p>
+<p class="report-h2 rubric">해석</p>
+<ul class="simple">
+<li><p><strong>기울기</strong> — 노원구 안에서 전용면적이 1㎡ 다른 두 아파트는 가격이 평균 818만원 다르다. 이는 노원구 전체 거래에서 나타난 평균적인 관계이고, 개별 아파트에 그대로 적용되는 법칙은 아니다.</p></li>
+<li><p><strong>불확실성</strong> — 표본이 7천 건이 넘어 기울기는 95% 신뢰구간 기준 ±17만원 범위로 정밀하게 추정됐다. “면적과 가격이 무관하다”(기울기 = 0)는 가능성은 사실상 배제된다 (<span class="math notranslate nohighlight">\(p\)</span> &lt; 0.001).</p></li>
+<li><p><strong>설명력</strong> — <span class="math notranslate nohighlight">\(R^2\)</span> = 0.54. 가격 차이의 절반가량은 면적만으로 설명되고, 나머지는 단지·층·연식·입지 같은 다른 요인의 몫이다. 같은 면적이라도 실제 가격은 회귀직선에서 평균 ±1.6억원가량 흩어져 있다 (잔차 표준오차).</p></li>
+</ul>
+<p class="report-h2 rubric">보조 분석과 한계</p>
+<ul class="simple">
+<li><p>로그-로그 사양에서는 탄력성이 <strong>0.84</strong> (95% CI 0.82~0.85)다. 면적이 1% 넓으면 가격은 약 0.8% 높다는 뜻으로, 1보다 작으므로 <strong>큰 평수일수록 ㎡당 단가는 낮아진다</strong>.</p></li>
+<li><p>이 결과는 상관이지 인과가 아니다. 전용면적은 층, 연식, 단지와 얽혀 있으므로, “다른 조건이 같을 때”의 면적 효과는 다중회귀가 필요하다.</p></li>
+</ul>
+<p class="report-dl">{download}`보고서 원문 내려받기 (.md) <report-simple-regression.md>`</p>
+</div>
+</section>
+<section id="id2">
+<h2>보고서의 다섯 부분<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>보고서는 다섯 부분으로 되어 있습니다. 요약, 그림, 회귀 결과, 해석, 그리고 보조 분석과 한계입니다. 어디에 무엇이 적혀 있는지만 봐 두면, 다음 절부터의 공부가 지도를 들고 하는 여행이 됩니다.</p>
+<p><strong>요약</strong>은 핵심 발견 세 줄입니다. 첫 줄의 <strong>818만원</strong>이 이 보고서의 가장 중요한 숫자입니다 — 전용면적이 1㎡ 넓을수록 거래가격은 평균 818만원 높다. 둘째 줄은 면적 하나로 노원구 아파트 가격 차이의 <strong>54</strong>%가 설명된다는 것, 셋째 줄은 회귀식 기준 가격이 전용 59㎡ 6.3억원, 84㎡ 8.3억원이라는 것입니다.</p>
+<p><strong>그림</strong>에는 7,366건의 거래가 전부 찍혀 있습니다. 파란 점 하나가 거래 한 건이고, 그 사이를 주황색 회귀직선이 지나갑니다. 점들이 세로줄처럼 늘어선 곳은 59㎡, 84㎡ 같은 인기 평형이 반복해서 거래된 자리입니다. 데이터의 생김새를 읽는 첫 단서죠.</p>
+<p><strong>회귀 결과</strong>는 이 장의 심장입니다. 맨 위의 식 “거래가격(억원) = 1.48 + 0.0818 × 전용면적(㎡)”은 면적을 넣으면 가격이 나오는 공식이고, 그 아래 표에는 낯선 낱말이 줄지어 있습니다. 추정값, 표준오차, <span class="math notranslate nohighlight">\(t\)</span>값, 95% 신뢰구간, <span class="math notranslate nohighlight">\(p\)</span>값. 지금은 몰라도 됩니다. 다만 하나는 미리 봐 두세요. 기울기 추정값 0.0818은 억원 단위니까 1㎡당 818만원 — 요약의 그 숫자가 여기서 나왔습니다.</p>
+<p><strong>해석</strong>은 표의 숫자들을 말로 풀어 준 세 문단입니다. 기울기(1㎡의 값), 불확실성(그 값을 얼마나 믿을 수 있나), 설명력(면적이 가격 차이를 얼마나 설명하나).</p>
+<p><strong>보조 분석과 한계</strong>에는 로그라는 다른 눈금으로 측정한 탄력성 추정값 0.84가 한 줄 있고, 이 결과는 상관이지 인과가 아니라는 단서가 붙어 있습니다. 좋은 보고서는 이렇게 스스로 자기 한계를 밝혀 둡니다.</p>
+</section>
+<section id="id3">
+<h2>이 장의 동선<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>다음 네 절이 이 보고서를 한 부분씩 읽습니다.</p>
+<ul class="simple">
+<li><p><strong>직선은 어떻게 정해지나</strong> — 회귀직선과 기울기 추정값 0.0818이 어디서 왔는지. 잔차와 최소제곱법.</p></li>
+<li><p><strong>이 기울기를 믿어도 되나</strong> — 표의 나머지 칸들. 표준오차, 95% 신뢰구간, <span class="math notranslate nohighlight">\(t\)</span>값, <span class="math notranslate nohighlight">\(p\)</span>값.</p></li>
+<li><p><strong>얼마나 설명하나</strong> — <span class="math notranslate nohighlight">\(R^2\)</span> = 0.54와 잔차 표준오차 1.62억원, 그리고 잔차를 그림으로 읽는 법.</p></li>
+<li><p><strong>로그로 읽는 가격</strong> — 보조 분석의 탄력성 추정값 0.84를 %로 해석하는 법.</p></li>
+</ul>
+<p>네 절을 지나고 나면 이 보고서의 모든 줄을 읽을 수 있습니다. 그리고 읽을 줄 알게 된 보고서는 여러분의 것이 됩니다. 자기 데이터로 같은 분석을 원할 때 이 보고서를 본보기로 첨부해 요청하면 되거든요. 그 방법은 여는 장에서 다룹니다.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./simple-regression"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">이전</p>
+        <p class="prev-next-title">단순회귀분석 — 직선 하나로 관계 읽기</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="section-a2.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">다음</p>
+        <p class="prev-next-title">2. 직선은 어떻게 정해지나 — 잔차와 최소제곱</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 내용
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">데이터 — 서울 아파트 실거래가</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">보고서의 다섯 부분</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">이 장의 동선</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026 최필선.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
