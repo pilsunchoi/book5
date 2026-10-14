@@ -11,3 +11,12 @@ chapters:
       - file: simple-regression/section-a5
       - file: simple-regression/practice-prompt
       - file: simple-regression/practice-notebook
+  - file: multiple-regression/index
+    sections:
+      - file: multiple-regression/section-b1
+      - file: multiple-regression/section-b2
+      - file: multiple-regression/section-b3
+      - file: multiple-regression/section-b4
+      - file: multiple-regression/section-b5
+      - file: multiple-regression/practice-prompt
+      - file: multiple-regression/practice-notebook
