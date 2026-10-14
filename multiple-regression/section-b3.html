@@ -1,0 +1,704 @@
+
+<!DOCTYPE html>
+
+
+<html lang="ko" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="3. 숫자가 아닌 변수 — 더미 변수" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://pilsunchoi.github.io/book5/multiple-regression/section-b3.html" />
+<meta property="og:site_name" content="AI 데이터 분석" />
+<meta property="og:description" content="이 장 첫머리 보고서의 회귀식에는 숫자가 아닌 변수가 둘 들어 있습니다. 구와 거래유형입니다. 표 2-1을 다시 보면 “구: 강남구 1.028”, “구: 도봉구 −0.208”, “직거래 −0.358” 같은 줄이 있습니다. 면적, 층, 연식은 숫자라서 회귀식에 그대로 넣을 수 있습니..." />
+<meta name="description" content="이 장 첫머리 보고서의 회귀식에는 숫자가 아닌 변수가 둘 들어 있습니다. 구와 거래유형입니다. 표 2-1을 다시 보면 “구: 강남구 1.028”, “구: 도봉구 −0.208”, “직거래 −0.358” 같은 줄이 있습니다. 면적, 층, 연식은 숫자라서 회귀식에 그대로 넣을 수 있습니..." />
+
+    <title>3. 숫자가 아닌 변수 — 더미 변수 &#8212; AI 데이터 분석</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=14e72410" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=ae323b5b"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = '표시하려면 클릭';</script>
+    <script>let toggleHintHide = '숨기려면 클릭';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/translations.js?v=e33e7ba0"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'multiple-regression/section-b3';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="색인" href="../genindex.html" />
+    <link rel="search" title="검색" href="../search.html" />
+    <link rel="next" title="4. 효과가 집단마다 다를 때 — 상호작용" href="section-b4.html" />
+    <link rel="prev" title="2. 다른 조건이 같다면 — 다중회귀분석의 계수" href="section-b2.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="ko"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.png" class="logo__image only-light" alt="AI 데이터 분석"/>
+    <img src="../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="AI 데이터 분석"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../simple-regression/index.html">단순회귀분석 — 직선 하나로 관계 읽기</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a1.html">1. 완성된 보고서 — 노원구에서 1㎡는 얼마인가</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a2.html">2. 직선은 어떻게 정해지나 — 잔차와 최소제곱</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a3.html">3. 이 기울기를 믿어도 되나 — 표준오차, 신뢰구간, <span class="math notranslate nohighlight">\(p\)</span>값</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a4.html">4. 얼마나 설명하나 — <span class="math notranslate nohighlight">\(R^2\)</span>과 잔차</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a5.html">5. 로그로 읽는 가격 — 탄력성과 % 해석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">다중회귀분석 — 여러 변수를 함께</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="section-b1.html">1. 완성된 보고서 — 서울 아파트 값은 무엇으로 정해지나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-b2.html">2. 다른 조건이 같다면 — 다중회귀분석의 계수</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3. 숫자가 아닌 변수 — 더미 변수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-b4.html">4. 효과가 집단마다 다를 때 — 상호작용</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-b5.html">5. 직선으로 부족할 때 — 제곱항</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/pilsunchoi/book5" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="소스 저장소"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="이 페이지 다운로드">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/multiple-regression/section-b3.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="소스 파일 다운로드"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="PDF로 인쇄"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="전체 화면으로보기"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>3. 숫자가 아닌 변수 — 더미 변수</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 내용 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">스위치의 켜고 끄기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">구를 1부터 25까지 번호로 넣으면 안 되는 이유</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">구마다 스위치 하나 — 더미 변수 만들기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">더미의 계수는 직선의 높이 차이</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">계수를 “몇 배”로 읽기 — 1.028이 2.8배가 되는 계산</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">기준을 바꾸면</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">노원구와 차이가 없는 구</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">남는 질문</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>3. 숫자가 아닌 변수 — 더미 변수<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>이 장 첫머리 보고서의 회귀식에는 숫자가 아닌 변수가 둘 들어 있습니다. 구와 거래유형입니다. 표 2-1을 다시 보면 “구: 강남구 1.028”, “구: 도봉구 −0.208”, “직거래 −0.358” 같은 줄이 있습니다. 면적, 층, 연식은 숫자라서 회귀식에 그대로 넣을 수 있습니다. 그런데 “강남구”나 “직거래”는 숫자가 아닌데, 어떻게 회귀식에 들어갔을까요? 그리고 강남구 계수 1.028은 어떻게 “노원구의 2.8배”가 될까요?</p>
+<p>미리 답부터 말하면, <strong>숫자가 아닌 변수는 켜고 끄는 스위치로 바꿔서 넣습니다.</strong> 켜지면 1, 꺼지면 0입니다. 이 절이 끝나면 표 2-1의 구 계수 24개와 직거래 계수가 어떻게 나왔는지, 그 계수를 어떻게 “몇 배”, “몇 % 싸다”로 읽는지 알게 됩니다.</p>
+<section id="id2">
+<h2>스위치의 켜고 끄기<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>방에 전등 스위치가 있다고 해 봅시다. 스위치는 켜져 있거나 꺼져 있거나 둘 중 하나입니다. 켜짐을 1, 꺼짐을 0으로 적으면, “불이 켜졌나?”라는 질문을 숫자 하나로 기록할 수 있습니다.</p>
+<p>거래유형이 바로 이런 스위치입니다. “직거래인가?”라는 질문에 직거래면 1, 중개거래면 0을 적습니다. 앞 절에서 직거래 변수에 1과 0을 넣은 것이 이것입니다. 이렇게 0과 1로만 된 변수를 <strong>더미 변수</strong>(dummy variable)라고 부릅니다. 이름은 낯설지만 하는 일은 스위치 하나입니다.</p>
+<blockquote>
+<div><p>숫자가 아닌 변수는 “이것인가?”를 묻는 스위치로 바꾼다. 맞으면 1, 아니면 0.</p>
+</div></blockquote>
+</section>
+<section id="id3">
+<h2>구를 1부터 25까지 번호로 넣으면 안 되는 이유<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>구는 거래유형보다 까다롭습니다. 선택지가 둘이 아니라 25개이기 때문입니다. 가장 쉬워 보이는 방법은 구마다 번호를 붙이는 것입니다. 가령 가나다순으로, 강남구 1, 강동구 2, …, 중랑구 25처럼요. 하지만 이렇게 하면 안 됩니다.</p>
+<p>번호를 그대로 회귀식에 넣으면, 회귀식은 그 번호를 면적이나 층처럼 크기가 있는 숫자로 읽습니다. 번호가 1 커질 때마다 가격이 일정한 %씩 오르거나 내린다고 가정하는 것이죠. 그런데 가나다순으로 붙인 번호에는 그런 뜻이 없습니다. 강동구(2)가 강남구(1)보다 “1만큼 더한 구”도 아니고, 중랑구(25)가 강남구보다 “24만큼 더한 구”도 아닙니다. 가나다순이 아니라 다른 기준으로 번호를 붙이면 결과가 또 달라지는, 의미 없는 계산이 됩니다.</p>
+</section>
+<section id="id4">
+<h2>구마다 스위치 하나 — 더미 변수 만들기<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p>그래서 구에는 스위치를 여러 개 답니다. “강남구인가?”, “서초구인가?”, “송파구인가?”…처럼 구마다 스위치를 하나씩 만들고, 거래가 그 구에서 일어났으면 그 스위치만 켭니다. 각 거래는 당연히 주소지가 하나이고, 따라서 구도 하나이기 때문에, 거래마다 켜지는 스위치는 하나뿐이고, 노원구 거래라면 하나도 없습니다. 표 3-1은 거래 네 건으로 그 모습을 보인 것입니다.</p>
+<p><strong>표 3-1.</strong> 구와 거래유형을 더미 변수로 바꾼 모습 (거래 네 건의 예, 구 더미 24개 중 일부만 표시)</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>거래</p></th>
+<th class="head"><p>구</p></th>
+<th class="head"><p>강남구</p></th>
+<th class="head"><p>서초구</p></th>
+<th class="head"><p>…</p></th>
+<th class="head"><p>도봉구</p></th>
+<th class="head"><p>직거래</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>거래 1</p></td>
+<td><p>노원구</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>…</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>거래 2</p></td>
+<td><p>강남구</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>…</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-even"><td><p>거래 3</p></td>
+<td><p>도봉구</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>…</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>거래 4</p></td>
+<td><p>서초구</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>…</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>표에서 보듯이 거래 1은 모든 구 스위치가 꺼져 있습니다. 노원구에는 스위치를 따로 달지 않았기 때문입니다. 노원구는 <strong>기준 구</strong>입니다. 모든 구 스위치가 꺼져 있으면 노원구 거래라는 뜻이고, 다른 구의 계수는 모두 “노원구와 비교해 얼마나 다른가”를 말합니다. 그래서 구는 다 합쳐서 25개인데 구 더미는 24개이고, 보고서는 회귀 결과에 “구 더미 24개 (기준: 노원구)”라고 적었습니다.</p>
+<p>기준을 하나 비워 두는 것은 비교에 출발점이 있어야 하기 때문입니다. 키를 측정할 때 바닥을 0으로 삼듯이, 구의 차이를 말하려면 “어느 구에 비해”가 정해져 있어야 합니다. 노원구를 기준으로 고른 것은 단순회귀분석 장의 무대가 노원구였기 때문이고, 다른 구를 골라도 됩니다. 기준을 바꾸면 어떻게 되는지는 뒤에서 확인합니다.</p>
+</section>
+<section id="id5">
+<h2>더미의 계수는 직선의 높이 차이<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<p>이제 구 더미가 회귀식에서 무슨 일을 하는지 보겠습니다. 다른 변수는 잠시 빼고, 면적과 구 더미만 남긴 회귀식을 써 보면 이렇습니다.</p>
+<div class="math notranslate nohighlight">
+\[
+\text{로그가격} = a + b \times \text{로그면적} + d_{\text{강남}} \times \text{강남구} + d_{\text{서초}} \times \text{서초구} + \cdots + d_{\text{도봉}} \times \text{도봉구}
+\]</div>
+<p>앞 절의 뺄셈을 그대로 해 봅니다. 면적이 같은 노원구 아파트와 강남구 아파트가 있습니다. 노원구 아파트는 구 스위치가 모두 꺼져 있으니 구 더미 항이 전부 0이고, 강남구 아파트는 강남구 스위치만 켜져 있으니 <span class="math notranslate nohighlight">\(d_{\text{강남}}\)</span> 하나만 남습니다. 둘을 빼면 <span class="math notranslate nohighlight">\(a\)</span>와 <span class="math notranslate nohighlight">\(b \times \text{로그면적}\)</span>이 지워지고 이것만 남습니다.</p>
+<div class="math notranslate nohighlight">
+\[
+\text{강남구 아파트의 로그가격} - \text{노원구 아파트의 로그가격} = d_{\text{강남}}
+\]</div>
+<p>곧 구 더미의 계수 <span class="math notranslate nohighlight">\(d_{\text{강남}}\)</span>은 “다른 조건은 똑같고 구만 다른 두 아파트의 (로그)가격 차이”입니다. 앞 절의 계수 읽는 법이 여기서도 그대로 통합니다.</p>
+<p>이것을 그림으로 보면 더 분명합니다. 그림 3-1은 보고서의 회귀식에서 층, 연식, 거래유형을 하나로 고정해 두고(10층, 26년, 중개거래) 면적만 움직이며 25개 구의 예상 가격을 그린 것입니다.</p>
+<p><img alt="구마다 그은 평행한 직선 25개" src="../_images/fig_b3_1_parallel_lines.png" /></p>
+<p><strong>그림 3-1.</strong> 보고서의 회귀식으로 그린 25개 구의 예상 가격(10층, 26년, 중개거래). 두 축 모두 로그 눈금이다. 주황 직선이 기준인 노원구, 초록 직선이 강남구, 회색 직선이 나머지 23개 구다.</p>
+<p>그림에서 보듯이 25개의 직선은 모두 평행합니다. 기울기는 면적 탄력성 0.94로 모두 같고, 높이만 다릅니다. 그 높이 차이가 바로 구 더미의 계수입니다. 노원구 직선과 강남구 직선 사이의 세로 간격이 1.028이고, 이 간격은 30㎡에서 보든 150㎡에서 보든 똑같습니다. 앞 절의 그림 2-2에서 구를 넣자 주황 직선 두 개가 나란히 그어졌던 것도 이 때문입니다. 구 더미는 직선 기울기를 그대로 놔둔 채 위아래로만 옮깁니다. 즉 절편만 바뀌는 것입니다.</p>
+<p><a class="report-fig-link" href="../_static/report-figure-multiple-regression.png" target="_blank" rel="noopener">보고서의 그림</a> 왼쪽 패널은 이 25개 직선의 높이를 “노원구의 몇 배”로 바꿔 한 줄씩 그린 것입니다. 그림 3-1에서 높게 위치한 직선일수록 <a class="report-fig-link" href="../_static/report-figure-multiple-regression.png" target="_blank" rel="noopener">보고서의 그림</a> 왼쪽 패널에서 점이 오른쪽에 있습니다.</p>
+</section>
+<section id="id6">
+<h2>계수를 “몇 배”로 읽기 — 1.028이 2.8배가 되는 계산<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
+<p>남은 질문은 1.028이 어떻게 2.8배가 되느냐입니다. 회귀식의 왼쪽이 가격이 아니라 로그가격이므로, 계수 1.028은 로그가격의 차이입니다. 이것을 가격의 차이로 되돌려야 합니다.</p>
+<p>단순회귀분석 장의 로그 절에서는 “로그가격이면 계수 × 100%로 읽는다”고 배웠습니다. 층의 계수 0.0107이면 1.07%, 곧 한 층에 약 1.1%입니다. 그런데 그 절에서는 이것이 “변화가 크지 않을 때 성립하는 근사”라는 단서도 붙였습니다. 더미 변수에서는 이 단서가 중요해집니다. 스위치가 꺼졌다 켜지는 것은 0에서 1로 한 번에 뛰는 변화이고, 그때의 계수 크기도 1.028처럼 크기 때문입니다.</p>
+<p>정확한 계산은 이렇습니다. 로그가격의 차이가 <span class="math notranslate nohighlight">\(d\)</span>이면, 가격은 <span class="math notranslate nohighlight">\(e^d\)</span>배 차이 납니다. <span class="math notranslate nohighlight">\(e\)</span>는 약 2.718인 수이고, 계산은 계산기나 AI에게 맡기면 됩니다.</p>
+<div class="math notranslate nohighlight">
+\[
+e^{1.028} \approx 2.80
+\]</div>
+<p>그래서 강남구는 같은 조건의 노원구 아파트보다 2.8배 비쌉니다. %로 말하면 180% 비싼 것입니다. 어림셈(계수 × 100%)으로는 103%가 나와, 실제보다 한참 작습니다.</p>
+<p>직거래도 마찬가지입니다. 직거래의 계수 −0.358은 어림셈으로는 36% 싸지만 정확히는 30% 쌉니다(<span class="math notranslate nohighlight">\(e^{-0.358} \approx 0.70\)</span>, 곧 중개거래의 0.7배). 보고서와 표 2-1이 직거래를 “30% 싸다”, 강남구를 “2.8배”로 적은 것은 모두 정확한 값입니다.</p>
+<p>💡 <strong>팁:</strong> 계수가 대략 −0.1에서 0.1 사이이면 계수 × 100%로 어림해도 충분합니다. 그보다 크면 <span class="math notranslate nohighlight">\(e^{\text{계수}}\)</span>로 계산하거나, AI에게 “로그 계수를 정확한 %로 바꿔 줘”라고 부탁하세요.</p>
+</section>
+<section id="id7">
+<h2>기준을 바꾸면<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
+<p>노원구를 기준으로 고른 것은 편의상의 선택이었습니다. 기준을 다른 구로 바꾸면 무엇이 달라질까요? 기준을 강남구로, 송파구로 바꿔 회귀분석을 다시 해 봤습니다.</p>
+<p><strong>표 3-2.</strong> 기준 구를 바꿔 다시 한 회귀분석 (구 계수 일부)</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>기준 노원구</p></th>
+<th class="head"><p>기준 강남구</p></th>
+<th class="head"><p>기준 송파구</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>강남구</p></td>
+<td><p>1.028</p></td>
+<td><p>(기준)</p></td>
+<td><p>0.265</p></td>
+</tr>
+<tr class="row-odd"><td><p>서초구</p></td>
+<td><p>0.855</p></td>
+<td><p>−0.173</p></td>
+<td><p>0.092</p></td>
+</tr>
+<tr class="row-even"><td><p>송파구</p></td>
+<td><p>0.763</p></td>
+<td><p>−0.265</p></td>
+<td><p>(기준)</p></td>
+</tr>
+<tr class="row-odd"><td><p>노원구</p></td>
+<td><p>(기준)</p></td>
+<td><p>−1.028</p></td>
+<td><p>−0.763</p></td>
+</tr>
+<tr class="row-even"><td><p>층, 직거래 등 다른 계수</p></td>
+<td><p>변화 없음</p></td>
+<td><p>변화 없음</p></td>
+<td><p>변화 없음</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(R^2\)</span></p></td>
+<td><p>0.738</p></td>
+<td><p>0.738</p></td>
+<td><p>0.738</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>표에서 보듯이 바뀌는 것은 구 계수뿐입니다. 층, 직거래 같은 다른 계수와 <span class="math notranslate nohighlight">\(R^2\)</span>은 그대로입니다. 그리고 구 계수도 출발점만 옮겨졌을 뿐, 구끼리의 차이는 그대로입니다. 서초구와 송파구의 차이는 노원구 기준에서 0.855 − 0.763 = 0.092이고, 송파구를 기준으로 하면 서초구의 계수가 바로 0.092입니다. 키를 바닥에서 측정하든 의자 위에서 측정하든 두 사람의 키 차이가 같은 것과 같습니다. 그러니 기준을 바꿔 다시 분석하지 않아도, 어느 두 개의 구든 표 2-1에서 두 계수의 차이를 보면 비교할 수 있습니다. 서초구는 같은 조건의 송파구보다 <span class="math notranslate nohighlight">\(e^{0.092} \approx 1.10\)</span>배, 곧 약 10% 비쌉니다.</p>
+</section>
+<section id="id8">
+<h2>노원구와 차이가 없는 구<a class="headerlink" href="#id8" title="Link to this heading">#</a></h2>
+<p>표 2-1의 구 계수 24개를 <span class="math notranslate nohighlight">\(t\)</span>값까지 보면, 눈에 띄는 구가 둘 있습니다. 은평구(계수 0.012, <span class="math notranslate nohighlight">\(t\)</span>값 1.6)와 구로구(계수 −0.009, <span class="math notranslate nohighlight">\(t\)</span>값 −1.3)입니다. 단순회귀분석 장에서 <span class="math notranslate nohighlight">\(t\)</span>값은 추정값이 0에서 표준오차의 몇 배만큼 떨어져 있는가이고, <span class="math notranslate nohighlight">\(t\)</span>값이 2만 넘어도 “아무 관계가 없는 세상에서 이만한 값이 우연히 나올 확률”, 곧 <span class="math notranslate nohighlight">\(p\)</span>값이 5% 아래로 떨어진다고 했습니다. 거꾸로 말하면 <span class="math notranslate nohighlight">\(t\)</span>값이 −2와 2 사이이면 <span class="math notranslate nohighlight">\(p\)</span>값이 5%보다 커서, 아무 차이가 없는 세상에서도 우연히 나올 만한 크기라는 뜻입니다. 은평구와 구로구의 <span class="math notranslate nohighlight">\(p\)</span>값은 각각 0.12, 0.18입니다. 곧 다른 조건이 같으면 은평구와 구로구 아파트가 노원구 아파트와 가격이 다르다고 말할 근거가 없습니다. 계수가 1.01배, 0.99배로 거의 1인 것도 같은 이야기입니다.</p>
+<p>더미 변수의 <span class="math notranslate nohighlight">\(t\)</span>값과 <span class="math notranslate nohighlight">\(p\)</span>값은 이렇게 “기준과 차이가 있는가”를 묻습니다. 나머지 22개 구는 <span class="math notranslate nohighlight">\(t\)</span>값이 모두 크므로, 노원구와 가격 수준이 분명히 다릅니다.</p>
+<blockquote>
+<div><p><strong>요약 — 직관적 의미</strong></p>
+<p>숫자가 아닌 변수는 “이것인가?”를 묻는 스위치로 바꾼다. 맞으면 1, 아니면 0.</p>
+<ul class="simple">
+<li><p><strong>더미 변수</strong> — 0과 1로만 된 변수. 거래유형은 스위치 하나(직거래인가?), 구는 스위치 24개(강남구인가?, 서초구인가?, …).</p></li>
+<li><p><strong>기준 구</strong> — 스위치를 달지 않은 구(노원구). 모든 스위치가 꺼지면 기준 구이고, 구 계수는 모두 기준과의 차이다.</p></li>
+<li><p><strong>더미의 계수</strong> — 다른 조건은 똑같고 구만 다른 두 아파트의 차이. 그림으로는 평행한 직선의 높이 차이.</p></li>
+<li><p><strong>몇 배로 읽기</strong> — 로그가격의 계수 <span class="math notranslate nohighlight">\(d\)</span>는 <span class="math notranslate nohighlight">\(e^d\)</span>배. 계수가 작으면 <span class="math notranslate nohighlight">\(d\)</span> × 100%로 어림해도 되지만, 크면 어림셈이 크게 틀린다.</p></li>
+<li><p><strong>기준을 바꾸면</strong> — 출발점만 옮겨진다. 구끼리의 차이, 다른 계수, <span class="math notranslate nohighlight">\(R^2\)</span>은 그대로다.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id9">
+<h2>남는 질문<a class="headerlink" href="#id9" title="Link to this heading">#</a></h2>
+<p>그림 3-1의 직선 25개는 모두 평행했습니다. 구 더미는 직선을 위아래로만 옮길 뿐 기울이지 않기 때문입니다. 그 말은 회귀식이 “면적 1%의 효과”, “한 층의 효과”가 어느 구에서나 똑같다고 가정한다는 뜻이기도 합니다. 정말 그럴까요? 강남구의 한 층과 도봉구의 한 층이 같은 값일까요? 다음 절에서는 이 가정을 풀어 봅니다.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./multiple-regression"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="section-b2.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">이전</p>
+        <p class="prev-next-title">2. 다른 조건이 같다면 — 다중회귀분석의 계수</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="section-b4.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">다음</p>
+        <p class="prev-next-title">4. 효과가 집단마다 다를 때 — 상호작용</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 내용
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">스위치의 켜고 끄기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">구를 1부터 25까지 번호로 넣으면 안 되는 이유</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">구마다 스위치 하나 — 더미 변수 만들기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">더미의 계수는 직선의 높이 차이</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">계수를 “몇 배”로 읽기 — 1.028이 2.8배가 되는 계산</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">기준을 바꾸면</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">노원구와 차이가 없는 구</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">남는 질문</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>© 2026 최필선</p>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

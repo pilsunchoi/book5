@@ -1,0 +1,566 @@
+
+<!DOCTYPE html>
+
+
+<html lang="ko" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="직접 해 보기 1 — 프롬프트로 내 보고서 받기" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://pilsunchoi.github.io/book5/multiple-regression/practice-prompt.html" />
+<meta property="og:site_name" content="AI 데이터 분석" />
+<meta property="og:description" content="이 장 첫머리의 보고서 같은 다중회귀분석 1쪽 보고서를 여러분의 데이터로 받아 내는 프롬프트의 전문입니다. 단순회귀분석 장과 마찬가지로 기본형과 백업형 두 가지를 둡니다. 기본형은 보고서를 본보기로 첨부하는 방식으로, 완성된 보고서가 곧 모범 프롬프트가 된다는 이 책의 핵심 구조와..." />
+<meta name="description" content="이 장 첫머리의 보고서 같은 다중회귀분석 1쪽 보고서를 여러분의 데이터로 받아 내는 프롬프트의 전문입니다. 단순회귀분석 장과 마찬가지로 기본형과 백업형 두 가지를 둡니다. 기본형은 보고서를 본보기로 첨부하는 방식으로, 완성된 보고서가 곧 모범 프롬프트가 된다는 이 책의 핵심 구조와..." />
+
+    <title>직접 해 보기 1 — 프롬프트로 내 보고서 받기 &#8212; AI 데이터 분석</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=14e72410" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=ae323b5b"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = '표시하려면 클릭';</script>
+    <script>let toggleHintHide = '숨기려면 클릭';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/translations.js?v=e33e7ba0"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'multiple-regression/practice-prompt';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="색인" href="../genindex.html" />
+    <link rel="search" title="검색" href="../search.html" />
+    <link rel="next" title="직접 해 보기 2 — 파이썬 코드로 따라 해 보기" href="practice-notebook.html" />
+    <link rel="prev" title="5. 직선으로 부족할 때 — 제곱항" href="section-b5.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="ko"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.png" class="logo__image only-light" alt="AI 데이터 분석"/>
+    <img src="../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="AI 데이터 분석"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../simple-regression/index.html">단순회귀분석 — 직선 하나로 관계 읽기</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a1.html">1. 완성된 보고서 — 노원구에서 1㎡는 얼마인가</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a2.html">2. 직선은 어떻게 정해지나 — 잔차와 최소제곱</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a3.html">3. 이 기울기를 믿어도 되나 — 표준오차, 신뢰구간, <span class="math notranslate nohighlight">\(p\)</span>값</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a4.html">4. 얼마나 설명하나 — <span class="math notranslate nohighlight">\(R^2\)</span>과 잔차</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a5.html">5. 로그로 읽는 가격 — 탄력성과 % 해석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">다중회귀분석 — 여러 변수를 함께</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="section-b1.html">1. 완성된 보고서 — 서울 아파트 값은 무엇으로 정해지나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-b2.html">2. 다른 조건이 같다면 — 다중회귀분석의 계수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-b3.html">3. 숫자가 아닌 변수 — 더미 변수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-b4.html">4. 효과가 집단마다 다를 때 — 상호작용</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-b5.html">5. 직선으로 부족할 때 — 제곱항</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/pilsunchoi/book5" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="소스 저장소"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="이 페이지 다운로드">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/multiple-regression/practice-prompt.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="소스 파일 다운로드"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="PDF로 인쇄"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="전체 화면으로보기"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>직접 해 보기 1 — 프롬프트로 내 보고서 받기</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 내용 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">준비할 두 파일</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">기본형 — 보고서를 본보기로 첨부</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">백업형 — 본보기 없이 처음부터 요청</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">이어서 물어보기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">받은 보고서 확인하기</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>직접 해 보기 1 — 프롬프트로 내 보고서 받기<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>이 장 첫머리의 보고서 같은 다중회귀분석 1쪽 보고서를 여러분의 데이터로 받아 내는 프롬프트의 전문입니다. 단순회귀분석 장과 마찬가지로 기본형과 백업형 두 가지를 둡니다. 기본형은 보고서를 본보기로 첨부하는 방식으로, 완성된 보고서가 곧 모범 프롬프트가 된다는 이 책의 핵심 구조와 일치합니다. 백업형은 본보기를 첨부할 수 없을 때 구성을 말로 다 일러 주는 방식입니다.</p>
+<section id="id2">
+<h2>준비할 두 파일<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>분석할 실거래가 CSV.</strong> 이 장에서 쓴 데이터(서울 아파트 매매 1년치)는 책 사이트의 이 장 첫 페이지에서 내려받을 수 있습니다. 단순회귀분석 장과 같은 파일입니다. 다른 시도나 다른 기간의 자료를 국토교통부 실거래가 공개시스템에서 받는 방법은 단순회귀분석 장의 직접 해 보기 2, “데이터 수집”에 단계별로 적어 두었습니다.</p></li>
+<li><p><strong>이 장의 보고서 파일.</strong> 이 장 첫머리의 보고서 아래 “보고서 내려받기”에서 <strong>PDF</strong>로 받습니다. 그림까지 들어 있는 PDF를 첨부해야 AI가 그림까지 본보기로 삼습니다. 원문(.md) 파일에는 그림이 들어 있지 않습니다.</p></li>
+</ul>
+<p>다중회귀분석에서 구 더미를 쓰려면 자료 안에 지역이 여럿 있어야 합니다. 시도 하나를 통째로(예: 부산광역시 전체) 받으면 그 안의 구와 군이 이 장의 “구” 자리에 들어갑니다.</p>
+</section>
+<section id="id3">
+<h2>기본형 — 보고서를 본보기로 첨부<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>AI 대화창에 위의 두 파일을 첨부하고, 아래 프롬프트에서 대괄호 자리 두 곳만 자기 데이터에 맞게 바꿔 보냅니다. [지역/설명] 자리에는 “부산광역시 전체”처럼 자료의 범위를, [기준 지역] 자리에는 다른 지역과 비교할 출발점으로 삼을 구 이름을 적습니다. 기준 지역은 어느 구를 골라도 결과의 내용은 같습니다(3절의 “기준을 바꾸면”). 익숙한 지역이나 거래가 많은 지역을 고르면 읽기 편합니다.</p>
+<blockquote>
+<div><p>첨부한 CSV는 [지역/설명] 아파트 매매 실거래가다. 함께 첨부한 보고서(서울 예시)와 <strong>같은 구성, 같은 수준으로</strong> 이 데이터를 분석한 다중회귀분석 1쪽 보고서를 만들어 줘. 변수와 회귀식은 본보기와 같게 하고, 지역 더미의 기준은 [기준 지역]으로 해 줘. 지역 이름과 수치, 그림은 내 데이터에 맞게 바꾸고, 데이터에서 눈에 띄는 특징이 본보기와 다르면 그것을 써 줘. 금액은 억원, 면적은 ㎡로 표기하고, 해제된 거래는 제외해 줘.</p>
+</div></blockquote>
+<p>프롬프트의 문장마다 맡은 몫이 있습니다. “변수와 회귀식은 본보기와 같게”는 AI가 변수를 마음대로 더하거나 빼지 않게 하는 문장입니다. 다중회귀분석의 계수는 무엇을 함께 넣었느냐에 따라 달라지므로(2절), 회귀식을 못 박아야 이 장에서 배운 대로 읽을 수 있습니다. “본보기와 다르면 그것을 써 줘”는 본보기를 베끼는 데서 멈추지 않고 여러분 데이터 특유의 결과를 쓰게 만드는 문장입니다. 예를 들어 연식과 가격의 관계가 U자가 아니라면, 보고서가 그 점을 말해야 합니다. 마지막 문장은 단위와 데이터 정리 기준(해제된 거래 제외)을 못 박아 보고서끼리 비교할 수 있게 합니다.</p>
+</section>
+<section id="id4">
+<h2>백업형 — 본보기 없이 처음부터 요청<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p>보고서 파일을 첨부할 수 없는 자리에서는 구성을 직접 일러 줍니다. 아래 다섯 항목이 보고서의 다섯 부분과 하나씩 대응합니다.</p>
+<blockquote>
+<div><p>첨부한 파일은 [지역/설명] 아파트 매매 실거래가다. 다음 회귀식으로 다중회귀분석을 해서 1쪽 보고서를 만들어 줘. 회귀식: 로그(거래가격) = 로그(전용면적) + 층 + 연식 + 연식² + 직거래 + 지역 더미(기준: [기준 지역]). 연식은 올해 연도에서 건축년도를 뺀 값, 직거래는 거래유형이 직거래면 1. 구성: (1) 핵심 발견 요약 3줄(설명력, “다른 조건이 같을 때”의 면적, 층, 지역 차이, 연식의 모양), (2) 그림 두 패널 — 왼쪽은 다른 조건이 같을 때 지역별 가격(기준 지역 = 1), 오른쪽은 기준 지역의 전용 84㎡, 10층 아파트 한 채의 연식만 바꿨을 때 예상 가격 곡선, (3) 회귀 결과 표 — 추정값, 표준오차, t값, 95% 신뢰구간, p값(지역 더미는 가장 비싼 지역 하나만 싣고 나머지는 그림으로), 그리고 n, R², 잔차 표준오차, (4) 해석 — 계수 읽는 법, 면적과 층, 연식, 지역, 거래유형, 불확실성과 설명력, (5) 한계 한 줄. 로그 계수는 %나 배로 바꿔 읽어 줘. 금액은 억원, 면적은 ㎡, 해제 거래는 제외.</p>
+</div></blockquote>
+<p>백업형은 길지만 하는 일은 하나입니다. 본보기 보고서에 들어 있던 것을 말로 옮겨 적은 것입니다. 그래서 가능하면 기본형을 쓰는 편이 낫습니다.</p>
+</section>
+<section id="id5">
+<h2>이어서 물어보기<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<p>보고서를 받은 뒤 한두 가지를 더 물어보면 이 장에서 배운 것을 그대로 써먹을 수 있습니다.</p>
+<ul class="simple">
+<li><p><strong>상호작용</strong>: “층의 효과가 [집단]과 나머지 지역에서 다른지 상호작용 항을 넣어 확인해 줘.” AI는 기본적으로 상호작용이 없는 회귀식을 내놓는 경우가 많습니다(4절).</p></li>
+<li><p><strong>잔차 그림</strong>: “주요 변수별로 잔차 그림도 그려 줘.” 잔차에 패턴이 보이면 그 변수는 직선으로 부족하다는 신호입니다(5절).</p></li>
+</ul>
+</section>
+<section id="id6">
+<h2>받은 보고서 확인하기<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
+<p>AI도 실수를 합니다. 받은 보고서의 숫자를 그대로 믿지 말고 확인합니다. 가장 확실한 방법은 직접 해 보기 2의 파이썬 노트북에서 1절의 CSV 파일 이름과 3절의 기준 구(<code class="docutils literal notranslate"><span class="pre">'노원구'</span></code>)만 자기 데이터에 맞게 바꿔 실행해 보는 것입니다. 면적 탄력성, 층의 계수, 연식의 바닥, <span class="math notranslate nohighlight">\(R^2\)</span>, 잔차 표준오차 같은 숫자가 보고서와 같은지 대조하면 됩니다.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./multiple-regression"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="section-b5.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">이전</p>
+        <p class="prev-next-title">5. 직선으로 부족할 때 — 제곱항</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="practice-notebook.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">다음</p>
+        <p class="prev-next-title">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 내용
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">준비할 두 파일</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">기본형 — 보고서를 본보기로 첨부</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">백업형 — 본보기 없이 처음부터 요청</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">이어서 물어보기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">받은 보고서 확인하기</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>© 2026 최필선</p>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

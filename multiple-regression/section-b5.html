@@ -1,0 +1,626 @@
+
+<!DOCTYPE html>
+
+
+<html lang="ko" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="5. 직선으로 부족할 때 — 제곱항" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://pilsunchoi.github.io/book5/multiple-regression/section-b5.html" />
+<meta property="og:site_name" content="AI 데이터 분석" />
+<meta property="og:description" content="이 장 첫머리 보고서의 회귀식에서 연식만 변수가 두 개입니다. 연식과 연식²입니다. 표 2-1을 다시 보면 연식의 계수도 “연식 −0.0408”과 “연식² 0.00078” 두 개이고, 마지막 열에는 “연식과 연식²이 함께 곡선을 그린다”고 적혀 있습니다. 그리고 표 2-2를 보면,..." />
+<meta name="description" content="이 장 첫머리 보고서의 회귀식에서 연식만 변수가 두 개입니다. 연식과 연식²입니다. 표 2-1을 다시 보면 연식의 계수도 “연식 −0.0408”과 “연식² 0.00078” 두 개이고, 마지막 열에는 “연식과 연식²이 함께 곡선을 그린다”고 적혀 있습니다. 그리고 표 2-2를 보면,..." />
+
+    <title>5. 직선으로 부족할 때 — 제곱항 &#8212; AI 데이터 분석</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=14e72410" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=ae323b5b"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = '표시하려면 클릭';</script>
+    <script>let toggleHintHide = '숨기려면 클릭';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/translations.js?v=e33e7ba0"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'multiple-regression/section-b5';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="색인" href="../genindex.html" />
+    <link rel="search" title="검색" href="../search.html" />
+    <link rel="next" title="직접 해 보기 1 — 프롬프트로 내 보고서 받기" href="practice-prompt.html" />
+    <link rel="prev" title="4. 효과가 집단마다 다를 때 — 상호작용" href="section-b4.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="ko"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.png" class="logo__image only-light" alt="AI 데이터 분석"/>
+    <img src="../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="AI 데이터 분석"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../simple-regression/index.html">단순회귀분석 — 직선 하나로 관계 읽기</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a1.html">1. 완성된 보고서 — 노원구에서 1㎡는 얼마인가</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a2.html">2. 직선은 어떻게 정해지나 — 잔차와 최소제곱</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a3.html">3. 이 기울기를 믿어도 되나 — 표준오차, 신뢰구간, <span class="math notranslate nohighlight">\(p\)</span>값</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a4.html">4. 얼마나 설명하나 — <span class="math notranslate nohighlight">\(R^2\)</span>과 잔차</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a5.html">5. 로그로 읽는 가격 — 탄력성과 % 해석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">다중회귀분석 — 여러 변수를 함께</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="section-b1.html">1. 완성된 보고서 — 서울 아파트 값은 무엇으로 정해지나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-b2.html">2. 다른 조건이 같다면 — 다중회귀분석의 계수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-b3.html">3. 숫자가 아닌 변수 — 더미 변수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-b4.html">4. 효과가 집단마다 다를 때 — 상호작용</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">5. 직선으로 부족할 때 — 제곱항</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/pilsunchoi/book5" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="소스 저장소"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="이 페이지 다운로드">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/multiple-regression/section-b5.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="소스 파일 다운로드"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="PDF로 인쇄"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="전체 화면으로보기"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>5. 직선으로 부족할 때 — 제곱항</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 내용 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">클래식카의 반등</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">직선을 그으면 잔차에 패턴이 남는다</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">연식을 제곱한 변수 — 제곱항</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">곡선은 계수 하나로 읽지 않는다</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">곡선을 넣자 다른 계수도 움직였다</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">곡선도 완벽하지는 않다</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">이 장을 마치며</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>5. 직선으로 부족할 때 — 제곱항<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>이 장 첫머리 보고서의 회귀식에서 연식만 변수가 두 개입니다. 연식과 연식²입니다. 표 2-1을 다시 보면 연식의 계수도 “연식 −0.0408”과 “연식² 0.00078” 두 개이고, 마지막 열에는 “연식과 연식²이 함께 곡선을 그린다”고 적혀 있습니다. 그리고 표 2-2를 보면, 연식²을 넣기 전에는 연식의 효과가 “1년에 −0.5%”라는 숫자 하나였습니다.</p>
+<p>왜 연식만 변수가 두 개일까요? 연식을 하나만 넣으면 무엇이 문제이고, 그것은 어떻게 알아볼 수 있을까요? 그리고 두 변수로 들어간 연식의 계수는 어떻게 읽을까요?</p>
+<p>미리 답부터 말하면, <strong>연식과 가격의 관계가 직선이 아니라 U자이기 때문입니다.</strong> 직선은 한쪽으로만 기울어 있어서 “내려가다가 다시 올라가는” 관계를 그릴 수 없습니다. 그래서 연식을 제곱한 변수를 하나 더 넣어 회귀식이 곡선을 그릴 수 있게 했습니다. 이 절이 끝나면 직선이 부족하다는 것을 잔차에서 알아보는 법과, 곡선으로 들어간 연식을 읽는 법을 알게 됩니다.</p>
+<section id="id2">
+<h2>클래식카의 반등<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>자동차의 중고 가격을 떠올려 봅시다. 새 차가 가장 비싸고, 해가 갈수록 값이 떨어집니다. 그런데 30~40년이 넘은 차 가운데 일부는 클래식카가 되어 오히려 값이 다시 오릅니다. 연식과 가격의 관계가 처음에는 내리막이다가, 어느 지점부터 오르막으로 바뀌는 것이죠.</p>
+<p>이런 관계에 직선을 그으면 어떻게 될까요? 직선은 처음부터 끝까지 한 방향으로만 기울어 있습니다. 내리막으로 그으면 클래식카의 반등을 놓치고, 오르막으로 그으면 새 차가 싸다고 말하게 됩니다. 어떻게 그어도 반쪽만 맞습니다. 이것이 이 절 전체를 꿰는 한 문장입니다.</p>
+<blockquote>
+<div><p>직선은 한 방향으로만 간다. 내려가다 다시 올라가는 관계에는 곡선이 필요하다.</p>
+</div></blockquote>
+<p>아파트도 마찬가지입니다. 새 아파트는 비싸고, 지은 지 오래될수록 값이 떨어지다가, 재건축을 바라볼 만큼 오래된 아파트는 다시 비싸집니다. 보고서가 해석에 “재건축 기대”라고 적어 둔 것이 이 반등입니다.</p>
+</section>
+<section id="id3">
+<h2>직선을 그으면 잔차에 패턴이 남는다<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>그런데 연식과 가격의 관계가 U자라는 것은 어떻게 알았을까요? 단순회귀분석 장에서 배운 잔차 그림이 답을 줍니다. 잔차는 실제 가격에서 회귀식이 예상한 가격을 뺀 것, 곧 회귀식이 놓친 몫입니다. 회귀식이 관계를 잘 잡았다면 잔차는 어느 연식에서나 0 주위에 고르게 흩어져야 합니다. 어떤 연식에서는 늘 위로, 어떤 연식에서는 늘 아래로 치우친다면, 회귀식이 그 부분을 체계적으로 놓치고 있다는 신호입니다.</p>
+<p>그림 5-1은 연식을 직선으로만 넣은 회귀식(표 2-2의 (4)열)과 보고서의 회귀식((5)열)에서 잔차를 연식 구간별로 평균 낸 것입니다.</p>
+<p><img alt="연식을 직선으로 넣었을 때와 곡선으로 넣었을 때의 잔차" src="../_images/fig_b5_1_residual_pattern.png" /></p>
+<p><strong>그림 5-1.</strong> 연식 구간별 평균 잔차(실제 가격이 회귀식의 예상보다 높은 정도). 왼쪽 패널은 연식을 직선으로만 넣은 회귀식, 오른쪽 패널은 연식과 연식²을 함께 넣은 보고서의 회귀식이다.</p>
+<p>그림에서 보듯이 왼쪽 패널의 잔차에는 뚜렷한 패턴이 있습니다. 지은 지 10년이 안 된 아파트는 실제 가격이 예상보다 15~17% 높고, 20년대 초반의 아파트는 14% 낮으며, 40년이 넘은 아파트는 35~55%나 높습니다. 양 끝이 위로, 가운데가 아래로 치우친 U자입니다. 직선이 새 아파트와 오래된 아파트의 값을 낮게, 중간 연식의 값을 높게 예상하고 있다는 뜻입니다. 잔차의 패턴이 곧 회귀식이 놓친 관계의 모양입니다.</p>
+<p>오른쪽 패널은 연식과 함께 연식²을 넣은 보고서의 회귀식입니다. 여기서는 이 패턴이 대부분 사라집니다. 잔차가 0 주위를 오르내릴 뿐 한쪽으로 크게 치우치지 않습니다. 보고서의 회귀식이 연식과 가격의 U자 관계를 잡아낸 것입니다. 40년 남짓한 구간에 조금 남은 치우침은 이 절의 끝에서 다시 봅니다.</p>
+</section>
+<section id="id4">
+<h2>연식을 제곱한 변수 — 제곱항<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p>회귀식이 곡선을 그리게 하는 방법은 간단합니다. 연식을 제곱한 변수 연식²을 하나 더 만들어 함께 넣는 것입니다. 연식이 10년인 아파트는 연식² = 100, 20년이면 400, 40년이면 1,600입니다. 이렇게 제곱한 변수를 <strong>제곱항</strong>(squared term)이라고 부르고, 제곱항을 넣어 곡선을 그리는 회귀분석을 <strong>다항 회귀</strong>(polynomial regression)라고도 부릅니다.</p>
+<div class="math notranslate nohighlight">
+\[
+\text{로그가격} = \cdots + c_1 \times \text{연식} + c_2 \times \text{연식}^2 + \cdots
+\]</div>
+<p>보고서에서 <span class="math notranslate nohighlight">\(c_1\)</span>은 −0.0408, <span class="math notranslate nohighlight">\(c_2\)</span>는 0.00078입니다. 두 항이 어떻게 U자를 만드는지는 그림 5-2에서 볼 수 있습니다.</p>
+<p><img alt="연식 항과 연식² 항을 더하면 U자" src="../_images/fig_b5_2_two_terms.png" /></p>
+<p><strong>그림 5-2.</strong> 연식 항(파랑 점선)과 연식² 항(초록 점선), 그리고 둘의 합(주황). 세로축은 로그가격에 더해지는 값이다.</p>
+<p>그림에서 보듯이 연식 항 <span class="math notranslate nohighlight">\(c_1 \times \text{연식}\)</span>은 곧게 내려가는 직선입니다. 연식² 항 <span class="math notranslate nohighlight">\(c_2 \times \text{연식}^2\)</span>은 <span class="math notranslate nohighlight">\(c_2\)</span>가 양수(0.00078)이므로, 연식이 0보다 큰 구간에서는 올라가는 곡선인데, 처음에는 거의 평평하다가 연식이 커질수록 점점 가팔라집니다. 연식²이 연식보다 훨씬 빨리 커지기 때문입니다. 연식이 10년에서 20년으로 두 배가 되면 연식²은 100에서 400으로 네 배가 됩니다.</p>
+<p>두 항을 더하면, 처음에는 연식 항의 내리막이 이겨서 값이 내려가다가, 연식이 커질수록 연식² 항의 오르막이 따라잡아 어느 지점에서 바닥을 찍고 다시 올라갑니다. 그 바닥이 26년입니다. 두 계수만 알면 바닥의 위치도 계산할 수 있습니다. <span class="math notranslate nohighlight">\(c_1\)</span>에서 부호를 뗀 0.0408을 <span class="math notranslate nohighlight">\(c_2\)</span>의 두 배로 나누면 되는데, 0.0408 ÷ (2 × 0.00078)은 약 26입니다.</p>
+</section>
+<section id="id5">
+<h2>곡선은 계수 하나로 읽지 않는다<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<p>제곱항이 들어가면 계수를 읽는 법이 달라집니다. 연식의 계수 −0.0408만 보고 “1년에 4%씩 싸진다”고 읽으면 틀립니다. 연식이 한 해 늘면 연식 항과 연식² 항이 함께 움직이고, 연식²이 얼마나 움직이는지는 모든 연식에 똑같지 않고 연식마다 다르기 때문입니다. 그래서 곡선으로 들어간 변수는 계수 하나가 아니라 곡선 전체로 읽습니다. 보고서가 연식을 그림으로 보여 준 것도 이 때문입니다.</p>
+<p>가장 쉬운 방법은 앞 절들에서 해 본 것처럼 아파트 한 채를 정해 두고 연식만 바꿔 보는 것입니다. 표 5-1은 노원구의 전용 84㎡, 10층, 중개거래 아파트를 놓고 연식만 바꿨을 때 보고서의 회귀식이 예상하는 가격입니다. <a class="report-fig-link" href="../_static/report-figure-multiple-regression.png" target="_blank" rel="noopener">보고서의 그림</a> 오른쪽 패널의 주황 곡선이 바로 이 값들을 이어 그린 것입니다.</p>
+<p><strong>표 5-1.</strong> 같은 아파트 한 채(노원구, 84㎡, 10층, 중개거래)의 연식만 바꿨을 때 예상 가격</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>연식</p></th>
+<th class="head"><p>0년</p></th>
+<th class="head"><p>5년</p></th>
+<th class="head"><p>10년</p></th>
+<th class="head"><p>20년</p></th>
+<th class="head"><p>26년</p></th>
+<th class="head"><p>30년</p></th>
+<th class="head"><p>40년</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>예상 가격</p></td>
+<td><p>13.8억</p></td>
+<td><p>11.5억</p></td>
+<td><p>10.0억</p></td>
+<td><p>8.4억</p></td>
+<td><p>8.1억</p></td>
+<td><p>8.2억</p></td>
+<td><p>9.5억</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>표에서 보듯이 같은 “다섯 해”라도 언제의 다섯 해냐에 따라 가격 차이가 다릅니다. 신축과 5년 된 아파트는 2.3억 차이가 나지만, 26년과 30년 된 아파트는 거의 차이가 없습니다. 그리고 26년의 바닥을 지나면 오래될수록 오히려 비싸져서, 40년이면 9.5억으로 20년 된 아파트보다 비쌉니다. 직선으로 넣은 연식이 말하던 “1년에 0.5%씩 싸진다”는 이 곡선을 한 줄로 눌러 놓은 평균이었던 셈입니다.</p>
+</section>
+<section id="id6">
+<h2>곡선을 넣자 다른 계수도 움직였다<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
+<p>표 2-2에서 연식²을 넣은 마지막 열을 보면 연식만 바뀐 것이 아닙니다. 면적 탄력성도 0.89에서 0.94로 함께 움직였습니다. 2절에서 이 절로 미뤄 둔 이야기입니다.</p>
+<p>까닭은 대략 이렇습니다. 그림 5-1의 왼쪽 패널에서 보았듯이, 연식을 직선으로만 넣으면 새 아파트의 값을 실제보다 15~17% 낮게 예상합니다. 그런데 새 아파트에는 작은 평형이 많습니다(지은 지 5년이 안 된 아파트의 중위 면적은 53㎡로, 서울 전체 중위 75㎡보다 작습니다). 그래서 회귀식이 덜 잡은 몫, 곧 새 아파트라서 더 비싼 몫이 “작은 아파트도 생각보다 비싸다”는 모습으로 면적의 계수에 섞여 들어가, 면적 탄력성을 0.89로 낮췄던 것입니다. 곡선이 새 아파트가 비싼 정도를 제대로 잡자 면적 탄력성은 0.94로 돌아왔습니다.</p>
+<p>2절에서 본 누락 변수 편의와 같은 일입니다. 2절에서는 구가 회귀식에 빠져 있어서, 구의 몫을 면적이 떠안았습니다. 그것처럼 여기서는 연식이 회귀식에 들어 있기는 했지만 직선으로만 들어가 있어서, 직선이 잡지 못한 몫(새 아파트라서 더 비싼 몫)을 면적이 떠안았습니다. 변수를 빠뜨리거나, 변수를 잘못된 모양으로 넣으면, 회귀식이 놓친 몫은 다른 변수의 계수로 흘러 들어갑니다.</p>
+</section>
+<section id="id7">
+<h2>곡선도 완벽하지는 않다<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
+<p>그림 5-1의 오른쪽 패널을 다시 보면, 40년 남짓한 아파트의 잔차가 아직 15% 위에 있습니다. 제곱항이 그리는 곡선은 바닥(26년)을 사이에 두고 양쪽이 거울에 비친 듯 똑같은 모양입니다. 그런데 실제로는 40년 무렵에 값이 이보다 더 가파르게 오릅니다. 제곱항은 직선보다는 훨씬 낫지만, 그것도 여전히 정해진 모양 하나를 고른 것입니다.</p>
+<p>모양을 미리 정하지 않는 방법도 있습니다. 3절에서 배운 더미 변수를 쓰는 것입니다. 연식을 해마다, 또는 5년마다 구간으로 나누어 구간마다 스위치를 달면, 회귀식이 구간마다 가격 수준을 따로 정하므로 어떤 모양이든 따라갈 수 있습니다. 연식을 해마다 더미로 넣어 보면 <span class="math notranslate nohighlight">\(R^2\)</span>이 0.738에서 0.759로 조금 오르고, 면적 탄력성(0.93)과 직거래가 싼 정도(30%)는 보고서와 거의 같습니다. 보고서의 결론이 곡선의 모양을 어떻게 정하느냐에 크게 흔들리지 않는다는 뜻이기도 합니다.</p>
+<p>💡 <strong>팁:</strong> AI에게 회귀분석을 맡길 때 “주요 변수별로 잔차 그림도 그려 줘”라고 덧붙이세요. 잔차에 패턴이 보이면 “이 변수는 직선으로 부족해 보이니 제곱항을 넣어 다시 해 줘”라고 이어서 부탁하면 됩니다.</p>
+<blockquote>
+<div><p><strong>요약 — 직관적 의미</strong></p>
+<p>직선은 한 방향으로만 간다. 내려가다 다시 올라가는 관계에는 곡선이 필요하다.</p>
+<ul class="simple">
+<li><p><strong>잔차의 패턴</strong> — 직선으로 부족하면 잔차가 어떤 구간에서는 늘 위로, 어떤 구간에서는 늘 아래로 치우친다. 패턴이 곧 놓친 관계의 모양이다.</p></li>
+<li><p><strong>제곱항</strong> — 연식을 제곱해 만든 변수(연식²). 원래의 연식과 함께 넣으면 회귀식이 U자 곡선을 그릴 수 있다.</p></li>
+<li><p><strong>곡선 읽기</strong> — 제곱항이 들어간 변수는 계수 하나로 읽지 않는다. 한 채를 정해 두고 그 변수만 바꿔 가며 곡선으로 읽는다.</p></li>
+<li><p><strong>다른 계수도 움직인다</strong> — 관계의 모양을 잘못 잡으면, 그 몫을 다른 변수의 계수가 떠안는다.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id8">
+<h2>이 장을 마치며<a class="headerlink" href="#id8" title="Link to this heading">#</a></h2>
+<p>이제 이 장 첫머리의 보고서를 처음부터 끝까지 읽을 수 있습니다. 요약의 “다른 조건이 같을 때”는 회귀식 안에서 나머지를 똑같이 두고 하나만 바꿔 본 비교입니다(2절). 강남구의 2.8배와 직거래의 30%는 스위치로 넣은 더미 변수의 계수를 배수로 바꾼 값입니다(3절). <a class="report-fig-link" href="../_static/report-figure-multiple-regression.png" target="_blank" rel="noopener">보고서의 그림</a> 왼쪽 패널은 구 더미 24개의 계수를 “노원구의 몇 배”로 바꿔 구마다 점 하나로 그린 것이고, 오른쪽 패널은 제곱항으로 그린 연식의 곡선입니다(3절, 5절). 그리고 보고서의 “한 층 1.1%”는 어디서나 같다고 가정한 평균이며, 강남 3구에서는 더 크다는 것도 확인했습니다(4절).</p>
+<p>남은 것은 보고서의 마지막 줄, “이 결과는 상관이지 인과가 아니다”입니다. 다른 조건이 같으면 직거래가 30% 싸다는 것은 알았지만, 왜 싼지는 회귀분석이 말해 주지 않았습니다. 강남구의 2.8배에도 자료에 없는 무엇이 섞여 있을 수 있습니다. “다른 조건이 같다면”이 회귀식에 넣은 변수까지만 통한다는 이 한계는, 회귀분석의 결과를 원인과 결과의 이야기로 읽고 싶어질 때마다 다시 떠올려야 할 질문입니다.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./multiple-regression"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="section-b4.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">이전</p>
+        <p class="prev-next-title">4. 효과가 집단마다 다를 때 — 상호작용</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="practice-prompt.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">다음</p>
+        <p class="prev-next-title">직접 해 보기 1 — 프롬프트로 내 보고서 받기</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 내용
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">클래식카의 반등</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">직선을 그으면 잔차에 패턴이 남는다</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">연식을 제곱한 변수 — 제곱항</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">곡선은 계수 하나로 읽지 않는다</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">곡선을 넣자 다른 계수도 움직였다</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">곡선도 완벽하지는 않다</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">이 장을 마치며</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>© 2026 최필선</p>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
