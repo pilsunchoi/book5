@@ -405,7 +405,7 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">1. 데이터 읽기</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">2. 데이터 정리</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">3. 다중회귀분석</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">4. 계수를 %와 배로 읽기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">4. 계수를 퍼센트와 배로 읽기</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">5. 가격 계산기</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">6. 변수를 하나씩 더하기</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">7. 더미 변수</a></li>
@@ -427,12 +427,12 @@
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
 <h1>직접 해 보기 2 — 파이썬 코드로 따라 해 보기<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
 <p>AI가 내놓은 결과만 보고 그것이 어떻게 나왔는지 모르면, 그 결과를 믿을 근거도 없다. AI도 실수를 하므로 결과는 점검해야 하고, 점검하려면 결과를 만든 파이썬 코드를 읽을 줄 알아야 한다.</p>
-<p>이 노트북은 이 장에서 다룬 계산과 그림을 파이썬으로 직접 해 본다. 보고서의 회귀 결과를 다시 만들고, 계수를 %와 배로 바꾸고, 본문의 표와 그림(변수를 하나씩 더하기, 더미 변수, 두 구의 직선, 상호작용, 제곱항)을 차례로 만든다. 코드는 될 수 있는 한 단순하게 썼다.</p>
+<p>이 노트북은 이 장에서 다룬 계산과 그림을 파이썬으로 직접 해 본다. 보고서의 회귀 결과를 다시 만들고, 계수를 퍼센트와 배로 바꾸고, 본문의 표와 그림(변수를 하나씩 더하기, 더미 변수, 두 구의 직선, 상호작용, 제곱항)을 차례로 만든다. 코드는 될 수 있는 한 단순하게 썼다.</p>
 <ol class="arabic simple">
 <li><p>데이터 읽기 — 단순회귀분석 장과 같은 CSV를 읽는다</p></li>
 <li><p>데이터 정리 — 해제거래와 직거래를 거르고 변수를 만든다</p></li>
 <li><p>다중회귀분석 — 보고서의 회귀식을 추정한다</p></li>
-<li><p>계수를 %와 배로 읽기 — 표 2-1의 마지막 열을 계산한다</p></li>
+<li><p>계수를 퍼센트와 배로 읽기 — 표 2-1의 마지막 열을 계산한다</p></li>
 <li><p>가격 계산기 — 아파트 한 채의 조건을 하나씩만 바꾼다</p></li>
 <li><p>변수를 하나씩 더하기 — 표 2-2를 만든다(함께 넣은 변수에 따라 달라지는 층의 계수)</p></li>
 <li><p>더미 변수 — 스위치를 직접 만들어 보고, 기준 구를 바꿔 본다</p></li>
@@ -485,7 +485,7 @@
 <section id="id4">
 <h2>2. 데이터 정리<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
 <p>보고서의 분석 대상은 “서울 25개 구 아파트 매매, 해제거래와 직거래 제외”다. 단순회귀분석 장은 노원구만 남겼지만, 이번에는 구로 거르지 않고 서울 전체를 쓴다.</p>
-<p>해제거래를 빼고, 거래유형이 직거래인 거래도 뺀다(1절의 “데이터”). 직거래에는 시장에서 정해지는 값과 다른 가격으로 거래된 경우가 섞여 있을 수 있고, 거래의 성격도 중개거래와 많이 다르다(직거래의 43%가 연식 0~1년인 아파트). 그래서 중개거래만 남긴다. 그다음 회귀식에 넣을 변수를 만든다. 보고서의 회귀식에 들어가는 변수는 네 가지다(면적, 층, 연식, 구).</p>
+<p>해제거래를 빼고, 거래유형이 직거래인 거래도 뺀다(1절의 “데이터”). 직거래에는 개인들이 한 채씩 사고파는 시장의 거래와 성격이 다른 거래가 많이 섞여 있다(직거래의 43%가 연식 0~1년인 새 아파트이고, 그 대부분은 공공기관이 새로 지은 소형 아파트를 한 단지에서 한꺼번에 사들인 거래다). 그래서 중개거래만 남긴다. 그다음 회귀식에 넣을 변수를 만든다. 보고서의 회귀식에 들어가는 변수는 네 가지다(면적, 층, 연식, 구).</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>새 변수</p></th>
@@ -577,11 +577,11 @@
 </div>
 </section>
 <section id="id6">
-<h2>4. 계수를 %와 배로 읽기<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
-<p>가격에 로그를 취했으므로 계수는 %와 배로 읽는다(2절의 “로그 다시 보기”, 3절의 “몇 배로 읽기”).</p>
+<h2>4. 계수를 퍼센트와 배로 읽기<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
+<p>가격에 로그를 취했으므로 계수는 퍼센트와 배로 읽는다(2절의 “로그 다시 보기”, 3절의 “몇 배로 읽기”).</p>
 <ul class="simple">
 <li><p>면적: 가격과 면적에 모두 로그가 붙어 계수가 곧 탄력성이다. 면적이 1% 넓으면 가격이 0.94% 높다.</p></li>
-<li><p>그 밖의 계수 <span class="math notranslate nohighlight">\(d\)</span>: 가격이 <span class="math notranslate nohighlight">\(e^d\)</span>배가 된다. %로는 <span class="math notranslate nohighlight">\((e^d - 1) \times 100\)</span>이다. <code class="docutils literal notranslate"><span class="pre">np.exp(d)</span></code>가 <span class="math notranslate nohighlight">\(e^d\)</span>를 계산한다.</p></li>
+<li><p>그 밖의 계수 <span class="math notranslate nohighlight">\(d\)</span>: 가격이 <span class="math notranslate nohighlight">\(e^d\)</span>배가 된다. 퍼센트로는 <span class="math notranslate nohighlight">\((e^d - 1) \times 100\)</span>이다. <code class="docutils literal notranslate"><span class="pre">np.exp(d)</span></code>가 <span class="math notranslate nohighlight">\(e^d\)</span>를 계산한다.</p></li>
 </ul>
 <p>계수가 작으면 어림셈(계수 × 100%)과 정확한 값이 거의 같지만, 크면 크게 다르다. 층, 도봉구, 강남구로 비교해 본다.</p>
 <div class="cell docutils container">
@@ -720,7 +720,7 @@
 <li><p>구를 넣지 않은 회귀식(<code class="docutils literal notranslate"><span class="pre">로그가격</span> <span class="pre">~</span> <span class="pre">로그면적</span></code>): 두 구를 한데 섞어 직선 하나를 긋는다.</p></li>
 <li><p>구를 넣은 회귀식(<code class="docutils literal notranslate"><span class="pre">로그가격</span> <span class="pre">~</span> <span class="pre">로그면적</span> <span class="pre">+</span> <span class="pre">C(구)</span></code>): 구마다 높이가 다른 평행선 두 개를 긋는다.</p></li>
 </ul>
-<p>두 축이 모두 로그라서 직선의 기울기가 곧 면적 탄력성이다. 한데 섞으면 기울기가 1.29로 가팔라지고, 구를 넣으면 0.94로 내려온다. 넓은 아파트가 비싼 구(강남구)에 많아서, 구를 빼면 면적이 입지의 몫까지 떠안기 때문이다(누락 변수 편의). 서울 전체에서도 면적 하나만 넣으면 1.04, 구를 함께 넣으면 0.91이다(아래 코드의 마지막 줄).</p>
+<p>두 축이 모두 로그라서 직선의 기울기가 곧 면적 탄력성이다. 한데 섞으면 기울기가 1.29로 가팔라지고, 구를 넣으면 0.94로 내려온다. 넓은 아파트가 비싼 구(강남구)에 많아서, 구를 빼면 면적이 입지의 몫까지 떠안기 때문이다(누락 변수 편향). 서울 전체에서도 면적 하나만 넣으면 1.04, 구를 함께 넣으면 0.91이다(아래 코드의 마지막 줄).</p>
 <p>점은 구마다 500건만 무작위로 뽑아 그린다. 다 그리면 점이 너무 겹친다. <code class="docutils literal notranslate"><span class="pre">.sample(500,</span> <span class="pre">random_state=…)</span></code>가 무작위로 뽑고, <code class="docutils literal notranslate"><span class="pre">random_state</span></code>를 정해 두면 몇 번을 실행해도 같은 점이 뽑힌다.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -896,7 +896,7 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">1. 데이터 읽기</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">2. 데이터 정리</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">3. 다중회귀분석</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">4. 계수를 %와 배로 읽기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">4. 계수를 퍼센트와 배로 읽기</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">5. 가격 계산기</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">6. 변수를 하나씩 더하기</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">7. 더미 변수</a></li>
