@@ -429,19 +429,19 @@
 <section id="id2">
 <h2>스위치의 켜고 끄기<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
 <p>방에 전등 스위치가 있다고 해 봅시다. 스위치는 켜져 있거나 꺼져 있거나 둘 중 하나입니다. 켜짐을 1, 꺼짐을 0으로 적으면, “불이 켜졌나?”라는 질문을 숫자 하나로 기록할 수 있습니다.</p>
-<p>아파트에도 이런 질문을 던질 수 있습니다. 예를 들어 “강남 3구(강남구, 서초구, 송파구)에 있는가?”라는 질문에 강남 3구에 있는 아파트면 1, 아니면 0을 적습니다. 숫자가 아닌 “강남 3구에 있는가”라는 성질을 숫자 하나로 바꾼 것이죠. 이렇게 0과 1로만 된 변수를 <strong>더미 변수</strong>(dummy variable)라고 부릅니다. 이름은 낯설지만 하는 일은 스위치 하나입니다.</p>
+<p>아파트에도 이런 질문을 던질 수 있습니다. 예를 들어 “강남구에 있는가?”라는 질문에 강남구에 있는 아파트면 1, 아니면 0을 적습니다. 숫자가 아닌 “강남구에 있는가”라는 성질을 숫자 하나로 바꾼 것이죠. 이렇게 0과 1로만 된 변수를 <strong>더미 변수</strong>(dummy variable)라고 부릅니다. 이름은 낯설지만 하는 일은 스위치 하나입니다.</p>
 <blockquote>
 <div><p>숫자가 아닌 변수는 “이것인가?”를 묻는 스위치로 바꾼다. 맞으면 1, 아니면 0.</p>
 </div></blockquote>
 </section>
 <section id="id3">
 <h2>구를 1부터 25까지 번호로 넣으면 안 되는 이유<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
-<p>그런데 보고서의 회귀식은 “강남 3구인가?”처럼 구를 두 묶음으로만 나누지 않고, 25개 구를 하나하나 구별합니다. 선택지가 둘이 아니라 25개이니 스위치 하나로는 부족합니다. 가장 쉬워 보이는 방법은 구마다 번호를 붙이는 것입니다. 가령 가나다순으로, 강남구 1, 강동구 2, …, 중랑구 25처럼요. 하지만 이렇게 하면 안 됩니다.</p>
+<p>그런데 “강남구인가?” 스위치 하나로는 강남구와 그 밖의 구, 두 묶음밖에 나누지 못합니다. 보고서의 회귀식은 25개 구를 하나하나 구별합니다. 선택지가 둘이 아니라 25개이니 스위치 하나로는 부족합니다. 가장 쉬워 보이는 방법은 구마다 번호를 붙이는 것입니다. 가령 가나다순으로, 강남구 1, 강동구 2, …, 중랑구 25처럼요. 하지만 이렇게 하면 안 됩니다.</p>
 <p>번호를 그대로 회귀식에 넣으면, 회귀식은 그 번호를 면적이나 층처럼 크기가 있는 숫자로 읽습니다. 번호가 1 커질 때마다 가격이 일정한 비율로 오르거나 내린다고 가정하는 것이죠. 그런데 가나다순으로 붙인 번호에는 그런 뜻이 없습니다. 강동구(2)가 강남구(1)보다 “1만큼 더한 구”도 아니고, 중랑구(25)가 강남구보다 “24만큼 더한 구”도 아닙니다. 가나다순이 아니라 다른 기준으로 번호를 붙이면 결과가 또 달라지는, 의미 없는 계산이 됩니다.</p>
 </section>
 <section id="id4">
 <h2>구마다 스위치 하나 — 더미 변수 만들기<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
-<p>그래서 구에는 스위치를 여러 개 답니다. “강남구인가?”, “서초구인가?”, “송파구인가?”…처럼 구마다 스위치를 하나씩 만들고, 거래가 그 구에서 일어났으면 그 스위치만 켭니다. 거래마다 구는 하나이므로 켜지는 스위치도 하나뿐입니다. 노원구 거래라면 켜지는 스위치가 없는데, 그 까닭은 바로 아래에서 봅니다. 표 3-1은 거래 네 건으로 그 모습을 보인 것입니다.</p>
+<p>그래서 구에는 스위치를 여러 개 답니다. 앞에서 본 “강남구인가?”에 이어 “서초구인가?”, “송파구인가?”…처럼 구마다 스위치를 하나씩 만들고, 거래가 그 구에서 일어났으면 그 스위치만 켭니다. 거래마다 구는 하나이므로 켜지는 스위치도 하나뿐입니다. 노원구 거래라면 켜지는 스위치가 없는데, 그 까닭은 바로 아래에서 봅니다. 표 3-1은 거래 네 건으로 그 모습을 보인 것입니다.</p>
 <p><strong>표 3-1.</strong> 구를 더미 변수로 바꾼 모습 (거래 네 건의 예, 구 더미 24개 중 일부만 표시)</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
@@ -565,7 +565,7 @@ e^{1.032} \approx 2.81
 <h2>노원구와 차이가 없는 구<a class="headerlink" href="#id8" title="Link to this heading">#</a></h2>
 <p>표 2-1의 구 계수 24개를 <span class="math notranslate nohighlight">\(t\)</span>값까지 보면, 눈에 띄는 구가 하나 있습니다. 은평구(계수 0.006, <span class="math notranslate nohighlight">\(t\)</span>값 0.8)입니다. 단순회귀분석 장에서 <span class="math notranslate nohighlight">\(t\)</span>값은 추정값이 0에서 표준오차의 몇 배만큼 떨어져 있는가이고, <span class="math notranslate nohighlight">\(t\)</span>값이 2만 넘어도 “아무 관계가 없는 세상에서 이만한 값이 우연히 나올 확률”, 곧 <span class="math notranslate nohighlight">\(p\)</span>값이 5% 아래로 떨어진다고 했습니다. 거꾸로 말하면 <span class="math notranslate nohighlight">\(t\)</span>값이 −2와 2 사이이면 <span class="math notranslate nohighlight">\(p\)</span>값이 5%보다 커서, 아무 차이가 없는 세상에서도 우연히 나올 만한 크기라는 뜻입니다. 은평구의 <span class="math notranslate nohighlight">\(p\)</span>값은 0.42입니다. 곧 다른 조건이 같으면 은평구 아파트가 노원구 아파트와 가격이 다르다고 말할 근거가 없습니다. 계수가 1.01배로 거의 1인 것도 같은 이야기입니다.</p>
 <p>바로 아래의 구로구도 계수가 0.98배로 거의 1이지만, <span class="math notranslate nohighlight">\(t\)</span>값이 −2.3이라 <span class="math notranslate nohighlight">\(p\)</span>값이 0.02입니다. 노원구보다 가격이 2%쯤 낮아 차이는 작지만, 우연으로 보기는 어렵다는 뜻입니다. 단순회귀분석 장에서 “<span class="math notranslate nohighlight">\(p\)</span>값이 작다는 것은 관계가 있다는 뜻이지, 관계가 크다는 뜻이 아니다”라고 했던 것과 같은 이야기입니다. 차이가 작다는 것과 차이가 없다는 것은 다른 말입니다.</p>
-<p>더미 변수의 <span class="math notranslate nohighlight">\(t\)</span>값과 <span class="math notranslate nohighlight">\(p\)</span>값은 이렇게 “기준과 차이가 있는가”를 묻습니다. 은평구를 뺀 23개 구는 <span class="math notranslate nohighlight">\(t\)</span>값이 −2와 2 사이를 벗어나므로, 노원구와 가격 수준이 다르다고 말할 수 있습니다.</p>
+<p>더미 변수의 <span class="math notranslate nohighlight">\(t\)</span>값과 <span class="math notranslate nohighlight">\(p\)</span>값은 이렇게 “기준과 차이가 있는가”를 묻습니다. 차이가 얼마나 큰지는 계수가 말해 주므로, 크기는 “몇 배”로 읽고 <span class="math notranslate nohighlight">\(t\)</span>값과 <span class="math notranslate nohighlight">\(p\)</span>값으로는 그 차이를 우연으로 볼 수 있는지를 따집니다. 은평구를 뺀 23개 구는 <span class="math notranslate nohighlight">\(t\)</span>값이 −2와 2 사이를 벗어나므로, 노원구와 가격 수준이 다르다고 말할 수 있습니다.</p>
 </section>
 <section id="id9">
 <h2>구를 넣으면 면적의 계수도 달라진다<a class="headerlink" href="#id9" title="Link to this heading">#</a></h2>
@@ -579,7 +579,7 @@ e^{1.032} \approx 2.81
 <div><p><strong>요약 — 직관적 의미</strong></p>
 <p>숫자가 아닌 변수는 “이것인가?”를 묻는 스위치로 바꾼다. 맞으면 1, 아니면 0.</p>
 <ul class="simple">
-<li><p><strong>더미 변수</strong> — 0과 1로만 된 변수. “강남 3구인가?”는 스위치 하나, 구는 스위치 24개(강남구인가?, 서초구인가?, …).</p></li>
+<li><p><strong>더미 변수</strong> — 0과 1로만 된 변수. “강남구인가?”는 스위치 하나, 구 전체는 스위치 24개(강남구인가?, 서초구인가?, …).</p></li>
 <li><p><strong>기준 구</strong> — 스위치를 달지 않은 구(노원구). 모든 스위치가 꺼지면 기준 구이고, 구 계수는 모두 기준과의 차이다.</p></li>
 <li><p><strong>더미의 계수</strong> — 다른 조건은 똑같고 구만 다른 두 아파트의 평균적인 차이. 그림으로는 평행한 직선의 높이 차이.</p></li>
 <li><p><strong>몇 배로 읽기</strong> — 로그가격의 계수 <span class="math notranslate nohighlight">\(d\)</span>는 <span class="math notranslate nohighlight">\(e^d\)</span>배. 계수가 작으면 <span class="math notranslate nohighlight">\(d\)</span> × 100%로 어림해도 되지만, 크면 어림셈이 크게 틀린다.</p></li>
