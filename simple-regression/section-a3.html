@@ -512,6 +512,7 @@
 <div><p><span class="math notranslate nohighlight">\(t\)</span>값 = 추정값이 0에서 표준오차의 몇 배만큼 떨어져 있는가 = 0.0818 ÷ 0.0009 ≈ 93</p>
 </div></blockquote>
 <p>그리고 <strong><span class="math notranslate nohighlight">\(p\)</span>값</strong>(<span class="math notranslate nohighlight">\(p\)</span>-value)은 이 질문의 확률 버전입니다: <em>무관한 세상에서 이만한 기울기가 우연히 나올 확률은?</em> <span class="math notranslate nohighlight">\(t\)</span>가 2만 넘어도 그 확률은 5% 아래로 떨어집니다. <span class="math notranslate nohighlight">\(t\)</span>가 93이면 그 확률이 사실상 0이고, 보고서는 이것을 “&lt; 0.001”로 적은 것입니다. 그러니 “면적과 가격이 무관한데 우연히 이런 결과가 나왔다”는 가능성은 접어도 됩니다.</p>
+<p><span class="math notranslate nohighlight">\(p\)</span>값이 5%(0.05)보다 작으면 흔히 그 계수가 <strong>통계적으로 유의하다</strong>(statistically significant)고 말합니다. 무관한 세상에서는 좀처럼 나오지 않을 만큼 0에서 떨어져 있다는 뜻으로, 95% 신뢰구간이 0을 품지 않는다는 것과 같은 말입니다. 이 책에서는 같은 뜻을 “0과 분명히 구별된다”고도 씁니다.</p>
 <p>한 가지만 조심하죠. <strong><span class="math notranslate nohighlight">\(p\)</span>값이 작다는 것은 관계가 “있다”는 뜻이지, 관계가 “크다”는 뜻이 아닙니다.</strong> 데이터가 아주 많으면 하찮은 크기의 관계도 <span class="math notranslate nohighlight">\(p\)</span>값은 작게 나옵니다. 관계의 크기는 언제나 기울기와 신뢰구간(㎡당 800만~840만원)으로 판단합니다.</p>
 <blockquote>
 <div><p><strong>요약 — 직관적 의미</strong></p>
@@ -520,7 +521,7 @@
 <li><p><strong>표준오차</strong> — 표본을 새로 뽑을 때마다 기울기 추정값이 흔들리는 정도의 표준편차.</p></li>
 <li><p><strong>95% 신뢰구간</strong> — 추정값 ± 2×표준오차로 친 그물. 같은 방식으로 그물을 치면 100번 중 95번쯤은 진짜 값을 품는다.</p></li>
 <li><p><strong><span class="math notranslate nohighlight">\(t\)</span>값</strong> — 추정값이 0에서 표준오차의 몇 배만큼 떨어져 있는가.</p></li>
-<li><p><strong><span class="math notranslate nohighlight">\(p\)</span>값</strong> — 아무 관계가 없는 세상에서 이만한 기울기가 우연히 나올 확률.</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(p\)</span>값</strong> — 아무 관계가 없는 세상에서 이만한 기울기가 우연히 나올 확률. 5%보다 작으면 “통계적으로 유의하다”, 곧 0과 분명히 구별된다고 말한다.</p></li>
 </ul>
 </div></blockquote>
 </section>
