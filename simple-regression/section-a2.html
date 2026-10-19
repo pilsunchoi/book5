@@ -11,8 +11,8 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://pilsunchoi.github.io/book5/simple-regression/section-a2.html" />
 <meta property="og:site_name" content="AI 데이터 분석" />
-<meta property="og:description" content="이 장 첫머리의 보고서가 내놓은 회귀 결과는 한 줄짜리 식이었습니다. 거래가격(억원) = 1.48 + 0.0818 × 전용면적(㎡) 보고서의 그림 에는 7,366개의 점 사이로 주황색 직선 하나가 지나갑니다. 그런데 이 직선은 누가 그었을까요? 점들이 넓게 흩어져 있으니 직선을 긋..." />
-<meta name="description" content="이 장 첫머리의 보고서가 내놓은 회귀 결과는 한 줄짜리 식이었습니다. 거래가격(억원) = 1.48 + 0.0818 × 전용면적(㎡) 보고서의 그림 에는 7,366개의 점 사이로 주황색 직선 하나가 지나갑니다. 그런데 이 직선은 누가 그었을까요? 점들이 넓게 흩어져 있으니 직선을 긋..." />
+<meta property="og:description" content="이 장 첫머리의 보고서가 내놓은 회귀 결과는 한 줄짜리 식이었습니다. 거래가격(억원) = 1.48 + 0.0818 × 전용면적(㎡) 식의 왼쪽에 놓인 거래가격처럼, 우리가 설명하고 싶은 변수를 종속변수(dependent variable)라고 하고, 오른쪽에 놓인 전용면적처럼, 그것..." />
+<meta name="description" content="이 장 첫머리의 보고서가 내놓은 회귀 결과는 한 줄짜리 식이었습니다. 거래가격(억원) = 1.48 + 0.0818 × 전용면적(㎡) 식의 왼쪽에 놓인 거래가격처럼, 우리가 설명하고 싶은 변수를 종속변수(dependent variable)라고 하고, 오른쪽에 놓인 전용면적처럼, 그것..." />
 
     <title>2. 직선은 어떻게 정해지나 — 잔차와 최소제곱 &#8212; AI 데이터 분석</title>
   
@@ -422,6 +422,7 @@
 <blockquote>
 <div><p>거래가격(억원) = 1.48 + 0.0818 × 전용면적(㎡)</p>
 </div></blockquote>
+<p>식의 왼쪽에 놓인 거래가격처럼, 우리가 설명하고 싶은 변수를 <strong>종속변수</strong>(dependent variable)라고 하고, 오른쪽에 놓인 전용면적처럼, 그것을 설명하는 데 쓰는 변수를 <strong>설명변수</strong>(explanatory variable)라고 합니다. 거래가격이 전용면적에 따라 달라진다고 보는 것이죠. 종속변수는 반응변수나 결과 변수, 설명변수는 독립변수나 예측변수라고도 부릅니다. 머신러닝에서는 설명변수를 흔히 <strong>특성</strong>(feature)이라고 부르는데, 예측에 쓰는 대상의 성질 하나하나라는 뜻입니다. 이 책에서는 종속변수와 설명변수로 씁니다.</p>
 <p><a class="report-fig-link" href="../_static/report-figure-simple-regression.png" target="_blank" rel="noopener">보고서의 그림</a>에는 7,366개의 점 사이로 주황색 직선 하나가 지나갑니다. 그런데 이 직선은 누가 그었을까요? 점들이 넓게 흩어져 있으니 직선을 긋는 방법은 무수히 많습니다. AI는 그중 왜 하필 이 직선을 “결과”라고 내놓았을까요? 적당히 눈대중으로 그은 걸까요?</p>
 <p>미리 답부터 말하면, 이 직선은 <strong>시합의 우승자</strong>입니다. 가능한 모든 직선끼리 시합을 붙여서, 이긴 직선 하나를 보고서에 적은 겁니다. 이 절은 그 시합의 규칙을 설명합니다. 규칙은 짧습니다 — <strong>빗나감을 측정하고, 제곱해서 더하고, 그 합이 가장 작은 직선을 고른다.</strong> 절이 끝나면 보고서의 식이 그냥 숫자가 아니라 우승자의 이름표로 보일 겁니다.</p>
 <section id="id2">
