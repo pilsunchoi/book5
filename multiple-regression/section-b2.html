@@ -637,6 +637,10 @@
 \text{가격} = a + b_1 \times \text{층} + b_2 \times \text{면적}
 \]</div>
 <p>식에서 각 변수에 곱해지는 숫자 <span class="math notranslate nohighlight">\(b_1\)</span>, <span class="math notranslate nohighlight">\(b_2\)</span>를 <strong>계수</strong>(coefficient)라고 부릅니다. 단순회귀분석 장에서 기울기라고 부르던 숫자가 변수마다 하나씩 생긴 것입니다. 회귀분석은 자료를 가지고 <span class="math notranslate nohighlight">\(a\)</span>, <span class="math notranslate nohighlight">\(b_1\)</span>, <span class="math notranslate nohighlight">\(b_2\)</span>의 값을 정하고, 표 2-1의 “계수 추정값” 열이 바로 이렇게 정한 값들입니다.</p>
+<blockquote>
+<div><p><strong>참고:</strong>
+엄밀히 말하면 식의 계수는 우리가 모르는 참값이고, 표의 계수 추정값은 이 자료로 그 참값을 추정한 값입니다. 통계학에서는 둘을 구별하려고 추정값에 모자(^)를 씌웁니다. 가령 참값이 <span class="math notranslate nohighlight">\(b\)</span>라면 추정값은 <span class="math notranslate nohighlight">\(\hat{b}\)</span>으로 쓰고 “비 햇”이라고 읽습니다. 다른 표본을 뽑으면 <span class="math notranslate nohighlight">\(\hat{b}\)</span>은 조금 다르게 나오지만, <span class="math notranslate nohighlight">\(b\)</span>는 그대로입니다. 이 책은 식은 모자 없이 쓰고, 기호에 추정한 숫자를 붙일 때만 모자를 씌웁니다(가령 표 2-1의 층이라면 <span class="math notranslate nohighlight">\(\hat{b}\)</span> = 0.0107).</p>
+</div></blockquote>
 <p>이제 이 식 안에서 공정한 실험을 해 봅니다. 아파트 두 채가 있습니다. 면적은 똑같고, 층만 하나는 11층, 하나는 10층입니다. 두 아파트를 식에 넣으면 이렇게 됩니다.</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
