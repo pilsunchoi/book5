@@ -20,3 +20,13 @@ chapters:
       - file: multiple-regression/section-b5
       - file: multiple-regression/practice-prompt
       - file: multiple-regression/practice-notebook
+  - file: health-survey/index
+    sections:
+      - file: health-survey/section-h1
+      - file: health-survey/section-h2
+      - file: health-survey/section-h3
+      - file: health-survey/section-h4
+      - file: health-survey/section-h5
+      - file: health-survey/section-h6
+      - file: health-survey/practice-prompt
+      - file: health-survey/practice-notebook
