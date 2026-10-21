@@ -7,14 +7,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="국가 표본조사 자료의 회귀분석 — 국민건강영양조사로 읽는 학력과 혈압" />
+<meta property="og:title" content="횡단면 분석 — 학력과 혈압" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://pilsunchoi.github.io/book5/health-survey/index.html" />
 <meta property="og:site_name" content="AI 데이터 분석" />
 <meta property="og:description" content="국민건강영양조사 2024로 학력과 수축기 혈압의 관계를 읽는다. 가중치와 표본설계, “다른 조건이 같다면”, 빠진 변수와 상호작용, 혈압약과 역인과, 측정과 자료의 범위를 차례로 본다. 자료를 AI에게 보여 주지 않고 분석하는 법도 함께 다룬다. 이 장을 읽는 법: 이 장은 AI가..." />
 <meta name="description" content="국민건강영양조사 2024로 학력과 수축기 혈압의 관계를 읽는다. 가중치와 표본설계, “다른 조건이 같다면”, 빠진 변수와 상호작용, 혈압약과 역인과, 측정과 자료의 범위를 차례로 본다. 자료를 AI에게 보여 주지 않고 분석하는 법도 함께 다룬다. 이 장을 읽는 법: 이 장은 AI가..." />
 
-    <title>국가 표본조사 자료의 회귀분석 — 국민건강영양조사로 읽는 학력과 혈압 &#8212; AI 데이터 분석</title>
+    <title>횡단면 분석 — 학력과 혈압 &#8212; AI 데이터 분석</title>
   
   
   
@@ -242,7 +242,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">국가 표본조사 자료의 회귀분석 — 국민건강영양조사로 읽는 학력과 혈압</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">횡단면 분석 — 학력과 혈압</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="section-h1.html">1. 완성된 보고서 — 학력이 높을수록 혈압이 낮을까</a></li>
 <li class="toctree-l2"><a class="reference internal" href="section-h2.html">2. 표본이 모집단을 닮게 — 가중치와 표본설계</a></li>
 <li class="toctree-l2"><a class="reference internal" href="section-h3.html">3. 다른 조건이 같다면 — 계수는 무엇을 비교하나</a></li>
@@ -403,7 +403,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>국가 표본조사 자료의 회귀분석 — 국민건강영양조사로 읽는 학력과 혈압</h1>
+    <h1>횡단면 분석 — 학력과 혈압</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -428,7 +428,7 @@
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>국가 표본조사 자료의 회귀분석 — 국민건강영양조사로 읽는 학력과 혈압<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<h1>횡단면 분석 — 학력과 혈압<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
 <p>국민건강영양조사 2024로 학력과 수축기 혈압의 관계를 읽는다. 가중치와 표본설계, “다른 조건이 같다면”, 빠진 변수와 상호작용, 혈압약과 역인과, 측정과 자료의 범위를 차례로 본다. 자료를 AI에게 보여 주지 않고 분석하는 법도 함께 다룬다.</p>
 <section id="id2">
 <h2>이 장을 읽는 법<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
