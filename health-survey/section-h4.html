@@ -1,0 +1,780 @@
+
+<!DOCTYPE html>
+
+
+<html lang="ko" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="4. 회귀식 밖에 남은 것 — 설명력, 빠진 변수, 남녀의 차이" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://pilsunchoi.github.io/book5/health-survey/section-h4.html" />
+<meta property="og:site_name" content="AI 데이터 분석" />
+<meta property="og:description" content="앞 절에서 보고서의 계수가 무엇과 무엇을 비교한 숫자인지 보았습니다. 이 장 첫머리의 보고서는 요약의 셋째 줄과 한계 줄에 이렇게 적었습니다. 다만 학력, 성별, 나이가 함께 설명하는 것은 혈압 차이의 21%다( R^2= 0.212). 학력의 차이가 남녀에 따라 다른지는 보지 않았..." />
+<meta name="description" content="앞 절에서 보고서의 계수가 무엇과 무엇을 비교한 숫자인지 보았습니다. 이 장 첫머리의 보고서는 요약의 셋째 줄과 한계 줄에 이렇게 적었습니다. 다만 학력, 성별, 나이가 함께 설명하는 것은 혈압 차이의 21%다( R^2= 0.212). 학력의 차이가 남녀에 따라 다른지는 보지 않았..." />
+
+    <title>4. 회귀식 밖에 남은 것 — 설명력, 빠진 변수, 남녀의 차이 &#8212; AI 데이터 분석</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=14e72410" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=ae323b5b"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = '표시하려면 클릭';</script>
+    <script>let toggleHintHide = '숨기려면 클릭';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/translations.js?v=e33e7ba0"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'health-survey/section-h4';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="색인" href="../genindex.html" />
+    <link rel="search" title="검색" href="../search.html" />
+    <link rel="next" title="5. 약 먹고 잰 혈압 — 표본을 정하는 판단과 거꾸로 된 순서" href="section-h5.html" />
+    <link rel="prev" title="3. 다른 조건이 같다면 — 계수는 무엇을 비교하나" href="section-h3.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="ko"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.png" class="logo__image only-light" alt="AI 데이터 분석"/>
+    <img src="../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="AI 데이터 분석"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../simple-regression/index.html">단순회귀분석 — 직선 하나로 관계 읽기</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a1.html">1. 완성된 보고서 — 노원구에서 1㎡는 얼마인가</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a2.html">2. 직선은 어떻게 정해지나 — 잔차와 최소제곱</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a3.html">3. 이 기울기를 믿어도 되나 — 표준오차, 신뢰구간, <span class="math notranslate nohighlight">\(p\)</span>값</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a4.html">4. 얼마나 설명하나 — <span class="math notranslate nohighlight">\(R^2\)</span>과 잔차</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a5.html">5. 로그로 읽는 가격 — 탄력성과 % 해석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../multiple-regression/index.html">다중회귀분석 — 여러 변수를 함께</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b1.html">1. 완성된 보고서 — 서울 아파트 값은 무엇으로 정해지나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b2.html">2. 다른 조건이 같다면 — 다중회귀분석의 계수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b3.html">3. 숫자가 아닌 변수 — 더미 변수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b4.html">4. 효과가 집단마다 다를 때 — 상호작용</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b5.html">5. 직선으로 부족할 때 — 제곱항</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">국가 표본조사 자료의 회귀분석 — 국민건강영양조사로 읽는 학력과 혈압</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="section-h1.html">1. 완성된 보고서 — 학력이 높을수록 혈압이 낮을까</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-h2.html">2. 표본이 모집단을 닮게 — 가중치와 표본설계</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-h3.html">3. 다른 조건이 같다면 — 계수는 무엇을 비교하나</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">4. 회귀식 밖에 남은 것 — 설명력, 빠진 변수, 남녀의 차이</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-h5.html">5. 약 먹고 잰 혈압 — 표본을 정하는 판단과 거꾸로 된 순서</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-h6.html">6. 횡단면이 말해 주지 않는 것 — 측정과 자료의 범위</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-prompt.html">직접 해 보기 1 — 자료는 내 컴퓨터에, AI에는 질문만</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/pilsunchoi/book5" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="소스 저장소"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="이 페이지 다운로드">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/health-survey/section-h4.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="소스 파일 다운로드"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="PDF로 인쇄"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="전체 화면으로보기"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>4. 회귀식 밖에 남은 것 — 설명력, 빠진 변수, 남녀의 차이</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 내용 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#r-2-21">평균의 차이와 개인의 퍼짐 — <span class="math notranslate nohighlight">\(R^2\)</span>이 21%라는 것</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">변수를 하나 더 — 허리둘레</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">허리둘레와 체질량지수, 어느 쪽이 혈압과 더 가까울까</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">평균이 가리는 것 — 상호작용 하나</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>4. 회귀식 밖에 남은 것 — 설명력, 빠진 변수, 남녀의 차이<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>앞 절에서 보고서의 계수가 무엇과 무엇을 비교한 숫자인지 보았습니다. 이 장 첫머리의 보고서는 요약의 셋째 줄과 한계 줄에 이렇게 적었습니다.</p>
+<blockquote>
+<div><p>다만 학력, 성별, 나이가 함께 설명하는 것은 혈압 차이의 21%다(<span class="math notranslate nohighlight">\(R^2\)</span> = 0.212).</p>
+<p>학력의 차이가 남녀에 따라 다른지는 보지 않았다.</p>
+</div></blockquote>
+<p>학력, 성별, 나이가 혈압 차이의 21%를 설명한다면 나머지 79%는 어디에 있을까요? 그리고 보고서는 성별과 나이가 같다면 대졸 이상의 수축기 혈압이 초졸 이하보다 7.5mmHg 낮다고 했는데, 회귀식이 학력의 계수를 남녀에게 똑같이 두었기 때문에 이 7.5는 남성과 여성에게 같은 숫자입니다. 남녀의 학력 차이가 정말 같을까요? 이 절은 보고서의 회귀식 밖에 남은 것을 봅니다.</p>
+<p>미리 답부터 말하면, <strong>같은 학력, 같은 성별, 같은 나이 안에서도 사람마다 혈압이 크게 다릅니다. <span class="math notranslate nohighlight">\(R^2\)</span>이 21%에 그치는 것은 그 때문입니다. <span class="math notranslate nohighlight">\(R^2\)</span>이 낮다는 것은 한 사람 한 사람의 혈압을 맞히기 어렵다는 뜻이지, 학력에 따른 평균의 차이가 크게 흔들린다는 뜻은 아닙니다. 회귀식 밖에 있던 변수가 학력의 계수에 몫을 보태고 있을 수 있고, 7.5라는 하나의 숫자는 남녀의 서로 다른 차이를 평균한 것입니다.</strong> 차례로 보겠습니다.</p>
+<section id="r-2-21">
+<h2>평균의 차이와 개인의 퍼짐 — <span class="math notranslate nohighlight">\(R^2\)</span>이 21%라는 것<a class="headerlink" href="#r-2-21" title="Link to this heading">#</a></h2>
+<p>보고서의 <span class="math notranslate nohighlight">\(R^2\)</span>은 0.212입니다. 사람마다 혈압이 다른 정도 가운데 학력, 성별, 나이가 함께 설명하는 것이 21%이고, 나머지 79%는 회귀식 밖에 있다는 뜻입니다. 그러면 이 회귀식으로 얻은 학력의 차이 7.5도 믿기 어려운 걸까요?</p>
+<p>그림 4-1을 봅시다. 먼저 성별과 나이대를 하나로 고정해, 60대 여성만 골랐습니다. 가로축의 학력별로 거기에 속한 사람의 혈압을 한 사람에 점 하나씩 찍었고, 점이 겹치지 않도록 좌우로 조금씩 흩어 놓았습니다. 그리고 학력마다 가중 평균값을 계산해 주황 막대로 그었습니다.</p>
+<p><img alt="60대 여성의 학력별 혈압" src="../_images/fig_h4_1_spread.png" /></p>
+<p><strong>그림 4-1.</strong> 60대 여성의 학력별 수축기 혈압, 점 하나가 한 사람, 주황 막대는 가중 평균.</p>
+<p>그림에서 보듯이 평균(주황 막대)은 초졸 이하 128.0에서 대졸 이상 120.9로 학력에 따라 분명히 내려갑니다. 그런데 점들을 보면 같은 학력 안에서도 혈압이 크게 흩어져 있습니다. 대졸 이상 60대 여성만 봐도, 가운데 80%에 속하는 사람의 혈압이 104에서 138까지 퍼져 있습니다. 평균의 차이 7은 이 퍼짐에 비하면 작습니다. 학력을 안다고 해서 그 사람의 혈압을 잘 맞힐 수는 없는 것이죠. 혈압은 유전, 체중, 식습관, 그날의 긴장까지 수많은 것에 따라 달라지니까요.</p>
+<p><span class="math notranslate nohighlight">\(R^2\)</span>이 말하는 것이 바로 이것입니다. 학력, 성별, 나이를 모를 때 혈압이 사람마다 흩어진 정도(표준편차)는 15.3mmHg인데, 회귀식으로 예상한 뒤에도 남는 흩어짐은 13.6mmHg입니다. 개인을 맞히는 데는 그만큼밖에 도움이 되지 않는다는 뜻입니다.</p>
+<p>그러나 보고서의 계수가 답하는 질문은 “개인을 맞힐 수 있나”가 아니라 “<strong>평균이</strong> 집단끼리 얼마나 다른가”입니다. 개인끼리 아무리 흩어져 있어도, 사람이 많으면 평균은 표본을 다시 뽑아도 크게 흔들리지 않습니다. 대졸 이상의 계수 −7.53의 표준오차는 0.90이고, 신뢰구간은 −9.3에서 −5.7 사이로 0에서 한참 떨어져 있습니다. 5,731명을 조사했기 때문입니다. 다중회귀분석 장에서 “믿을 만한 차이”와 “큰 차이”가 다른 질문이라고 했는데, 여기에 하나를 더할 수 있습니다. “개인을 잘 맞히는가”도 또 다른 질문입니다. <span class="math notranslate nohighlight">\(R^2\)</span>이 낮다는 것은 개인을 맞히기 어렵다는 뜻이지, 평균의 차이를 믿을 수 없다는 뜻은 아닙니다.</p>
+<p>다만 학력에 따른 평균 혈압의 차이를 믿을 수 있다고 해서, 그 차이가 모두 학력의 몫이라는 뜻은 아닙니다. 회귀식에 넣지 않은 것 가운데 <strong>학력과 함께 움직이면서 혈압과도 관계가 있는 것</strong>이 있다면, 학력의 계수 −7.53에는 그것의 몫까지 들어 있게 됩니다. 이 문제는 <span class="math notranslate nohighlight">\(R^2\)</span>과는 별개라서, <span class="math notranslate nohighlight">\(R^2\)</span>이 높아도 생길 수 있고 낮아도 생기지 않을 수 있습니다. 다음 소절에서 그런 변수의 예를 하나 봅니다.</p>
+<p>💡 <strong>팁:</strong> AI의 회귀분석 보고서에서 <span class="math notranslate nohighlight">\(R^2\)</span>이 낮다고 결과를 버리지 마세요. <span class="math notranslate nohighlight">\(R^2\)</span>은 개인을 얼마나 맞히는지를, 계수의 표준오차는 평균의 차이가 표본에 따라 얼마나 흔들리는지를 말해 줍니다. 평균의 차이를 믿어도 되는지는 <span class="math notranslate nohighlight">\(R^2\)</span>이 아니라 표준오차와 신뢰구간으로 판단하세요.</p>
+</section>
+<section id="id2">
+<h2>변수를 하나 더 — 허리둘레<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>회귀식에 허리둘레를 더해 봅시다. 체질량지수(몸무게를 키의 제곱으로 나눈 값, BMI)가 몸 전체의 크기를 본다면, 허리둘레는 배에 쌓인 지방을 봅니다. 흔히 배의 지방이 혈압과 특히 관계가 깊다고 말합니다.</p>
+<p>그림 4-2를 봅시다. 가로축에 허리둘레, 세로축에 혈압을 놓고 한 사람을 점 하나로 찍었습니다. 5,617명을 모두 찍으면 점이 서로 겹쳐 제대로 보이지 않으므로 1,500명만 무작위로 골라 찍었습니다. 단, 주황 직선은 모든 사람으로 구한 단순회귀 직선입니다.</p>
+<p><img alt="허리둘레와 혈압" src="../_images/fig_h4_2_waist.png" /></p>
+<p><strong>그림 4-2.</strong> 허리둘레와 수축기 혈압, 점 하나가 한 사람, 주황 직선은 가중치를 적용한 단순회귀 직선.</p>
+<p>그림에서 보듯이 점들은 크게 흩어져 있지만, 허리둘레가 굵을수록 혈압이 높은 쪽으로 기울어 있습니다. 허리둘레 하나만으로 단순회귀를 하면 기울기는 0.49, <span class="math notranslate nohighlight">\(R^2\)</span>은 0.14입니다.</p>
+<p>허리둘레를 보고서의 회귀식에 더한 것이 표 4-1입니다. 두 열 모두 허리둘레가 관측된 5,617명으로 추정했습니다.</p>
+<p><strong>표 4-1.</strong> 수축기 혈압의 회귀분석 — 보고서의 회귀식에 허리둘레를 더하기 전과 후</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(1) 보고서의 회귀식</p></th>
+<th class="head"><p>(2) + 허리둘레</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>상수항</p></td>
+<td><p>119.68 (1.68)</p></td>
+<td><p>90.01 (2.11)</p></td>
+</tr>
+<tr class="row-odd"><td><p>중졸</p></td>
+<td><p>−2.69 (1.06)</p></td>
+<td><p>−1.96 (1.03)</p></td>
+</tr>
+<tr class="row-even"><td><p>고졸</p></td>
+<td><p>−5.09 (0.83)</p></td>
+<td><p>−3.48 (0.80)</p></td>
+</tr>
+<tr class="row-odd"><td><p>대졸 이상</p></td>
+<td><p><strong>−7.52</strong> (0.91)</p></td>
+<td><p><strong>−5.67</strong> (0.88)</p></td>
+</tr>
+<tr class="row-even"><td><p>여성</p></td>
+<td><p>−6.32 (0.40)</p></td>
+<td><p>−2.74 (0.42)</p></td>
+</tr>
+<tr class="row-odd"><td><p>나이</p></td>
+<td><p>0.024 (0.083)</p></td>
+<td><p>−0.153 (0.076)</p></td>
+</tr>
+<tr class="row-even"><td><p>나이²</p></td>
+<td><p>0.0026 (0.0009)</p></td>
+<td><p>0.0041 (0.0008)</p></td>
+</tr>
+<tr class="row-odd"><td><p>허리둘레 (cm)</p></td>
+<td><p></p></td>
+<td><p><strong>0.370</strong> (0.018)</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(R^2\)</span></p></td>
+<td><p>0.211</p></td>
+<td><p>0.273</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>주: 괄호는 표본설계를 반영한 표준오차, 가중치 적용, <span class="math notranslate nohighlight">\(n\)</span> = 5,617. 학력의 기준은 초졸 이하. 두 열 모두 허리둘레가 있는 사람으로 추정해, (1)열의 계수가 보고서와 조금 다르다.</p>
+<p>표에서 보듯이 허리둘레의 계수 0.370은 학력, 성별, 나이가 같다면 허리둘레가 1cm 굵은 사람의 혈압이 0.37mmHg 높다는 뜻입니다. 10cm면 3.7mmHg입니다. 그리고 허리둘레를 넣자 대졸 이상의 계수가 −7.52에서 −5.67로 바뀌어, 초졸 이하와의 차이가 7.52에서 5.67로 줄었습니다. 이 자료에서 대졸 이상의 평균 허리둘레는 83.1cm로, 초졸 이하(86.8cm)보다 3.7cm 가늡니다. 허리둘레 1cm에 0.37mmHg이니, 3.7cm면 1.4mmHg쯤 됩니다. 그러니 7.5 가운데 일부는 학력 그 자체가 아니라, 학력이 높은 사람의 허리둘레가 가늘기 때문이었던 것이죠. 허리둘레가 같은 사람끼리 비교하면 학력의 차이는 5.7로 줄어듭니다. 여성과 남성의 차이도 6.32에서 2.74로 줄었습니다.</p>
+<p>이것이 앞 소절에서 말한 “학력과 함께 움직이는 것”의 한 예입니다. 회귀식에 넣지 않은 변수가 학력과 함께 움직이고 혈압과도 관계가 있으면, 학력의 계수는 그 변수의 몫까지 담습니다. 보고서의 한계 줄이 “소득, 직업, 체중, 식생활처럼 학력과 함께 움직이는 요인은 반영되지 않았다”고 적은 것도 이 때문입니다. 이 요인들은 대부분 자료에는 들어 있습니다. 단지 보고서의 회귀식에 넣지 않았다는 뜻입니다. 허리둘레처럼 넣어 볼 수 있는 것은 넣어서 학력의 계수가 얼마나 바뀌는지 확인할 수 있습니다. 소득은 앞 절의 표 3-3에서 넣어 보았는데, 학력의 계수는 거의 바뀌지 않았습니다. 다만 식생활처럼 하루치 기록으로만 거칠게 들어 있는 것도 있고(이 장의 마지막 절에서 봅니다), 자료에 아예 없는 요인은 넣어서 확인해 볼 방법조차 없습니다.</p>
+<p>그림 4-3은 허리둘레가 학력의 계수에 몫을 보태는 구조를 그린 것입니다. 앞 절의 그림 3-2와 같은 꼴입니다.</p>
+<p><img alt="빠진 변수의 두 조건" src="../_images/fig_h4_3_omitted.png" /></p>
+<p><strong>그림 4-3.</strong> 빠진 변수의 두 조건 — 학력과 함께 움직이고, 혈압과도 관계가 있다.</p>
+<p>그림에서 보듯이 허리둘레는 두 조건을 모두 갖췄습니다. 학력이 높은 사람일수록 허리둘레가 가늘고(①), 허리둘레가 굵을수록 혈압이 높습니다(②). 둘 가운데 하나라도 없으면 허리둘레를 빼도 학력의 계수는 달라지지 않습니다.</p>
+<p>💡 <strong>팁:</strong> AI의 회귀분석 보고서를 받으면 이렇게 물어보세요. “이 계수에 영향을 줄 만한 빠진 변수가 있을까? 자료에 있다면 넣어서 계수가 어떻게 바뀌는지 보여 줘.”</p>
+<section id="id3">
+<h3>허리둘레와 체질량지수, 어느 쪽이 혈압과 더 가까울까<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<p>앞 소절에서는 허리둘레를 넣었지만, 몸의 크기를 나타내는 변수로는 체질량지수도 있습니다. 혈압을 설명하는 데는 어느 쪽이 나을까요? 두 변수가 모두 있는 5,561명으로, 보고서의 회귀식에 하나씩, 그리고 둘을 함께 더해 본 것이 표 4-2입니다.</p>
+<p><strong>표 4-2.</strong> 수축기 혈압의 회귀분석 — 보고서의 회귀식에 허리둘레와 체질량지수를 더하기</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(1) + 허리둘레</p></th>
+<th class="head"><p>(2) + 체질량지수</p></th>
+<th class="head"><p>(3) + 둘 다</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>상수항</p></td>
+<td><p>89.68 (2.14)</p></td>
+<td><p>94.72 (1.91)</p></td>
+<td><p>93.41 (2.30)</p></td>
+</tr>
+<tr class="row-odd"><td><p>중졸</p></td>
+<td><p>−1.92 (1.03)</p></td>
+<td><p>−1.74 (1.02)</p></td>
+<td><p>−1.75 (1.02)</p></td>
+</tr>
+<tr class="row-even"><td><p>고졸</p></td>
+<td><p>−3.33 (0.79)</p></td>
+<td><p>−3.38 (0.79)</p></td>
+<td><p>−3.34 (0.79)</p></td>
+</tr>
+<tr class="row-odd"><td><p>대졸 이상</p></td>
+<td><p>−5.50 (0.88)</p></td>
+<td><p>−5.52 (0.87)</p></td>
+<td><p>−5.47 (0.87)</p></td>
+</tr>
+<tr class="row-even"><td><p>여성</p></td>
+<td><p>−2.69 (0.42)</p></td>
+<td><p>−4.45 (0.39)</p></td>
+<td><p>−4.14 (0.47)</p></td>
+</tr>
+<tr class="row-odd"><td><p>나이</p></td>
+<td><p>−0.173 (0.077)</p></td>
+<td><p>−0.145 (0.077)</p></td>
+<td><p>−0.153 (0.077)</p></td>
+</tr>
+<tr class="row-even"><td><p>나이²</p></td>
+<td><p>0.0043 (0.0008)</p></td>
+<td><p>0.0045 (0.0008)</p></td>
+<td><p>0.0045 (0.0008)</p></td>
+</tr>
+<tr class="row-odd"><td><p>허리둘레 (cm)</p></td>
+<td><p><strong>0.377</strong> (0.018)</p></td>
+<td><p></p></td>
+<td><p><strong>0.058</strong> (0.052)</p></td>
+</tr>
+<tr class="row-even"><td><p>체질량지수</p></td>
+<td><p></p></td>
+<td><p><strong>1.053</strong> (0.047)</p></td>
+<td><p><strong>0.913</strong> (0.133)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(R^2\)</span></p></td>
+<td><p>0.275</p></td>
+<td><p>0.283</p></td>
+<td><p>0.284</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>주: 괄호는 표본설계를 반영한 표준오차, 가중치 적용, <span class="math notranslate nohighlight">\(n\)</span> = 5,561. 학력의 기준은 초졸 이하.</p>
+<p>표에서 보듯이 <span class="math notranslate nohighlight">\(R^2\)</span>은 허리둘레를 더하면 0.275, 체질량지수를 더하면 0.283입니다. 체질량지수 쪽이 조금 높습니다.</p>
+<p>기울기로 비교하려면 조심해야 합니다. 허리둘레의 기울기는 1cm당 0.377, 체질량지수의 기울기는 1당 1.053입니다. 숫자만 보면 체질량지수가 세 배 가까이 큰 것 같지만, 허리둘레 1cm와 체질량지수 1은 재는 잣대부터 다릅니다. 100점 만점 시험의 1점과 10점 만점 쪽지시험의 1점을 그대로 비교할 수 없는 것과 같죠.</p>
+<p>그래서 단위가 다른 변수는 <strong>표준편차 하나만큼의 차이</strong>로 맞춰 비교하는 것이 흔한 방법입니다. 표준편차는 사람들이 평균에서 보통 얼마나 떨어져 있는지를 나타냅니다. 그러니 표준편차 하나만큼의 차이는 그 변수에서 “사람들 사이에 흔히 보는 크기의 차이”입니다. 이 자료에서 가중치를 적용한 허리둘레의 표준편차는 11.4cm, 체질량지수의 표준편차는 4.0입니다. 이제 기울기에 표준편차를 곱하면, 흔히 보는 크기만큼 다를 때 혈압이 얼마나 다른지가 나옵니다. 허리둘레가 표준편차 하나만큼 굵으면 혈압은 0.377 × 11.4 ≈ 4.3mmHg 높고, 체질량지수가 표준편차 하나만큼 높으면 1.053 × 4.0 ≈ 4.2mmHg 높습니다. 같은 잣대로 맞추면 둘은 거의 같습니다.</p>
+<p>그러면 둘을 함께 넣으면 어떨까요? (3)열에서 체질량지수의 계수는 0.913으로 크게 변하지 않지만, 허리둘레의 계수는 0.058로 줄어 0과 구별되지 않습니다(표준오차 0.052). 성별, 나이, 학력, 체질량지수가 같다면, 허리둘레가 더 굵은 사람의 혈압이 더 높다고 말하기 어렵다는 뜻입니다. 다만 두 변수는 거의 함께 움직입니다(이 자료에서 허리둘레와 체질량지수의 상관계수는 0.89입니다). 이런 두 변수를 함께 넣으면, 허리둘레의 계수는 체질량지수가 같은 사람들 사이에서 허리둘레가 다를 때 혈압이 얼마나 다른지를 봅니다. 그런데 두 변수가 거의 함께 움직이니, 체질량지수는 같은데 허리둘레만 꽤 다른 사람은 많지 않습니다. 비교에 쓸 수 있는 차이가 적으니 계수가 표본에 따라 크게 흔들리고, 그래서 표준오차가 커집니다. 체질량지수의 계수도 마찬가지입니다. 허리둘레의 표준오차는 0.018에서 0.052로, 체질량지수의 표준오차는 0.047에서 0.133으로, 둘 다 세 배 가까이 커진 것이 그 흔적입니다. 같은 변수라도 무엇과 함께 넣느냐에 따라 답이 달라진다는 것, 다중회귀의 “다른 조건이 같다면”에서 무엇이 같아지는지를 늘 확인해야 한다는 예입니다.</p>
+</section>
+</section>
+<section id="id4">
+<h2>평균이 가리는 것 — 상호작용 하나<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p>보고서의 회귀식은 학력의 계수를 남녀에게 똑같이 두었습니다. 그래서 남성과 여성에게 따로 나올 수도 있었을 학력의 차이가 하나로 묶여, 7.53이라는 숫자 하나로 나온 것이죠. 그런데 앞 절의 표 3-2에서 60세 이상의 초졸 이하와 대졸 이상의 차이는 남성 4.7, 여성 8.5로 달랐습니다. 보고서의 한계 줄도 “학력의 차이가 남녀에 따라 다른지는 보지 않았다”고 적었습니다.</p>
+<p>이것을 확인하려면 다중회귀분석 장에서 소개한 상호작용 항을 하나 넣으면 됩니다. 보고서의 회귀식에 “학력 × 여성”을 더하면, 학력의 계수가 남녀에게 따로 나옵니다. 나이 곡선은 그대로 남녀 공통으로 둡니다. 식으로 쓰면 이렇습니다. 학력은 대졸 이상만 적었습니다.</p>
+<div class="math notranslate nohighlight">
+\[\text{혈압} = \cdots + b_3 \times \text{대졸 이상} + c \times \text{여성} + h_3 \times (\text{대졸 이상} \times \text{여성}) + \cdots\]</div>
+<p>여기서 <span class="math notranslate nohighlight">\(\cdots\)</span>는 상수항, 중졸과 고졸(그리고 그 둘의 상호작용 항), 나이와 나이²입니다. 여성은 남성이면 0, 여성이면 1인 스위치입니다. 그러니 상호작용 항 <span class="math notranslate nohighlight">\(\text{대졸 이상} \times \text{여성}\)</span>은 대졸 이상인 여성에게만 1이고, 나머지 사람에게는 0입니다. 그래서 대졸 이상과 초졸 이하의 차이는 남녀에게 이렇게 따로 나옵니다.</p>
+<ul class="simple">
+<li><p>남성(여성 = 0): <span class="math notranslate nohighlight">\(b_3\)</span></p></li>
+<li><p>여성(여성 = 1): <span class="math notranslate nohighlight">\(b_3 + h_3\)</span></p></li>
+</ul>
+<p><span class="math notranslate nohighlight">\(h_3\)</span>이 0이면 남녀의 학력 차이가 같고, 0이 아니면 다릅니다. 보고서의 회귀식은 이 항이 없는 식, 곧 <span class="math notranslate nohighlight">\(h_3\)</span>을 0으로 둔 식입니다. 결과는 표 4-3과 같습니다.</p>
+<p><strong>표 4-3.</strong> 수축기 혈압의 회귀분석 — 보고서의 회귀식에 학력 × 여성을 더하기 전과 후</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(1) 보고서의 회귀식</p></th>
+<th class="head"><p>(2) + 학력 × 여성</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>상수항</p></td>
+<td><p>119.59 (1.65)</p></td>
+<td><p>114.86 (1.89)</p></td>
+</tr>
+<tr class="row-odd"><td><p>중졸</p></td>
+<td><p>−2.72 (1.04)</p></td>
+<td><p>−0.91 (1.71)</p></td>
+</tr>
+<tr class="row-even"><td><p>고졸</p></td>
+<td><p>−5.07 (0.82)</p></td>
+<td><p>−0.28 (1.25)</p></td>
+</tr>
+<tr class="row-odd"><td><p>대졸 이상</p></td>
+<td><p><strong>−7.53</strong> (0.90)</p></td>
+<td><p><strong>−1.95</strong> (1.28)</p></td>
+</tr>
+<tr class="row-even"><td><p>여성</p></td>
+<td><p>−6.29 (0.40)</p></td>
+<td><p>0.65 (1.29)</p></td>
+</tr>
+<tr class="row-odd"><td><p>중졸 × 여성</p></td>
+<td><p></p></td>
+<td><p>−1.68 (1.93)</p></td>
+</tr>
+<tr class="row-even"><td><p>고졸 × 여성</p></td>
+<td><p></p></td>
+<td><p>−7.31 (1.43)</p></td>
+</tr>
+<tr class="row-odd"><td><p>대졸 이상 × 여성</p></td>
+<td><p></p></td>
+<td><p><strong>−9.08</strong> (1.35)</p></td>
+</tr>
+<tr class="row-even"><td><p>나이</p></td>
+<td><p>0.024 (0.082)</p></td>
+<td><p>0.035 (0.082)</p></td>
+</tr>
+<tr class="row-odd"><td><p>나이²</p></td>
+<td><p>0.0026 (0.0009)</p></td>
+<td><p>0.0024 (0.0009)</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(R^2\)</span></p></td>
+<td><p>0.212</p></td>
+<td><p>0.222</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>주: 괄호는 표본설계를 반영한 표준오차, 가중치 적용, <span class="math notranslate nohighlight">\(n\)</span> = 5,731. 학력의 기준은 초졸 이하.</p>
+<p>표의 (2)열에서 학력의 세 계수는 남성의 학력 차이입니다. 여성의 학력 차이는 학력의 계수에 “학력 × 여성”의 계수를 더한 값입니다. 대졸 이상이라면 남성은 <span class="math notranslate nohighlight">\(\hat{b}_3\)</span> = −1.95, 여성은 <span class="math notranslate nohighlight">\(\hat{b}_3 + \hat{h}_3\)</span> = −1.95 + (−9.08) = −11.03입니다.</p>
+<p>표에서 보듯이 성별과 나이가 같을 때, 여성은 학력이 높을수록 혈압이 뚜렷이 낮지만(대졸 이상의 계수 −11.03), 남성은 학력에 따른 차이가 0과 구별되지 않습니다(대졸 이상의 계수 −1.95). 두 숫자의 차이가 상호작용 계수 −9.08이고, 0과 분명히 구별됩니다(<span class="math notranslate nohighlight">\(p\)</span> &lt; 0.001). 그러니 보고서의 −7.53은 “남녀 모두 7.5씩 낮다”기보다, 여성의 큰 차이와 남성의 작은 차이를 하나의 숫자로 평균한 것에 가깝습니다. 보고서의 결론이 틀린 것은 아닙니다. 학력이 높은 사람의 혈압이 평균적으로 낮다는 것은 맞습니다. 다만 숫자 하나로 요약하면 이런 차이가 가려질 수 있고, 그것을 드러내는 가장 간단한 방법이 상호작용 항이라는 것입니다.</p>
+<p>💡 <strong>팁:</strong> 집단마다 효과가 다를 것 같으면 AI에게 “학력과 성별의 상호작용을 넣은 결과도 보여 줘”라고 요청하세요.</p>
+<blockquote>
+<div><p><strong>요약 — 이 절의 물음과 답</strong></p>
+<ul class="simple">
+<li><p><strong><span class="math notranslate nohighlight">\(R^2\)</span>이 21%밖에 안 되는데, 학력에 따른 차이 7.5를 믿어도 될까?</strong> 우연으로 보기는 어렵다. <span class="math notranslate nohighlight">\(R^2\)</span>이 낮은 것은 학력, 성별, 나이가 같은 사람들 사이에서도 혈압이 사람마다 크게 다르기 때문이다. 그래도 사람이 많으면 평균의 차이는 표본을 다시 뽑아도 크게 흔들리지 않는다.</p></li>
+<li><p><strong>그 7.5는 모두 학력 때문일까?</strong> 그렇지 않다. 학력과 함께 움직이면서 혈압과도 관계가 있는 허리둘레를 넣자 7.5가 5.7로 줄었다. 7.5 가운데 일부는 학력이 높은 사람의 허리가 가늘기 때문이었다.</p></li>
+<li><p><strong>허리둘레와 체질량지수 가운데 어느 쪽이 혈압과 더 가까울까?</strong> 허리둘레 1cm와 체질량지수 1은 단위가 달라 기울기를 그대로 비교할 수 없다. 기울기에 그 변수의 표준편차를 곱해 “표준편차 하나만큼 다를 때 혈압이 얼마나 다른가”로 맞추면, 허리둘레는 4.3, 체질량지수는 4.2로 거의 같다.</p></li>
+<li><p><strong>7.5는 남녀에게 똑같을까?</strong> 그렇지 않다. 학력 × 여성을 넣으면 대졸 이상의 혈압은 초졸 이하보다, 여성에서는 11.0 낮지만 남성에서는 2.0 낮아 0과 구별되지 않는다. 보고서의 7.5는 이 둘을 하나의 숫자로 평균한 것에 가깝다.</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./health-survey"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="section-h3.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">이전</p>
+        <p class="prev-next-title">3. 다른 조건이 같다면 — 계수는 무엇을 비교하나</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="section-h5.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">다음</p>
+        <p class="prev-next-title">5. 약 먹고 잰 혈압 — 표본을 정하는 판단과 거꾸로 된 순서</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 내용
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#r-2-21">평균의 차이와 개인의 퍼짐 — <span class="math notranslate nohighlight">\(R^2\)</span>이 21%라는 것</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">변수를 하나 더 — 허리둘레</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">허리둘레와 체질량지수, 어느 쪽이 혈압과 더 가까울까</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">평균이 가리는 것 — 상호작용 하나</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>© 2026 최필선</p>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,860 @@
+
+<!DOCTYPE html>
+
+
+<html lang="ko" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="직접 해 보기 2 — 파이썬 코드로 따라 해 보기" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://pilsunchoi.github.io/book5/health-survey/practice-notebook.html" />
+<meta property="og:site_name" content="AI 데이터 분석" />
+<meta property="og:description" content="이 장의 자료는 AI에게 보여 줄 수 없으므로, 분석은 내 컴퓨터에서 내 손으로 돌려야 한다. AI가 코드를 짜 주더라도 그 코드를 읽고, 돌리고, 결과가 맞는지 확인하는 것은 내 몫이다. 이 노트북은 이 장의 보고서와 본문의 표를 파이썬으로 직접 만든다. 이 장에서 새로 배운 두..." />
+<meta name="description" content="이 장의 자료는 AI에게 보여 줄 수 없으므로, 분석은 내 컴퓨터에서 내 손으로 돌려야 한다. AI가 코드를 짜 주더라도 그 코드를 읽고, 돌리고, 결과가 맞는지 확인하는 것은 내 몫이다. 이 노트북은 이 장의 보고서와 본문의 표를 파이썬으로 직접 만든다. 이 장에서 새로 배운 두..." />
+
+    <title>직접 해 보기 2 — 파이썬 코드로 따라 해 보기 &#8212; AI 데이터 분석</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=14e72410" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=ae323b5b"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = '표시하려면 클릭';</script>
+    <script>let toggleHintHide = '숨기려면 클릭';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/translations.js?v=e33e7ba0"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'health-survey/practice-notebook';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="색인" href="../genindex.html" />
+    <link rel="search" title="검색" href="../search.html" />
+    <link rel="prev" title="직접 해 보기 1 — 자료는 내 컴퓨터에, AI에는 질문만" href="practice-prompt.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="ko"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.png" class="logo__image only-light" alt="AI 데이터 분석"/>
+    <img src="../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="AI 데이터 분석"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../simple-regression/index.html">단순회귀분석 — 직선 하나로 관계 읽기</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a1.html">1. 완성된 보고서 — 노원구에서 1㎡는 얼마인가</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a2.html">2. 직선은 어떻게 정해지나 — 잔차와 최소제곱</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a3.html">3. 이 기울기를 믿어도 되나 — 표준오차, 신뢰구간, <span class="math notranslate nohighlight">\(p\)</span>값</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a4.html">4. 얼마나 설명하나 — <span class="math notranslate nohighlight">\(R^2\)</span>과 잔차</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a5.html">5. 로그로 읽는 가격 — 탄력성과 % 해석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../multiple-regression/index.html">다중회귀분석 — 여러 변수를 함께</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b1.html">1. 완성된 보고서 — 서울 아파트 값은 무엇으로 정해지나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b2.html">2. 다른 조건이 같다면 — 다중회귀분석의 계수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b3.html">3. 숫자가 아닌 변수 — 더미 변수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b4.html">4. 효과가 집단마다 다를 때 — 상호작용</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b5.html">5. 직선으로 부족할 때 — 제곱항</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">국가 표본조사 자료의 회귀분석 — 국민건강영양조사로 읽는 학력과 혈압</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="section-h1.html">1. 완성된 보고서 — 학력이 높을수록 혈압이 낮을까</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-h2.html">2. 표본이 모집단을 닮게 — 가중치와 표본설계</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-h3.html">3. 다른 조건이 같다면 — 계수는 무엇을 비교하나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-h4.html">4. 회귀식 밖에 남은 것 — 설명력, 빠진 변수, 남녀의 차이</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-h5.html">5. 약 먹고 잰 혈압 — 표본을 정하는 판단과 거꾸로 된 순서</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-h6.html">6. 횡단면이 말해 주지 않는 것 — 측정과 자료의 범위</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-prompt.html">직접 해 보기 1 — 자료는 내 컴퓨터에, AI에는 질문만</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/pilsunchoi/book5" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="소스 저장소"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="이 페이지 다운로드">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/health-survey/practice-notebook.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="소스 파일 다운로드"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="PDF로 인쇄"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="전체 화면으로보기"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>직접 해 보기 2 — 파이썬 코드로 따라 해 보기</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 내용 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">준비 — 패키지와 글꼴</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">1. 자료 읽기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">2. 분석 대상과 변수 만들기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">3. 가중 평균 — 표본과 모집단의 생김새</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">4. 표본설계를 반영한 회귀분석 함수</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">5. 보고서의 회귀식</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">6. 표준오차를 세 가지로 계산하기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">7. 변수를 하나씩 더하기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">8. 나이 곡선 — 예상 혈압 계산</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">9. 허리둘레와 상호작용</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">10. 혈압약을 다루는 네 방법</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">11. 보고서의 그림 왼쪽 패널</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">정리</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>직접 해 보기 2 — 파이썬 코드로 따라 해 보기<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>이 장의 자료는 AI에게 보여 줄 수 없으므로, 분석은 내 컴퓨터에서 내 손으로 돌려야 한다. AI가 코드를 짜 주더라도 그 코드를 읽고, 돌리고, 결과가 맞는지 확인하는 것은 내 몫이다.</p>
+<p>이 노트북은 이 장의 보고서와 본문의 표를 파이썬으로 직접 만든다. 이 장에서 새로 배운 두 가지, 곧 가중치로 숫자를 바로잡는 것과 표본설계대로 표준오차를 계산하는 것을 코드로 보여 주는 것이 중심이다.</p>
+<ol class="arabic simple">
+<li><p>자료 읽기 — 내려받은 SAS 파일을 읽는다</p></li>
+<li><p>분석 대상과 변수 만들기</p></li>
+<li><p>가중 평균 — 표본과 모집단의 생김새(2절)</p></li>
+<li><p>표본설계를 반영한 회귀분석 함수</p></li>
+<li><p>보고서의 회귀식</p></li>
+<li><p>표준오차를 세 가지로 계산하기(표 2-1)</p></li>
+<li><p>변수를 하나씩 더하기(표 3-1)</p></li>
+<li><p>나이 곡선 — 예상 혈압 계산</p></li>
+<li><p>허리둘레와 상호작용(표 4-1, 표 4-3)</p></li>
+<li><p>혈압약을 다루는 네 방법(표 5-1)</p></li>
+<li><p>보고서의 그림 왼쪽 패널</p></li>
+</ol>
+<p><strong>주의.</strong> 이 노트북은 한 사람 한 사람의 기록을 화면에 출력하지 않는다. <code class="docutils literal notranslate"><span class="pre">df.head()</span></code>처럼 줄을 보여 주는 코드를 더하지 않는다. 출력이 노트북 파일에 저장되기 때문이다. 이 노트북을 남에게 줄 때는 출력을 지우고(Kernel → Restart &amp; Clear Output) 준다.</p>
+<section id="id2">
+<h2>준비 — 패키지와 글꼴<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">import</span></code>로 쓸 패키지를 불러온다. <code class="docutils literal notranslate"><span class="pre">patsy</span></code>는 회귀식 문자열(<code class="docutils literal notranslate"><span class="pre">'혈압</span> <span class="pre">~</span> <span class="pre">여성</span> <span class="pre">+</span> <span class="pre">나이'</span></code>)을 계산할 수 있는 표로 바꿔 주는 패키지로, statsmodels를 설치하면 함께 들어온다. <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code>는 <span class="math notranslate nohighlight">\(t\)</span> 분포로 <span class="math notranslate nohighlight">\(p\)</span>값과 신뢰구간을 계산할 때 쓴다. 모두 Anaconda와 Colab에 들어 있다.</p>
+<p>그림의 한글 글꼴은 다른 장과 같다. 윈도우는 맑은 고딕(<code class="docutils literal notranslate"><span class="pre">Malgun</span> <span class="pre">Gothic</span></code>), 맥은 애플고딕(<code class="docutils literal notranslate"><span class="pre">AppleGothic</span></code>)이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>                       <span class="c1"># 수치 계산</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>                      <span class="c1"># 표(데이터프레임) 다루기</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">patsy</span>                             <span class="c1"># 회귀식 문자열 → 계산용 표</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>                  <span class="c1"># t 분포</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>          <span class="c1"># 그림</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'font.family'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Malgun Gothic'</span>   <span class="c1"># 윈도우 (맥은 'AppleGothic')</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'axes.unicode_minus'</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id3">
+<h2>1. 자료 읽기<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>국민건강영양조사 누리집에서 이행서약을 거쳐 내려받은 2024년 기본DB의 SAS 파일을 읽는다(직접 해 보기 1의 “준비할 것”). 압축을 풀어 <code class="docutils literal notranslate"><span class="pre">hn24_all.sas7bdat</span></code>를 이 노트북과 같은 폴더에 두고, 아래 <code class="docutils literal notranslate"><span class="pre">SAS</span> <span class="pre">=</span></code> 줄에 파일 이름을 적는다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">pd.read_sas</span></code>가 SAS 파일을 읽는다. 한글 라벨이 있어 <code class="docutils literal notranslate"><span class="pre">encoding='cp949'</span></code>를 준다. 파일이 커서 읽는 데 조금 걸린다. 읽은 뒤에는 줄과 열의 수만 출력한다.</p>
+<p>Colab에 올리는 것은 외부 서비스에 자료를 올리는 일이다. 이 자료는 내 컴퓨터의 주피터에서 연다(직접 해 보기 1의 “먼저 확인할 것”).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">SAS</span> <span class="o">=</span> <span class="s1">'hn24_all.sas7bdat'</span>          <span class="c1"># 내려받은 파일 이름</span>
+
+<span class="n">raw</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sas</span><span class="p">(</span><span class="n">SAS</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'cp949'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">raw</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>                   <span class="c1"># (사람 수, 변수 수)만 본다</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id4">
+<h2>2. 분석 대상과 변수 만들기<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p>보고서의 분석 대상은 “19세 이상, 임신부와 학력·혈압 결측 제외, 혈압약 복용자 포함”이다. 가중치가 0인 사람(검진에 참여하지 않은 사람)도 뺀다.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>새 변수</p></th>
+<th class="head"><p>원 변수와 만드는 법</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">학력</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">edu</span></code>: 1 초졸 이하, 2 중졸, 3 고졸, 4 대졸 이상</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">여성</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sex</span></code>가 2이면 1, 아니면 0</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">나이</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">age</span></code> 그대로(80세 이상은 80으로 기록돼 있다)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">혈압</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">HE_sbp</span></code>, 수축기 혈압(mmHg)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">혈압약</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DI1_2</span></code>가 1~4(혈압조절제 복용)이면 1</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">허리</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">HE_wc</span></code>, 허리둘레(cm)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">w</span></code>, <code class="docutils literal notranslate"><span class="pre">층</span></code>, <code class="docutils literal notranslate"><span class="pre">군집</span></code></p></td>
+<td><p>가중치 <code class="docutils literal notranslate"><span class="pre">wt_itvex</span></code>, 층 <code class="docutils literal notranslate"><span class="pre">kstrata</span></code>, 군집 <code class="docutils literal notranslate"><span class="pre">psu</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">pd.Categorical</span></code>은 학력을 “초졸 이하, 중졸, 고졸, 대졸 이상”의 순서가 있는 범주로 만든다. 이 순서의 첫째(초졸 이하)가 회귀식에서 기준이 된다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">EDU</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s1">'초졸 이하'</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">'중졸'</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="s1">'고졸'</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="s1">'대졸 이상'</span><span class="p">}</span>
+
+<span class="n">d</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[(</span><span class="n">raw</span><span class="p">[</span><span class="s1">'age'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">19</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="s1">'HE_prg'</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="s1">'wt_itvex'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">d</span><span class="p">[</span><span class="s1">'학력'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">'edu'</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">EDU</span><span class="p">),</span> <span class="n">categories</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">EDU</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+<span class="n">d</span><span class="p">[</span><span class="s1">'여성'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">'sex'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">d</span><span class="p">[</span><span class="s1">'나이'</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">'age'</span><span class="p">]</span>
+<span class="n">d</span><span class="p">[</span><span class="s1">'혈압'</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">'HE_sbp'</span><span class="p">]</span>
+<span class="n">d</span><span class="p">[</span><span class="s1">'혈압약'</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">'DI1_2'</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">d</span><span class="p">[</span><span class="s1">'허리'</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">'HE_wc'</span><span class="p">]</span>
+<span class="n">d</span><span class="p">[</span><span class="s1">'w'</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">'wt_itvex'</span><span class="p">]</span>
+<span class="n">d</span><span class="p">[</span><span class="s1">'층'</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">'kstrata'</span><span class="p">]</span>
+<span class="n">d</span><span class="p">[</span><span class="s1">'군집'</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">'psu'</span><span class="p">]</span>
+
+<span class="n">d</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">'학력'</span><span class="p">,</span> <span class="s1">'혈압'</span><span class="p">])</span>          <span class="c1"># 학력·혈압 결측 제외</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'분석 대상'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">),</span> <span class="s1">'명'</span><span class="p">)</span>               <span class="c1"># 보고서: 5,731명</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id5">
+<h2>3. 가중 평균 — 표본과 모집단의 생김새<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<p>가중 평균의 원리는 한 줄이다. 사람마다 값에 가중치를 곱해 더하고, 가중치의 합으로 나눈다(2절). <code class="docutils literal notranslate"><span class="pre">np.average(값,</span> <span class="pre">weights=가중치)</span></code>가 이 계산을 한다.</p>
+<p>표본에는 고령자와 여성이 실제보다 많이 들어 있어서, 가중치를 쓰면 평균 나이가 내려가고 여성 비율도 내려간다. 평균 혈압과 혈압약 복용 비율도 함께 본다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'나이'</span><span class="p">,</span> <span class="s1">'여성'</span><span class="p">,</span> <span class="s1">'혈압'</span><span class="p">,</span> <span class="s1">'혈압약'</span><span class="p">]:</span>
+    <span class="n">plain</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">weighted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">col</span><span class="p">],</span> <span class="n">weights</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s1">'w'</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">col</span><span class="si">:</span><span class="s1">4s</span><span class="si">}</span><span class="s1">  그냥 낸 평균 </span><span class="si">{</span><span class="n">plain</span><span class="si">:</span><span class="s1">7.3f</span><span class="si">}</span><span class="s1">   가중 평균 </span><span class="si">{</span><span class="n">weighted</span><span class="si">:</span><span class="s1">7.3f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'유효 표본 크기'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">'w'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">'w'</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()))</span>   <span class="c1"># 가중치가 고르지 않은 만큼 줄어든다</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id6">
+<h2>4. 표본설계를 반영한 회귀분석 함수<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
+<p>계수는 가중 최소제곱으로 구한다. 잔차제곱에 가중치를 곱해 더한 합이 가장 작은 직선이다. 표준오차는 사람을 뽑은 방식대로 계산한다(2절). 계산의 뼈대는 이렇다.</p>
+<ol class="arabic simple">
+<li><p>사람마다 “설명변수 × 가중치 × 잔차”를 구한다. 계수가 표본에 따라 흔들리는 것은 이 값들이 흔들리기 때문이다.</p></li>
+<li><p>이 값을 <strong>군집(동네)마다 더한다</strong>. 같은 동네 사람은 닮아서 함께 움직이니, 한 덩어리로 센다.</p></li>
+<li><p><strong>층(칸)마다</strong> 군집 합들이 그 층의 평균에서 얼마나 흩어져 있는지를 잰다. 층끼리의 차이는 빼고 층 안의 흩어짐만 쓴다.</p></li>
+<li><p>이것을 다 더해 계수의 분산을 만들고, 제곱근이 표준오차다. <span class="math notranslate nohighlight">\(p\)</span>값과 신뢰구간은 자유도(군집 수 − 층 수)의 <span class="math notranslate nohighlight">\(t\)</span> 분포로 계산한다.</p></li>
+</ol>
+<p>이 방식을 테일러 선형화라고 부르고, Stata의 <code class="docutils literal notranslate"><span class="pre">svy</span></code>, R의 survey 패키지, SAS의 <code class="docutils literal notranslate"><span class="pre">PROC</span> <span class="pre">SURVEYREG</span></code>가 기본으로 쓰는 계산과 같다. 층을 하나로 두고 군집을 사람마다 따로 두면 “제비뽑기로 뽑았다”고 보는 계산이 된다(6절).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">svy_reg</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">'w'</span><span class="p">,</span> <span class="n">strata</span><span class="o">=</span><span class="s1">'층'</span><span class="p">,</span> <span class="n">cluster</span><span class="o">=</span><span class="s1">'군집'</span><span class="p">):</span>
+    <span class="n">y</span><span class="p">,</span> <span class="n">X</span> <span class="o">=</span> <span class="n">patsy</span><span class="o">.</span><span class="n">dmatrices</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">return_type</span><span class="o">=</span><span class="s1">'dataframe'</span><span class="p">)</span>   <span class="c1"># 결측이 있는 줄은 빠진다</span>
+    <span class="n">dd</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">X</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">dd</span><span class="p">[</span><span class="n">weight</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+    <span class="n">Xv</span><span class="p">,</span> <span class="n">yv</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+    <span class="n">bread</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">Xv</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">Xv</span> <span class="o">*</span> <span class="n">w</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]))</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">bread</span> <span class="o">@</span> <span class="p">(</span><span class="n">Xv</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="n">yv</span><span class="p">))</span>                     <span class="c1"># 가중 최소제곱 계수</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">yv</span> <span class="o">-</span> <span class="n">Xv</span> <span class="o">@</span> <span class="n">b</span>                                    <span class="c1"># 잔차</span>
+
+    <span class="n">u</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">Xv</span> <span class="o">*</span> <span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="n">e</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>       <span class="c1"># 1. 사람마다</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="n">dd</span><span class="p">[</span><span class="n">strata</span><span class="p">],</span> <span class="n">dd</span><span class="p">[</span><span class="n">cluster</span><span class="p">]])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>               <span class="c1"># 2. 군집마다 더한다</span>
+    <span class="n">meat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">Xv</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">Xv</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">zh</span> <span class="ow">in</span> <span class="n">z</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>                             <span class="c1"># 3. 층마다</span>
+        <span class="n">nh</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">zh</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">nh</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">zh</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span> <span class="o">-</span> <span class="n">zh</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">meat</span> <span class="o">+=</span> <span class="n">nh</span> <span class="o">/</span> <span class="p">(</span><span class="n">nh</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">c</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">bread</span> <span class="o">@</span> <span class="n">meat</span> <span class="o">@</span> <span class="n">bread</span>                                     <span class="c1"># 4. 계수의 분산</span>
+    <span class="n">se</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">V</span><span class="p">))</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">dd</span><span class="p">[</span><span class="n">cluster</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">-</span> <span class="n">dd</span><span class="p">[</span><span class="n">strata</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span>            <span class="c1"># 자유도</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">b</span> <span class="o">/</span> <span class="n">se</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.975</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
+    <span class="n">r2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="n">e</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="p">(</span><span class="n">yv</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">yv</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">w</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'계수'</span><span class="p">:</span> <span class="n">b</span><span class="p">,</span> <span class="s1">'표준오차'</span><span class="p">:</span> <span class="n">se</span><span class="p">,</span> <span class="s1">'t값'</span><span class="p">:</span> <span class="n">t</span><span class="p">,</span>
+                        <span class="s1">'하한'</span><span class="p">:</span> <span class="n">b</span> <span class="o">-</span> <span class="n">q</span> <span class="o">*</span> <span class="n">se</span><span class="p">,</span> <span class="s1">'상한'</span><span class="p">:</span> <span class="n">b</span> <span class="o">+</span> <span class="n">q</span> <span class="o">*</span> <span class="n">se</span><span class="p">,</span>
+                        <span class="s1">'p값'</span><span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">df</span><span class="p">)},</span> <span class="n">index</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'n'</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">yv</span><span class="p">),</span> <span class="s1">'R2'</span><span class="p">:</span> <span class="n">r2</span><span class="p">,</span> <span class="s1">'df'</span><span class="p">:</span> <span class="n">df</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">out</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id7">
+<h2>5. 보고서의 회귀식<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
+<p>보고서의 회귀식을 그대로 옮긴다.</p>
+<p>수축기 혈압 = 학력 더미 3개(기준: 초졸 이하) + 여성 + 나이 + 나이²</p>
+<p><code class="docutils literal notranslate"><span class="pre">C(학력)</span></code>은 학력을 더미 변수로 넣으라는 뜻이고(범주의 첫째가 기준), <code class="docutils literal notranslate"><span class="pre">I(나이**2)</span></code>는 나이의 제곱을 회귀식 안에서 계산해 넣는다. 결과가 보고서의 표와 같은지 대조한다. 대졸 이상 −7.53(0.90), 여성 −6.29(0.40), <span class="math notranslate nohighlight">\(n\)</span> = 5,731, <span class="math notranslate nohighlight">\(R^2\)</span> = 0.212다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">F</span> <span class="o">=</span> <span class="s1">'혈압 ~ C(학력) + 여성 + 나이 + I(나이**2)'</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">svy_reg</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">attrs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id8">
+<h2>6. 표준오차를 세 가지로 계산하기<a class="headerlink" href="#id8" title="Link to this heading">#</a></h2>
+<p>2절의 표 2-1이다. 같은 회귀식을 세 가지로 계산해, 가중치는 계수를 바꾸고 표본설계는 표준오차만 바꾸는 것을 확인한다.</p>
+<ul class="simple">
+<li><p>가중치 없음, 제비뽑기 가정: 가중치를 모두 1로, 층을 하나로, 군집을 사람마다 따로</p></li>
+<li><p>가중치 적용, 제비뽑기 가정: 가중치만 쓴다</p></li>
+<li><p>가중치 적용, 층과 군집 반영: 보고서의 계산</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">d</span><span class="p">[</span><span class="s1">'하나'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>                       <span class="c1"># 층이 하나뿐</span>
+<span class="n">d</span><span class="p">[</span><span class="s1">'한사람'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>      <span class="c1"># 군집 = 사람마다 따로</span>
+<span class="n">d</span><span class="p">[</span><span class="s1">'가중없음'</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+<span class="n">ways</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'가중치 없음, 제비뽑기 가정'</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="s1">'가중없음'</span><span class="p">,</span> <span class="n">strata</span><span class="o">=</span><span class="s1">'하나'</span><span class="p">,</span> <span class="n">cluster</span><span class="o">=</span><span class="s1">'한사람'</span><span class="p">),</span>
+        <span class="s1">'가중치 적용, 제비뽑기 가정'</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">strata</span><span class="o">=</span><span class="s1">'하나'</span><span class="p">,</span> <span class="n">cluster</span><span class="o">=</span><span class="s1">'한사람'</span><span class="p">),</span>
+        <span class="s1">'가중치 적용, 층과 군집 반영'</span><span class="p">:</span> <span class="nb">dict</span><span class="p">()}</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">opt</span> <span class="ow">in</span> <span class="n">ways</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">rk</span> <span class="o">=</span> <span class="n">svy_reg</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="o">**</span><span class="n">opt</span><span class="p">)</span>
+    <span class="n">rows</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'대졸 이상'</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">rk</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">'C(학력)[T.대졸 이상]'</span><span class="p">,</span><span class="w"> </span><span class="s1">'계수'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">rk</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">'C(학력)[T.대졸 이상]'</span><span class="p">,</span><span class="w"> </span><span class="s1">'표준오차'</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">)"</span><span class="p">,</span>
+                  <span class="s1">'여성'</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">rk</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">'여성'</span><span class="p">,</span><span class="w"> </span><span class="s1">'계수'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">rk</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">'여성'</span><span class="p">,</span><span class="w"> </span><span class="s1">'표준오차'</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">)"</span><span class="p">}</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id9">
+<h2>7. 변수를 하나씩 더하기<a class="headerlink" href="#id9" title="Link to this heading">#</a></h2>
+<p>3절의 표 3-1이다. 학력만 넣은 회귀식에서 출발해 여성, 나이와 나이²를 더해 가며 대졸 이상의 계수를 본다. 학력만 넣으면 −15.0, 성별과 나이를 같게 맞추면 −7.5다. 대졸 이상에는 젊은 사람이 많아서, 그냥 비교하면 나이의 차이까지 함께 비교하게 되기 때문이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">steps</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'학력만'</span><span class="p">:</span> <span class="s1">'혈압 ~ C(학력)'</span><span class="p">,</span>
+         <span class="s1">'+ 여성'</span><span class="p">:</span> <span class="s1">'혈압 ~ C(학력) + 여성'</span><span class="p">,</span>
+         <span class="s1">'+ 나이, 나이²'</span><span class="p">:</span> <span class="n">F</span><span class="p">}</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">steps</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">rk</span> <span class="o">=</span> <span class="n">svy_reg</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">10s</span><span class="si">}</span><span class="s2"> 대졸 이상 </span><span class="si">{</span><span class="n">rk</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">'C(학력)[T.대졸 이상]'</span><span class="p">,</span><span class="w"> </span><span class="s1">'계수'</span><span class="p">]</span><span class="si">:</span><span class="s2">7.2f</span><span class="si">}</span><span class="s2">   R² </span><span class="si">{</span><span class="n">rk</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'R2'</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'학력별 평균 나이(가중):'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'학력'</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">g</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">'나이'</span><span class="p">],</span> <span class="n">weights</span><span class="o">=</span><span class="n">g</span><span class="p">[</span><span class="s1">'w'</span><span class="p">]),</span> <span class="n">include_groups</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id10">
+<h2>8. 나이 곡선 — 예상 혈압 계산<a class="headerlink" href="#id10" title="Link to this heading">#</a></h2>
+<p>나이와 나이²의 계수는 하나씩 읽지 않고 함께 곡선 하나로 읽는다(3절). 회귀식에 값을 넣어 예상 혈압을 계산해 본다. 50세 초졸 이하 남성은 127.3, 70세는 134.0이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s1">'계수'</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">age</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">70</span><span class="p">]:</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="s1">'Intercept'</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="s1">'나이'</span><span class="p">]</span> <span class="o">*</span> <span class="n">age</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="s1">'I(나이 ** 2)'</span><span class="p">]</span> <span class="o">*</span> <span class="n">age</span><span class="o">**</span><span class="mi">2</span>   <span class="c1"># 초졸 이하, 남성</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">age</span><span class="p">,</span> <span class="s1">'세'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id11">
+<h2>9. 허리둘레와 상호작용<a class="headerlink" href="#id11" title="Link to this heading">#</a></h2>
+<p>4절의 두 표다.</p>
+<ul class="simple">
+<li><p><strong>허리둘레</strong>(표 4-1): 허리둘레가 있는 사람만 남겨, 보고서의 회귀식과 허리둘레를 더한 회귀식을 같은 사람으로 추정한다. 대졸 이상의 계수가 −7.5에서 −5.7로 바뀐다.</p></li>
+<li><p><strong>상호작용</strong>(표 4-3): <code class="docutils literal notranslate"><span class="pre">C(학력):여성</span></code>을 더하면 학력의 계수가 남녀에게 따로 나온다. 남성의 대졸 이상은 대졸 이상의 계수 그대로, 여성은 거기에 상호작용 계수를 더한 값이다.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">w4</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">'허리'</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">'보고서의 회귀식'</span><span class="p">,</span> <span class="n">F</span><span class="p">),</span> <span class="p">(</span><span class="s1">'+ 허리둘레'</span><span class="p">,</span> <span class="n">F</span> <span class="o">+</span> <span class="s1">' + 허리'</span><span class="p">)]:</span>
+    <span class="n">rk</span> <span class="o">=</span> <span class="n">svy_reg</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">w4</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">10s</span><span class="si">}</span><span class="s2"> 대졸 이상 </span><span class="si">{</span><span class="n">rk</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">'C(학력)[T.대졸 이상]'</span><span class="p">,</span><span class="w"> </span><span class="s1">'계수'</span><span class="p">]</span><span class="si">:</span><span class="s2">6.2f</span><span class="si">}</span><span class="s2">   n </span><span class="si">{</span><span class="n">rk</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'n'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">ri</span> <span class="o">=</span> <span class="n">svy_reg</span><span class="p">(</span><span class="n">F</span> <span class="o">+</span> <span class="s1">' + C(학력):여성'</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+<span class="n">male</span> <span class="o">=</span> <span class="n">ri</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">'C(학력)[T.대졸 이상]'</span><span class="p">,</span> <span class="s1">'계수'</span><span class="p">]</span>
+<span class="n">inter</span> <span class="o">=</span> <span class="n">ri</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">'C(학력)[T.대졸 이상]:여성'</span><span class="p">,</span> <span class="s1">'계수'</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'대졸 이상 — 남성'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">male</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">' 여성'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">male</span> <span class="o">+</span> <span class="n">inter</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">' 상호작용'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">inter</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id12">
+<h2>10. 혈압약을 다루는 네 방법<a class="headerlink" href="#id12" title="Link to this heading">#</a></h2>
+<p>5절의 표 5-1이다. 혈압약을 먹는 사람을 그대로 넣기, 빼기, 혈압에 10이나 15를 더하기의 네 방법으로 대졸 이상의 계수를 비교한다. 방법에 따라 −7.2에서 −9.6까지 달라지지만, 학력이 높을수록 혈압이 낮다는 결론은 같다(강건성 점검).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cases</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'그대로 넣기 (보고서)'</span><span class="p">:</span> <span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+         <span class="s1">'약을 먹는 사람을 빼기'</span><span class="p">:</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="s1">'혈압약'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span>
+         <span class="s1">'혈압에 10을 더하기'</span><span class="p">:</span> <span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+         <span class="s1">'혈압에 15를 더하기'</span><span class="p">:</span> <span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="mi">15</span><span class="p">)}</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">add</span><span class="p">)</span> <span class="ow">in</span> <span class="n">cases</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">dk</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">dk</span><span class="p">[</span><span class="s1">'혈압'</span><span class="p">]</span> <span class="o">=</span> <span class="n">dk</span><span class="p">[</span><span class="s1">'혈압'</span><span class="p">]</span> <span class="o">+</span> <span class="n">add</span> <span class="o">*</span> <span class="n">dk</span><span class="p">[</span><span class="s1">'혈압약'</span><span class="p">]</span>
+    <span class="n">rk</span> <span class="o">=</span> <span class="n">svy_reg</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">dk</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">14s</span><span class="si">}</span><span class="s2"> 대졸 이상 </span><span class="si">{</span><span class="n">rk</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">'C(학력)[T.대졸 이상]'</span><span class="p">,</span><span class="w"> </span><span class="s1">'계수'</span><span class="p">]</span><span class="si">:</span><span class="s2">6.2f</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">rk</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">'C(학력)[T.대졸 이상]'</span><span class="p">,</span><span class="w"> </span><span class="s1">'표준오차'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">)   n </span><span class="si">{</span><span class="n">rk</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'n'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id13">
+<h2>11. 보고서의 그림 왼쪽 패널<a class="headerlink" href="#id13" title="Link to this heading">#</a></h2>
+<p>학력별 가중 평균 수축기 혈압을 남녀로 나눠 그린다. 나이를 맞추지 않은 그냥 비교라서 학력에 따른 차이가 크게 보인다. 이 그림의 차이가 회귀식에서 절반쯤으로 줄어드는 까닭이 3절의 이야기다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">avg</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'여성'</span><span class="p">,</span> <span class="s1">'학력'</span><span class="p">],</span> <span class="n">observed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">g</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">'혈압'</span><span class="p">],</span> <span class="n">weights</span><span class="o">=</span><span class="n">g</span><span class="p">[</span><span class="s1">'w'</span><span class="p">]),</span> <span class="n">include_groups</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">5.5</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">sex</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'남성'</span><span class="p">,</span> <span class="s1">'#2a78d6'</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'여성'</span><span class="p">,</span> <span class="s1">'#eb6834'</span><span class="p">)]:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">EDU</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="n">avg</span><span class="p">[</span><span class="n">sex</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'평균 수축기 혈압 (mmHg, 가중)'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id14">
+<h2>정리<a class="headerlink" href="#id14" title="Link to this heading">#</a></h2>
+<p>이 노트북의 코드는 보고서의 회귀 결과(5절)와 본문의 표 다섯 개(6, 7, 9, 10절)를 직접 만들었다. 새로 쓴 것은 4절의 함수 하나다. 가중치로 계수를 구하고, 군집과 층을 따라 표준오차를 계산한다. 나머지는 그 함수에 회귀식과 자료를 바꿔 넣은 것뿐이다.</p>
+<p>AI에게 코드를 받았다면, 그 코드의 결과가 이 노트북의 결과와 같은지 맞춰 보는 것이 가장 확실한 점검이다. 그리고 노트북을 남에게 주기 전에는 출력을 지운다.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./health-survey"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="practice-prompt.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">이전</p>
+        <p class="prev-next-title">직접 해 보기 1 — 자료는 내 컴퓨터에, AI에는 질문만</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 내용
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">준비 — 패키지와 글꼴</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">1. 자료 읽기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">2. 분석 대상과 변수 만들기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">3. 가중 평균 — 표본과 모집단의 생김새</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">4. 표본설계를 반영한 회귀분석 함수</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">5. 보고서의 회귀식</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">6. 표준오차를 세 가지로 계산하기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">7. 변수를 하나씩 더하기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">8. 나이 곡선 — 예상 혈압 계산</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">9. 허리둘레와 상호작용</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">10. 혈압약을 다루는 네 방법</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">11. 보고서의 그림 왼쪽 패널</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">정리</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>© 2026 최필선</p>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

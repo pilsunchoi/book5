@@ -1,0 +1,592 @@
+
+<!DOCTYPE html>
+
+
+<html lang="ko" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="6. 횡단면이 말해 주지 않는 것 — 측정과 자료의 범위" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://pilsunchoi.github.io/book5/health-survey/section-h6.html" />
+<meta property="og:site_name" content="AI 데이터 분석" />
+<meta property="og:description" content="이 장 첫머리의 보고서는 한계 줄을 이렇게 시작하고 끝냈습니다. 상관이지 인과가 아니다. 소득, 직업, 체중, 식생활처럼 학력과 함께 움직이는 요인은 반영되지 않았고, … 한 해의 횡단면 자료이며, 시설 거주자는 조사 대상에서 빠진다. “상관이지 인과가 아니다”는 다중회귀분석 장에..." />
+<meta name="description" content="이 장 첫머리의 보고서는 한계 줄을 이렇게 시작하고 끝냈습니다. 상관이지 인과가 아니다. 소득, 직업, 체중, 식생활처럼 학력과 함께 움직이는 요인은 반영되지 않았고, … 한 해의 횡단면 자료이며, 시설 거주자는 조사 대상에서 빠진다. “상관이지 인과가 아니다”는 다중회귀분석 장에..." />
+
+    <title>6. 횡단면이 말해 주지 않는 것 — 측정과 자료의 범위 &#8212; AI 데이터 분석</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=14e72410" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=ae323b5b"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = '표시하려면 클릭';</script>
+    <script>let toggleHintHide = '숨기려면 클릭';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/translations.js?v=e33e7ba0"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'health-survey/section-h6';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="색인" href="../genindex.html" />
+    <link rel="search" title="검색" href="../search.html" />
+    <link rel="next" title="직접 해 보기 1 — 자료는 내 컴퓨터에, AI에는 질문만" href="practice-prompt.html" />
+    <link rel="prev" title="5. 약 먹고 잰 혈압 — 표본을 정하는 판단과 거꾸로 된 순서" href="section-h5.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="ko"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.png" class="logo__image only-light" alt="AI 데이터 분석"/>
+    <img src="../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="AI 데이터 분석"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../simple-regression/index.html">단순회귀분석 — 직선 하나로 관계 읽기</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a1.html">1. 완성된 보고서 — 노원구에서 1㎡는 얼마인가</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a2.html">2. 직선은 어떻게 정해지나 — 잔차와 최소제곱</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a3.html">3. 이 기울기를 믿어도 되나 — 표준오차, 신뢰구간, <span class="math notranslate nohighlight">\(p\)</span>값</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a4.html">4. 얼마나 설명하나 — <span class="math notranslate nohighlight">\(R^2\)</span>과 잔차</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a5.html">5. 로그로 읽는 가격 — 탄력성과 % 해석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../multiple-regression/index.html">다중회귀분석 — 여러 변수를 함께</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b1.html">1. 완성된 보고서 — 서울 아파트 값은 무엇으로 정해지나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b2.html">2. 다른 조건이 같다면 — 다중회귀분석의 계수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b3.html">3. 숫자가 아닌 변수 — 더미 변수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b4.html">4. 효과가 집단마다 다를 때 — 상호작용</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b5.html">5. 직선으로 부족할 때 — 제곱항</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">국가 표본조사 자료의 회귀분석 — 국민건강영양조사로 읽는 학력과 혈압</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="section-h1.html">1. 완성된 보고서 — 학력이 높을수록 혈압이 낮을까</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-h2.html">2. 표본이 모집단을 닮게 — 가중치와 표본설계</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-h3.html">3. 다른 조건이 같다면 — 계수는 무엇을 비교하나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-h4.html">4. 회귀식 밖에 남은 것 — 설명력, 빠진 변수, 남녀의 차이</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-h5.html">5. 약 먹고 잰 혈압 — 표본을 정하는 판단과 거꾸로 된 순서</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">6. 횡단면이 말해 주지 않는 것 — 측정과 자료의 범위</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-prompt.html">직접 해 보기 1 — 자료는 내 컴퓨터에, AI에는 질문만</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/pilsunchoi/book5" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="소스 저장소"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="이 페이지 다운로드">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/health-survey/section-h6.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="소스 파일 다운로드"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="PDF로 인쇄"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="전체 화면으로보기"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>6. 횡단면이 말해 주지 않는 것 — 측정과 자료의 범위</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 내용 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">회식 다음 날의 식단 기록 — 나트륨과 혈압</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">해마다 다른 사람 — 반복 횡단면</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">이 장을 마치며</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>6. 횡단면이 말해 주지 않는 것 — 측정과 자료의 범위<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>이 장 첫머리의 보고서는 한계 줄을 이렇게 시작하고 끝냈습니다.</p>
+<blockquote>
+<div><p>상관이지 인과가 아니다. 소득, 직업, 체중, 식생활처럼 학력과 함께 움직이는 요인은 반영되지 않았고, … 한 해의 횡단면 자료이며, 시설 거주자는 조사 대상에서 빠진다.</p>
+</div></blockquote>
+<p>“상관이지 인과가 아니다”는 다중회귀분석 장에서 소개한 누락 변수 편향, 곧 회귀식에 넣지 않은 요인이 숫자를 부풀리거나 줄일 수 있다는 이야기입니다. 4절에서는 허리둘레를 넣어 그 한 예를 보았고, 앞 절에서는 원인과 결과의 순서가 거꾸로일 수 있다는 것을 보았습니다. 이 절은 남은 두 가지를 봅니다. 하나는 변수를 <strong>어떻게 측정했는가</strong>이고, 다른 하나는 이 자료가 <strong>누구를, 언제</strong> 본 것인가입니다.</p>
+<p>미리 답부터 말하면, <strong>하루치 기록처럼 거칠게 측정한 변수는 관계를 실제보다 약하게 보이게 합니다. 그리고 해마다 다른 사람을 뽑는 조사로는 같은 사람의 변화를 볼 수 없고, 조사 명부에서 빠진 사람은 가중치로도 되살아나지 않습니다.</strong></p>
+<section id="id2">
+<h2>회식 다음 날의 식단 기록 — 나트륨과 혈압<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>이번에는 소금입니다. 짜게 먹으면 혈압이 오른다는 것은 잘 알려진 이야기입니다. 국민건강영양조사의 영양조사에는 그 사람이 하루에 먹은 나트륨의 양이 있습니다. 이 자료로 확인해 볼까요? 영양조사까지 마친 사람만 쓰므로, 가중치는 건강설문·검진·영양조사를 모두 반영한 가중치(wt_tot)를 씁니다.</p>
+<p><img alt="나트륨의 계수" src="../_images/fig_h6_1_sodium.png" /></p>
+<p><strong>그림 6-1.</strong> 수축기 혈압을 나트륨 섭취량에 회귀분석한 계수와 95% 신뢰구간, 아래로 갈수록 회귀식에 변수를 하나씩 더한 것(가중치 wt_tot 적용, 19세 이상 가운데 나트륨과 혈압이 있는 5,793명).</p>
+<p>그림에서 보듯이 맨 위의 점, 곧 수축기 혈압을 나트륨 섭취량 하나에 회귀분석한 계수는 0.49입니다. 나트륨을 하루 1g 더 먹는 사람은 혈압이 0.49mmHg 높고, 신뢰구간은 0에서 떨어져 있습니다. 예상대로입니다. 그런데 회귀식에 성별을 더하자 계수가 0.08로 작아지고, 신뢰구간이 0을 포함하게 됩니다.</p>
+<p>성별을 넣자 왜 이렇게 줄었을까요? 남성은 여성보다 나트륨을 훨씬 많이 먹습니다(가중 평균으로 하루 3.83g 대 2.67g). 그리고 남성은 여성보다 혈압이 높습니다(122.0 대 117.1). 그래서 성별을 감안하지 않으면, 나트륨을 많이 먹는 사람 가운데 남성이 많고 남성은 혈압이 높으니, 나트륨과 혈압이 함께 움직이는 것처럼 보입니다. 0.49 가운데 대부분은 나트륨 때문이 아니라 남녀의 차이 때문이었던 것이죠. 같은 성별끼리 비교하자 그 몫이 빠졌습니다. 나이까지 더하면 계수는 0.24이고, 신뢰구간(0.01에서 0.46 사이)이 0에서 겨우 떨어집니다.</p>
+<p>그림 6-2는 이 관계를 그린 것입니다. 앞에서 본 그림 3-2, 그림 4-3과 같은 꼴입니다.</p>
+<p><img alt="성별의 몫이 섞이는 비교" src="../_images/fig_h6_2_sex_path.png" /></p>
+<p><strong>그림 6-2.</strong> 나트륨과 혈압을 그냥 비교하면 나트륨에 따른 혈압의 차이에 성별의 몫이 함께 섞인다.</p>
+<p>그림에서 보듯이 이번에는 성별이 나트륨과도, 혈압과도 연결돼 있습니다. 남성은 나트륨을 더 많이 먹고 혈압도 높으니, 나트륨과 혈압을 그냥 비교하면 성별을 거쳐 오는 몫이 아래쪽 화살표에 함께 섞입니다. 회귀식에 성별을 넣어 같은 성별끼리 비교하면 그 몫이 빠집니다.</p>
+<p>0.24는 작은 숫자입니다. 나트륨을 하루 2g 더 먹는 사람, 곧 꽤 짜게 먹는 사람이라도 혈압이 0.5mmHg쯤 높다는 뜻이니까요. 사람들에게 소금을 줄이게 한 무작위 실험 34편을 모아 본 연구(He, Li, MacGregor, 2013)<a class="footnote-reference brackets" href="#salt" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>에서는 소금을 하루 4.4g, 곧 나트륨으로 1.7g쯤 줄였을 때 수축기 혈압이 4.2mmHg 내려갔습니다. 나트륨 1g에 2mmHg 남짓인 셈입니다. 그러면 우리 자료는 소금과 혈압의 관계가 알려진 것보다 훨씬 약하다는 것을 보여 준 걸까요? 그렇게 결론 내리기 전에, 나트륨을 <strong>어떻게 측정했는지</strong>를 봐야 합니다. 국민건강영양조사의 영양조사는 <strong>어제 하루</strong> 먹은 음식을 묻습니다(24시간 회상법). 우리가 알고 싶은 것은 그 사람이 평소에 얼마나 짜게 먹는가인데, 자료에 있는 것은 어제 하루의 기록입니다.</p>
+<p>회사 건강검진의 문진표를 떠올려 봅시다. “어제 무엇을 드셨나요?” 하필 어제가 회식 날이었던 직원은 찌개와 젓갈과 라면까지 적어, 평소보다 훨씬 짜게 먹은 사람으로 기록됩니다. 평소에 짜게 먹는 직원이 어제는 마침 샐러드로 점심을 때웠다면, 싱겁게 먹는 사람으로 기록됩니다. 하루치 기록은 평소 식습관을 아주 거칠게 측정한 값입니다. 이 자료에서 하루 나트륨 섭취량은 가운데 80%의 사람만 봐도 1.2g에서 5.4g까지 넓게 퍼져 있는데, 그 퍼짐의 상당 부분은 사람의 차이가 아니라 그날그날의 차이입니다.</p>
+<p>설명변수가 이렇게 거칠게 측정되면, 회귀 계수는 0 쪽으로 작아집니다. 평소에 짜게 먹는 사람과 싱겁게 먹는 사람이 기록에서 뒤섞이니, 혈압과의 관계가 흐려지는 것이죠. 이것을 <strong>감쇠</strong>(attenuation)라고 부릅니다. 일상에서 감쇠는 소리나 진동처럼 무언가가 전해지는 동안 점점 약해지는 것을 가리키는데, 여기서는 측정의 잡음에 묻혀 관계가 실제보다 약하게 보이는 것을 그렇게 부릅니다. 종속변수의 측정 오차는 계수를 치우치게 하지 않고 표준오차만 키우지만, 설명변수의 측정 오차는 계수 자체를 0 쪽으로 끌어당긴다는 점이 다릅니다. 그러니 0.24라는 작은 숫자는 “소금은 혈압과 별 관계가 없다”가 아니라 “하루치 기록으로는 그 관계가 실제보다 약하게 보인다”로 읽어야 합니다. 앞에서 말한 소금 줄이기 실험들은 사람들을 무작위로 나눠 실제로 소금을 줄이게 하고 두 무리의 혈압을 비교했으므로, 하루치 기록 때문에 생기는 이런 감쇠가 없습니다. 관찰 자료로 평소 섭취량을 다루는 영양 연구에서는 같은 사람을 이틀 이상 조사한 자료로 하루하루의 변동을 따로 떼어 내는 통계 모형을 쓰기도 합니다. 미국 국립암연구소가 만든 NCI 방법이 대표적입니다<a class="footnote-reference brackets" href="#nci" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>.</p>
+<p>혈압은 검진에서 직접 측정한 값이라 이런 걱정이 적습니다. 세 번 재서 두 번째와 세 번째의 평균을 쓰는 것도 그날의 긴장 같은 우연한 몫을 줄이려는 것입니다. 반면 학력, 음주, 운동, 소득처럼 설문으로 답한 값은 기억이나 체면에 따라 실제와 다를 수 있습니다. 특히 음주량이나 소득은 실제보다 적게 답하는 경향이 있다고 알려져 있습니다. 자료의 변수가 어떻게 측정되었는지는 회귀분석이 알려 주지 않습니다. 이용지침서를 읽어야 압니다.</p>
+<p>💡 <strong>팁:</strong> AI의 보고서가 건강 조사 자료에서 “○○을 많이 먹는 사람이 △△이 높다”처럼 생활 습관과 건강의 관계를 내놓으면, 그 변수를 어떻게 측정했는지 물어보세요. “이 변수는 어떻게 측정했어? 설문 응답이야, 직접 측정한 값이야, 하루치 기록이야?”라고 요청하면 됩니다.</p>
+</section>
+<section id="id5">
+<h2>해마다 다른 사람 — 반복 횡단면<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<p>다음은 보고서 한계 줄의 “한 해의 횡단면 자료”와 “시설 거주자는 빠진다”입니다.</p>
+<p>국민건강영양조사는 해마다 하지만, 해마다 <strong>다른 사람</strong>을 뽑습니다. 2023년에 조사한 사람을 2024년에 다시 조사하지 않습니다. 이런 자료를 <strong>반복 횡단면</strong>(repeated cross-section) 자료라고 부릅니다. 회사로 치면 해마다 정밀 검진 대상 500명을 새로 뽑는 것과 같습니다. 올해 뽑힌 김 부장이 내년에도 뽑힌다는 보장이 없으니, 여러 해의 결과를 모아도 “김 부장의 혈압이 약을 먹기 시작한 뒤 얼마나 내려갔나”는 알 수 없습니다. 앞 절에서 본 “무엇이 먼저인가”를 이 자료로 풀 수 없는 것도 그래서입니다. 같은 사람을 여러 해 따라가는 자료는 <strong>패널 데이터</strong>라고 부르고, 패널 데이터 분석 장에서 다룹니다. 반복 횡단면 자료로도 “한국 성인의 평균 혈압이 10년 동안 어떻게 바뀌었나” 같은 사회 전체의 변화는 볼 수 있습니다. 조금 더 나아가, 같은 해에 태어난 사람들을 하나의 집단으로 보고 그 집단의 평균을 해마다 이어 볼 수도 있습니다. 예를 들어 1970~1974년생의 평균 혈압을 2014년 자료(40~44세일 때)와 2024년 자료(50~54세일 때)에서 각각 계산해 잇는 것이죠. 사람은 매번 다르지만 같은 세대의 평균을 따라가므로, 이런 자료를 <strong>유사 패널</strong>(pseudo panel)이라고 부릅니다. 다만 여러 해의 자료를 합칠 때는 해마다 바뀐 조사 항목과 측정 방법을 확인해야 합니다.</p>
+<p>시설 거주자는 조사의 표본을 뽑는 명부에서 처음부터 빠집니다. 요양원이나 요양병원에 사는 고령자, 군부대의 장병이 그렇습니다. 이 가운데 요양시설의 고령자는 대개 건강이 좋지 않은 분들이라, 이 조사에 나타난 고령자의 건강은 실제 고령자 전체보다 좋게 나오기 쉽습니다. 앞으로 초고령 인구가 늘어날수록 이 차이는 커질 것입니다. 또 가구가 조사에 응한 뒤에도 검진이나 채혈이나 영양조사를 건너뛰는 사람이 있습니다. 가중치가 이런 탈락의 일부를 보정하지만, 건강이 나빠서 검진에 오지 못한 사람까지 보정해 주지는 못합니다.</p>
+<blockquote>
+<div><p><strong>요약 — 이 절의 물음과 답</strong></p>
+<ul class="simple">
+<li><p><strong>나트륨을 많이 먹는 사람의 혈압이 조금밖에 높지 않다면, 소금은 혈압과 관계가 약할까?</strong> 그렇게 결론 내리기 어렵다. 자료의 나트륨은 평소 식습관이 아니라 어제 하루의 기록이다. 설명변수를 이렇게 거칠게 측정하면 계수가 0 쪽으로 작아진다. 이것을 감쇠라고 한다.</p></li>
+<li><p><strong>해마다 하는 조사를 모으면 같은 사람의 변화를 볼 수 있을까?</strong> 볼 수 없다. 해마다 다른 사람을 뽑는 반복 횡단면 자료이기 때문이다. 사회 전체의 평균이 어떻게 바뀌었는지는 볼 수 있다.</p></li>
+<li><p><strong>가중치를 쓰면 조사에서 빠진 사람까지 대표할 수 있을까?</strong> 다 되지는 않는다. 요양시설의 고령자는 처음부터 표본을 뽑는 명부에서 빠지고, 건강이 나빠 검진에 오지 못한 사람도 가중치로 되살아나지 않는다.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id6">
+<h2>이 장을 마치며<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
+<p>이번 장은 단순회귀분석 장과 다중회귀분석 장에서 배운 회귀분석을 국가 표본조사 자료에 적용했습니다. 새로 배운 것의 중심은 두 가지입니다. 사람을 뽑아서 조사한 자료라서 <strong>가중치</strong>로 숫자를 바로잡고, <strong>표본설계</strong>대로 표준오차를 계산한다는 것입니다. 보고서의 회귀식 자체는 이미 배운 것이었습니다. 성별과 나이를 같게 맞춰 학력을 비교하는 것은 다중회귀의 “다른 조건이 같다면”이었고, 학력과 성별은 더미 변수, 나이와 나이²의 곡선은 제곱항, 학력의 차이가 남녀에 따라 다른지를 본 것은 상호작용이었습니다.</p>
+<p>그 회귀식 하나를 여러 방향에서 따져 보는 일이 이 장의 나머지였습니다. 계수가 무엇과 무엇을 비교한 숫자인지(학력만 넣으면 15.0, 나이를 맞추면 7.5), 그 차이가 얼마나 크고 누구에게 해당하는지(<span class="math notranslate nohighlight">\(R^2\)</span>, 상호작용), 누구를 분석에 넣을지(혈압약), 무엇이 먼저인지(역인과), 변수를 어떻게 측정했는지(감쇠). 그러면서 방법을 바꿔 가며 결론을 확인하는 강건성 점검도 만났습니다.</p>
+<p>그리고 무엇보다 이번 장은 숫자를 읽기 전에 <strong>자료를 아는 일</strong>이 얼마나 중요한지를 보여 주었습니다. 표본이 모집단보다 나이가 많다는 것, 나이가 많을수록 학력이 낮다는 것, 혈압약을 먹는 사람의 혈압은 약으로 낮춘 혈압이라는 것, 나트륨은 하루치 기록이라는 것. 이런 것들은 회귀분석의 결과표에는 나오지 않습니다. 자료가 어떻게 모였는지를 알아야 보입니다.</p>
+<p>그리고 이번 장에서는 한 사람 한 사람의 기록을 AI에게 보여 주지 않았습니다. AI에게 자료 대신 자료의 설명을 보내 코드를 받고, 그 코드를 우리 컴퓨터에서 돌렸습니다. AI가 본 것은 자료의 설명과 집계 결과뿐이었습니다. 이것은 이번 장만의 특별한 사정이 아닙니다. 여러분이 회사나 기관에서 분석하게 될 자료의 상당수는 회사의 기밀, 업무상 알게 된 비밀, 법이 보호하는 개인정보, 승인 조건이 붙은 연구 자료처럼 AI에게 그대로 보여 줄 수 없는 자료일 것입니다. “AI에게 데이터를 넣어 주고 분석해 달라고 하면 된다”는 말은 그런 제약이 없을 때의 이야기입니다.</p>
+<p>그런 자료 앞에서도 AI는 여전히 좋은 조수입니다. 무엇을 분석할지 함께 정하고, 코드를 짜 주고, 오류를 고치는 것을 도와줍니다. 다만 자료를 만지고 코드를 돌리는 손은 내 손이어야 합니다. AI도 틀릴 수 있으니 결과를 점검할 줄 알아야 하고, AI에게 보여 줄 수 없는 자료는 내가 직접 분석해야 합니다. 파이썬 같은 도구를 스스로 다룰 줄 알아야 하는 이유가 이 둘입니다. 이 장 끝의 “직접 해 보기”가 그 연습입니다.</p>
+<hr class="footnotes docutils" />
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="salt" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">1</a><span class="fn-bracket">]</span></span>
+<p>He, F. J., Li, J., &amp; MacGregor, G. A. (2013). Effect of longer term modest salt reduction on blood pressure: Cochrane systematic review and meta-analysis of randomised trials. <em>BMJ</em>, 346, f1325. 소변으로 잰 나트륨이 하루 75mmol(소금 4.4g) 줄었을 때 수축기 혈압이 평균 4.18mmHg(95% 신뢰구간 3.18~5.18) 내려갔다.</p>
+</aside>
+<aside class="footnote brackets" id="nci" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">2</a><span class="fn-bracket">]</span></span>
+<p>National Cancer Institute, “Usual Dietary Intakes: The NCI Method”, https://epi.grants.cancer.gov/diet/usualintakes/method.html. 이 방법은 집단의 평소 섭취량 분포를 추정하고 회귀분석의 측정 오차를 일부 바로잡는 데 쓰이지만, 개인 한 사람의 평소 섭취량을 추정하는 용도는 아니라고 밝힌다.</p>
+</aside>
+</aside>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./health-survey"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="section-h5.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">이전</p>
+        <p class="prev-next-title">5. 약 먹고 잰 혈압 — 표본을 정하는 판단과 거꾸로 된 순서</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="practice-prompt.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">다음</p>
+        <p class="prev-next-title">직접 해 보기 1 — 자료는 내 컴퓨터에, AI에는 질문만</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 내용
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">회식 다음 날의 식단 기록 — 나트륨과 혈압</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">해마다 다른 사람 — 반복 횡단면</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">이 장을 마치며</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>© 2026 최필선</p>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
