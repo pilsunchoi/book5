@@ -37,6 +37,8 @@ div.admonition.video-box > .admonition-title::after { content: none; }
 
 /* 그림 */
 article img { max-width: 100%; }
+/* 개념도(SVG)는 본래 크기가 작게 잡혀 있어(약 485px) 본문 폭을 채우게 한다 — PNG 그림이 보이던 폭과 같다 (2026-10-26) */
+article img[src$=".svg"] { width: 100%; height: auto; }
 
 /* 작은 글자 하한 (저자 2026-10-12, book4보다 작아 보인다는 지적): Pretendard 한글은 맑은 고딕보다 작아 보이므로
    테마의 작은 글자(왼쪽 목록 .9rem, 바닥글 .875rem)를 .95rem으로 올린다 */
