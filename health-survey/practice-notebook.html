@@ -490,6 +490,11 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(6997, 813)
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="id4">
@@ -547,6 +552,11 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>분석 대상 5731 명
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="id5">
@@ -561,6 +571,15 @@
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">col</span><span class="si">:</span><span class="s1">4s</span><span class="si">}</span><span class="s1">  그냥 낸 평균 </span><span class="si">{</span><span class="n">plain</span><span class="si">:</span><span class="s1">7.3f</span><span class="si">}</span><span class="s1">   가중 평균 </span><span class="si">{</span><span class="n">weighted</span><span class="si">:</span><span class="s1">7.3f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s1">'유효 표본 크기'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">'w'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">'w'</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()))</span>   <span class="c1"># 가중치가 고르지 않은 만큼 줄어든다</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>나이    그냥 낸 평균  53.873   가중 평균  49.662
+여성    그냥 낸 평균   0.570   가중 평균   0.498
+혈압    그냥 낸 평균 120.561   가중 평균 119.369
+혈압약   그냥 낸 평균   0.270   가중 평균   0.221
+유효 표본 크기 4505
 </pre></div>
 </div>
 </div>
@@ -627,6 +646,19 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                      계수    표준오차       t값        하한        상한      p값
+Intercept       119.5921  1.6498  72.4867  116.3346  122.8497  0.0000
+C(학력)[T.중졸]      -2.7171  1.0448  -2.6006   -4.7799   -0.6542  0.0101
+C(학력)[T.고졸]      -5.0665  0.8246  -6.1444   -6.6946   -3.4384  0.0000
+C(학력)[T.대졸 이상]   -7.5291  0.9032  -8.3363   -9.3124   -5.7459  0.0000
+여성               -6.2888  0.3967 -15.8537   -7.0720   -5.5056  0.0000
+나이                0.0236  0.0820   0.2878   -0.1383    0.1855  0.7738
+I(나이 ** 2)        0.0026  0.0009   2.9475    0.0009    0.0043  0.0037
+{'n': 5731, 'R2': np.float64(0.21183674841315447), 'df': 165}
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="id8">
@@ -655,6 +687,48 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>대졸 이상</th>
+      <th>여성</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>가중치 없음, 제비뽑기 가정</th>
+      <td>-7.19 (0.806)</td>
+      <td>-5.28 (0.377)</td>
+    </tr>
+    <tr>
+      <th>가중치 적용, 제비뽑기 가정</th>
+      <td>-7.53 (0.857)</td>
+      <td>-6.29 (0.387)</td>
+    </tr>
+    <tr>
+      <th>가중치 적용, 층과 군집 반영</th>
+      <td>-7.53 (0.903)</td>
+      <td>-6.29 (0.397)</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 </section>
 <section id="id9">
@@ -674,6 +748,20 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>학력만        대졸 이상  -15.01   R² 0.106
++ 여성       대졸 이상  -16.46   R² 0.150
++ 나이, 나이²  대졸 이상   -7.53   R² 0.212
+학력별 평균 나이(가중):
+학력
+초졸 이하    71.9
+중졸       64.6
+고졸       46.7
+대졸 이상    43.7
+dtype: float64
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="id10">
@@ -685,6 +773,13 @@
 <span class="k">for</span> <span class="n">age</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">70</span><span class="p">]:</span>
     <span class="n">pred</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="s1">'Intercept'</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="s1">'나이'</span><span class="p">]</span> <span class="o">*</span> <span class="n">age</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="s1">'I(나이 ** 2)'</span><span class="p">]</span> <span class="o">*</span> <span class="n">age</span><span class="o">**</span><span class="mi">2</span>   <span class="c1"># 초졸 이하, 남성</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">age</span><span class="p">,</span> <span class="s1">'세'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>30 세 122.6
+50 세 127.3
+70 세 134.0
 </pre></div>
 </div>
 </div>
@@ -711,6 +806,13 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>보고서의 회귀식   대졸 이상  -7.52   n 5617
++ 허리둘레     대졸 이상  -5.67   n 5617
+대졸 이상 — 남성 -1.95  여성 -11.03  상호작용 -9.08
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="id12">
@@ -727,6 +829,14 @@
     <span class="n">dk</span><span class="p">[</span><span class="s1">'혈압'</span><span class="p">]</span> <span class="o">=</span> <span class="n">dk</span><span class="p">[</span><span class="s1">'혈압'</span><span class="p">]</span> <span class="o">+</span> <span class="n">add</span> <span class="o">*</span> <span class="n">dk</span><span class="p">[</span><span class="s1">'혈압약'</span><span class="p">]</span>
     <span class="n">rk</span> <span class="o">=</span> <span class="n">svy_reg</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">dk</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">14s</span><span class="si">}</span><span class="s2"> 대졸 이상 </span><span class="si">{</span><span class="n">rk</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">'C(학력)[T.대졸 이상]'</span><span class="p">,</span><span class="w"> </span><span class="s1">'계수'</span><span class="p">]</span><span class="si">:</span><span class="s2">6.2f</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">rk</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">'C(학력)[T.대졸 이상]'</span><span class="p">,</span><span class="w"> </span><span class="s1">'표준오차'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">)   n </span><span class="si">{</span><span class="n">rk</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'n'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>그대로 넣기 (보고서)   대졸 이상  -7.53 (0.90)   n 5731
+약을 먹는 사람을 빼기   대졸 이상  -7.17 (1.12)   n 4184
+혈압에 10을 더하기    대졸 이상  -8.89 (0.96)   n 5731
+혈압에 15를 더하기    대졸 이상  -9.57 (1.02)   n 5731
 </pre></div>
 </div>
 </div>
@@ -747,6 +857,9 @@
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/c9b3f52c1392fc646fbec53ef27d0280874a7e139a482cfc9abc4bb6b0ca0366.png" src="../_images/c9b3f52c1392fc646fbec53ef27d0280874a7e139a482cfc9abc4bb6b0ca0366.png" />
 </div>
 </div>
 </section>
