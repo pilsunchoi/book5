@@ -504,7 +504,10 @@ b \times \text{층} + h \times \text{층} = (b + h) \times \text{층}
 <section id="id5">
 <h2>믿을 만한 차이인가, 큰 차이인가<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
 <p>상호작용 항의 <span class="math notranslate nohighlight">\(t\)</span>값은 8.2입니다. 앞 절에서 보았듯이 <span class="math notranslate nohighlight">\(t\)</span>값이 2만 넘어도 우연으로 보기 어려운데, 8.2이면 “한 층의 효과가 강남 3구와 그 밖의 구에서 다르다”는 것은 우연이 아니라고 봐도 됩니다.</p>
-<p>그런데 <span class="math notranslate nohighlight">\(R^2\)</span>은 0.7193에서 0.7196으로 거의 그대로입니다. 차이가 분명히 있는데도 설명력은 왜 늘지 않았을까요? 상호작용이 바꾸는 것이 가격 차이의 작은 부분이기 때문입니다. 서울 아파트 가격 차이의 대부분은 면적과 구가 설명하고, 층은 그중 일부를 설명하며, 상호작용은 다시 그 층의 효과를 두 갈래로 나눈 것뿐입니다. “믿을 만한 차이”와 “가격을 크게 바꾸는 차이”는 다른 질문입니다. 단순회귀분석 장에서 “<span class="math notranslate nohighlight">\(p\)</span>값이 작다는 것은 관계가 있다는 뜻이지, 관계가 크다는 뜻이 아니다”라고 했던 것과 같은 이야기입니다.</p>
+<p>그런데 <span class="math notranslate nohighlight">\(R^2\)</span>은 0.7193에서 0.7196으로 거의 그대로입니다. 차이가 분명히 있는데도 설명력은 왜 늘지 않았을까요? 상호작용이 바꾸는 것이 가격 차이의 작은 부분이기 때문입니다. 서울 아파트 가격 차이의 대부분은 면적과 구가 설명하고, 층은 그중 일부를 설명하며, 상호작용은 다시 그 층의 효과를 두 갈래로 나눈 것뿐입니다. “믿을 만한 차이”와 “가격을 크게 바꾸는 차이”는 다른 질문입니다. 단순회귀분석 장에서 “<span class="math notranslate nohighlight">\(p\)</span>값이 작다는 것은 관계가 있다는 뜻이지, 관계가 크다는 뜻이 아니다”라고 했던 것과 같은 이야기입니다. 그림 4-2가 이것을 막대 하나로 보여 줍니다.</p>
+<p><img alt="상호작용을 넣어도 R²이 거의 늘지 않는 까닭" src="../_images/fig_b4_2_r2_layers.svg" /></p>
+<p><strong>그림 4-2.</strong> 서울 아파트 가격 차이 전체를 막대 하나로 놓고, 보고서의 회귀식이 설명한 부분을 변수별로 나눈 것. 층과 연식의 칸은 그 변수를 뺐을 때 <span class="math notranslate nohighlight">\(R^2\)</span>이 줄어드는 만큼이고, 면적과 구의 칸은 나머지다.</p>
+<p>그림에서 보듯이 가격 차이의 대부분은 면적과 구가 채우고, 층의 칸은 아주 얇습니다. 상호작용 항은 이 얇은 칸을 강남 3구의 한 층과 그 밖의 구의 한 층으로 나눌 뿐이라, 막대 가운데 설명한 부분의 길이, 곧 <span class="math notranslate nohighlight">\(R^2\)</span>은 거의 그대로입니다.</p>
 <p>그리고 왜 강남 3구에서 한 층의 효과가 더 큰지는 이 계수가 말해 주지 않습니다. 호텔의 바다 전망처럼 한강이나 공원 조망 때문일 수도 있고, 강남 3구의 고층 아파트에 다른 특징이 있기 때문일 수도 있습니다. 계수는 차이가 있다는 것과 그 크기를 말할 뿐입니다.</p>
 </section>
 <section id="id6">
