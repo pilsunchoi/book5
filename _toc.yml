@@ -30,3 +30,12 @@ chapters:
       - file: health-survey/section-h6
       - file: health-survey/practice-prompt
       - file: health-survey/practice-notebook
+  - file: panel-data/index
+    sections:
+      - file: panel-data/section-p1
+      - file: panel-data/section-p2
+      - file: panel-data/section-p3
+      - file: panel-data/section-p4
+      - file: panel-data/section-p5
+      - file: panel-data/practice-prompt
+      - file: panel-data/practice-notebook
