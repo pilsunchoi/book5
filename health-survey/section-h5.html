@@ -253,6 +253,16 @@
 <li class="toctree-l2"><a class="reference internal" href="practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../panel-data/index.html">패널 데이터 분석 — FTA와 수출</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p1.html">1. 보고서 — FTA는 한국의 수출을 늘렸나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p2.html">2. 단체 사진과 사진첩 — 횡단면과 패널</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p3.html">3. 어제의 나와 비교하기 — 고정효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p4.html">4. 두 가지 차이를 섞기 — 확률효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p5.html">5. 무엇을 고르나 — 하우스만 검정과 연도 효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
 </ul>
 
     </div>
@@ -416,7 +426,7 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">김 부장의 혈압 — 약으로 낮춘 숫자</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">넣을까, 뺄까 — 표본을 정하는 판단</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">혈압약을 먹으면 혈압이 오른다? — 무엇이 먼저인가</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">또 하나의 예 — 체중을 줄이려는 사람의 비만도</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">우리 주위의 역인과 — 체중을 줄이려는 사람의 비만도</a></li>
 </ul>
 </li>
 </ul>
@@ -446,7 +456,7 @@
 </section>
 <section id="id3">
 <h2>넣을까, 뺄까 — 표본을 정하는 판단<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
-<p>연구자들이 쓰는 방법은 크게 두 가지입니다(Tobin 외, 2005).<a class="footnote-reference brackets" href="#tobin" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> 첫째는 <strong>혈압약을 먹는 사람을 빼는 것</strong>입니다. 둘째는 약을 먹는 사람의 혈압에 일정한 값(흔히 10mmHg나 15mmHg; Levy 외, 2009; Newton-Cheh 외, 2009)<a class="footnote-reference brackets" href="#bpadd" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>을 더해 약을 먹지 않았을 때의 혈압을 어림하는 것입니다. 약이 혈압을 대략 그만큼 낮춘다는 임상 연구에 기댄 방법입니다.</p>
+<p>연구자들이 쓰는 방법은 크게 두 가지입니다(Tobin 외, 2005).<a class="footnote-reference brackets" href="#tobin" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> 첫째는 <strong>혈압약을 먹는 사람을 빼는 것</strong>입니다. 둘째는 약을 먹는 사람의 혈압에 일정한 값(흔히 10mmHg나 15mmHg; Levy 외, 2009; Newton-Cheh 외, 2009)<a class="footnote-reference brackets" href="#bpadd" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>을 더해 약을 먹지 않았을 때의 혈압을 짐작하는 것입니다. 약이 혈압을 대략 그만큼 낮춘다는 임상 연구에 기댄 방법입니다.</p>
 <p>어느 쪽도 완벽하지 않습니다. 빼는 방법은 간단하지만, 그러면 분석의 대상이 바뀝니다. 결과는 “한국 성인”이 아니라 “혈압약을 먹지 않는 한국 성인”에 대한 것이 됩니다. 빠지는 1,547명은 평균 나이가 64.4세로, 남는 사람들(45.5세)보다 스무 살 가까이 많습니다. 남은 사람들은 상대적으로 젊고 건강한 쪽입니다. 이에 반해, 더하는 방법은 약을 먹는 사람까지 모든 사람을 분석에 쓸 수 있습니다. 하지만 약이 혈압을 낮추는 정도가 사람마다 같다고 가정하는 셈인데, 실제로는 그 정도가 사람마다 다를 수 있습니다.</p>
 <p>어느 방법을 고르느냐에 따라 결과가 얼마나 달라지는지 비교해 봅시다. 표 5-1은 보고서의 회귀식을, 혈압약을 먹는 사람을 다루는 방법만 바꿔 추정한 것입니다.</p>
 <p><strong>표 5-1.</strong> 혈압약 복용자를 다루는 방법에 따른 보고서의 회귀식</p>
@@ -513,8 +523,8 @@
 <p>그림에서 보듯이 혈압약 복용을 설명변수로, 혈압을 종속변수로 놓고 회귀분석하면, 화살표가 혈압약에서 혈압으로 향하는 것처럼, 즉 약이 혈압을 올리는 것처럼 읽힙니다. 그런데 실제 화살표는 거꾸로입니다. 혈압이 높아서 약을 먹는 것이죠. 같은 두 변수 사이에서 원인과 결과의 화살표가 뒤집혀 있다는 뜻에서 “역”인과라고 부릅니다.</p>
 <p>건강 자료에서는 이런 역인과를 자주 만납니다. 사람들은 진단을 받고 나면 약을 먹고, 생활 습관을 바꾸고, 병원에 더 자주 가기 때문입니다. 그러면 자료에서는 약을 먹거나 병원에 자주 가는 사람이 오히려 건강이 나쁜 쪽으로 나오기 쉽습니다. 병을 일으킨 것처럼 보이는 행동이 사실은 병 때문에 생긴 행동인 것이죠. 이 장의 회귀식에 혈압약 복용 여부를 설명변수로 넣지 않은 것도 그래서입니다. 넣으면 “약을 먹는 사람의 혈압이 높다”는 거꾸로 된 관계가 계수로 나와, 마치 약이 혈압을 올리는 것처럼 읽히게 됩니다.</p>
 <section id="id7">
-<h3>또 하나의 예 — 체중을 줄이려는 사람의 비만도<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
-<p>같은 일이 체중에서도 일어납니다. 국민건강영양조사의 건강설문은 지난 1년 동안 체중을 조절하려고 노력했는지를 묻습니다. 응답에 따라 사람들을 네 집단으로 나눠 체질량지수를 비교한 것이 표 5-2입니다.</p>
+<h3>우리 주위의 역인과 — 체중을 줄이려는 사람의 비만도<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<p>건강 자료를 다루다 보면 이렇게 원인과 결과가 거꾸로 된 관계를 자주 만납니다. 몸에 문제가 생긴 사람일수록 무언가를 하거나 조심하기 때문입니다. 체중의 예로 봅시다. 국민건강영양조사의 건강설문은 지난 1년 동안 체중을 조절하려고 노력했는지를 묻습니다. 응답에 따라 사람들을 네 집단으로 나눠 체질량지수를 비교한 것이 표 5-2입니다.</p>
 <p><strong>표 5-2.</strong> 지난 1년 동안의 체중 조절 노력별 평균 체질량지수와 체질량지수 25 이상인 사람의 비율</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
@@ -639,7 +649,7 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">김 부장의 혈압 — 약으로 낮춘 숫자</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">넣을까, 뺄까 — 표본을 정하는 판단</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">혈압약을 먹으면 혈압이 오른다? — 무엇이 먼저인가</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">또 하나의 예 — 체중을 줄이려는 사람의 비만도</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">우리 주위의 역인과 — 체중을 줄이려는 사람의 비만도</a></li>
 </ul>
 </li>
 </ul>

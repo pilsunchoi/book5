@@ -1,0 +1,1102 @@
+
+<!DOCTYPE html>
+
+
+<html lang="ko" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="직접 해 보기 2 — 파이썬 코드로 따라 해 보기" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://pilsunchoi.github.io/book5/panel-data/practice-notebook.html" />
+<meta property="og:site_name" content="AI 데이터 분석" />
+<meta property="og:description" content="AI가 내놓은 결과만 보고 그것이 어떻게 나왔는지 모르면, 그 결과를 믿을 근거도 없다. AI도 실수를 하므로 결과는 점검해야 하고, 점검하려면 결과를 만든 파이썬 코드를 읽을 줄 알아야 한다. 이 노트북은 이 장에서 다룬 계산을 파이썬으로 직접 해 본다. 보고서의 네 모형(횡단면..." />
+<meta name="description" content="AI가 내놓은 결과만 보고 그것이 어떻게 나왔는지 모르면, 그 결과를 믿을 근거도 없다. AI도 실수를 하므로 결과는 점검해야 하고, 점검하려면 결과를 만든 파이썬 코드를 읽을 줄 알아야 한다. 이 노트북은 이 장에서 다룬 계산을 파이썬으로 직접 해 본다. 보고서의 네 모형(횡단면..." />
+
+    <title>직접 해 보기 2 — 파이썬 코드로 따라 해 보기 &#8212; AI 데이터 분석</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=18f25a40" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=ae323b5b"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = '표시하려면 클릭';</script>
+    <script>let toggleHintHide = '숨기려면 클릭';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/translations.js?v=e33e7ba0"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'panel-data/practice-notebook';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="색인" href="../genindex.html" />
+    <link rel="search" title="검색" href="../search.html" />
+    <link rel="prev" title="직접 해 보기 1 — 프롬프트로 내 보고서 받기" href="practice-prompt.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="ko"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.png" class="logo__image only-light" alt="AI 데이터 분석"/>
+    <img src="../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="AI 데이터 분석"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../simple-regression/index.html">단순회귀분석 — 직선 하나로 관계 읽기</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a1.html">1. 보고서 — 노원구에서 1㎡는 얼마인가</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a2.html">2. 직선은 어떻게 정해지나 — 잔차와 최소제곱</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a3.html">3. 이 기울기를 믿어도 되나 — 표준오차, 신뢰구간, <span class="math notranslate nohighlight">\(p\)</span>값</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a4.html">4. 얼마나 설명하나 — <span class="math notranslate nohighlight">\(R^2\)</span>과 잔차</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a5.html">5. 로그로 읽는 가격 — 탄력성과 % 해석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../multiple-regression/index.html">다중회귀분석 — 여러 변수를 함께</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b1.html">1. 보고서 — 서울 아파트 값은 무엇으로 정해지나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b2.html">2. 다른 조건이 같다면 — 다중회귀분석의 계수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b3.html">3. 숫자가 아닌 변수 — 더미 변수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b4.html">4. 효과가 집단마다 다를 때 — 상호작용</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b5.html">5. 직선으로 부족할 때 — 제곱항</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../health-survey/index.html">횡단면 분석 — 학력과 혈압</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h1.html">1. 보고서 — 학력이 높을수록 혈압이 낮을까</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h2.html">2. 표본이 모집단을 닮게 — 가중치와 표본설계</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h3.html">3. 다른 조건이 같다면 — 계수는 무엇을 비교하나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h4.html">4. 회귀식 밖에 남은 것 — 설명력, 빠진 변수, 남녀의 차이</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h5.html">5. 약 먹고 잰 혈압 — 표본을 정하는 판단과 거꾸로 된 순서</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h6.html">6. 횡단면이 말해 주지 않는 것 — 측정과 자료의 범위</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-prompt.html">직접 해 보기 1 — 자료는 내 컴퓨터에, AI에는 질문만</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">패널 데이터 분석 — FTA와 수출</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="section-p1.html">1. 보고서 — FTA는 한국의 수출을 늘렸나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-p2.html">2. 단체 사진과 사진첩 — 횡단면과 패널</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-p3.html">3. 어제의 나와 비교하기 — 고정효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-p4.html">4. 두 가지 차이를 섞기 — 확률효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-p5.html">5. 무엇을 고르나 — 하우스만 검정과 연도 효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/pilsunchoi/book5" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="소스 저장소"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="이 페이지 다운로드">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/panel-data/practice-notebook.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="소스 파일 다운로드"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="PDF로 인쇄"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="전체 화면으로보기"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>직접 해 보기 2 — 파이썬 코드로 따라 해 보기</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 내용 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">준비 — 패키지와 글꼴</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">1. 데이터 읽기</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">다른 수출국의 자료 만들기 (선택)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">2. 자료 살펴보기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fta-2003">3. 횡단면 — 2019년 한 해와 FTA가 없던 2003년</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ols">4. 합동 OLS와 군집 표준오차</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">5. 고정효과</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">자기 평균 빼기를 손으로</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">고정효과 모형 — 표 3-1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">군집 표준오차와 자유도</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">두 차이를 나누는 계산</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">그림으로 — 세 나라의 자기 평균 빼기</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">6. 확률효과</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">확률효과 모형 — 표 4-1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#theta"><span class="math notranslate nohighlight">\(\theta\)</span>를 손으로</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fta-4-2">비교 방법에 따른 FTA의 계수 — 표 4-2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">7. 하우스만 검정</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fta">통계량을 손으로 — FTA 하나로</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">두 계수를 함께 — 보고서의 1.51</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">8. 연도 효과</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">해마다의 연도 효과</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">9. 발효 뒤 몇 해째인가</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">정리</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>직접 해 보기 2 — 파이썬 코드로 따라 해 보기<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>AI가 내놓은 결과만 보고 그것이 어떻게 나왔는지 모르면, 그 결과를 믿을 근거도 없다. AI도 실수를 하므로 결과는 점검해야 하고, 점검하려면 결과를 만든 파이썬 코드를 읽을 줄 알아야 한다.</p>
+<p>이 노트북은 이 장에서 다룬 계산을 파이썬으로 직접 해 본다. 보고서의 네 모형(횡단면, 합동 OLS, 확률효과, 고정효과)을 다시 추정하고, 본문의 표를 차례로 만들고, 본문에서 숫자만 보았던 계산(자기 평균 빼기, <span class="math notranslate nohighlight">\(\theta\)</span>, 하우스만 통계량)을 손으로 해 본다. 코드는 될 수 있는 한 단순하게 썼다.</p>
+<ol class="arabic simple">
+<li><p>데이터 읽기 — 이 장의 CSV를 읽는다(다른 수출국의 자료를 만드는 법도)</p></li>
+<li><p>자료 살펴보기 — 패널의 두 꼬리표, FTA를 맺은 나라와 해</p></li>
+<li><p>횡단면 — 2019년 한 해의 비교와 FTA가 없던 2003년(표 2-2)</p></li>
+<li><p>합동 OLS와 군집 표준오차 — 표 2-3, 군집을 반영하기 전과 후</p></li>
+<li><p>고정효과 — 자기 평균 빼기를 손으로, 나라 더미, 표 3-1, 두 차이를 나누는 계산</p></li>
+<li><p>확률효과 — 표 4-1, <span class="math notranslate nohighlight">\(\theta\)</span>를 손으로, 비교 방법에 따른 FTA의 계수(표 4-2)</p></li>
+<li><p>하우스만 검정 — 통계량을 손으로</p></li>
+<li><p>연도 효과 — 표 5-2와 해마다의 연도 효과</p></li>
+<li><p>발효 뒤 몇 해째인가 — 표 5-3</p></li>
+</ol>
+<section id="id2">
+<h2>준비 — 패키지와 글꼴<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">import</span></code>로 쓸 패키지를 불러온다. <code class="docutils literal notranslate"><span class="pre">as</span></code> 뒤의 이름은 줄임말이고, 이후 코드에서는 <code class="docutils literal notranslate"><span class="pre">np</span></code>, <code class="docutils literal notranslate"><span class="pre">pd</span></code>처럼 줄임말로 부른다.</p>
+<p>이 장에는 새 패키지가 하나 있다. 패널 모형(합동 OLS, 고정효과, 확률효과)을 추정하는 <code class="docutils literal notranslate"><span class="pre">linearmodels</span></code>다. Anaconda와 Colab에 기본으로 들어 있지 않으므로 처음 한 번 설치한다. 내 컴퓨터에서는 Anaconda Prompt에서 <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">linearmodels</span></code>를, Colab에서는 새 셀에서 <code class="docutils literal notranslate"><span class="pre">!pip</span> <span class="pre">install</span> <span class="pre">linearmodels</span></code>를 실행한다. 횡단면처럼 보통의 회귀분석은 다른 장과 같이 <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>로 한다.</p>
+<p>matplotlib는 기본 글꼴에 한글이 없어서 그림의 한글이 네모로 깨진다. 그래서 한글 글꼴을 지정한다. 윈도우는 맑은 고딕(<code class="docutils literal notranslate"><span class="pre">Malgun</span> <span class="pre">Gothic</span></code>), 맥은 애플고딕(<code class="docutils literal notranslate"><span class="pre">AppleGothic</span></code>)을 쓴다. Colab에는 한글 글꼴이 없으므로 새 셀에서 <code class="docutils literal notranslate"><span class="pre">!apt-get</span> <span class="pre">-qq</span> <span class="pre">install</span> <span class="pre">fonts-nanum</span></code>을 실행하고, 런타임을 다시 시작한 뒤 <code class="docutils literal notranslate"><span class="pre">NanumGothic</span></code>을 지정한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>                       <span class="c1"># 수치 계산</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>                      <span class="c1"># 표(데이터프레임) 다루기</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.formula.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">smf</span>    <span class="c1"># 보통의 회귀분석(횡단면)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">linearmodels.panel</span><span class="w"> </span><span class="kn">import</span> <span class="n">PooledOLS</span><span class="p">,</span> <span class="n">PanelOLS</span><span class="p">,</span> <span class="n">RandomEffects</span>   <span class="c1"># 패널 모형</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">chi2</span>             <span class="c1"># 하우스만 검정의 p값</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>          <span class="c1"># 그림</span>
+
+<span class="c1"># 그림의 한글 글꼴</span>
+<span class="c1"># 맥은 'AppleGothic', Colab은 'NanumGothic'(설치 필요)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'font.family'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Malgun Gothic'</span>   <span class="c1"># 윈도우</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'axes.unicode_minus'</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>      <span class="c1"># 음수 부호(-) 깨짐 방지</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id3">
+<h2>1. 데이터 읽기<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>이 장의 자료는 CEPII Gravity 데이터베이스(2022년 11월 판)에서 수출하는 나라를 한국으로 고정해 뽑은 것이다(1절의 “데이터”). 책 사이트의 이 장 첫 페이지에서 <code class="docutils literal notranslate"><span class="pre">korea-exports-panel-1995-2020.csv</span></code>로 내려받을 수 있다.</p>
+<ul class="simple">
+<li><p>내 컴퓨터의 주피터: CSV를 이 노트북 파일과 같은 폴더에 두고, 아래 코드의 <code class="docutils literal notranslate"><span class="pre">CSV</span> <span class="pre">=</span></code> 줄에 파일 이름을 그대로 적는다.</p></li>
+<li><p>Colab: 왼쪽의 폴더 아이콘을 누르고 업로드 버튼으로 CSV를 올린 뒤 <code class="docutils literal notranslate"><span class="pre">CSV</span> <span class="pre">=</span> <span class="pre">'/content/파일이름.csv'</span></code>로 적는다.</p></li>
+</ul>
+<p>이 CSV는 한국어 엑셀에서도 열리도록 UTF-8(BOM 포함)로 저장했다. <code class="docutils literal notranslate"><span class="pre">pd.read_csv</span></code>는 이것을 그대로 읽는다. 변수는 일곱 개다.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>변수</p></th>
+<th class="head"><p>뜻</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">연도</span></code></p></td>
+<td><p>1995~2020</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">상대국코드</span></code>, <code class="docutils literal notranslate"><span class="pre">상대국</span></code></p></td>
+<td><p>나라의 세 글자 코드(예: CHL)와 영문 이름</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">수출_천달러</span></code></p></td>
+<td><p>한국이 그 나라에 그해 수출한 금액(천 달러, 명목)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">상대국GDP_천달러</span></code></p></td>
+<td><p>그 나라의 그해 GDP(천 달러, 명목)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">거리_km</span></code></p></td>
+<td><p>한국과 그 나라 사이의 거리(인구로 가중한 평균, km)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">FTA</span></code></p></td>
+<td><p>그해 한국과 그 나라 사이에 FTA가 발효돼 있으면 1</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">CSV</span> <span class="o">=</span> <span class="s1">'korea-exports-panel-1995-2020.csv'</span>   <span class="c1"># 자기 파일 이름으로 바꾼다</span>
+
+<span class="n">d</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">CSV</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">),</span> <span class="s1">'개 관측'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id4">
+<h3>다른 수출국의 자료 만들기 (선택)<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<p>한국이 아닌 나라의 수출로 해 보려면 원자료에서 직접 뽑는다. CEPII 누리집(www.cepii.fr)의 Gravity 데이터베이스 쪽에서 <code class="docutils literal notranslate"><span class="pre">Gravity_V202211.csv</span></code>와 <code class="docutils literal notranslate"><span class="pre">Countries_V202211.csv</span></code>를 내려받는다. 출처를 밝히면 가공해서 다시 배포해도 되는 자료다. 원자료는 두 나라의 조합마다 해마다 한 행이라 파일이 크다(1GB가 넘는다). 그래서 한 번에 읽지 않고 <code class="docutils literal notranslate"><span class="pre">chunksize</span></code>로 200만 행씩 나눠 읽으며, 수출국(<code class="docutils literal notranslate"><span class="pre">iso3_o</span></code>)이 고른 나라인 행만 남긴다.</p>
+<p>아래 셀은 <code class="docutils literal notranslate"><span class="pre">MAKE</span> <span class="pre">=</span> <span class="pre">True</span></code>로 바꿨을 때만 실행된다. <code class="docutils literal notranslate"><span class="pre">EXPORTER</span></code>에 수출국의 세 글자 코드(일본 <code class="docutils literal notranslate"><span class="pre">'JPN'</span></code>, 독일 <code class="docutils literal notranslate"><span class="pre">'DEU'</span></code>처럼)를 적는다. 뽑는 기준은 이 장의 자료와 같다. 1995~2020년, 수출액과 GDP와 거리와 FTA가 모두 있고 수출액이 0보다 큰 나라와 해만 남긴다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">MAKE</span> <span class="o">=</span> <span class="kc">False</span>          <span class="c1"># 다른 수출국의 자료를 만들 때만 True</span>
+<span class="n">EXPORTER</span> <span class="o">=</span> <span class="s1">'JPN'</span>      <span class="c1"># 수출국의 세 글자 코드</span>
+
+<span class="k">if</span> <span class="n">MAKE</span><span class="p">:</span>
+    <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'year'</span><span class="p">,</span> <span class="s1">'iso3_o'</span><span class="p">,</span> <span class="s1">'iso3_d'</span><span class="p">,</span> <span class="s1">'distw_harmonic'</span><span class="p">,</span> <span class="s1">'gdp_d'</span><span class="p">,</span> <span class="s1">'fta_wto'</span><span class="p">,</span> <span class="s1">'tradeflow_comtrade_o'</span><span class="p">]</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span><span class="n">ch</span><span class="p">[</span><span class="n">ch</span><span class="o">.</span><span class="n">iso3_o</span> <span class="o">==</span> <span class="n">EXPORTER</span><span class="p">]</span> <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'Gravity_V202211.csv'</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span> <span class="n">chunksize</span><span class="o">=</span><span class="mi">2_000_000</span><span class="p">)]</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="p">[(</span><span class="n">k</span><span class="o">.</span><span class="n">year</span> <span class="o">&gt;=</span> <span class="mi">1995</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">year</span> <span class="o">&lt;=</span> <span class="mi">2020</span><span class="p">)]</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">'tradeflow_comtrade_o'</span><span class="p">,</span> <span class="s1">'gdp_d'</span><span class="p">,</span> <span class="s1">'distw_harmonic'</span><span class="p">,</span> <span class="s1">'fta_wto'</span><span class="p">])</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">tradeflow_comtrade_o</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># 나라 이름: 같은 코드에 옛 나라와 지금 나라가 함께 있으면 지금 나라(끝 연도가 비어 있음)를 쓴다</span>
+    <span class="n">ctry</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'Countries_V202211.csv'</span><span class="p">)</span>
+    <span class="n">ctry</span><span class="p">[</span><span class="s1">'끝'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ctry</span><span class="p">[</span><span class="s1">'last_year'</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">9999</span><span class="p">)</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="n">ctry</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'끝'</span><span class="p">)</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="s1">'iso3'</span><span class="p">,</span> <span class="n">keep</span><span class="o">=</span><span class="s1">'last'</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'iso3'</span><span class="p">)[</span><span class="s1">'country'</span><span class="p">]</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'연도'</span><span class="p">:</span> <span class="n">k</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="s1">'상대국코드'</span><span class="p">:</span> <span class="n">k</span><span class="o">.</span><span class="n">iso3_d</span><span class="p">,</span> <span class="s1">'상대국'</span><span class="p">:</span> <span class="n">k</span><span class="o">.</span><span class="n">iso3_d</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">names</span><span class="p">),</span>
+                        <span class="s1">'수출_천달러'</span><span class="p">:</span> <span class="n">k</span><span class="o">.</span><span class="n">tradeflow_comtrade_o</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="s1">'상대국GDP_천달러'</span><span class="p">:</span> <span class="n">k</span><span class="o">.</span><span class="n">gdp_d</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                        <span class="s1">'거리_km'</span><span class="p">:</span> <span class="n">k</span><span class="o">.</span><span class="n">distw_harmonic</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="s1">'FTA'</span><span class="p">:</span> <span class="n">k</span><span class="o">.</span><span class="n">fta_wto</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)})</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">'상대국코드'</span><span class="p">,</span> <span class="s1">'연도'</span><span class="p">])</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">EXPORTER</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s1">-exports-panel-1995-2020.csv'</span><span class="p">,</span>
+                                                  <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8-sig'</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'저장:'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">out</span><span class="p">),</span> <span class="s1">'개 관측'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="id5">
+<h2>2. 자료 살펴보기<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<p>회귀식에 넣을 로그 변수를 만든다. 수출과 GDP는 나라마다 수천 배씩 차이가 나서 로그를 취한다(로그-로그 회귀식의 계수는 탄력성으로 읽는다. 단순회귀분석 장 A5).</p>
+<p>패널 데이터에서는 한 행에 꼬리표가 둘 붙는다. 어느 나라인지(<code class="docutils literal notranslate"><span class="pre">상대국코드</span></code>)와 어느 해인지(<code class="docutils literal notranslate"><span class="pre">연도</span></code>)다(2절). <code class="docutils literal notranslate"><span class="pre">linearmodels</span></code>는 이 두 꼬리표를 표의 색인(index)으로 받는다. <code class="docutils literal notranslate"><span class="pre">set_index(['상대국코드',</span> <span class="pre">'연도'])</span></code>가 그 일을 한다. 앞의 것이 대상(나라), 뒤의 것이 시점(해)이어야 한다.</p>
+<p>FTA를 맺은 나라와 해도 확인한다. <code class="docutils literal notranslate"><span class="pre">groupby('상대국코드')</span></code>는 나라마다 묶고, 묶은 것마다 FTA가 처음 1이 된 해를 찾는다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">d</span><span class="p">[</span><span class="s1">'로그수출'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">'수출_천달러'</span><span class="p">])</span>
+<span class="n">d</span><span class="p">[</span><span class="s1">'로그GDP'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">'상대국GDP_천달러'</span><span class="p">])</span>
+<span class="n">d</span><span class="p">[</span><span class="s1">'로그거리'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">'거리_km'</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'나라'</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="s1">'상대국코드'</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span> <span class="s1">'개,'</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="s1">'연도'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="s1">'~'</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="s1">'연도'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="s1">'년,'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">),</span> <span class="s1">'개 관측'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'26년 기록이 모두 있는 나라'</span><span class="p">,</span> <span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'상대국코드'</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">26</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="s1">'개'</span><span class="p">)</span>
+
+<span class="n">start</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="s1">'FTA'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'상대국코드'</span><span class="p">)[</span><span class="s1">'연도'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>     <span class="c1"># 나라마다 FTA가 처음 1이 된 해</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'FTA를 맺은 나라'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">start</span><span class="p">),</span> <span class="s1">'개'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">start</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">())</span>                          <span class="c1"># 해마다 몇 나라가 새로 맺었나</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">'상대국코드'</span><span class="p">,</span> <span class="s1">'연도'</span><span class="p">])</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>              <span class="c1"># 패널의 두 꼬리표: 나라, 해</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="fta-2003">
+<h2>3. 횡단면 — 2019년 한 해와 FTA가 없던 2003년<a class="headerlink" href="#fta-2003" title="Link to this heading">#</a></h2>
+<p>보고서 표의 맨 왼쪽 열은 2019년 한 해의 나라들만으로 추정한 횡단면이다. 회귀식은 다른 장과 같이 <code class="docutils literal notranslate"><span class="pre">smf.ols</span></code>로 쓴다. 표준오차는 보고서처럼 <code class="docutils literal notranslate"><span class="pre">cov_type='HC1'</span></code>(이분산에 강건한 표준오차)으로 계산한다.</p>
+<p>종속변수가 로그이니 FTA 계수 <span class="math notranslate nohighlight">\(d\)</span>는 <span class="math notranslate nohighlight">\(e^d - 1\)</span>만큼, 즉 퍼센트로 바꿔 읽는다(다중회귀분석 장 B3). <code class="docutils literal notranslate"><span class="pre">np.expm1(d)</span></code>가 <span class="math notranslate nohighlight">\(e^d - 1\)</span>이다.</p>
+<p>2절의 표 2-2는 같은 회귀식을 FTA가 하나도 없던 2003년에 적용했다. FTA 자리에는 나중에(2004~2020년) FTA를 맺게 되는 나라를 1로 넣는다. FTA의 효과가 있을 수 없는 해이니, 이 계수가 0에서 멀다면 한 해 비교의 FTA 계수에 원래 수출 규모의 차이가 섞여 있다는 신호다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">YEAR</span> <span class="o">=</span> <span class="mi">2019</span>    <span class="c1"># 한 해 비교에 쓸 해</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="s1">'연도'</span><span class="p">]</span> <span class="o">==</span> <span class="n">YEAR</span><span class="p">]</span>
+<span class="n">cs</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">'로그수출 ~ 로그GDP + 로그거리 + FTA'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">'HC1'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">YEAR</span><span class="p">,</span> <span class="s1">'년 횡단면 (나라'</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">cs</span><span class="o">.</span><span class="n">nobs</span><span class="p">),</span> <span class="s1">'개)'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'계수'</span><span class="p">:</span> <span class="n">cs</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="s1">'표준오차'</span><span class="p">:</span> <span class="n">cs</span><span class="o">.</span><span class="n">bse</span><span class="p">,</span> <span class="s1">'p값'</span><span class="p">:</span> <span class="n">cs</span><span class="o">.</span><span class="n">pvalues</span><span class="p">})</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'FTA → 퍼센트'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">cs</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">'FTA'</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span><span class="p">),</span> <span class="s1">'%'</span><span class="p">)</span>
+
+<span class="c1"># 표 2-2: FTA가 하나도 없던 2003년, FTA 자리에 "나중에 FTA를 맺게 되는 나라"</span>
+<span class="n">d</span><span class="p">[</span><span class="s1">'나중FTA'</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">'상대국코드'</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'상대국코드'</span><span class="p">)[</span><span class="s1">'FTA'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>   <span class="c1"># 언젠가 1이 되는 나라</span>
+<span class="n">s03</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="s1">'연도'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2003</span><span class="p">]</span>
+<span class="n">cs03</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">'로그수출 ~ 로그GDP + 로그거리 + 나중FTA'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">s03</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">'HC1'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">2003년, 나중에 FTA를 맺게 되는 나라'</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">s03</span><span class="p">[</span><span class="s1">'나중FTA'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()),</span> <span class="s1">'개'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'계수'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">cs03</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">'나중FTA'</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">'표준오차'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">cs03</span><span class="o">.</span><span class="n">bse</span><span class="p">[</span><span class="s1">'나중FTA'</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span>
+      <span class="s1">'p값'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">cs03</span><span class="o">.</span><span class="n">pvalues</span><span class="p">[</span><span class="s1">'나중FTA'</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">'→'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">cs03</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">'나중FTA'</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span><span class="p">),</span> <span class="s1">'%'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="ols">
+<h2>4. 합동 OLS와 군집 표준오차<a class="headerlink" href="#ols" title="Link to this heading">#</a></h2>
+<p>합동 OLS는 26년 치를 나라 구분 없이 쌓아 하나의 횡단면처럼 회귀분석한다(2절). <code class="docutils literal notranslate"><span class="pre">linearmodels</span></code>의 <code class="docutils literal notranslate"><span class="pre">PooledOLS</span></code>로 추정한다. <code class="docutils literal notranslate"><span class="pre">linearmodels</span></code>는 회귀식을 문자열로 쓰지 않고, 종속변수 <code class="docutils literal notranslate"><span class="pre">y</span></code>와 설명변수 표 <code class="docutils literal notranslate"><span class="pre">X</span></code>를 따로 건넨다. 상수항은 저절로 들어가지 않으므로 <code class="docutils literal notranslate"><span class="pre">.assign(const=1)</span></code>로 1만 들어 있는 변수를 하나 더한다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">.fit(cov_type='clustered',</span> <span class="pre">cluster_entity=True)</span></code>가 나라 단위 군집 표준오차다. 같은 나라의 관측을 한 묶음으로 보고 표준오차를 계산한다(2절의 “표준오차도 나라 단위로”). 같은 회귀식을 군집을 반영하지 않고(<code class="docutils literal notranslate"><span class="pre">.fit()</span></code>) 추정해 표준오차를 비교해 본다. 계수는 같고 표준오차만 다르다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="s1">'로그수출'</span><span class="p">]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">p</span><span class="p">[[</span><span class="s1">'로그GDP'</span><span class="p">,</span> <span class="s1">'로그거리'</span><span class="p">,</span> <span class="s1">'FTA'</span><span class="p">]]</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">const</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># 상수항을 직접 더한다</span>
+<span class="n">CL</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">'clustered'</span><span class="p">,</span> <span class="n">cluster_entity</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>      <span class="c1"># 나라 단위 군집 표준오차</span>
+
+<span class="n">pool</span> <span class="o">=</span> <span class="n">PooledOLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="o">**</span><span class="n">CL</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'계수'</span><span class="p">:</span> <span class="n">pool</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="s1">'표준오차'</span><span class="p">:</span> <span class="n">pool</span><span class="o">.</span><span class="n">std_errors</span><span class="p">,</span> <span class="s1">'p값'</span><span class="p">:</span> <span class="n">pool</span><span class="o">.</span><span class="n">pvalues</span><span class="p">})</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'R² ='</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">pool</span><span class="o">.</span><span class="n">rsquared</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">' 관측 수'</span><span class="p">,</span> <span class="n">pool</span><span class="o">.</span><span class="n">nobs</span><span class="p">)</span>
+
+<span class="n">pool0</span> <span class="o">=</span> <span class="n">PooledOLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>                             <span class="c1"># 군집을 반영하지 않은 표준오차</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">FTA 표준오차: 군집을 반영하지 않으면'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">pool0</span><span class="o">.</span><span class="n">std_errors</span><span class="p">[</span><span class="s1">'FTA'</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span>
+      <span class="s1">'/ 나라 단위 군집 표준오차'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">pool</span><span class="o">.</span><span class="n">std_errors</span><span class="p">[</span><span class="s1">'FTA'</span><span class="p">],</span> <span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id6">
+<h2>5. 고정효과<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
+<section id="id7">
+<h3>자기 평균 빼기를 손으로<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<p>고정효과 모형은 나라마다 그 나라의 26년 평균을 빼고 회귀분석한 것이다(3절). 손으로 해 본다. <code class="docutils literal notranslate"><span class="pre">groupby('상대국코드')[v].transform('mean')</span></code>은 행마다 그 나라의 평균을 붙여 준다. 원래 값에서 이것을 빼면 “같은 나라의 변화”만 남는다. 평균을 뺀 변수끼리는 상수항이 필요 없으므로 회귀식 끝에 <code class="docutils literal notranslate"><span class="pre">-</span> <span class="pre">1</span></code>을 붙여 상수항을 뺀다.</p>
+<p>다음으로 나라 더미를 넣는 방법도 해 본다(3절의 “나라마다 자기 높이”). <code class="docutils literal notranslate"><span class="pre">C(상대국코드)</span></code>가 나라마다 스위치를 만든다. 나라가 206개이니 더미 205개(기준 하나를 뺀 것)가 들어간다. 두 방법의 FTA 계수는 똑같다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'로그수출'</span><span class="p">,</span> <span class="s1">'로그GDP'</span><span class="p">,</span> <span class="s1">'FTA'</span><span class="p">]:</span>
+    <span class="n">w</span><span class="p">[</span><span class="n">v</span> <span class="o">+</span> <span class="s1">'_w'</span><span class="p">]</span> <span class="o">=</span> <span class="n">w</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">-</span> <span class="n">w</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'상대국코드'</span><span class="p">)[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">'mean'</span><span class="p">)</span>   <span class="c1"># 자기 평균 빼기</span>
+
+<span class="n">m_hand</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">'로그수출_w ~ 로그GDP_w + FTA_w - 1'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">w</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">m_dummy</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">'로그수출 ~ 로그GDP + FTA + C(상대국코드)'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>   <span class="c1"># 나라 더미 205개</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'FTA 계수 — 자기 평균 빼기'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">m_hand</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">'FTA_w'</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">'/ 나라 더미'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">m_dummy</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">'FTA'</span><span class="p">],</span> <span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id8">
+<h3>고정효과 모형 — 표 3-1<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<p>실제로는 <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code>에 <code class="docutils literal notranslate"><span class="pre">entity_effects=True</span></code>(대상마다의 고정효과)를 주어 추정한다. 거리는 넣지 않는다. 나라마다 해가 바뀌어도 그대로라 자기 평균을 빼면 0이 되기 때문이다(3절의 “고정효과의 대가”). 넣으면 <code class="docutils literal notranslate"><span class="pre">linearmodels</span></code>가 오류를 낸다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">rsquared_within</span></code>이 “같은 나라 안의 <span class="math notranslate nohighlight">\(R^2\)</span>”다. 자기 평균을 뺀 값, 즉 같은 나라의 변화 가운데 회귀식이 설명한 비율이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fe</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">p</span><span class="p">[[</span><span class="s1">'로그GDP'</span><span class="p">,</span> <span class="s1">'FTA'</span><span class="p">]],</span> <span class="n">entity_effects</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="o">**</span><span class="n">CL</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'계수'</span><span class="p">:</span> <span class="n">fe</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="s1">'표준오차'</span><span class="p">:</span> <span class="n">fe</span><span class="o">.</span><span class="n">std_errors</span><span class="p">,</span> <span class="s1">'p값'</span><span class="p">:</span> <span class="n">fe</span><span class="o">.</span><span class="n">pvalues</span><span class="p">})</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'같은 나라 안의 R² ='</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">fe</span><span class="o">.</span><span class="n">rsquared_within</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">' 관측 수'</span><span class="p">,</span> <span class="n">fe</span><span class="o">.</span><span class="n">nobs</span><span class="p">,</span> <span class="s1">' 나라 수'</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">fe</span><span class="o">.</span><span class="n">entity_info</span><span class="o">.</span><span class="n">total</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'FTA → 퍼센트'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">fe</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">'FTA'</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span><span class="p">),</span> <span class="s1">'%'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id9">
+<h3>군집 표준오차와 자유도<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
+<p>고정효과에서도 군집 표준오차가 판정을 가른다(3절의 “75%가 13%로”). 군집을 반영하지 않으면 FTA의 표준오차가 절반쯤으로 작아지고 <span class="math notranslate nohighlight">\(p\)</span>값은 0.01이 되어, 13%가 0과 분명히 구별되는 것처럼 보인다.</p>
+<p>손으로 평균을 뺀 보통 OLS(위의 <code class="docutils literal notranslate"><span class="pre">m_hand</span></code>)는 계수는 같지만 표준오차가 조금 작게 나온다. 프로그램은 우리가 나라마다의 평균 206개를 먼저 계산해 썼다는 것을 모르고, 자유도를 4,909 − 2로 잡는다. 맞는 자유도는 그 206개까지 뺀 4,909 − 206 − 2다. 이 자료처럼 나라마다 관측이 스무 개가 넘으면 차이가 작지만, 대상마다 관측이 두세 번뿐이면 차이가 커진다. 그래서 직접 평균을 빼 보더라도 표준오차는 고정효과 추정 명령(<code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code>)의 값을 쓴다.</p>
+<p>표준오차가 군집을 반영하면 0.047에서 0.087로 커진다는 것을 정보의 양으로 읽어 볼 수도 있다. 표준오차는 관측 수의 제곱근에 반비례하므로, 표준오차가 1.85배가 되었다는 것은 정보로 치면 1.85의 제곱, 즉 약 3.4분의 1이라는 뜻이다. 한 나라를 평균 23.8해 관측했으니, 한 나라의 관측은 서로 독립된 관측 7개쯤의 정보를 가진 셈이다. 정확한 계산이 아니라 크기를 짐작해 보는 대략적인 계산이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fe0</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">p</span><span class="p">[[</span><span class="s1">'로그GDP'</span><span class="p">,</span> <span class="s1">'FTA'</span><span class="p">]],</span> <span class="n">entity_effects</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>   <span class="c1"># 군집을 반영하지 않음</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'FTA 표준오차 — 군집 미반영'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">fe0</span><span class="o">.</span><span class="n">std_errors</span><span class="p">[</span><span class="s1">'FTA'</span><span class="p">],</span> <span class="mi">4</span><span class="p">),</span> <span class="s1">'(p값'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">fe0</span><span class="o">.</span><span class="n">pvalues</span><span class="p">[</span><span class="s1">'FTA'</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">')'</span><span class="p">,</span>
+      <span class="s1">'/ 나라 단위 군집'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">fe</span><span class="o">.</span><span class="n">std_errors</span><span class="p">[</span><span class="s1">'FTA'</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">'(p값'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">fe</span><span class="o">.</span><span class="n">pvalues</span><span class="p">[</span><span class="s1">'FTA'</span><span class="p">],</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">')'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'손으로 평균 뺀 OLS의 표준오차'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">m_hand</span><span class="o">.</span><span class="n">bse</span><span class="p">[</span><span class="s1">'FTA_w'</span><span class="p">],</span> <span class="mi">4</span><span class="p">),</span> <span class="s1">'— 자유도를 잘못 잡아 조금 작다'</span><span class="p">)</span>
+
+<span class="n">ratio</span> <span class="o">=</span> <span class="mf">0.087</span> <span class="o">/</span> <span class="mf">0.047</span>                         <span class="c1"># 본문의 두 숫자</span>
+<span class="n">per</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">/</span> <span class="n">d</span><span class="p">[</span><span class="s1">'상대국코드'</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span>      <span class="c1"># 나라마다 평균 몇 해를 관측했나</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">표준오차 비'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">ratio</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">'→ 정보는'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">ratio</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">'분의 1,'</span><span class="p">,</span>
+      <span class="s1">'나라마다 평균'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">per</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">'해 → 독립된 관측으로 치면 약'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">per</span> <span class="o">/</span> <span class="n">ratio</span> <span class="o">**</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">'개'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id10">
+<h3>두 차이를 나누는 계산<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
+<p>3절은 한국의 수출(로그)이 나라와 해에 따라 다른 정도 가운데 90%가 나라끼리의 차이이고 같은 나라의 변화는 10%뿐이라고 했다. 이 비율이 어떻게 나오는지 아이 두 명, 세 해의 작은 예로 먼저 계산한다. 지호의 키가 1학년부터 3학년까지 130, 136, 142cm이고, 서연이는 110, 116, 122cm라고 하자.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>뜻</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>전체 차이</p></td>
+<td><p>키 − 여섯 값의 전체 평균</p></td>
+</tr>
+<tr class="row-odd"><td><p>아이들끼리의 차이</p></td>
+<td><p>그 아이의 자기 평균 − 전체 평균. 같은 아이라면 학년이 바뀌어도 같다</p></td>
+</tr>
+<tr class="row-even"><td><p>자신과의 차이</p></td>
+<td><p>키 − 그 아이의 자기 평균. 같은 아이의 변화다</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>행마다 아이들끼리의 차이와 자신과의 차이를 더하면 전체 차이가 된다. 그냥 더하면 위아래로 벗어난 것이 상쇄되어 0이 되므로, 제곱해서 더한다(제곱합). 그러면 전체 차이의 제곱합(744)이 정확히 아이들끼리의 차이(600)와 자신과의 차이(144)로 나뉜다. 이 예에서는 81% 대 19%다. 두 아이는 키가 20cm나 차이 나는데 해마다 자라는 것은 6cm씩이기 때문이다.</p>
+<p>같은 계산을 이 장의 자료 4,909개 관측에 하면 로그 수출은 90% 대 10%가 된다. 0 또는 1인 FTA는 54개국에서 어느 해에 0에서 1로 바뀌었으니 33% 대 67%로, 같은 나라의 변화가 더 크다(3절의 “고정효과의 대가”, 4절의 “버린 정보가 아깝다”).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">kids</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'아이'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'지호'</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="p">[</span><span class="s1">'서연'</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span>
+                     <span class="s1">'키'</span><span class="p">:</span> <span class="p">[</span><span class="mi">130</span><span class="p">,</span> <span class="mi">136</span><span class="p">,</span> <span class="mi">142</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="mi">116</span><span class="p">,</span> <span class="mi">122</span><span class="p">]})</span>
+<span class="n">kids</span><span class="p">[</span><span class="s1">'전체 차이'</span><span class="p">]</span> <span class="o">=</span> <span class="n">kids</span><span class="p">[</span><span class="s1">'키'</span><span class="p">]</span> <span class="o">-</span> <span class="n">kids</span><span class="p">[</span><span class="s1">'키'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">kids</span><span class="p">[</span><span class="s1">'아이들끼리의 차이'</span><span class="p">]</span> <span class="o">=</span> <span class="n">kids</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'아이'</span><span class="p">)[</span><span class="s1">'키'</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">'mean'</span><span class="p">)</span> <span class="o">-</span> <span class="n">kids</span><span class="p">[</span><span class="s1">'키'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">kids</span><span class="p">[</span><span class="s1">'자신과의 차이'</span><span class="p">]</span> <span class="o">=</span> <span class="n">kids</span><span class="p">[</span><span class="s1">'키'</span><span class="p">]</span> <span class="o">-</span> <span class="n">kids</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'아이'</span><span class="p">)[</span><span class="s1">'키'</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">'mean'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">kids</span><span class="p">)</span>
+<span class="n">ss</span> <span class="o">=</span> <span class="p">(</span><span class="n">kids</span><span class="p">[[</span><span class="s1">'전체 차이'</span><span class="p">,</span> <span class="s1">'아이들끼리의 차이'</span><span class="p">,</span> <span class="s1">'자신과의 차이'</span><span class="p">]]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>   <span class="c1"># 제곱합</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">제곱합'</span><span class="p">,</span> <span class="n">ss</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">share_between</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+    <span class="c1"># v가 대상과 해에 따라 다른 정도 가운데 대상끼리의 차이가 차지하는 비율</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="p">((</span><span class="n">df</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">between</span> <span class="o">=</span> <span class="p">((</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">unit</span><span class="p">)[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">'mean'</span><span class="p">)</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">between</span> <span class="o">/</span> <span class="n">total</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">지호·서연: 아이들끼리의 차이'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">share_between</span><span class="p">(</span><span class="n">kids</span><span class="p">,</span> <span class="s1">'아이'</span><span class="p">,</span> <span class="s1">'키'</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">),</span> <span class="s1">'%'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'로그수출'</span><span class="p">,</span> <span class="s1">'FTA'</span><span class="p">]:</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">share_between</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="s1">'상대국코드'</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s1">': 나라끼리의 차이'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="mi">100</span><span class="p">),</span> <span class="s1">'%, 같은 나라의 변화'</span><span class="p">,</span> <span class="nb">round</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">),</span> <span class="s1">'%'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id11">
+<h3>그림으로 — 세 나라의 자기 평균 빼기<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
+<p>3절의 그림 3-2처럼 세 나라(말레이시아, 캐나다, 파키스탄)의 수출을 그대로 그린 것과 자기 평균을 뺀 것을 나란히 그린다. FTA가 발효된 해부터는 굵은 선으로 그린다. 자기 평균을 빼면 나라 사이의 높이 차이가 사라지고 세 선이 0 근처로 모인다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">picks</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'MYS'</span><span class="p">:</span> <span class="s1">'말레이시아'</span><span class="p">,</span> <span class="s1">'CAN'</span><span class="p">:</span> <span class="s1">'캐나다'</span><span class="p">,</span> <span class="s1">'PAK'</span><span class="p">:</span> <span class="s1">'파키스탄 (FTA 없음)'</span><span class="p">}</span>
+<span class="n">f3</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="s1">'상대국코드'</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">picks</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">f3</span><span class="p">[</span><span class="s1">'평균 뺀 값'</span><span class="p">]</span> <span class="o">=</span> <span class="n">f3</span><span class="p">[</span><span class="s1">'로그수출'</span><span class="p">]</span> <span class="o">-</span> <span class="n">f3</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'상대국코드'</span><span class="p">)[</span><span class="s1">'로그수출'</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">'mean'</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">code</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">picks</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">f3</span><span class="p">[</span><span class="n">f3</span><span class="p">[</span><span class="s1">'상대국코드'</span><span class="p">]</span> <span class="o">==</span> <span class="n">code</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'연도'</span><span class="p">)</span>
+    <span class="n">on</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="n">t</span><span class="p">[</span><span class="s1">'FTA'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="p">[</span><span class="s1">'로그수출'</span><span class="p">,</span> <span class="s1">'평균 뺀 값'</span><span class="p">]):</span>
+        <span class="n">line</span><span class="p">,</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="s1">'연도'</span><span class="p">],</span> <span class="n">t</span><span class="p">[</span><span class="n">v</span><span class="p">],</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">a</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">on</span><span class="p">[</span><span class="s1">'연도'</span><span class="p">],</span> <span class="n">on</span><span class="p">[</span><span class="n">v</span><span class="p">],</span> <span class="n">lw</span><span class="o">=</span><span class="mf">3.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">line</span><span class="o">.</span><span class="n">get_color</span><span class="p">())</span>   <span class="c1"># FTA가 발효된 해부터 굵게</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'그대로: 나라끼리의 차이가 크다'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'자기 평균을 빼면: 같은 나라의 변화만 남는다'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">:</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'연도 (굵은 선: FTA가 발효된 해부터)'</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="id12">
+<h2>6. 확률효과<a class="headerlink" href="#id12" title="Link to this heading">#</a></h2>
+<section id="id13">
+<h3>확률효과 모형 — 표 4-1<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">RandomEffects</span></code>로 추정한다. 고정효과와 달리 거리를 넣을 수 있다. 나라마다 자기 평균을 다 빼지 않고 <span class="math notranslate nohighlight">\(\theta\)</span>만큼만 빼므로, 남은 몫에 나라끼리의 차이가 살아 있기 때문이다(4절의 “거리는 어떻게 살아남았나”).</p>
+<p><code class="docutils literal notranslate"><span class="pre">theta</span></code>에는 나라마다의 <span class="math notranslate nohighlight">\(\theta\)</span>가 들어 있다. 나라마다 관측한 해의 수가 달라 <span class="math notranslate nohighlight">\(\theta\)</span>도 조금씩 다르므로, 보고서는 평균을 적었다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">re</span> <span class="o">=</span> <span class="n">RandomEffects</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="o">**</span><span class="n">CL</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'계수'</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="s1">'표준오차'</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">std_errors</span><span class="p">,</span> <span class="s1">'p값'</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">pvalues</span><span class="p">})</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'R² ='</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">rsquared_overall</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">' 같은 나라 안의 R² ='</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">rsquared_within</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">theta</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>                     <span class="c1"># 나라마다의 θ</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'θ 평균'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">theta</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">' 가장 작은 θ'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">theta</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">' 가장 큰 θ'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">theta</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="theta">
+<h3><span class="math notranslate nohighlight">\(\theta\)</span>를 손으로<a class="headerlink" href="#theta" title="Link to this heading">#</a></h3>
+<p><span class="math notranslate nohighlight">\(\theta\)</span>는 이렇게 정해진다(4절).</p>
+<div class="math notranslate nohighlight">
+\[
+\theta = 1 - \sqrt{\frac{\text{해마다의 흔들림의 분산}}{\text{관측한 해의 수} \times \text{자기 높이의 분산} + \text{해마다의 흔들림의 분산}}}
+\]</div>
+<p>두 분산은 확률효과가 추정해 <code class="docutils literal notranslate"><span class="pre">variance_decomposition</span></code>에 담아 둔다. <code class="docutils literal notranslate"><span class="pre">Effects</span></code>가 나라마다의 자기 높이 <span class="math notranslate nohighlight">\(a_i\)</span>의 분산, <code class="docutils literal notranslate"><span class="pre">Residual</span></code>이 해마다의 흔들림의 분산이다. 이 두 값을 넣어 관측한 해의 수에 따라 <span class="math notranslate nohighlight">\(\theta\)</span>를 계산하면 4절의 그림 4-4가 된다. 26년을 모두 관측한 나라는 0.91이고, 한 해만 관측한 나라는 0.57이다. 관측한 해가 많을수록 자기 평균을 믿을 만하니 많이 뺀다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">re0</span> <span class="o">=</span> <span class="n">RandomEffects</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>                              <span class="c1"># 분산 성분은 표준오차 계산법과 상관없다</span>
+<span class="n">s_u</span> <span class="o">=</span> <span class="n">re0</span><span class="o">.</span><span class="n">variance_decomposition</span><span class="p">[</span><span class="s1">'Effects'</span><span class="p">]</span>                  <span class="c1"># 자기 높이의 분산</span>
+<span class="n">s_e</span> <span class="o">=</span> <span class="n">re0</span><span class="o">.</span><span class="n">variance_decomposition</span><span class="p">[</span><span class="s1">'Residual'</span><span class="p">]</span>                 <span class="c1"># 해마다의 흔들림의 분산</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'자기 높이의 분산'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">s_u</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">' 해마다의 흔들림의 분산'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">s_e</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+      <span class="s1">' → 설명하지 못한 차이 가운데 나라마다의 몫'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">s_u</span> <span class="o">/</span> <span class="p">(</span><span class="n">s_u</span> <span class="o">+</span> <span class="n">s_e</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">),</span> <span class="s1">'%'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">T</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">26</span><span class="p">]:</span>
+    <span class="n">th</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">s_e</span> <span class="o">/</span> <span class="p">(</span><span class="n">T</span> <span class="o">*</span> <span class="n">s_u</span> <span class="o">+</span> <span class="n">s_e</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">T</span><span class="si">}</span><span class="s1">년 관측: θ = </span><span class="si">{</span><span class="n">th</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="fta-4-2">
+<h3>비교 방법에 따른 FTA의 계수 — 표 4-2<a class="headerlink" href="#fta-4-2" title="Link to this heading">#</a></h3>
+<p>4절의 표 4-2는 나라끼리의 차이를 얼마나 쓰느냐에 따라 FTA의 계수가 어떻게 달라지는지 네 방법을 나란히 놓았다. 맨 위의 “나라 평균”은 나라마다 26년을 평균한 값 206개로 회귀분석한 것이다. 나라끼리의 차이만 쓴다(집단 간 추정량). 관측이 나라마다 하나이니 보통의 <code class="docutils literal notranslate"><span class="pre">smf.ols</span></code>로 하고, 표준오차는 HC1로 계산한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">avg</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'상대국코드'</span><span class="p">)[[</span><span class="s1">'로그수출'</span><span class="p">,</span> <span class="s1">'로그GDP'</span><span class="p">,</span> <span class="s1">'로그거리'</span><span class="p">,</span> <span class="s1">'FTA'</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>   <span class="c1"># 나라마다 26년 평균</span>
+<span class="n">between</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">'로그수출 ~ 로그GDP + 로그거리 + FTA'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">avg</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">'HC1'</span><span class="p">)</span>
+
+<span class="n">rows</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'나라 평균 (나라끼리의 차이만)'</span><span class="p">:</span> <span class="p">(</span><span class="n">between</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">'FTA'</span><span class="p">],</span> <span class="n">between</span><span class="o">.</span><span class="n">bse</span><span class="p">[</span><span class="s1">'FTA'</span><span class="p">]),</span>
+        <span class="s1">'합동 OLS (그대로 섞어)'</span><span class="p">:</span> <span class="p">(</span><span class="n">pool</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">'FTA'</span><span class="p">],</span> <span class="n">pool</span><span class="o">.</span><span class="n">std_errors</span><span class="p">[</span><span class="s1">'FTA'</span><span class="p">]),</span>
+        <span class="s1">'확률효과 (θ만큼 섞어)'</span><span class="p">:</span> <span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">'FTA'</span><span class="p">],</span> <span class="n">re</span><span class="o">.</span><span class="n">std_errors</span><span class="p">[</span><span class="s1">'FTA'</span><span class="p">]),</span>
+        <span class="s1">'고정효과 (같은 나라의 변화만)'</span><span class="p">:</span> <span class="p">(</span><span class="n">fe</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">'FTA'</span><span class="p">],</span> <span class="n">fe</span><span class="o">.</span><span class="n">std_errors</span><span class="p">[</span><span class="s1">'FTA'</span><span class="p">])}</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">'FTA 계수'</span><span class="p">,</span> <span class="s1">'표준오차'</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="id14">
+<h2>7. 하우스만 검정<a class="headerlink" href="#id14" title="Link to this heading">#</a></h2>
+<section id="fta">
+<h3>통계량을 손으로 — FTA 하나로<a class="headerlink" href="#fta" title="Link to this heading">#</a></h3>
+<p>하우스만 통계량은 두 모형의 계수 추정값의 차이를, 그 차이가 우연히 생길 수 있는 정도와 비교한다(5절).</p>
+<div class="math notranslate nohighlight">
+\[
+\text{하우스만 통계량} \approx \frac{(\text{고정효과 계수} - \text{확률효과 계수})^2}{\text{고정효과 계수의 분산} - \text{확률효과 계수의 분산}}
+\]</div>
+<p>주의할 점이 둘 있다. 첫째, 여기에는 군집을 반영하지 않은 표준오차를 쓴다. 이 식은 “확률효과의 가정이 맞으면 확률효과가 가장 정밀하다”는 성질에 기대는데, 이 성질은 군집을 반영하지 않은 표준오차에서 성립하기 때문이다. 보고서 표의 군집 표준오차(0.087, 0.086)를 넣으면 0.2쯤이 나와 엉뚱한 결론에 이른다. 둘째, 분모는 거의 같은 두 수의 차이라서 아주 작고, 반올림에 민감하다. 계수와 표준오차를 소수 셋째 자리(0.121과 0.128, 0.048과 0.047)로 반올림해 넣으면 통계량이 0.5쯤으로 줄어든다. 그래서 계산은 반올림하지 않은 값으로 한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">b_fe</span><span class="p">,</span> <span class="n">b_re</span> <span class="o">=</span> <span class="n">fe0</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">'FTA'</span><span class="p">],</span> <span class="n">re0</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">'FTA'</span><span class="p">]</span>              <span class="c1"># 군집을 반영하지 않은 판</span>
+<span class="n">se_fe</span><span class="p">,</span> <span class="n">se_re</span> <span class="o">=</span> <span class="n">fe0</span><span class="o">.</span><span class="n">std_errors</span><span class="p">[</span><span class="s1">'FTA'</span><span class="p">],</span> <span class="n">re0</span><span class="o">.</span><span class="n">std_errors</span><span class="p">[</span><span class="s1">'FTA'</span><span class="p">]</span>
+<span class="n">H1</span> <span class="o">=</span> <span class="p">(</span><span class="n">b_fe</span> <span class="o">-</span> <span class="n">b_re</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">se_fe</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">se_re</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'고정효과 </span><span class="si">{</span><span class="n">b_fe</span><span class="si">:</span><span class="s1">.5f</span><span class="si">}</span><span class="s1"> (표준오차 </span><span class="si">{</span><span class="n">se_fe</span><span class="si">:</span><span class="s1">.5f</span><span class="si">}</span><span class="s1">), 확률효과 </span><span class="si">{</span><span class="n">b_re</span><span class="si">:</span><span class="s1">.5f</span><span class="si">}</span><span class="s1"> (표준오차 </span><span class="si">{</span><span class="n">se_re</span><span class="si">:</span><span class="s1">.5f</span><span class="si">}</span><span class="s1">)'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'FTA 하나로 계산한 하우스만 통계량'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">H1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="n">H_round</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.121</span> <span class="o">-</span> <span class="mf">0.128</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mf">0.048</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">0.047</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>   <span class="c1"># 반올림한 값을 넣으면</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'소수 셋째 자리로 반올림해 넣으면'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">H_round</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id15">
+<h3>두 계수를 함께 — 보고서의 1.51<a class="headerlink" href="#id15" title="Link to this heading">#</a></h3>
+<p>보고서의 하우스만 검정은 GDP와 FTA 두 계수를 함께 넣었다. 계수가 여러 개면 차이를 벡터로, 분산을 행렬로 모아 같은 계산을 한다. <code class="docutils literal notranslate"><span class="pre">&#64;</span></code>는 행렬 곱이고, <code class="docutils literal notranslate"><span class="pre">np.linalg.pinv</span></code>는 역행렬이다. 통계량은 자유도가 계수의 수(2)인 카이제곱 분포를 따르므로, <code class="docutils literal notranslate"><span class="pre">chi2.sf</span></code>로 <span class="math notranslate nohighlight">\(p\)</span>값을 구한다.</p>
+<p>같은 함수를 8절에서도 쓴다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">hausman</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">(</span><span class="s1">'로그GDP'</span><span class="p">,</span> <span class="s1">'FTA'</span><span class="p">)):</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">names</span><span class="p">]</span> <span class="o">-</span> <span class="n">r</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">names</span><span class="p">]</span>                    <span class="c1"># 계수의 차이</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">cov</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">names</span><span class="p">,</span> <span class="n">names</span><span class="p">]</span> <span class="o">-</span> <span class="n">r</span><span class="o">.</span><span class="n">cov</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">names</span><span class="p">,</span> <span class="n">names</span><span class="p">]</span>       <span class="c1"># 분산의 차이(행렬)</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">diff</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">pinv</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="o">@</span> <span class="n">diff</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">H</span><span class="p">,</span> <span class="n">chi2</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">))</span>
+
+<span class="n">H</span><span class="p">,</span> <span class="n">pval</span> <span class="o">=</span> <span class="n">hausman</span><span class="p">(</span><span class="n">fe0</span><span class="p">,</span> <span class="n">re0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'하우스만 통계량 </span><span class="si">{</span><span class="n">H</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, p값 </span><span class="si">{</span><span class="n">pval</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="id16">
+<h2>8. 연도 효과<a class="headerlink" href="#id16" title="Link to this heading">#</a></h2>
+<p>연도마다 더미를 하나씩 달아 해마다 모든 나라에 함께 일어난 변화를 따로 잡는다(5절의 “모두 함께 자라는 몫”). <code class="docutils literal notranslate"><span class="pre">pd.get_dummies</span></code>로 연도 더미를 만들고, 기준 해(1995년) 하나는 뺀다(<code class="docutils literal notranslate"><span class="pre">drop_first=True</span></code>). 만든 더미를 <code class="docutils literal notranslate"><span class="pre">join</span></code>으로 설명변수 표에 붙인다.</p>
+<p>고정효과와 확률효과에 모두 연도 효과를 넣고, 하우스만 검정을 다시 한다. 이 장의 자료에서는 연도 효과를 넣자 하우스만 검정이 기각되었다. GDP의 계수가 두 모형에서 벌어졌기 때문이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">yd</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="s1">'연도'</span><span class="p">),</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">'연도'</span><span class="p">,</span> <span class="n">drop_first</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">yd</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">index</span>                                             <span class="c1"># 패널의 꼬리표를 맞춘다</span>
+
+<span class="n">fe_y</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">p</span><span class="p">[[</span><span class="s1">'로그GDP'</span><span class="p">,</span> <span class="s1">'FTA'</span><span class="p">]]</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">yd</span><span class="p">),</span> <span class="n">entity_effects</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="o">**</span><span class="n">CL</span><span class="p">)</span>
+<span class="n">re_y</span> <span class="o">=</span> <span class="n">RandomEffects</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">yd</span><span class="p">))</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="o">**</span><span class="n">CL</span><span class="p">)</span>
+
+<span class="n">table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'고정효과'</span><span class="p">:</span> <span class="n">fe</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="s1">'확률효과'</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">params</span><span class="p">,</span>
+                      <span class="s1">'고정효과 + 연도 효과'</span><span class="p">:</span> <span class="n">fe_y</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="s1">'확률효과 + 연도 효과'</span><span class="p">:</span> <span class="n">re_y</span><span class="o">.</span><span class="n">params</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="s1">'로그GDP'</span><span class="p">,</span> <span class="s1">'로그거리'</span><span class="p">,</span> <span class="s1">'FTA'</span><span class="p">]]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s1">'—'</span><span class="p">))</span>   <span class="c1"># 고정효과에는 거리가 없다</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'FTA p값 — 고정효과 + 연도 효과'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">fe_y</span><span class="o">.</span><span class="n">pvalues</span><span class="p">[</span><span class="s1">'FTA'</span><span class="p">],</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">', 확률효과 + 연도 효과'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">re_y</span><span class="o">.</span><span class="n">pvalues</span><span class="p">[</span><span class="s1">'FTA'</span><span class="p">],</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="c1"># 하우스만 검정은 군집을 반영하지 않은 판으로</span>
+<span class="n">fe_y0</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">p</span><span class="p">[[</span><span class="s1">'로그GDP'</span><span class="p">,</span> <span class="s1">'FTA'</span><span class="p">]]</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">yd</span><span class="p">),</span> <span class="n">entity_effects</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">re_y0</span> <span class="o">=</span> <span class="n">RandomEffects</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">yd</span><span class="p">))</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">H</span><span class="p">,</span> <span class="n">pval</span> <span class="o">=</span> <span class="n">hausman</span><span class="p">(</span><span class="n">fe_y0</span><span class="p">,</span> <span class="n">re_y0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">연도 효과를 넣은 하우스만 통계량 </span><span class="si">{</span><span class="n">H</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, p값 </span><span class="si">{</span><span class="n">pval</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id17">
+<h3>해마다의 연도 효과<a class="headerlink" href="#id17" title="Link to this heading">#</a></h3>
+<p>본문의 표 5-2는 본문에서 읽는 해만 실었다. 여기서는 25개를 모두 본다. 연도 효과는 1995년에 비해 그해 모든 나라로의 수출이 함께 얼마나 높았는지를 로그로 나타낸 것이다. 2008년에서 2009년으로 0.168 떨어진 것은, 퍼센트로 바꾸면 약 15%가 함께 줄었다는 뜻이다. 세계 금융위기의 해다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ye</span> <span class="o">=</span> <span class="n">fe_y</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">yd</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>                                   <span class="c1"># 연도 효과 25개</span>
+<span class="n">ye</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'_'</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">ye</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>           <span class="c1"># '연도_2009' → 2009</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ye</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'2008 → 2009:'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">ye</span><span class="p">[</span><span class="mi">2009</span><span class="p">]</span> <span class="o">-</span> <span class="n">ye</span><span class="p">[</span><span class="mi">2008</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span><span class="p">),</span> <span class="s1">'%,  2019 → 2020:'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">ye</span><span class="p">[</span><span class="mi">2020</span><span class="p">]</span> <span class="o">-</span> <span class="n">ye</span><span class="p">[</span><span class="mi">2019</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span><span class="p">),</span> <span class="s1">'%'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ye</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">ye</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'연도 효과 (고정효과 + 연도 효과, 1995년 = 0)'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'연도'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'로그 수출'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="id18">
+<h2>9. 발효 뒤 몇 해째인가<a class="headerlink" href="#id18" title="Link to this heading">#</a></h2>
+<p>FTA 더미 하나는 발효 뒤 모든 해의 평균이다. 해가 지나며 효과가 커지는지 보려면, 발효 뒤 몇 해째인지에 따라 더미를 나눠 넣는다(5절의 “FTA의 효과는 해가 지나며 커졌나”). 나라마다 FTA가 처음 1이 된 해(2절의 <code class="docutils literal notranslate"><span class="pre">start</span></code>)를 기준으로 몇 해째인지(<code class="docutils literal notranslate"><span class="pre">since</span></code>)를 계산하고, 0~2년, 3~5년, 6년 이후의 더미 셋을 만든다. FTA를 맺지 않은 나라는 <code class="docutils literal notranslate"><span class="pre">since</span></code>가 비어 있어(NaN) 세 더미가 모두 0이 된다.</p>
+<p>연도 효과를 넣기 전과 넣은 뒤를 나란히 추정한다. 구간마다 들어 있는 나라가 다르다는 점도 함께 센다. 자료가 2020년에서 끝나니, 6년 이후 구간에는 2014년까지 FTA를 맺은 나라만 들어 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">since</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">'연도'</span><span class="p">]</span> <span class="o">-</span> <span class="n">d</span><span class="p">[</span><span class="s1">'상대국코드'</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>                 <span class="c1"># 발효 뒤 몇 해째인가 (FTA가 없는 나라는 NaN)</span>
+<span class="n">bins</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'발효 0~2년'</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">'발효 3~5년'</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="s1">'발효 6년 이후'</span><span class="p">:</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">99</span><span class="p">)}</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">)</span> <span class="ow">in</span> <span class="n">bins</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">d</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">since</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">pb</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">'상대국코드'</span><span class="p">,</span> <span class="s1">'연도'</span><span class="p">])</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+<span class="n">B</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span>
+
+<span class="n">ev0</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">pb</span><span class="p">[[</span><span class="s1">'로그GDP'</span><span class="p">]</span> <span class="o">+</span> <span class="n">B</span><span class="p">],</span> <span class="n">entity_effects</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="o">**</span><span class="n">CL</span><span class="p">)</span>
+<span class="n">ev1</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">pb</span><span class="p">[[</span><span class="s1">'로그GDP'</span><span class="p">]</span> <span class="o">+</span> <span class="n">B</span><span class="p">]</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">yd</span><span class="p">),</span> <span class="n">entity_effects</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="o">**</span><span class="n">CL</span><span class="p">)</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'고정효과'</span><span class="p">:</span> <span class="n">ev0</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">B</span><span class="p">],</span> <span class="s1">'(표준오차)'</span><span class="p">:</span> <span class="n">ev0</span><span class="o">.</span><span class="n">std_errors</span><span class="p">[</span><span class="n">B</span><span class="p">],</span>
+                    <span class="s1">'고정효과 + 연도 효과'</span><span class="p">:</span> <span class="n">ev1</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">B</span><span class="p">],</span> <span class="s1">'(표준오차) '</span><span class="p">:</span> <span class="n">ev1</span><span class="o">.</span><span class="n">std_errors</span><span class="p">[</span><span class="n">B</span><span class="p">],</span>
+                    <span class="s1">'들어 있는 나라'</span><span class="p">:</span> <span class="p">[</span><span class="n">pb</span><span class="p">[</span><span class="n">pb</span><span class="p">[</span><span class="n">b</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">B</span><span class="p">]})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id19">
+<h2>정리<a class="headerlink" href="#id19" title="Link to this heading">#</a></h2>
+<p>이 노트북의 코드는 이 장에서 본 숫자를 직접 만들어 냈다. 보고서의 네 모형은 3절의 <code class="docutils literal notranslate"><span class="pre">smf.ols</span></code>와 4~6절의 <code class="docutils literal notranslate"><span class="pre">PooledOLS</span></code>, <code class="docutils literal notranslate"><span class="pre">PanelOLS</span></code>, <code class="docutils literal notranslate"><span class="pre">RandomEffects</span></code>에서 나오고, 본문의 표는 그 모형에 연도 효과나 구간 더미를 더하거나(8, 9절) 같은 회귀식을 다른 해에 적용한(3절) 것이다. 자기 평균 빼기, <span class="math notranslate nohighlight">\(\theta\)</span>, 하우스만 통계량은 손으로 계산해도 프로그램과 같은 값이 나온다(5, 6, 7절).</p>
+<p>자기 자료로 분석하려면 1절의 <code class="docutils literal notranslate"><span class="pre">CSV</span></code> 파일 이름을 바꾸고 차례로 실행한다. 3절의 <code class="docutils literal notranslate"><span class="pre">YEAR</span></code>는 한 해 비교에 쓸 해로 바꾼다. 3절의 2003년과 9절의 발효 뒤 구간은 한국의 FTA 연도에 맞춘 것이라, 다른 수출국의 자료에서는 첫 FTA보다 앞선 해로 바꿔야 한다. 5절의 그림도 세 나라의 코드를 그 자료에 있는 나라로 바꿔야 한다. AI가 만든 보고서를 받았다면, 이 코드로 같은 숫자가 나오는지 확인해 보는 것이 가장 확실한 점검이다.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./panel-data"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="practice-prompt.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">이전</p>
+        <p class="prev-next-title">직접 해 보기 1 — 프롬프트로 내 보고서 받기</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 내용
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">준비 — 패키지와 글꼴</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">1. 데이터 읽기</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">다른 수출국의 자료 만들기 (선택)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">2. 자료 살펴보기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fta-2003">3. 횡단면 — 2019년 한 해와 FTA가 없던 2003년</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ols">4. 합동 OLS와 군집 표준오차</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">5. 고정효과</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">자기 평균 빼기를 손으로</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">고정효과 모형 — 표 3-1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">군집 표준오차와 자유도</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">두 차이를 나누는 계산</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">그림으로 — 세 나라의 자기 평균 빼기</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">6. 확률효과</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">확률효과 모형 — 표 4-1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#theta"><span class="math notranslate nohighlight">\(\theta\)</span>를 손으로</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fta-4-2">비교 방법에 따른 FTA의 계수 — 표 4-2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">7. 하우스만 검정</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fta">통계량을 손으로 — FTA 하나로</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">두 계수를 함께 — 보고서의 1.51</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">8. 연도 효과</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">해마다의 연도 효과</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">9. 발효 뒤 몇 해째인가</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">정리</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>© 2026 최필선</p>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

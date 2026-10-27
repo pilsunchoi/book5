@@ -1,0 +1,800 @@
+
+<!DOCTYPE html>
+
+
+<html lang="ko" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="2. 단체 사진과 사진첩 — 횡단면과 패널" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://pilsunchoi.github.io/book5/panel-data/section-p2.html" />
+<meta property="og:site_name" content="AI 데이터 분석" />
+<meta property="og:description" content="이 장 첫머리의 보고서는 요약의 첫 줄에 이렇게 적었습니다. 2019년 한 해의 나라들을 비교하면, 상대국 GDP와 거리가 같을 때 한국과 FTA를 맺은 나라로의 수출이 75% 많다. 이 숫자는 보고서의 추정 결과 표 맨 왼쪽 열, “횡단면 (2019년)”에서 나왔습니다. 종속변수..." />
+<meta name="description" content="이 장 첫머리의 보고서는 요약의 첫 줄에 이렇게 적었습니다. 2019년 한 해의 나라들을 비교하면, 상대국 GDP와 거리가 같을 때 한국과 FTA를 맺은 나라로의 수출이 75% 많다. 이 숫자는 보고서의 추정 결과 표 맨 왼쪽 열, “횡단면 (2019년)”에서 나왔습니다. 종속변수..." />
+
+    <title>2. 단체 사진과 사진첩 — 횡단면과 패널 &#8212; AI 데이터 분석</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=18f25a40" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=ae323b5b"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = '표시하려면 클릭';</script>
+    <script>let toggleHintHide = '숨기려면 클릭';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/translations.js?v=e33e7ba0"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'panel-data/section-p2';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="색인" href="../genindex.html" />
+    <link rel="search" title="검색" href="../search.html" />
+    <link rel="next" title="3. 어제의 나와 비교하기 — 고정효과" href="section-p3.html" />
+    <link rel="prev" title="1. 보고서 — FTA는 한국의 수출을 늘렸나" href="section-p1.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="ko"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.png" class="logo__image only-light" alt="AI 데이터 분석"/>
+    <img src="../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="AI 데이터 분석"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../simple-regression/index.html">단순회귀분석 — 직선 하나로 관계 읽기</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a1.html">1. 보고서 — 노원구에서 1㎡는 얼마인가</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a2.html">2. 직선은 어떻게 정해지나 — 잔차와 최소제곱</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a3.html">3. 이 기울기를 믿어도 되나 — 표준오차, 신뢰구간, <span class="math notranslate nohighlight">\(p\)</span>값</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a4.html">4. 얼마나 설명하나 — <span class="math notranslate nohighlight">\(R^2\)</span>과 잔차</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a5.html">5. 로그로 읽는 가격 — 탄력성과 % 해석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../multiple-regression/index.html">다중회귀분석 — 여러 변수를 함께</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b1.html">1. 보고서 — 서울 아파트 값은 무엇으로 정해지나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b2.html">2. 다른 조건이 같다면 — 다중회귀분석의 계수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b3.html">3. 숫자가 아닌 변수 — 더미 변수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b4.html">4. 효과가 집단마다 다를 때 — 상호작용</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b5.html">5. 직선으로 부족할 때 — 제곱항</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../health-survey/index.html">횡단면 분석 — 학력과 혈압</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h1.html">1. 보고서 — 학력이 높을수록 혈압이 낮을까</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h2.html">2. 표본이 모집단을 닮게 — 가중치와 표본설계</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h3.html">3. 다른 조건이 같다면 — 계수는 무엇을 비교하나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h4.html">4. 회귀식 밖에 남은 것 — 설명력, 빠진 변수, 남녀의 차이</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h5.html">5. 약 먹고 잰 혈압 — 표본을 정하는 판단과 거꾸로 된 순서</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h6.html">6. 횡단면이 말해 주지 않는 것 — 측정과 자료의 범위</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-prompt.html">직접 해 보기 1 — 자료는 내 컴퓨터에, AI에는 질문만</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">패널 데이터 분석 — FTA와 수출</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="section-p1.html">1. 보고서 — FTA는 한국의 수출을 늘렸나</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">2. 단체 사진과 사진첩 — 횡단면과 패널</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-p3.html">3. 어제의 나와 비교하기 — 고정효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-p4.html">4. 두 가지 차이를 섞기 — 확률효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-p5.html">5. 무엇을 고르나 — 하우스만 검정과 연도 효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/pilsunchoi/book5" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="소스 저장소"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="이 페이지 다운로드">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/panel-data/section-p2.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="소스 파일 다운로드"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="PDF로 인쇄"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="전체 화면으로보기"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>2. 단체 사진과 사진첩 — 횡단면과 패널</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 내용 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">반 아이들의 키 — 횡단면, 시계열, 패널</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">나라의 사진첩 — 이 장의 자료</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">농구를 하면 키가 클까 — 단체 사진의 함정</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">다른 해를 골랐다면</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">우리 주위의 단체 사진 — 사내 교육과 연봉</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ols">사진첩을 그냥 쌓아도 — 합동 OLS</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">표준오차도 나라 단위로 — 군집 표준오차</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>2. 단체 사진과 사진첩 — 횡단면과 패널<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>이 장 첫머리의 보고서는 요약의 첫 줄에 이렇게 적었습니다.</p>
+<blockquote>
+<div><p>2019년 한 해의 나라들을 비교하면, 상대국 GDP와 거리가 같을 때 한국과 FTA를 맺은 나라로의 수출이 75% 많다.</p>
+</div></blockquote>
+<p>이 숫자는 보고서의 추정 결과 표 맨 왼쪽 열, “횡단면 (2019년)”에서 나왔습니다. 종속변수가 로그 수출이니, 다중회귀분석 장에서 본 더미 계수를 읽는 법대로 FTA의 계수 0.562는 <span class="math notranslate nohighlight">\(e^{0.562} \approx 1.75\)</span>배, 즉 FTA를 맺은 나라로의 수출이 75% 많다는 뜻입니다. 다른 조건(상대국 GDP, 거리)이 같을 때의 차이입니다. 그런데 보고서는 둘째 줄에서 같은 효과를 이번에는 13%라고 말합니다. 어느 쪽을 믿어야 할까요?</p>
+<p>미리 답부터 말하면, <strong>75% 가운데 일부는 FTA 덕분이 아니라, FTA를 맺은 나라들이 원래부터 한국의 수출이 많던 나라였기 때문입니다.</strong> 2019년 한 해의 자료로는 FTA를 맺은 나라와 맺지 않은 나라, 즉 서로 다른 나라를 비교할 수밖에 없습니다. 회귀식이 GDP와 거리는 같게 맞췄지만, 그 밖에 맞추지 못한 차이(예를 들어 FTA와 상관없이 원래 한국의 수출이 얼마나 많던 나라였나)는 그대로 남아 75%를 부풀립니다. 여러 해의 자료가 있으면 사정이 달라집니다. FTA를 맺기 전의 모습을 보면 나라마다 원래 어땠는지가 드러나고, 그 몫을 떼어 낸 뒤 FTA 전과 후에 달라진 것만 볼 수 있습니다. 그 답이 보고서의 13%이고, 다음 절의 주제입니다. 이 절에서는 먼저 횡단면 자료와 패널 데이터가 무엇이 다른지 보고, 한 해만 보는 비교가 왜 엉뚱한 답을 낼 수 있는지, 그리고 여러 해의 자료를 그냥 쌓는 것으로는 왜 여전히 풀리지 않는지 확인합니다.</p>
+<section id="id2">
+<h2>반 아이들의 키 — 횡단면, 시계열, 패널<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>앞 절에서 횡단면 자료는 사진 한 장, 패널 데이터는 해마다 찍은 사진을 모은 사진첩이라고 했습니다. 이 비유를 조금 더 구체적으로 만들어 봅시다. 초등학교 한 반의 아이들 키를 측정한다고 합시다.</p>
+<p>3월에 한 번, 반 아이들 30명의 키를 모두 측정했습니다. <strong>여러 대상을 한 시점에</strong> 관측했으니 횡단면 자료입니다. 사진으로 치면 반 아이들을 한자리에 세워 찍은 단체 사진 한 장입니다. 이번에는 한 아이, 민준이의 키를 1학년부터 6학년까지 해마다 측정했습니다. <strong>한 대상을 여러 시점에</strong> 관측한 이 자료는 <strong>시계열</strong>(time series) 자료입니다. 사진첩이 아니라, 한 아이만 해마다 찍은 성장 앨범이죠. 마지막으로, 반 아이들 30명의 키를 1학년부터 6학년까지 해마다 측정했습니다. <strong>여러 대상을 여러 시점에 걸쳐</strong> 반복해 관측했으니 패널 데이터입니다. 해마다 찍은 단체 사진을 모은 바로 그 사진첩입니다.</p>
+<p>세 자료는 답할 수 있는 질문이 다릅니다. 단체 사진 한 장으로는 “누가 큰가”를 알 수 있습니다. 사진첩이 있으면 “누가 큰가”뿐만 아니라 “누가 많이 컸나”도 알 수 있습니다. 이 두 질문의 구별이 이 장 전체의 열쇠입니다.</p>
+<p><img alt="횡단면, 시계열, 패널을 그린 카툰" src="../_images/fig_p2_1_class_photos.png" /></p>
+<p><strong>그림 2-1.</strong> 횡단면, 시계열, 패널. 왼쪽: 3월에 찍은 반 아이들의 단체 사진 한 장. 가운데: 민준이(주황 셔츠)만 해마다 찍은 성장 앨범. 오른쪽: 해마다 찍은 단체 사진을 모은 사진첩.</p>
+<section id="id3">
+<h3>나라의 사진첩 — 이 장의 자료<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<p>이 장의 자료는 나라를 대상으로 한 사진첩입니다. 한국의 수출 상대국 206개국을 1995년부터 2020년까지 해마다 관측했습니다. 표 2-1은 자료의 일부입니다.</p>
+<p><strong>표 2-1.</strong> 패널 데이터의 생김새 (수출과 GDP는 십억 달러)</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>상대국</p></th>
+<th class="head text-center"><p>연도</p></th>
+<th class="head text-center"><p>수출</p></th>
+<th class="head text-center"><p>상대국 GDP</p></th>
+<th class="head text-center"><p>거리 (km)</p></th>
+<th class="head text-center"><p>FTA</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>⋮</p></td>
+<td class="text-center"><p>⋮</p></td>
+<td class="text-center"><p>⋮</p></td>
+<td class="text-center"><p>⋮</p></td>
+<td class="text-center"><p>⋮</p></td>
+<td class="text-center"><p>⋮</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>브라질</p></td>
+<td class="text-center"><p>2002</p></td>
+<td class="text-center"><p>1.25</p></td>
+<td class="text-center"><p>504</p></td>
+<td class="text-center"><p>17,809</p></td>
+<td class="text-center"><p>0</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>브라질</p></td>
+<td class="text-center"><p>2003</p></td>
+<td class="text-center"><p>1.14</p></td>
+<td class="text-center"><p>552</p></td>
+<td class="text-center"><p>17,809</p></td>
+<td class="text-center"><p>0</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>브라질</p></td>
+<td class="text-center"><p>2004</p></td>
+<td class="text-center"><p>1.78</p></td>
+<td class="text-center"><p>664</p></td>
+<td class="text-center"><p>17,809</p></td>
+<td class="text-center"><p>0</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>브라질</p></td>
+<td class="text-center"><p>2005</p></td>
+<td class="text-center"><p>2.41</p></td>
+<td class="text-center"><p>882</p></td>
+<td class="text-center"><p>17,797</p></td>
+<td class="text-center"><p>0</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>⋮</p></td>
+<td class="text-center"><p>⋮</p></td>
+<td class="text-center"><p>⋮</p></td>
+<td class="text-center"><p>⋮</p></td>
+<td class="text-center"><p>⋮</p></td>
+<td class="text-center"><p>⋮</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>칠레</p></td>
+<td class="text-center"><p>2002</p></td>
+<td class="text-center"><p>0.45</p></td>
+<td class="text-center"><p>71</p></td>
+<td class="text-center"><p>18,276</p></td>
+<td class="text-center"><p>0</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>칠레</p></td>
+<td class="text-center"><p>2003</p></td>
+<td class="text-center"><p>0.52</p></td>
+<td class="text-center"><p>78</p></td>
+<td class="text-center"><p>18,276</p></td>
+<td class="text-center"><p>0</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>칠레</p></td>
+<td class="text-center"><p>2004</p></td>
+<td class="text-center"><p>0.71</p></td>
+<td class="text-center"><p>101</p></td>
+<td class="text-center"><p>18,276</p></td>
+<td class="text-center"><p>1</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>칠레</p></td>
+<td class="text-center"><p>2005</p></td>
+<td class="text-center"><p>1.15</p></td>
+<td class="text-center"><p>124</p></td>
+<td class="text-center"><p>18,275</p></td>
+<td class="text-center"><p>1</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>⋮</p></td>
+<td class="text-center"><p>⋮</p></td>
+<td class="text-center"><p>⋮</p></td>
+<td class="text-center"><p>⋮</p></td>
+<td class="text-center"><p>⋮</p></td>
+<td class="text-center"><p>⋮</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>표에서 보듯이 각각의 행은 “어느 나라의 어느 해”입니다. 같은 나라가 해마다 한 행씩 여러 번 나옵니다. 칠레는 2004년에 한국과 FTA를 맺어, FTA가 그해부터 1로 바뀝니다. 반면 양국 간 거리는 해가 바뀌어도 거의 그대로입니다. 인구로 가중해 평균한 거리라서 해마다 아주 조금 움직이지만, 사실상 나라마다 정해진 값입니다.</p>
+<p>패널 데이터에서는 변수에 붙는 꼬리표가 둘입니다. 어느 나라인지와 어느 해인지입니다. 교과서에서는 흔히 나라를 <span class="math notranslate nohighlight">\(i\)</span>, 해를 <span class="math notranslate nohighlight">\(t\)</span>로 적어, “칠레의 2004년 수출”을 <span class="math notranslate nohighlight">\(\text{수출}_{it}\)</span>처럼 씁니다.</p>
+</section>
+</section>
+<section id="id4">
+<h2>농구를 하면 키가 클까 — 단체 사진의 함정<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p>이제 한 해만 보는 비교, 즉 횡단면 비교에 어떤 함정이 있는지 봅시다. 반 아이들 가운데 몇 명은 농구부에서 활동합니다. 3월의 단체 사진을 보니, 농구부 아이들이 다른 아이들보다 평균 10cm 큽니다. 농구를 하면 키가 크는 걸까요?</p>
+<p>그렇게 단정하기 어렵습니다. 농구부는 키 큰 아이를 뽑기 때문입니다. 농구부 아이들은 농구를 시작하기 전부터 다른 아이들보다 컸을 가능성이 큽니다. 이렇게 농구와 상관없이 아이가 원래 얼마나 컸나를 <strong>원래 키</strong>라고 부르겠습니다. 그러니 평균 키 차이 10cm 가운데 일부는 농구 덕분이 아니라, 원래 키가 큰 아이들이기 때문입니다. 그런데 3월의 단체 사진에는 아이들이 농구부에 들어가기 전에 얼마나 컸는지가 나와 있지 않습니다. 그래서 단체 사진 한 장만으로는 농구부 아이들이 큰 것이 농구 덕분인지, 원래 커서인지 가려낼 수 없습니다.</p>
+<p>이 사진으로 회귀분석을 하면, 농구부 아이들이 원래 컸던 몫까지 농구 덕분인 것처럼 계산되어 농구의 효과를 부풀립니다. 이렇게 효과가 아닌 것이 숫자를 부풀리거나 줄여서, 숫자가 한쪽으로 치우쳐 나오는 것을 통계학에서는 <strong>편향</strong>(bias)이라고 부릅니다. 다중회귀분석 장에서 본 누락 변수 편향이 바로 이것입니다. 회귀식에 들어 있지 않은 것(원래 키)의 몫이, 회귀식에 들어 있는 것(농구부 활동)의 숫자를 부풀린 것이죠.</p>
+<p>이 장의 무역 자료에서도 같은 일이 일어납니다. <a class="report-fig-link" href="../_static/report-figure-panel-data.png" target="_blank" rel="noopener">보고서의 그림</a> 왼쪽 패널을 다시 봅시다. 한국의 첫 FTA보다 4년 앞선 2000년 기준으로 한국의 중위 수출액을 보면, 나중에 FTA를 맺은 나라는 3억 9,800만 달러, 2020년까지 맺지 않은 나라는 1,100만 달러로 36배였습니다. 나중에 FTA를 맺은 나라들은 FTA를 맺기 전부터 한국의 큰 교역 상대였던 것이죠. 이렇게 FTA와 상관없이 한국이 그 나라에 원래 얼마나 수출하던 나라였나를 <strong>원래 수출 규모</strong>라고 부르겠습니다. 농구부 이야기의 원래 키에 해당합니다. 그렇다면 농구부 아이들이 원래 컸던 몫까지 농구 덕분인 것처럼 계산되듯이, 보고서에 나온 FTA 효과 75%에도 원래 수출 규모의 차이가 섞여 있는 것이 아닐까요?</p>
+<p>간단한 방법으로 이것을 확인해 보죠. 보고서와 같은 회귀식을 FTA가 하나도 없던 해의 자료에 그대로 적용해 보는 것입니다. 2003년은 칠레와의 첫 FTA가 발효되기 직전 해라, 한국과 FTA를 맺은 나라가 하나도 없었습니다. 그해에는 FTA의 효과가 있을 수 없으니, FTA 자리에 나중에(2004~2020년) FTA를 맺게 되는 나라를 1로 넣으면 그 계수는 0 근처여야 합니다. 표 2-2는 그 결과를 2019년의 횡단면, 즉 보고서의 표 맨 왼쪽 열과 나란히 놓은 것입니다.</p>
+<p><strong>표 2-2.</strong> 같은 회귀식, 다른 해: 2003년과 2019년의 횡단면 (종속변수: 로그 수출)</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head text-center"><p>2003년 (FTA가 하나도 없던 해)</p></th>
+<th class="head text-center"><p>2019년 (보고서)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>로그(상대국 GDP)</p></td>
+<td class="text-center"><p>0.970 (0.064)</p></td>
+<td class="text-center"><p>0.925 (0.065)</p></td>
+</tr>
+<tr class="row-odd"><td><p>로그(거리)</p></td>
+<td class="text-center"><p>−1.129 (0.215)</p></td>
+<td class="text-center"><p>−1.012 (0.220)</p></td>
+</tr>
+<tr class="row-even"><td><p>FTA 상대국</p></td>
+<td class="text-center"><p><strong>0.463</strong> (0.255)</p></td>
+<td class="text-center"><p><strong>0.562</strong> (0.227)</p></td>
+</tr>
+<tr class="row-odd"><td><p>FTA 상대국의 <span class="math notranslate nohighlight">\(p\)</span>값</p></td>
+<td class="text-center"><p>0.070</p></td>
+<td class="text-center"><p>0.013</p></td>
+</tr>
+<tr class="row-even"><td><p>관측 수</p></td>
+<td class="text-center"><p>192</p></td>
+<td class="text-center"><p>200</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>주: 괄호는 표준오차. FTA 상대국은 2003년에는 나중에(2004~2020년) FTA를 맺게 되는 나라 54개국이 1이고, 2019년에는 그해 FTA가 발효돼 있던 나라 49개국이 1이다.</p>
+<p>표에서 보듯이 FTA가 하나도 없던 2003년에도 FTA 상대국의 계수는 0.463, 퍼센트로는 59%입니다. GDP와 거리가 같을 때, 나중에 FTA를 맺게 되는 나라로의 수출이 FTA를 맺기도 전에 이미 59% 많았던 것입니다. <span class="math notranslate nohighlight">\(p\)</span>값이 0.07이라 0과 분명히 구별된다고 하기에는 조금 모자라지만, 75%가 모두 FTA 덕분이라면 0 근처여야 할 숫자가 2019년의 75%에 버금가는 크기로 나왔습니다. 원래 키가 큰 아이가 농구부에 뽑히듯이, GDP와 거리로 짐작되는 것보다 원래 수출 규모가 큰 나라와 FTA를 맺었다고 볼 수 있습니다. 이처럼 회귀식에서 문제가 되는 것은 수출 규모 그 자체가 아니라, GDP와 거리로 짐작되는 것보다 한국이 그 나라에 얼마나 더(또는 덜) 수출하던 나라였나입니다. 앞으로 원래 수출 규모라고 하면 이것을 가리킵니다. 원래 큰 아이가 해가 지나도 대개 크듯이 이런 차이가 해가 바뀌어도 크게 달라지지 않는다면, 2019년의 75% 가운데 일부도 FTA 덕분이 아니라 원래 수출 규모가 큰 나라였기 때문일 것입니다.</p>
+<p><img alt="자료에 없는 것이 비교를 부풀리는 길" src="../_images/fig_p2_2_hidden_path.svg" /></p>
+<p><strong>그림 2-2.</strong> 자료에 없는 것이 비교를 부풀리는 길. 왼쪽: 반 아이들 단체 사진. 오른쪽: 2019년 무역 자료. 주황 화살표가 알고 싶은 효과이고, 위의 카드는 한 해의 자료에 변수로 들어 있지 않다.</p>
+<p>그림에서 보듯이 두 이야기는 구조가 같습니다. 농구부 감독이 키 큰 아이를 뽑았고(왼쪽 화살표) 원래 큰 아이는 지금도 크니(오른쪽 화살표), 농구부 아이들은 농구를 하지 않았더라도 다른 아이들보다 컸을 것입니다. 따라서 반 아이들의 단체 사진만으로 농구의 효과를 측정하면, 원래 키의 몫까지 농구 덕분인 것처럼 계산되어 효과가 부풀려지기 쉽습니다. 무역 자료에서도 원래 수출 규모가 큰 나라와 FTA를 맺었고(왼쪽 화살표) 그런 나라로는 지금도 수출이 많으니(오른쪽 화살표), FTA를 맺은 나라로의 수출은 FTA가 없었더라도 다른 나라보다 많았을 것입니다. 따라서 2019년 무역 자료만으로 FTA의 효과를 측정하면, 원래 수출 규모의 몫까지 FTA 덕분인 것처럼 계산되어 효과가 부풀려지기 쉽습니다. 그리고 GDP와 거리로 설명되지 않는 원래 수출 규모는, 농구부 이야기의 원래 키처럼 한 해의 자료 어디에도 변수로 들어 있지 않습니다. 그래서 한 해의 자료로는 그 몫을 따로 떼어 낼 방법이 없습니다.</p>
+<section id="id5">
+<h3>다른 해를 골랐다면<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<p>보고서는 2019년 한 해를 골라 횡단면 비교를 했습니다. 다른 해를 골랐다면 숫자가 달라졌을까요? 같은 회귀식(GDP, 거리, FTA)을 해마다 따로 추정해 보면 FTA의 계수는 해에 따라 꽤 다릅니다. 2012년과 2014년에는 43%, 2016년에는 70%, 2019년에는 75%, 2020년에는 99%입니다. FTA를 맺은 나라가 몇 안 되던 2000년대에는 더 크게 출렁입니다. 칠레 하나뿐이던 2004년에는 300%인데, 다섯 나라였던 2007년에는 12%, 2008년에는 38%, 2009년에는 오히려 2% 적게 나옵니다. FTA를 맺은 나라가 몇 개뿐이면, 그 몇 나라의 사정이 숫자를 좌우하기 때문입니다.</p>
+<p>FTA를 맺은 나라가 15개국으로 늘어난 2010년부터는 어느 해를 고르든 숫자가 13%보다 큽니다(가장 작은 2013년 35%부터 가장 큰 2010년 137%까지). 해마다 단체 사진을 새로 찍어도, 사진 한 장으로는 원래 수출 규모를 떼어 낼 수 없다는 사정은 그대로이기 때문입니다. 횡단면 비교의 숫자를 볼 때는 어느 해의 자료인지, 다른 해에도 비슷한지 함께 확인하는 것이 좋습니다.</p>
+</section>
+<section id="id6">
+<h3>우리 주위의 단체 사진 — 사내 교육과 연봉<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<p>이런 분석은 우리 주위에서 늘 필요합니다. 회사는 직원 교육이 성과를 높였는지, 학교는 새 수업 방식이 성적을 올렸는지, 정부는 지원 사업이 고용을 늘렸는지 알고 싶어 합니다. 그런데 교육을 받는 직원, 새 수업을 하는 학교, 지원을 받는 기업은 대개 아무렇게나 정해지지 않습니다. 그래서 한 해의 자료로 받은 쪽과 받지 않은 쪽을 비교하면 단체 사진의 함정에 빠지기 쉽습니다. 사내 교육을 예로 들어 봅시다. 어느 회사가 직원 연봉 자료로 사내 리더십 교육의 효과를 알아보려 합니다. 올해 자료에서 교육을 받은 직원의 연봉이 교육을 받지 않은 직원보다 20% 높다고 합시다. 그런데 회사는 대개 일 잘하는 직원을 골라 교육에 보냅니다. 그 직원들은 교육을 받기 전부터 연봉이 높았을 것입니다. 한 해의 자료로는 20% 가운데 얼마가 교육 덕분이고 얼마가 원래 유능해서인지 가려낼 수 없습니다. 같은 직원의 연봉을 여러 해 따라가며 교육을 받기 전과 후를 비교해야, 그 직원이 원래 어땠는지를 기준으로 삼을 수 있습니다. 농구부 이야기의 원래 키, 무역 자료의 원래 수출 규모가 이 예에서는 직원의 원래 능력입니다.</p>
+</section>
+</section>
+<section id="ols">
+<h2>사진첩을 그냥 쌓아도 — 합동 OLS<a class="headerlink" href="#ols" title="Link to this heading">#</a></h2>
+<p>그러면 사진을 여러 장 모으면 해결될까요? 1학년부터 6학년까지의 단체 사진 여섯 장을 모두 한데 쌓고, 농구부 아이와 아닌 아이를 비교한다고 해 봅시다. 사진마다 아이들의 이름표는 붙어 있습니다. 다만 비교할 때 그 이름표를 쓰지 않습니다. 6학년 사진의 민준이가 1학년 사진의 민준이와 같은 아이라는 것을 따지지 않고, 여섯 장 속의 180명을 서로 다른 아이 180명처럼 다루는 것이죠. 일부러 그러는 것은 아닙니다. 여섯 장을 한 장의 큰 단체 사진처럼 펼쳐 놓고 비교하는 것이 가장 손쉽기 때문입니다. 사진은 여섯 배로 늘었지만, 하는 일은 여전히 “농구부 아이가 다른 아이보다 큰가”입니다. 이름표를 쓰지 않으니 아이마다 원래 어땠는지는 알 수 없고, 농구부 아이들이 원래 키가 큰 아이들이라는 몫도 그대로 숫자를 부풀립니다.</p>
+<p>이렇게 패널 데이터를 대상의 구분 없이 그냥 쌓아 하나의 횡단면처럼 회귀분석하는 것을 <strong>합동 OLS</strong>(pooled OLS)라고 부릅니다. 표 2-3은 보고서의 표에서 합동 OLS 열을 옮긴 것입니다.</p>
+<p><strong>표 2-3.</strong> 합동 OLS의 추정 결과 (종속변수: 로그 수출)</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head text-center"><p>계수</p></th>
+<th class="head text-center"><p>표준오차</p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(p\)</span>값</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>로그(상대국 GDP)</p></td>
+<td class="text-center"><p>0.982</p></td>
+<td class="text-center"><p>0.049</p></td>
+<td class="text-center"><p>&lt; 0.001</p></td>
+</tr>
+<tr class="row-odd"><td><p>로그(거리)</p></td>
+<td class="text-center"><p>−0.904</p></td>
+<td class="text-center"><p>0.191</p></td>
+<td class="text-center"><p>&lt; 0.001</p></td>
+</tr>
+<tr class="row-even"><td><p>FTA</p></td>
+<td class="text-center"><p>0.349</p></td>
+<td class="text-center"><p>0.166</p></td>
+<td class="text-center"><p>0.035</p></td>
+</tr>
+<tr class="row-odd"><td><p>상수항</p></td>
+<td class="text-center"><p>2.899</p></td>
+<td class="text-center"><p>2.084</p></td>
+<td class="text-center"><p>0.16</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(R^2\)</span></p></td>
+<td class="text-center"><p>0.715</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>관측 수</p></td>
+<td class="text-center"><p>4,909</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>주: 표준오차는 나라 단위 군집 표준오차로, 표 아래 “표준오차도 나라 단위로”에서 본다. 206개국 × 1995~2020년. 상수항과 <span class="math notranslate nohighlight">\(R^2\)</span>은 보고서의 표에서 생략한 줄이다.</p>
+<p>표에서 보듯이 FTA의 계수는 0.349, 퍼센트로는 42%입니다. 26년 치를 모았으니 관측은 4,909개로 많아졌고, 같은 나라의 FTA 전과 후도 자료 안에 들어 있습니다. 하지만 합동 OLS는 같은 나라의 전과 후를 비교하는 것과 서로 다른 나라끼리 비교하는 것을 구별하지 않고 한꺼번에 씁니다. 나라끼리 비교하는 몫이 남아 있는 한, 원래 수출 규모가 컸다는 몫도 그만큼 숫자를 부풀립니다. 그래서 횡단면의 75%보다는 작지만, 여전히 큰 숫자가 나옵니다.</p>
+<p>사진첩의 진짜 힘은 사진을 많이 모으는 데 있지 않습니다. <strong>같은 아이의 사진끼리 비교할 수 있다</strong>는 데 있습니다. 그래야 비로소 아이 하나하나가 원래 어땠는지 알 수 있기 때문입니다. 농구부에 들어가기 전의 민준이 사진을 보면 민준이가 원래 얼마나 큰 아이인지 알 수 있고, 들어간 뒤의 민준이를 그 사진과 비교하면 농구부에 들어간 뒤에 얼마나 달라졌는지 알 수 있습니다. 다음 절에서 그 방법을 봅니다.</p>
+<section id="id7">
+<h3>표준오차도 나라 단위로 — 군집 표준오차<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<p>표 2-3의 주에는 “표준오차는 나라 단위 군집 표준오차”라고 적혀 있습니다. 보고서의 통계 줄에도 같은 말이 있습니다. 군집 표준오차는 횡단면 분석 장에서 소개한 것으로, 같은 군집 안의 관측끼리 닮을 수 있다는 것을 감안한 표준오차입니다. 그 장에서는 사람을 동네째 뽑았기 때문에 동네가 군집이었습니다. 이 장에서는 같은 나라를 26년 동안 관측했기 때문에 나라가 군집입니다.</p>
+<p>같은 나라의 관측끼리는 서로 닮습니다. 어떤 나라로의 수출이 회귀식의 예측보다 많은 해가 있다면, 그 나라는 다음 해에도 예측보다 많을 가능성이 큽니다. 같은 나라의 오차가 해마다 같은 방향으로 함께 움직이는 것입니다. 그래서 한 나라의 26개 관측은 서로 독립된 26개의 관측만큼 새로운 정보를 주지 못합니다.</p>
+<p>반 아이들로 생각해 봅시다. 이 반 아이들이 같은 학년 평균보다 큰지 알고 싶은데, 서로 다른 아이 여섯 명을 측정하는 대신 민준이 한 명을 여섯 해 측정했다고 합시다. 원래 키가 큰 민준이는 여섯 해 모두 같은 학년 평균보다 큽니다. 숫자는 여섯 개지만 민준이 한 명의 이야기를 여섯 번 들은 것이라, 서로 다른 여섯 명을 측정한 것만큼 반 전체에 대해 알려 주지 못합니다. 다른 아이 여섯 명이었다면 큰 아이와 작은 아이가 섞였을 테니까요.</p>
+<p>그런데 이 숫자 여섯 개를 서로 다른 아이 여섯 명처럼 세면, 가진 정보를 실제보다 많다고 여기게 됩니다. 단순회귀분석 장에서 본 것처럼 표준오차는 표본이 클수록 작아지므로, 정보를 부풀려 세면 표준오차도 실제보다 작게 나옵니다. 그러면 효과를 실제보다 확실한 것처럼 보이게 합니다.</p>
+<p>차이는 작지 않습니다. 표 2-3에서 FTA 계수의 표준오차는 군집을 반영하지 않고 계산하면 0.083이지만, 나라 단위 군집 표준오차는 0.166으로 꼭 두 배입니다. 패널 데이터에서는 대상 단위의 군집 표준오차가 기본이고, 이 장의 표에 실은 표준오차는 모두 그렇게 계산한 것입니다.</p>
+<p>💡 <strong>팁:</strong> AI가 나라, 회사, 지역을 비교하는 회귀분석 보고서를 내놓으면 “이 자료가 한 시점 자료인지, 여러 해 자료인지”부터 확인하세요. 여러 해 자료인데 그냥 쌓아 돌렸다면(합동 OLS) “패널 분석으로 다시 해 줘. 고정효과 모형과 확률효과 모형 결과도 함께 보여 줘”라고 요청하면 됩니다.</p>
+<blockquote>
+<div><p><strong>요약 — 이 절의 물음과 답</strong></p>
+<ul class="simple">
+<li><p><strong>횡단면과 패널 데이터는 무엇이 다를까?</strong> 횡단면은 여러 대상을 한 시점에 관측한 자료이고, 패널 데이터는 같은 대상을 여러 시점에 걸쳐 반복해 관측한 자료다. 단체 사진 한 장과, 해마다 찍은 단체 사진을 모은 사진첩의 차이다.</p></li>
+<li><p><strong>2019년 한 해의 비교에서 FTA의 효과가 75%나 되는 것은 왜일까?</strong> 75% 가운데 일부는 FTA 덕분이 아니라, FTA를 맺은 나라들이 원래부터 한국의 수출이 많던 나라였기 때문이다. FTA가 하나도 없던 2003년에도, GDP와 거리가 같다면 나중에 FTA를 맺게 되는 나라로의 수출이 이미 59% 많았다. 이렇게 효과가 아닌 몫 때문에 숫자가 한쪽으로 치우쳐 나오는 것을 편향이라고 한다.</p></li>
+<li><p><strong>여러 해의 자료를 그냥 한데 쌓으면 해결될까?</strong> 그렇지 않다. 나라를 구별하지 않고 쌓아 회귀분석하는 합동 OLS에는 나라끼리의 비교가 그대로 들어 있어, 원래 수출 규모가 컸던 몫도 남는다. 합동 OLS에서도 FTA의 효과는 42%로 크게 나온다.</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./panel-data"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="section-p1.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">이전</p>
+        <p class="prev-next-title">1. 보고서 — FTA는 한국의 수출을 늘렸나</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="section-p3.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">다음</p>
+        <p class="prev-next-title">3. 어제의 나와 비교하기 — 고정효과</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 내용
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">반 아이들의 키 — 횡단면, 시계열, 패널</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">나라의 사진첩 — 이 장의 자료</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">농구를 하면 키가 클까 — 단체 사진의 함정</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">다른 해를 골랐다면</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">우리 주위의 단체 사진 — 사내 교육과 연봉</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ols">사진첩을 그냥 쌓아도 — 합동 OLS</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">표준오차도 나라 단위로 — 군집 표준오차</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>© 2026 최필선</p>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

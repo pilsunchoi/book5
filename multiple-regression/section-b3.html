@@ -253,6 +253,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../panel-data/index.html">패널 데이터 분석 — FTA와 수출</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p1.html">1. 보고서 — FTA는 한국의 수출을 늘렸나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p2.html">2. 단체 사진과 사진첩 — 횡단면과 패널</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p3.html">3. 어제의 나와 비교하기 — 고정효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p4.html">4. 두 가지 차이를 섞기 — 확률효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p5.html">5. 무엇을 고르나 — 하우스만 검정과 연도 효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
 </ul>
 
     </div>
@@ -521,15 +531,15 @@
 <section id="id6">
 <h2>계수를 “몇 배”로 읽기 — 1.032가 2.8배가 되는 계산<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
 <p>남은 질문은 1.032가 어떻게 2.8배가 되느냐입니다. 회귀식의 왼쪽이 가격이 아니라 로그가격이므로, 계수 1.032는 로그가격의 차이입니다. 이것을 가격의 차이로 되돌려야 합니다.</p>
-<p>계수 × 100%로 읽는 어림셈은 계수가 작을 때만 맞습니다(2절의 “로그 다시 보기”). 그런데 스위치는 0에서 1로 한 번에 뛰는 변화이고, 그때의 계수도 1.032처럼 큽니다.</p>
+<p>계수 × 100%로 읽는 근사는 계수가 작을 때만 맞습니다(2절의 “로그 다시 보기”). 그런데 스위치는 0에서 1로 한 번에 뛰는 변화이고, 그때의 계수도 1.032처럼 큽니다.</p>
 <p>정확한 계산은 이렇습니다. 로그가격의 차이가 <span class="math notranslate nohighlight">\(d\)</span>이면, 가격은 <span class="math notranslate nohighlight">\(e^d\)</span>배 차이 납니다. <span class="math notranslate nohighlight">\(e\)</span>는 약 2.718인 수이고, 계산은 계산기나 AI에게 맡기면 됩니다.</p>
 <div class="math notranslate nohighlight">
 \[
 e^{1.032} \approx 2.81
 \]</div>
-<p>그래서 강남구 아파트는 같은 조건의 노원구 아파트보다 2.8배 비쌉니다. 퍼센트로 말하면 181% 비싼 것입니다. 어림셈(계수 × 100%)으로는 103%가 나와, 실제보다 한참 작습니다.</p>
-<p>계수가 음수일 때도 마찬가지입니다. 도봉구의 계수 −0.207은 어림셈으로는 가격이 21% 낮다는 뜻이지만, 정확히는 19% 낮습니다(<span class="math notranslate nohighlight">\(e^{-0.207} \approx 0.81\)</span>, 즉 노원구의 0.81배). 표 2-1이 강남구를 “2.81배”, 도봉구를 “0.81배”로 적은 것은 모두 정확한 값입니다.</p>
-<p>💡 <strong>팁:</strong> 로그가격의 계수를 퍼센트나 배로 바꿀 때는 AI에게 “로그 계수를 정확한 퍼센트로 바꿔 줘”라고 부탁하면 됩니다. 계수가 대략 −0.1에서 0.1 사이일 때만 계수 × 100%로 어림해도 충분합니다.</p>
+<p>그래서 강남구 아파트는 같은 조건의 노원구 아파트보다 2.8배 비쌉니다. 퍼센트로 말하면 181% 비싼 것입니다. 근사(계수 × 100%)로는 103%가 나와, 실제보다 한참 작습니다.</p>
+<p>계수가 음수일 때도 마찬가지입니다. 도봉구의 계수 −0.207은 근사적으로는 가격이 21% 낮다는 뜻이지만, 정확히는 19% 낮습니다(<span class="math notranslate nohighlight">\(e^{-0.207} \approx 0.81\)</span>, 즉 노원구의 0.81배). 표 2-1이 강남구를 “2.81배”, 도봉구를 “0.81배”로 적은 것은 모두 정확한 값입니다.</p>
+<p>💡 <strong>팁:</strong> 로그가격의 계수를 퍼센트나 배로 바꿀 때는 AI에게 “로그 계수를 정확한 퍼센트로 바꿔 줘”라고 부탁하면 됩니다. 계수가 대략 −0.1에서 0.1 사이일 때만 계수 × 100%로 근사해도 충분합니다.</p>
 </section>
 <section id="id7">
 <h2>기준을 바꾸면<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
@@ -591,7 +601,7 @@ e^{1.032} \approx 2.81
 <ul class="simple">
 <li><p><strong>“강남구”는 숫자가 아닌데, 어떻게 회귀식에 들어갔을까?</strong> “강남구인가?”를 묻는 스위치로 바꿔, 강남구 거래면 1, 아니면 0을 적어 넣었다. 이렇게 0과 1로만 된 변수를 더미 변수라고 한다. 구마다 스위치를 하나씩 달되 기준 구인 노원구에는 달지 않아서 구 더미는 24개이고, 구 계수는 모두 노원구와 비교해 얼마나 다른가를 말한다.</p></li>
 <li><p><strong>구 더미의 계수는 무엇을 말할까?</strong> 다른 조건은 똑같고 구만 다른 두 아파트의 평균적인 (로그)가격 차이다. 구 더미는 직선의 기울기는 그대로 둔 채 위아래로만 옮기므로, 그림으로 보면 25개 구의 직선은 모두 평행하고 구 계수는 그 직선들의 높이 차이다.</p></li>
-<li><p><strong>강남구 계수 1.032는 어떻게 “노원구의 2.8배”가 될까?</strong> 로그가격의 차이가 <span class="math notranslate nohighlight">\(d\)</span>이면 가격은 <span class="math notranslate nohighlight">\(e^d\)</span>배 차이 나므로, 1.032는 <span class="math notranslate nohighlight">\(e^{1.032} \approx 2.81\)</span>배가 된다. 계수 × 100%로 읽는 어림셈은 계수가 작을 때만 맞고, 1.032처럼 큰 계수에서는 실제보다 한참 작게 나온다.</p></li>
+<li><p><strong>강남구 계수 1.032는 어떻게 “노원구의 2.8배”가 될까?</strong> 로그가격의 차이가 <span class="math notranslate nohighlight">\(d\)</span>이면 가격은 <span class="math notranslate nohighlight">\(e^d\)</span>배 차이 나므로, 1.032는 <span class="math notranslate nohighlight">\(e^{1.032} \approx 2.81\)</span>배가 된다. 계수 × 100%로 읽는 근사는 계수가 작을 때만 맞고, 1.032처럼 큰 계수에서는 실제보다 한참 작게 나온다.</p></li>
 </ul>
 </div></blockquote>
 </section>

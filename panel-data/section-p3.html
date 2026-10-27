@@ -1,0 +1,673 @@
+
+<!DOCTYPE html>
+
+
+<html lang="ko" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="3. 어제의 나와 비교하기 — 고정효과" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://pilsunchoi.github.io/book5/panel-data/section-p3.html" />
+<meta property="og:site_name" content="AI 데이터 분석" />
+<meta property="og:description" content="이 장 첫머리의 보고서는 요약의 둘째 줄에 이렇게 적었습니다. 같은 나라를 FTA 전과 후로 비교하면(고정효과) 그 차이는 13%로 줄고, 0과 통계적으로 구별되지 않는다. 앞 절에서 2019년 횡단면의 75%와 합동 OLS의 42%가 “원래 한국의 수출이 많던 나라”였다는 사실 ..." />
+<meta name="description" content="이 장 첫머리의 보고서는 요약의 둘째 줄에 이렇게 적었습니다. 같은 나라를 FTA 전과 후로 비교하면(고정효과) 그 차이는 13%로 줄고, 0과 통계적으로 구별되지 않는다. 앞 절에서 2019년 횡단면의 75%와 합동 OLS의 42%가 “원래 한국의 수출이 많던 나라”였다는 사실 ..." />
+
+    <title>3. 어제의 나와 비교하기 — 고정효과 &#8212; AI 데이터 분석</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=18f25a40" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=ae323b5b"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = '표시하려면 클릭';</script>
+    <script>let toggleHintHide = '숨기려면 클릭';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/translations.js?v=e33e7ba0"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'panel-data/section-p3';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="색인" href="../genindex.html" />
+    <link rel="search" title="검색" href="../search.html" />
+    <link rel="next" title="4. 두 가지 차이를 섞기 — 확률효과" href="section-p4.html" />
+    <link rel="prev" title="2. 단체 사진과 사진첩 — 횡단면과 패널" href="section-p2.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="ko"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.png" class="logo__image only-light" alt="AI 데이터 분석"/>
+    <img src="../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="AI 데이터 분석"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../simple-regression/index.html">단순회귀분석 — 직선 하나로 관계 읽기</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a1.html">1. 보고서 — 노원구에서 1㎡는 얼마인가</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a2.html">2. 직선은 어떻게 정해지나 — 잔차와 최소제곱</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a3.html">3. 이 기울기를 믿어도 되나 — 표준오차, 신뢰구간, <span class="math notranslate nohighlight">\(p\)</span>값</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a4.html">4. 얼마나 설명하나 — <span class="math notranslate nohighlight">\(R^2\)</span>과 잔차</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a5.html">5. 로그로 읽는 가격 — 탄력성과 % 해석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../multiple-regression/index.html">다중회귀분석 — 여러 변수를 함께</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b1.html">1. 보고서 — 서울 아파트 값은 무엇으로 정해지나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b2.html">2. 다른 조건이 같다면 — 다중회귀분석의 계수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b3.html">3. 숫자가 아닌 변수 — 더미 변수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b4.html">4. 효과가 집단마다 다를 때 — 상호작용</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b5.html">5. 직선으로 부족할 때 — 제곱항</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../health-survey/index.html">횡단면 분석 — 학력과 혈압</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h1.html">1. 보고서 — 학력이 높을수록 혈압이 낮을까</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h2.html">2. 표본이 모집단을 닮게 — 가중치와 표본설계</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h3.html">3. 다른 조건이 같다면 — 계수는 무엇을 비교하나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h4.html">4. 회귀식 밖에 남은 것 — 설명력, 빠진 변수, 남녀의 차이</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h5.html">5. 약 먹고 잰 혈압 — 표본을 정하는 판단과 거꾸로 된 순서</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h6.html">6. 횡단면이 말해 주지 않는 것 — 측정과 자료의 범위</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-prompt.html">직접 해 보기 1 — 자료는 내 컴퓨터에, AI에는 질문만</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">패널 데이터 분석 — FTA와 수출</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="section-p1.html">1. 보고서 — FTA는 한국의 수출을 늘렸나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-p2.html">2. 단체 사진과 사진첩 — 횡단면과 패널</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3. 어제의 나와 비교하기 — 고정효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-p4.html">4. 두 가지 차이를 섞기 — 확률효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-p5.html">5. 무엇을 고르나 — 하우스만 검정과 연도 효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/pilsunchoi/book5" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="소스 저장소"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="이 페이지 다운로드">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/panel-data/section-p3.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="소스 파일 다운로드"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="PDF로 인쇄"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="전체 화면으로보기"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>3. 어제의 나와 비교하기 — 고정효과</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 내용 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">자기 평균 빼기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">나라마다 자기 높이 — 고정효과와 더미</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">75%가 13%로</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">우리 주위의 고정효과 — 학원과 성적</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">고정효과의 대가</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>3. 어제의 나와 비교하기 — 고정효과<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>이 장 첫머리의 보고서는 요약의 둘째 줄에 이렇게 적었습니다.</p>
+<blockquote>
+<div><p>같은 나라를 FTA 전과 후로 비교하면(고정효과) 그 차이는 13%로 줄고, 0과 통계적으로 구별되지 않는다.</p>
+</div></blockquote>
+<p>앞 절에서 2019년 횡단면의 75%와 합동 OLS의 42%가 “원래 한국의 수출이 많던 나라”였다는 사실 때문에 부풀려져 있다는 것을 보았습니다. GDP와 거리로 설명되지 않는 원래 수출 규모는 나라마다 정해져 있어 해가 바뀌어도 거의 그대로입니다. 이렇게 나라마다 고정되어 있어 해가 바뀌어도 그대로인 몫을 그 나라의 <strong>고정효과</strong>(fixed effects)라고 부릅니다. 고정효과에는 이 몫만이 아니라, 거리나 언어처럼 나라마다 정해진 것이 모두 함께 들어 있습니다. “고정”이라는 이름이 바로 여기서 왔습니다.</p>
+<p>아이로 말하면 어떨까요? 민준이가 1학년 때 또래보다 5cm 컸다고 해 봅시다. 키는 해마다 자라지만, 1학년 때 또래보다 5cm 컸던 아이는 6학년 때도 대개 또래보다 5cm쯤 큽니다. 이렇게 늘 따라다니는 차이를 <strong>또래보다 큰 정도</strong>라고 부르겠습니다. 앞 절의 원래 키를, 키가 해마다 자라도 쓸 수 있게 고친 말입니다. 민준이의 키는 해마다 달라져도 또래보다 큰 정도 5cm는 그대로이니, 그 5cm가 민준이의 고정효과입니다. 무역 자료에서 원래 수출 규모가 그렇듯, 해가 바뀌어도 그대로인 몫이니까요.</p>
+<p>그러니 FTA가 수출을 얼마나 늘렸는지 제대로 보려면, 먼저 이 고정효과를 떼어 놓고 보아야 합니다. 이 절은 그 방법을 다룹니다. 미리 답부터 말하면, <strong>방법의 핵심은 각 나라를 다른 나라와 비교하지 않고 그 나라 자신의 다른 해와 비교하는 것입니다.</strong> 같은 나라끼리 비교하면 그 나라의 고정효과는 비교하는 양쪽에 똑같이 들어 있으므로, 고정효과가 FTA의 효과를 부풀리는 것을 막을 수 있습니다. 앞 절 끝에서 본, 농구부에 들어가기 전과 후의 민준이를 비교하는 것이 바로 이 생각입니다. “남과 비교하지 말고 어제의 나와 비교하라”는 말 그대로입니다. 이렇게 고정효과를 떼어 놓고 추정하는 모형을 <strong>고정효과 모형</strong>이라고 부르고, 보고서의 추정 결과 표 맨 오른쪽 열이 그 결과입니다. FTA의 계수는 0.121, 즉 13%입니다.</p>
+<p>가령 FTA를 맺은 말레이시아와 맺지 않은 파키스탄, 두 나라만 있다고 생각해 봅시다. FTA의 효과를 알아보려고 그림 3-1의 왼쪽 패널처럼 FTA를 맺은 뒤의 말레이시아에서 파키스탄을 빼 보면, FTA 효과뿐만 아니라 두 나라의 원래 수출 규모의 차이가 함께 남습니다. 오른쪽 패널처럼 말레이시아를 FTA를 맺기 전의 말레이시아 자신과 비교하면, 말레이시아의 고정효과(거리나 원래 수출 규모처럼 나라마다 정해진 몫)가 양쪽에 똑같이 들어 있으니 빼고 나면 FTA 효과만 남습니다. 실제 자료에서는 그사이 상대국 GDP 같은 다른 것도 달라지므로, 회귀식은 그것을 같게 맞춘 뒤에 이 비교를 합니다.</p>
+<p><img alt="남과 비교와 어제의 나와 비교" src="../_images/fig_p3_1_compare.svg" /></p>
+<p><strong>그림 3-1.</strong> 두 가지 비교. 왼쪽: 나라끼리 비교(FTA 후의 말레이시아 − 파키스탄). 오른쪽: 같은 나라의 FTA 전과 후를 비교(FTA 후의 말레이시아 − FTA 전의 말레이시아).</p>
+<section id="id2">
+<h2>자기 평균 빼기<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>고정효과를 떼어 내는 첫째 방법은 자기 평균 빼기입니다. 시점이 둘뿐이라면 비교는 간단합니다. 뒤의 값에서 앞의 값을 빼면 됩니다. 이렇게 같은 대상의 두 시점 값을 빼는 것을 <strong>차분</strong>(differencing)이라고 합니다. 그런데 이 장의 자료처럼 시점이 26개라면, 어느 해에서 어느 해를 뺄지 정하기가 애매합니다. 그래서 더 일반적인 방법을 씁니다. <strong>각 나라에서 그 나라의 26년 평균을 빼는 것</strong>입니다.<a class="footnote-reference brackets" href="#fd" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p>
+<p>평균을 빼면 무슨 일이 일어날까요? 그림 3-2가 세 나라로 그것을 보여 줍니다. 말레이시아, 캐나다, 파키스탄입니다. 말레이시아는 한-아세안 FTA로 2010년부터, 캐나다는 2016년부터 이 자료에서 FTA가 1입니다. 파키스탄은 2020년까지 한국과 FTA를 맺지 않았습니다. 그림에서 FTA가 1인 해, 즉 FTA를 맺은 뒤의 해들은 굵은 선으로, 그 밖의 해는 가는 선으로 그렸습니다. 세 나라 모두 26년 동안 한국의 수출이 꾸준히 늘었고, FTA를 맺은 두 나라는 원래부터 한국과의 교역이 상대적으로 많던 나라, 파키스탄은 원래 적던 나라입니다.</p>
+<p><img alt="세 나라의 수출, 그대로와 자기 평균을 뺀 것" src="../_images/fig_p3_2_own_average.png" /></p>
+<p><strong>그림 3-2.</strong> 한국의 수출(로그), 세 나라. 왼쪽: 그대로. 오른쪽: 나라마다 자기 26년 평균을 뺀 것. 굵은 선은 FTA가 발효된 해부터(말레이시아 2010년, 캐나다 2016년, 파키스탄은 FTA가 없다).</p>
+<p>그림의 왼쪽 패널에서는 나라 사이의 높이 차이가 먼저 눈에 들어옵니다. 말레이시아로의 수출은 늘 맨 위에 있고, 파키스탄으로의 수출은 늘 맨 아래에 있습니다. 이 높이의 차이가 나라마다 정해진 몫, 즉 고정효과의 차이입니다. 여기에는 경제 규모와 거리, 그리고 GDP와 거리로 설명되지 않는 원래 수출 규모까지 모두 들어 있습니다. 한편 선마다 해마다 오르내리는 것은 한 나라 안에서 일어난 변화입니다.</p>
+<p>이렇게 패널 데이터의 값에는 두 가지 차이가 들어 있습니다. 하나는 나라와 나라 사이에 수출이 얼마나 다른가이고, 다른 하나는 한 나라 안에서 수출이 해마다 얼마나 달라지는가입니다. 통계학 교과서는 앞의 것을 between variation, 뒤의 것을 within variation이라고 부릅니다. 이 책에서는 이 장의 자료에 맞춰 <strong>나라끼리의 차이</strong>와 <strong>같은 나라의 변화</strong>라고 부르겠습니다. 반 아이들로 말하면, 같은 학년에서도 민준이는 크고 서연이는 작은 것이 아이들끼리의 차이이고, 민준이가 1학년 때보다 6학년 때 30cm 더 큰 것이 같은 아이의 변화입니다.</p>
+<p>이 장의 자료 전체에서 두 차이의 크기를 계산해 보면 한쪽으로 크게 기웁니다. 한국의 수출(로그)이 나라와 해에 따라 다른 정도 가운데 <strong>90%가 나라끼리의 차이</strong>이고, 같은 나라의 변화는 10%뿐입니다. 값마다 전체 평균에서 벗어난 정도를 제곱해 모은 뒤, 나라끼리의 몫과 같은 나라 안의 몫으로 나눈 비율입니다. 한국이 중국에 수출하는 금액과 몰디브에 수출하는 금액의 차이가, 중국으로의 수출이 26년 동안 늘어난 정도보다 훨씬 크다는 뜻입니다. 여기에서 분석하고 있는 무역 자료에 담긴 차이는 거의 대부분 “누가 큰가”에 관한 것이고, “누가 많이 컸나”에 관한 것은 일부입니다.</p>
+<p>반면 0 또는 1의 값을 갖는 FTA 변수는 다릅니다. FTA는 54개국에서 어느 해에 0에서 1로 바뀌었으니, 같은 방식으로 나눠 보면 같은 나라의 변화가 67%를 차지하고 나라끼리의 차이는 33%입니다. FTA의 이런 성질은 이 절 끝의 “고정효과의 대가”에서 다시 중요해집니다.</p>
+<p>오른쪽 패널은 나라마다 자기 평균을 뺀 것입니다. 그림에서 보듯이 세 나라의 선이 모두 0 근처로 내려와 겹칩니다. 말레이시아는 늘 위에, 파키스탄은 늘 아래에 있던 높이의 차이가 사라졌습니다. 나라마다 정해진 것은 그 나라의 평균에 이미 들어 있으니, 평균을 빼면 그 몫도 함께 빠지기 때문입니다. 자기 평균이 그 나라의 기준선 구실을 하는 셈입니다. 이 평균에는 FTA를 맺은 뒤의 해들도 들어 있지만 괜찮습니다. 기준선을 어디에 긋든 FTA 전의 해들과 후의 해들은 같은 선에서 측정되니, 둘의 차이는 그대로이기 때문입니다.</p>
+<p>그러고 나면 오른쪽 패널에 남은 것은 각 나라가 자기 평균에서 해마다 얼마나 벗어났는지, 즉 <strong>같은 나라의 변화</strong>뿐입니다. 나라끼리의 차이는 버리고 같은 나라의 변화만 남긴 것이죠. 실제로 세 선의 평균은 모두 0입니다. 평균의 높이가 같아졌다는 것은 나라끼리의 차이가 사라졌다는 뜻입니다. 이제 FTA를 맺은 뒤(굵은 선)와 그 앞(가는 선)을 같은 나라 안에서 비교할 수 있습니다.</p>
+<p>그러면 두 패널에서 FTA의 효과를 각각 읽어 봅시다. 왼쪽 패널처럼 나라끼리 비교하면 답이 엉뚱해집니다. FTA를 맺은 뒤의 해들(굵은 선)이 FTA가 없는 파키스탄보다 훨씬 위에 있으니 FTA의 효과가 아주 커 보입니다. 하지만 두 나라는 FTA를 맺기 훨씬 전인 1995년부터 이미 파키스탄보다 한참 위에 있었습니다. 원래 한국과 교역이 많던 나라가 FTA도 맺은 것이죠. 왼쪽 패널의 높이 차이가 주로 보여 주는 것은 FTA가 아니라 나라마다 원래 정해진 차이, 즉 고정효과이기 때문입니다. 횡단면의 75%와 합동 OLS의 42%가 바로 이런 나라끼리의 비교에서 나온 숫자입니다.</p>
+<p>오른쪽 패널에서는 높이 차이가 사라졌으니, 각 나라를 FTA를 맺기 전의 자기 자신과 비교하게 됩니다. 말레이시아(2010년)와 캐나다(2016년)의 굵은 선, 즉 FTA를 맺은 뒤의 해들은 자기 평균보다 위에 있습니다. 이렇게 같은 나라의 FTA 전과 후를 비교한 것을 206개국에 걸쳐 모으고, GDP는 같게 맞춰 계산한 것이, 보고서에서 고정효과 모형으로 추정한 FTA의 효과 13%입니다.</p>
+<p>그런데 오른쪽 패널에서 눈여겨볼 것이 하나 더 있습니다. FTA를 맺지 않은 파키스탄으로의 수출도 같은 시기에 함께 늘어, 뒤쪽 해에는 역시 자기 평균보다 위에 있습니다. 세 선이 거의 겹쳐서 함께 올라가는 것이죠. 같은 나라의 변화 가운데에도 일부는 FTA 덕분이 아니라, 모든 나라에 함께 일어난 변화 때문이라는 뜻입니다. 이 문제는 이 장의 마지막 절에서 다룹니다.</p>
+</section>
+<section id="id4">
+<h2>나라마다 자기 높이 — 고정효과와 더미<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p>고정효과를 떼어 내는 두 번째 방법은 다중회귀분석 장에서 소개한 더미 변수(해당하면 1, 아니면 0인 변수)를 쓰는 것입니다.</p>
+<p>나라마다 더미를 하나씩 달면, 회귀식이 나라마다 자기 높이를 따로 정합니다. 말레이시아의 높이는 높게, 파키스탄의 높이는 낮게 정해지고, 그 높이에 나라마다 정해진 것들(GDP와 거리로 설명되지 않는 원래 수출 규모를 포함해)이 담깁니다. 그림 3-2의 왼쪽 패널에서 나라마다의 선의 높이(절편)를 회귀식이 따로 잡아 주는 셈입니다. 그러고 나면 FTA의 계수는 높이를 뺀 나머지, 즉 같은 나라의 변화로만 정해집니다. 자기 평균을 뺀 오른쪽 패널과 같은 일입니다. 실제로 둘은 수학적으로 늘 같은 계수를 냅니다. 더미가 나라마다의 높이를 맞춰 주는 것과, 나라마다 평균을 빼서 높이를 0으로 맞추는 것은 같은 일이기 때문입니다.</p>
+<p>이렇게 더미 변수를 이용해 대상마다의 고정효과를 대상별 높이(절편)로 따로 잡아 두어도 됩니다. 더미로 하든 자기 평균 빼기로 하든, 같은 고정효과 모형의 두 가지 계산법입니다.</p>
+<div class="math notranslate nohighlight">
+\[
+\text{로그 수출}_{it} = a_i + b_1 \times \text{로그 GDP}_{it} + b_2 \times \text{FTA}_{it}
+\]</div>
+<p>이 식에서 절편 <span class="math notranslate nohighlight">\(a\)</span>에 나라별 꼬리표 <span class="math notranslate nohighlight">\(i\)</span>가 붙어 있는 것이 고정효과입니다. 나라마다 자기 높이 <span class="math notranslate nohighlight">\(a_i\)</span>를 갖는다는 뜻이죠. 이 식에 거리가 없는 것도 그래서입니다. 거리처럼 나라마다 정해진 것은 모두 <span class="math notranslate nohighlight">\(a_i\)</span>에 담기고, GDP와 거리로 설명되지 않는 원래 수출 규모도 여기에 담깁니다. 민준이로 말하면 또래보다 큰 정도가 <span class="math notranslate nohighlight">\(a_i\)</span>입니다. 교과서에서는 <span class="math notranslate nohighlight">\(a_i\)</span>를 개체 효과(individual effect)라고도 부릅니다. 이 장의 자료로 나라 더미 205개(206개국에서 기준 하나를 뺀 것)를 넣어 회귀분석하든, 나라마다 자기 평균을 빼서 회귀분석하든, FTA의 계수는 똑같이 0.121이 나옵니다.</p>
+</section>
+<section id="id5">
+<h2>75%가 13%로<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<p>이제 보고서의 숫자로 돌아옵니다. 표 3-1는 보고서의 표에서 고정효과 열을 옮긴 것입니다.</p>
+<p><strong>표 3-1.</strong> 고정효과 모형의 추정 결과 (종속변수: 로그 수출)</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head text-center"><p>계수</p></th>
+<th class="head text-center"><p>표준오차</p></th>
+<th class="head text-center"><p><span class="math notranslate nohighlight">\(p\)</span>값</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>로그(상대국 GDP)</p></td>
+<td class="text-center"><p>1.056</p></td>
+<td class="text-center"><p>0.047</p></td>
+<td class="text-center"><p>&lt; 0.001</p></td>
+</tr>
+<tr class="row-odd"><td><p>로그(거리)</p></td>
+<td class="text-center"><p>—</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+</tr>
+<tr class="row-even"><td><p>FTA</p></td>
+<td class="text-center"><p>0.121</p></td>
+<td class="text-center"><p>0.087</p></td>
+<td class="text-center"><p>0.16</p></td>
+</tr>
+<tr class="row-odd"><td><p>같은 나라 안의 <span class="math notranslate nohighlight">\(R^2\)</span></p></td>
+<td class="text-center"><p>0.414</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+</tr>
+<tr class="row-even"><td><p>관측 수</p></td>
+<td class="text-center"><p>4,909</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>나라 수</p></td>
+<td class="text-center"><p>206</p></td>
+<td class="text-center"><p></p></td>
+<td class="text-center"><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>주: 표준오차는 나라 단위 군집 표준오차. 나라마다의 절편(고정효과) 결과 206개는 생략. 거리 변수 줄이 비어 있는 까닭은 이 절의 “고정효과의 대가”에서 본다. 같은 나라 안의 <span class="math notranslate nohighlight">\(R^2\)</span>은 나라마다 자기 평균을 뺀 값, 즉 같은 나라의 변화 가운데 회귀식이 설명한 비율이다(보고서의 표에서는 생략됨).</p>
+<p>표에서 보듯이 고정효과 모형에서 FTA의 계수는 0.121, <span class="math notranslate nohighlight">\(e^{0.121} \approx 1.13\)</span>배이니 퍼센트로 바꾸면 13%입니다. 같은 나라를 FTA 전과 후로 비교했을 때, GDP가 같다면 FTA 이후의 수출이 평균 13% 많았다는 뜻입니다. 횡단면의 75%에서 크게 줄었습니다.</p>
+<p>줄어든 몫이 무엇인지는 이제 분명합니다. GDP와 거리로 설명되지 않는 <strong>원래 수출 규모</strong>는 나라마다 정해져 있어, 1995년이든 2020년이든 크게 다르지 않습니다. 민준이의 또래보다 큰 정도(5cm)처럼 고정된 차이입니다. 나라마다 자기 평균을 기준으로 삼으면, 원래 수출 규모는 그 기준에 이미 들어 있으니 따로 떼어 낼 수 있습니다. 원래 수출 규모가 컸다는 몫을 떼어 내고 나니, 75%가 13%로 줄어든 것입니다.</p>
+<p>그리고 13%는 통계적으로 0과 구별되지 않습니다. 표준오차가 0.087이라 95% 신뢰구간이 0에 걸쳐 있고, <span class="math notranslate nohighlight">\(p\)</span>값은 0.16입니다. <a class="report-fig-link" href="../_static/report-figure-panel-data.png" target="_blank" rel="noopener">보고서의 그림</a> 오른쪽 패널에서 고정효과 모형의 신뢰구간(선)이 0에 걸쳐 있는 것이 이것입니다. FTA가 수출을 전혀 늘리지 않았다는 뜻은 아닙니다. 이 자료와 이 방법으로는 효과가 있다고 자신 있게 말할 만큼 뚜렷하지 않다는 뜻입니다. 13%쯤 늘었을 수도 있고, 그보다 작거나 클 수도 있습니다.</p>
+<p>이 판정도 군집 표준오차에 기댑니다. 고정효과로 나라마다의 높이를 잡아도, 몇 해씩 이어지는 호황이나 불황 같은 흐름은 남아 같은 나라의 오차가 여전히 함께 움직이기 때문입니다. 군집을 반영하지 않고 계산하면 FTA 계수의 표준오차는 0.047로 나라 단위 군집 표준오차 0.087의 절반쯤이고, <span class="math notranslate nohighlight">\(p\)</span>값이 0.01이 되어 13%가 0과 분명히 구별되는 것처럼 보입니다. 보고서가 “0과 통계적으로 구별되지 않는다”고 적을 수 있었던 것은 표준오차를 나라 단위 군집 표준오차로 계산했기 때문입니다.</p>
+<section id="id6">
+<h3>우리 주위의 고정효과 — 학원과 성적<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<p>같은 대상을 여러 번 관측한 자료는 우리 주위에 흔하고, 그때마다 고정효과가 필요합니다. 학생의 성적을 학기마다, 환자의 혈압을 진료 때마다, 가게의 매출을 달마다 기록한 자료가 모두 그렇습니다. 이런 자료에서 대상끼리 비교하면 대상마다의 원래 차이가 효과처럼 잡히기 쉽습니다. 학생의 예로 봅시다. 고등학생 100명의 성적을 학기마다 기록하고, 그 학기에 학원을 다녔는지도 적었다고 합시다. 학원을 다니면 성적이 오를까요? 학생끼리 비교하면 답이 흐려집니다. 학원을 다니는 학생과 다니지 않는 학생은 원래 실력도, 집안 사정도, 공부 습관도 다를 수 있고, 그 차이의 몫이 학원의 효과처럼 잡히기 때문입니다. 고정효과 모형은 학생마다 자기 평균을 빼서, 같은 학생이 학원을 다닌 학기에 평소보다 성적이 높았는지를 봅니다. 원래 실력이나 집안 사정은 학생마다 대체로 정해져 있어 그 학생의 모든 학기에 똑같이 들어 있으니, 비교에 나타나지 않습니다.</p>
+<p>다만 학원을 다니기 시작한 이유가 그 학생에게만 그 학기에 생긴 일이라면 사정이 다릅니다. 예를 들어 마음을 다잡고 공부를 하기로 결심하면서 학원에도 등록했다면, 그 학기 성적이 오른 것은 학원 덕분만이 아니라 다잡은 마음 덕분일 수 있습니다. 그런 결심은 그 학생의 어느 한 학기에 생긴 일이라 학생마다 정해진 몫이 아니므로, 고정효과로는 떼어 낼 수 없습니다. 고정효과가 떼어 내는 것은 변하지 않는 것뿐입니다.</p>
+</section>
+</section>
+<section id="id7">
+<h2>고정효과의 대가<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
+<p>고정효과는 강력하지만 공짜는 아닙니다. 두 가지 대가가 있습니다.</p>
+<p><strong>첫째, 같은 나라의 변화만 씁니다.</strong> 고정효과 모형은 나라끼리의 차이를 버리고 같은 나라의 변화만으로 계수를 정합니다. 그래서 FTA의 효과를 직접 보여 주는 것은 기간 중 FTA를 맺은 54개국의 전과 후뿐입니다. 나머지 152개국은 FTA가 26년 내내 0이라 전과 후가 없습니다. 그렇다고 이 나라들이 쓸모없는 것은 아닙니다. 이 나라들에서도 쓰이는 것은 자기 자신의 변화뿐입니다. 그 나라의 GDP가 해마다 달라질 때 한국의 수출이 얼마나 달라졌는지이고, FTA가 한 번도 바뀌지 않았으니 FTA의 영향이 섞이지 않은 변화입니다. 이 변화로 GDP의 계수가 추정되고, 그 계수를 거쳐 FTA의 계수에도 영향을 줍니다. 실제로 기간 중 FTA를 맺은 54개국만으로 같은 모형을 추정하면 FTA의 계수는 0.069로, 206개국 전체(0.121)와 다릅니다. 반 아이들로 말하면, 농구부에 들어간 적이 없는 아이는 농구의 효과를 직접 보여 주지는 못해도, 농구를 하지 않아도 아이들이 얼마나 자라는지를 알려 줍니다.</p>
+<p>버리는 정보도 있습니다. 이 절의 “자기 평균 빼기”에서 보았듯이, FTA 변수의 값이 나라와 해에 따라 다른 정도 가운데 33%는 나라끼리의 차이, 즉 어느 나라와 FTA를 맺었느냐입니다. 고정효과 모형은 이 몫을 쓰지 않습니다. FTA의 효과는 FTA가 0에서 1로 바뀔 때 수출이 어떻게 달라지는지에서 나오니, FTA의 계수에 정보를 주는 것은 FTA라는 변수가 움직인 폭입니다. 고정효과 모형은 그 움직임 가운데 나라끼리의 몫 33%를 버리고 같은 나라 안의 67%만 쓰는 셈입니다. 쓸 수 있는 움직임이 줄면 계수를 정하는 근거도 줄어듭니다. 버린 정보가 많을수록 추정이 덜 정밀해질 수 있습니다. 대상은 많고 관측한 시점이 짧은 자료일수록, 시간에 따라 잘 변하지 않는 변수일수록 그렇습니다. 다만 이 자료에서는 나라마다의 높이를 따로 잡자 남은 오차도 크게 줄어서, FTA 계수의 표준오차가 합동 OLS(0.166)보다 오히려 작아졌습니다(0.087). 버린 정보와 줄어든 잡음 가운데 어느 쪽이 큰지는 자료마다 다릅니다.</p>
+<p><strong>둘째, 변하지 않는 것은 볼 수 없습니다.</strong> 농구부에 들어가기 전과 후의 민준이를 비교하면, 농구를 한 뒤에 더 컸는지는 알 수 있지만 민준이가 왜 또래보다 5cm 큰지는 알 수 없습니다. 부모의 키 때문인지 어릴 때 먹은 음식 때문인지, 그 5cm는 한 덩어리로 전과 후에 똑같이 들어 있어 비교에 나타나지 않으니까요. 고정효과도 마찬가지입니다. 나라마다 자기 평균을 빼면, 변하지 않는 것은 모두 그 평균과 함께 빠집니다. GDP와 거리로 설명되지 않는 원래 수출 규모처럼 떼어 내고 싶은 것만이 아니라, 거리처럼 효과를 알고 싶은 것도 함께 빠집니다. 표 3-1와 보고서의 표에서 고정효과 열의 거리 칸이 비어 있는 이유가 이것입니다. 거리가 수출에 주는 효과는 나라마다의 높이 <span class="math notranslate nohighlight">\(a_i\)</span>에 다른 것들과 한 덩어리로 담겨, 따로 꺼내 볼 수 없습니다. 그래서 보고서의 고정효과 모형은 거리를 회귀식에 넣지 않고 추정했습니다. 언어, 국경, 식민 경험처럼 시간에 따라 변하지 않는 변수는 모두 그렇습니다.</p>
+<p>엄밀히 말하면 이 자료의 거리는 해마다 아주 조금 움직입니다. 표 2-1의 브라질처럼요. 두 나라 도시들 사이의 거리를 인구로 가중해 평균한 값이라, 도시별 인구 비중이 바뀌면 거리도 미세하게 달라지기 때문입니다. 하지만 그 움직임은 나라가 실제로 멀어지거나 가까워진 것이 아니라 인구 분포가 조금 달라진 것일 뿐이어서, 그것으로 거리의 효과를 추정할 수는 없습니다. 그래서 거리는 사실상 변하지 않는 변수로 봅니다.</p>
+<p>이 두 대가 때문에 고민이 생깁니다. 거리의 효과도 알고 싶고, 나라끼리의 차이를 버리는 것도 아깝다면? 다음 절의 확률효과가 그 고민에서 나왔습니다.</p>
+<p>💡 <strong>팁:</strong> AI가 고정효과 모형의 결과를 내놓으면 “분석 기간 중에 FTA(관심 있는 변수)가 바뀐 나라는 몇 개야?”라고 물어보세요. 고정효과 모형에서 그 변수의 효과를 직접 보여 주는 것은 그 변수가 바뀐 대상뿐이기 때문입니다. 몇 개 대상의 변화에 기댄 추정이라면, 그 대상들이 어떤 곳인지 따로 살펴볼 필요가 있습니다.</p>
+<blockquote>
+<div><p><strong>요약 — 이 절의 물음과 답</strong></p>
+<ul class="simple">
+<li><p><strong>원래 수출 규모의 차이가 숫자를 부풀리지 못하게 하려면 어떻게 비교해야 할까?</strong> 각 나라를 다른 나라가 아니라 그 나라 자신의 다른 해와 비교한다. 그러면 해가 바뀌어도 그대로인 나라마다의 몫, 즉 고정효과가 비교의 양쪽에 똑같이 들어 있으니, 빼고 나면 FTA의 효과를 부풀리지 못한다. 이렇게 추정하는 모형을 고정효과 모형이라고 한다.</p></li>
+<li><p><strong>그렇게 비교하면 횡단면의 75%는 얼마가 될까?</strong> 같은 나라를 FTA 전과 후로 비교하면, FTA 이후의 수출이 평균 13% 많았다. 다만 13%는 0과 통계적으로 구별되지 않는다. 효과가 없다는 뜻이 아니라, 이 자료로는 효과가 있다고 자신 있게 말할 만큼 뚜렷하지 않다는 뜻이다.</p></li>
+<li><p><strong>고정효과 모형에는 대가가 없을까?</strong> 두 가지가 있다. FTA의 효과를 알려 주는 것은 기간 중에 FTA를 맺은 54개국의 전과 후뿐이다. 그리고 거리처럼 해가 바뀌어도 변하지 않는 변수는 나라마다의 몫과 함께 빠져서, 그 효과를 볼 수 없다.</p></li>
+</ul>
+</div></blockquote>
+<hr class="footnotes docutils" />
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="fd" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">1</a><span class="fn-bracket">]</span></span>
+<p>차분과 자기 평균 빼기가 늘 같은 답을 내는 것은 시점이 둘일 때뿐이다. 이 장의 자료에서 2003년과 2019년 두 해만 쓰면 두 방법의 FTA 계수가 0.2395로 똑같다. 시점이 셋 이상이면 차분은 바로 앞 해와의 변화를 쓰고 자기 평균 빼기는 모든 해를 그 나라의 평균과 비교하므로, 숫자가 갈린다. 회귀식이 맞다면 두 방법은 같은 값을 겨냥하지만, 효과가 한 해에 다 나타나지 않고 몇 해에 걸쳐 나타나면 바로 앞 해와의 변화만 보는 차분은 그 일부만 잡는다. 이 장의 자료로 해마다의 차분을 쓰면 FTA의 계수는 −0.061(나라 단위 군집 표준오차 0.069), GDP의 계수는 0.778로, 자기 평균 빼기의 0.121과 1.056보다 작다. 반면 나라마다 더미를 넣는 방법과 자기 평균 빼기는 시점이 몇 개든 늘 같은 답을 낸다(이 절의 “나라마다 자기 높이”). 그래서 고정효과 모형이라고 하면 대개 이 두 방법을 가리키고, 보고서의 고정효과 모형도 자기 평균 빼기로 계산한 것이다. 차분은 고정효과 모형의 결과를 점검할 때 함께 보기도 한다.</p>
+</aside>
+</aside>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./panel-data"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="section-p2.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">이전</p>
+        <p class="prev-next-title">2. 단체 사진과 사진첩 — 횡단면과 패널</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="section-p4.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">다음</p>
+        <p class="prev-next-title">4. 두 가지 차이를 섞기 — 확률효과</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 내용
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">자기 평균 빼기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">나라마다 자기 높이 — 고정효과와 더미</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">75%가 13%로</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">우리 주위의 고정효과 — 학원과 성적</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">고정효과의 대가</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>© 2026 최필선</p>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
