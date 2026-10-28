@@ -204,9 +204,108 @@ z
     </g>
    </g>
    <g id="text_2">
-    <!-- 역 앞의 효과 -->
+    <!-- 지하철역 근처의 효과 -->
     <g style="fill: #52514e" transform="translate(193.082112 20.328233) scale(0.075 -0.075)">
      <defs>
+      <path id="Pretendard-Bold-c9c0" d="M 2375 3563 
+L 2375 3913 
+L 3563 3913 
+L 3563 4563 
+L 350 4563 
+L 350 3913 
+L 1556 3913 
+L 1556 3563 
+C 1556 2600 1069 1544 125 1125 
+L 581 494 
+C 1250 803 1722 1428 1981 2181 
+C 2234 1488 2697 922 3369 638 
+L 3800 1263 
+C 2844 1663 2375 2644 2375 3563 
+z
+M 4931 5113 
+L 4125 5113 
+L 4125 -575 
+L 4931 -575 
+L 4931 5113 
+z
+" transform="scale(0.015625)"/>
+      <path id="Pretendard-Bold-d558" d="M 4656 5113 
+L 3869 5113 
+L 3869 -575 
+L 4656 -575 
+L 4656 2231 
+L 5494 2231 
+L 5494 2888 
+L 4656 2888 
+L 4656 5113 
+z
+M 3481 4263 
+L 2225 4263 
+L 2225 5025 
+L 1425 5025 
+L 1425 4263 
+L 138 4263 
+L 138 3625 
+L 3481 3625 
+L 3481 4263 
+z
+M 1825 3306 
+C 988 3306 369 2744 369 1950 
+C 369 1156 988 594 1825 594 
+C 2656 594 3275 1156 3275 1950 
+C 3275 2744 2656 3306 1825 3306 
+z
+M 1825 2663 
+C 2225 2656 2513 2388 2513 1950 
+C 2513 1506 2225 1244 1825 1250 
+C 1425 1244 1131 1506 1131 1950 
+C 1131 2388 1425 2656 1825 2663 
+z
+" transform="scale(0.015625)"/>
+      <path id="Pretendard-Bold-cca0" d="M 2263 3988 
+L 2263 4006 
+L 3413 4006 
+L 3413 4638 
+L 2275 4638 
+L 2275 5138 
+L 1469 5138 
+L 1469 4638 
+L 325 4638 
+L 325 4006 
+L 1469 4006 
+L 1469 3988 
+C 1469 3438 1038 2900 119 2688 
+L 456 2081 
+C 1150 2238 1625 2597 1881 3069 
+C 2141 2641 2609 2316 3275 2175 
+L 3625 2781 
+C 2706 2963 2263 3481 2263 3988 
+z
+M 4963 5113 
+L 4169 5113 
+L 4169 3781 
+L 3263 3781 
+L 3263 3150 
+L 4169 3150 
+L 4169 2156 
+L 4963 2156 
+L 4963 5113 
+z
+M 4963 1950 
+L 1175 1950 
+L 1175 1344 
+L 4169 1344 
+L 4169 1006 
+L 1181 1006 
+L 1181 -538 
+L 5131 -538 
+L 5131 75 
+L 1981 75 
+L 1981 425 
+L 4963 425 
+L 4963 1950 
+z
+" transform="scale(0.015625)"/>
       <path id="Pretendard-Bold-c5ed" d="M 4963 1494 
 L 1056 1494 
 L 1056 869 
@@ -242,57 +341,70 @@ L 4169 3106
 L 3225 3106 
 z
 " transform="scale(0.015625)"/>
-      <path id="Pretendard-Bold-c55e" d="M 4681 5106 
-L 3881 5106 
-L 3881 1950 
-L 4681 1950 
-L 4681 3213 
-L 5450 3213 
-L 5450 3856 
-L 4681 3856 
-L 4681 5106 
+      <path id="Pretendard-Bold-adfc" d="M 4756 4794 
+L 806 4794 
+L 806 4156 
+L 3963 4156 
+C 3963 3706 3947 3231 3819 2594 
+L 169 2594 
+L 169 1956 
+L 5375 1956 
+L 5375 2594 
+L 4631 2594 
+C 4756 3291 4756 3831 4756 4313 
+L 4756 4794 
 z
-M 4788 1700 
-L 938 1700 
-L 938 1075 
-L 1638 1075 
-L 1638 150 
-L 894 150 
-L 894 -488 
-L 4856 -488 
-L 4856 150 
-L 4100 150 
-L 4100 1075 
-L 4788 1075 
-L 4788 1700 
+M 4919 169 
+L 1619 169 
+L 1619 1456 
+L 831 1456 
+L 831 -469 
+L 4919 -469 
+L 4919 169 
 z
-M 1769 4825 
-C 881 4825 206 4256 206 3450 
-C 206 2656 881 2094 1769 2094 
-C 2650 2094 3319 2656 3319 3450 
-C 3319 4256 2650 4825 1769 4825 
+" transform="scale(0.015625)"/>
+      <path id="Pretendard-Bold-cc98" d="M 4975 5113 
+L 4175 5113 
+L 4175 2925 
+L 3150 2925 
+L 3150 2288 
+L 4175 2288 
+L 4175 -588 
+L 4975 -588 
+L 4975 5113 
 z
-M 1769 4156 
-C 2206 4156 2538 3900 2544 3450 
-C 2538 3019 2206 2756 1769 2756 
-C 1325 2756 988 3019 994 3450 
-C 988 3900 1325 4156 1769 4156 
-z
-M 2419 150 
-L 2419 1075 
-L 3319 1075 
-L 3319 150 
-L 2419 150 
+M 2300 3331 
+L 2300 3550 
+L 3456 3550 
+L 3456 4188 
+L 2306 4188 
+L 2306 4988 
+L 1506 4988 
+L 1506 4188 
+L 325 4188 
+L 325 3550 
+L 1506 3550 
+L 1506 3331 
+C 1500 2475 1056 1506 144 1100 
+L 563 488 
+C 1216 766 1663 1347 1913 2038 
+C 2159 1388 2609 844 3256 575 
+L 3681 1188 
+C 2750 1588 2300 2506 2300 3331 
 z
 " transform="scale(0.015625)"/>
      </defs>
-     <use xlink:href="#Pretendard-Bold-c5ed"/>
-     <use xlink:href="#Pretendard-Bold-20" transform="translate(86.425781 0)"/>
-     <use xlink:href="#Pretendard-Bold-c55e" transform="translate(109.472656 0)"/>
-     <use xlink:href="#Pretendard-Bold-c758" transform="translate(195.898438 0)"/>
-     <use xlink:href="#Pretendard-Bold-20" transform="translate(282.324219 0)"/>
-     <use xlink:href="#Pretendard-Bold-d6a8" transform="translate(305.371094 0)"/>
-     <use xlink:href="#Pretendard-Bold-acfc" transform="translate(391.796875 0)"/>
+     <use xlink:href="#Pretendard-Bold-c9c0"/>
+     <use xlink:href="#Pretendard-Bold-d558" transform="translate(86.425781 0)"/>
+     <use xlink:href="#Pretendard-Bold-cca0" transform="translate(172.851562 0)"/>
+     <use xlink:href="#Pretendard-Bold-c5ed" transform="translate(259.277344 0)"/>
+     <use xlink:href="#Pretendard-Bold-20" transform="translate(345.703125 0)"/>
+     <use xlink:href="#Pretendard-Bold-adfc" transform="translate(368.75 0)"/>
+     <use xlink:href="#Pretendard-Bold-cc98" transform="translate(455.175781 0)"/>
+     <use xlink:href="#Pretendard-Bold-c758" transform="translate(541.601562 0)"/>
+     <use xlink:href="#Pretendard-Bold-20" transform="translate(628.027344 0)"/>
+     <use xlink:href="#Pretendard-Bold-d6a8" transform="translate(651.074219 0)"/>
+     <use xlink:href="#Pretendard-Bold-acfc" transform="translate(737.5 0)"/>
     </g>
    </g>
    <g id="patch_4">
@@ -1500,39 +1612,6 @@ z
     <!-- 하늘이 정한다 -->
     <g style="fill: #eb6834" transform="translate(16.613513 96.787884) scale(0.072 -0.072)">
      <defs>
-      <path id="Pretendard-Bold-d558" d="M 4656 5113 
-L 3869 5113 
-L 3869 -575 
-L 4656 -575 
-L 4656 2231 
-L 5494 2231 
-L 5494 2888 
-L 4656 2888 
-L 4656 5113 
-z
-M 3481 4263 
-L 2225 4263 
-L 2225 5025 
-L 1425 5025 
-L 1425 4263 
-L 138 4263 
-L 138 3625 
-L 3481 3625 
-L 3481 4263 
-z
-M 1825 3306 
-C 988 3306 369 2744 369 1950 
-C 369 1156 988 594 1825 594 
-C 2656 594 3275 1156 3275 1950 
-C 3275 2744 2656 3306 1825 3306 
-z
-M 1825 2663 
-C 2225 2656 2513 2388 2513 1950 
-C 2513 1506 2225 1244 1825 1250 
-C 1425 1244 1131 1506 1131 1950 
-C 1131 2388 1425 2656 1825 2663 
-z
-" transform="scale(0.015625)"/>
       <path id="Pretendard-Bold-b298" d="M 4769 3963 
 L 1606 3963 
 L 1606 5044 
@@ -2137,11 +2216,15 @@ z
     </g>
    </g>
    <g id="text_13">
-    <!-- 역 앞 -->
-    <g style="fill: #0b0b0b" transform="translate(210.560383 139.116074) scale(0.086 -0.086)">
-     <use xlink:href="#Pretendard-Bold-c5ed"/>
-     <use xlink:href="#Pretendard-Bold-20" transform="translate(86.425781 0)"/>
-     <use xlink:href="#Pretendard-Bold-c55e" transform="translate(109.472656 0)"/>
+    <!-- 지하철역 근처 -->
+    <g style="fill: #0b0b0b" transform="translate(195.695821 139.116074) scale(0.086 -0.086)">
+     <use xlink:href="#Pretendard-Bold-c9c0"/>
+     <use xlink:href="#Pretendard-Bold-d558" transform="translate(86.425781 0)"/>
+     <use xlink:href="#Pretendard-Bold-cca0" transform="translate(172.851562 0)"/>
+     <use xlink:href="#Pretendard-Bold-c5ed" transform="translate(259.277344 0)"/>
+     <use xlink:href="#Pretendard-Bold-20" transform="translate(345.703125 0)"/>
+     <use xlink:href="#Pretendard-Bold-adfc" transform="translate(368.75 0)"/>
+     <use xlink:href="#Pretendard-Bold-cc98" transform="translate(455.175781 0)"/>
     </g>
    </g>
    <g id="text_14">
@@ -2196,7 +2279,7 @@ z
    </g>
    <g id="text_16">
     <!-- 수완 좋은 점주가 -->
-    <g style="fill: #eb6834" transform="translate(187.913843 88.481166) scale(0.072 -0.072)">
+    <g style="fill: #eb6834" transform="translate(187.913843 84.327806) scale(0.072 -0.072)">
      <defs>
       <path id="Pretendard-Bold-c88b" d="M 3150 3419 
 L 2363 3419 
@@ -2282,40 +2365,100 @@ z
      <use xlink:href="#Pretendard-Bold-c8fc" transform="translate(478.222656 0)"/>
      <use xlink:href="#Pretendard-Bold-ac00" transform="translate(564.648438 0)"/>
     </g>
-    <!-- 역 앞을 얻었다면? -->
-    <g style="fill: #eb6834" transform="translate(184.039343 96.787884) scale(0.072 -0.072)">
+    <!-- 지하철역 근처 -->
+    <g style="fill: #eb6834" transform="translate(195.795593 92.634525) scale(0.072 -0.072)">
+     <use xlink:href="#Pretendard-Bold-c9c0"/>
+     <use xlink:href="#Pretendard-Bold-d558" transform="translate(86.425781 0)"/>
+     <use xlink:href="#Pretendard-Bold-cca0" transform="translate(172.851562 0)"/>
+     <use xlink:href="#Pretendard-Bold-c5ed" transform="translate(259.277344 0)"/>
+     <use xlink:href="#Pretendard-Bold-20" transform="translate(345.703125 0)"/>
+     <use xlink:href="#Pretendard-Bold-adfc" transform="translate(368.75 0)"/>
+     <use xlink:href="#Pretendard-Bold-cc98" transform="translate(455.175781 0)"/>
+    </g>
+    <!-- 자리를 얻었다면? -->
+    <g style="fill: #eb6834" transform="translate(185.698718 100.941244) scale(0.072 -0.072)">
      <defs>
-      <path id="Pretendard-Bold-c744" d="M 2763 5031 
-C 1450 5031 688 4688 688 4063 
-C 688 3431 1450 3088 2763 3088 
-C 4069 3088 4825 3431 4831 4063 
-C 4825 4688 4069 5031 2763 5031 
+      <path id="Pretendard-Bold-c790" d="M 2269 3563 
+L 2269 3913 
+L 3413 3913 
+L 3413 4563 
+L 263 4563 
+L 263 3913 
+L 1469 3913 
+L 1469 3563 
+C 1463 2625 988 1569 38 1125 
+L 500 494 
+C 1159 803 1625 1441 1881 2194 
+C 2131 1509 2584 928 3219 638 
+L 3663 1263 
+C 2725 1694 2263 2694 2269 3563 
 z
-M 2763 4450 
-C 3606 4450 4006 4313 4006 4063 
-C 4006 3781 3606 3675 2763 3675 
-C 1925 3675 1519 3781 1525 4063 
-C 1519 4313 1925 4450 2763 4450 
+M 4656 5113 
+L 3856 5113 
+L 3856 -575 
+L 4656 -575 
+L 4656 2275 
+L 5494 2275 
+L 5494 2944 
+L 4656 2944 
+L 4656 5113 
 z
-M 5356 2819 
-L 169 2819 
-L 169 2188 
-L 5356 2188 
-L 5356 2819 
+" transform="scale(0.015625)"/>
+      <path id="Pretendard-Bold-b9ac" d="M 4938 5113 
+L 4144 5113 
+L 4144 -588 
+L 4938 -588 
+L 4938 5113 
 z
-M 4725 1856 
-L 769 1856 
-L 769 1275 
-L 3938 1275 
-L 3938 963 
-L 775 963 
-L 775 -538 
-L 4875 -538 
-L 4875 63 
-L 1556 63 
-L 1556 406 
-L 4725 406 
-L 4725 1856 
+M 3175 4638 
+L 469 4638 
+L 469 3994 
+L 2363 3994 
+L 2363 3075 
+L 475 3075 
+L 475 744 
+L 988 744 
+C 2025 744 2869 781 3806 944 
+L 3738 1588 
+C 2903 1453 2166 1403 1300 1400 
+L 1300 2444 
+L 3175 2444 
+L 3175 4638 
+z
+" transform="scale(0.015625)"/>
+      <path id="Pretendard-Bold-b97c" d="M 5369 2563 
+L 163 2563 
+L 163 1969 
+L 5369 1969 
+L 5369 2563 
+z
+M 4744 1688 
+L 756 1688 
+L 756 1138 
+L 3956 1138 
+L 3956 850 
+L 763 850 
+L 763 -525 
+L 4913 -525 
+L 4913 19 
+L 1556 19 
+L 1556 344 
+L 4744 344 
+L 4744 1688 
+z
+M 4738 5013 
+L 800 5013 
+L 800 4469 
+L 3938 4469 
+L 3938 4181 
+L 813 4181 
+L 813 2831 
+L 4838 2831 
+L 4838 3369 
+L 1606 3369 
+L 1606 3675 
+L 4738 3675 
+L 4738 5013 
 z
 " transform="scale(0.015625)"/>
       <path id="Pretendard-Bold-c5bb" d="M 5000 1625 
@@ -2422,16 +2565,15 @@ L 3106 2994
 z
 " transform="scale(0.015625)"/>
      </defs>
-     <use xlink:href="#Pretendard-Bold-c5ed"/>
-     <use xlink:href="#Pretendard-Bold-20" transform="translate(86.425781 0)"/>
-     <use xlink:href="#Pretendard-Bold-c55e" transform="translate(109.472656 0)"/>
-     <use xlink:href="#Pretendard-Bold-c744" transform="translate(195.898438 0)"/>
-     <use xlink:href="#Pretendard-Bold-20" transform="translate(282.324219 0)"/>
-     <use xlink:href="#Pretendard-Bold-c5bb" transform="translate(305.371094 0)"/>
-     <use xlink:href="#Pretendard-Bold-c5c8" transform="translate(391.796875 0)"/>
-     <use xlink:href="#Pretendard-Bold-b2e4" transform="translate(478.222656 0)"/>
-     <use xlink:href="#Pretendard-Bold-ba74" transform="translate(564.648438 0)"/>
-     <use xlink:href="#Pretendard-Bold-3f" transform="translate(651.074219 0)"/>
+     <use xlink:href="#Pretendard-Bold-c790"/>
+     <use xlink:href="#Pretendard-Bold-b9ac" transform="translate(86.425781 0)"/>
+     <use xlink:href="#Pretendard-Bold-b97c" transform="translate(172.851562 0)"/>
+     <use xlink:href="#Pretendard-Bold-20" transform="translate(259.277344 0)"/>
+     <use xlink:href="#Pretendard-Bold-c5bb" transform="translate(282.324219 0)"/>
+     <use xlink:href="#Pretendard-Bold-c5c8" transform="translate(368.75 0)"/>
+     <use xlink:href="#Pretendard-Bold-b2e4" transform="translate(455.175781 0)"/>
+     <use xlink:href="#Pretendard-Bold-ba74" transform="translate(541.601562 0)"/>
+     <use xlink:href="#Pretendard-Bold-3f" transform="translate(628.027344 0)"/>
     </g>
    </g>
    <g id="text_17">
@@ -2582,16 +2724,15 @@ z
     </g>
    </g>
    <g id="text_18">
-    <!-- 역 앞의 효과? -->
-    <g style="fill: #eb6834" transform="translate(251.634462 127.102458) scale(0.074 -0.074)">
-     <use xlink:href="#Pretendard-Bold-c5ed"/>
-     <use xlink:href="#Pretendard-Bold-20" transform="translate(86.425781 0)"/>
-     <use xlink:href="#Pretendard-Bold-c55e" transform="translate(109.472656 0)"/>
-     <use xlink:href="#Pretendard-Bold-c758" transform="translate(195.898438 0)"/>
-     <use xlink:href="#Pretendard-Bold-20" transform="translate(282.324219 0)"/>
-     <use xlink:href="#Pretendard-Bold-d6a8" transform="translate(305.371094 0)"/>
-     <use xlink:href="#Pretendard-Bold-acfc" transform="translate(391.796875 0)"/>
-     <use xlink:href="#Pretendard-Bold-3f" transform="translate(478.222656 0)"/>
+    <!-- 근처의 효과? -->
+    <g style="fill: #eb6834" transform="translate(252.487196 127.102458) scale(0.074 -0.074)">
+     <use xlink:href="#Pretendard-Bold-adfc"/>
+     <use xlink:href="#Pretendard-Bold-cc98" transform="translate(86.425781 0)"/>
+     <use xlink:href="#Pretendard-Bold-c758" transform="translate(172.851562 0)"/>
+     <use xlink:href="#Pretendard-Bold-20" transform="translate(259.277344 0)"/>
+     <use xlink:href="#Pretendard-Bold-d6a8" transform="translate(282.324219 0)"/>
+     <use xlink:href="#Pretendard-Bold-acfc" transform="translate(368.75 0)"/>
+     <use xlink:href="#Pretendard-Bold-3f" transform="translate(455.175781 0)"/>
     </g>
    </g>
   </g>
