@@ -1,0 +1,743 @@
+
+<!DOCTYPE html>
+
+
+<html lang="ko" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="3. 엉뚱한 비교 상대 — 교란" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://pilsunchoi.github.io/book5/causal-inference/section-c3.html" />
+<meta property="og:site_name" content="AI 데이터 분석" />
+<meta property="og:description" content="이 장 첫머리의 보고서는 요약의 둘째 줄에 이런 숫자를 적었습니다. 같은 참가자를 일반 인구 표본과 단순 비교하면 오히려 8,498달러 낮다. 참가자는 프로그램에 들어오기 전부터 소득이 낮던 사람들이다. 앞 절에서 본 실험의 답은 1,794달러였습니다. 프로그램이 소득을 올렸다는 ..." />
+<meta name="description" content="이 장 첫머리의 보고서는 요약의 둘째 줄에 이런 숫자를 적었습니다. 같은 참가자를 일반 인구 표본과 단순 비교하면 오히려 8,498달러 낮다. 참가자는 프로그램에 들어오기 전부터 소득이 낮던 사람들이다. 앞 절에서 본 실험의 답은 1,794달러였습니다. 프로그램이 소득을 올렸다는 ..." />
+
+    <title>3. 엉뚱한 비교 상대 — 교란 &#8212; AI 데이터 분석</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=18f25a40" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=ae323b5b"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = '표시하려면 클릭';</script>
+    <script>let toggleHintHide = '숨기려면 클릭';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/translations.js?v=e33e7ba0"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'causal-inference/section-c3';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="색인" href="../genindex.html" />
+    <link rel="search" title="검색" href="../search.html" />
+    <link rel="next" title="4. 조건을 맞추면 — 통제의 계단" href="section-c4.html" />
+    <link rel="prev" title="2. 같은 사람의 두 가지 미래 — 인과 효과와 실험" href="section-c2.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="ko"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.png" class="logo__image only-light" alt="AI 데이터 분석"/>
+    <img src="../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="AI 데이터 분석"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../simple-regression/index.html">단순회귀분석 — 직선 하나로 관계 읽기</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a1.html">1. 보고서 — 노원구에서 1㎡는 얼마인가</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a2.html">2. 직선은 어떻게 정해지나 — 잔차와 최소제곱</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a3.html">3. 이 기울기를 믿어도 되나 — 표준오차, 신뢰구간, <span class="math notranslate nohighlight">\(p\)</span>값</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a4.html">4. 얼마나 설명하나 — <span class="math notranslate nohighlight">\(R^2\)</span>과 잔차</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a5.html">5. 로그로 읽는 가격 — 탄력성과 % 해석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../multiple-regression/index.html">다중회귀분석 — 여러 변수를 함께</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b1.html">1. 보고서 — 서울 아파트 값은 무엇으로 정해지나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b2.html">2. 다른 조건이 같다면 — 다중회귀분석의 계수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b3.html">3. 숫자가 아닌 변수 — 더미 변수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b4.html">4. 효과가 집단마다 다를 때 — 상호작용</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b5.html">5. 직선으로 부족할 때 — 제곱항</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../health-survey/index.html">횡단면 분석 — 학력과 혈압</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h1.html">1. 보고서 — 학력이 높을수록 혈압이 낮을까</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h2.html">2. 표본이 모집단을 닮게 — 가중치와 표본설계</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h3.html">3. 다른 조건이 같다면 — 계수는 무엇을 비교하나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h4.html">4. 회귀식 밖에 남은 것 — 설명력, 빠진 변수, 남녀의 차이</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h5.html">5. 약 먹고 잰 혈압 — 표본을 정하는 판단과 거꾸로 된 순서</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h6.html">6. 횡단면이 말해 주지 않는 것 — 측정과 자료의 범위</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-prompt.html">직접 해 보기 1 — 자료는 내 컴퓨터에, AI에는 질문만</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../panel-data/index.html">패널 데이터 분석 — FTA와 수출</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p1.html">1. 보고서 — FTA는 한국의 수출을 늘렸나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p2.html">2. 단체 사진과 사진첩 — 횡단면과 패널</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p3.html">3. 어제의 나와 비교하기 — 고정효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p4.html">4. 두 가지 차이를 섞기 — 확률효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p5.html">5. 무엇을 고르나 — 하우스만 검정과 연도 효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">인과 추론 — 공정한 비교를 찾아서</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="section-c1.html">1. 보고서 — 일자리 제공 프로그램은 소득을 올렸나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-c2.html">2. 같은 사람의 두 가지 미래 — 인과 효과와 실험</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3. 엉뚱한 비교 상대 — 교란</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-c4.html">4. 조건을 맞추면 — 통제의 계단</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-c5.html">5. 넣으면 안 되는 변수 — 매개, 총효과, 나쁜 통제</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-c6.html">6. 실험이 없을 때 — 설계의 지도</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/pilsunchoi/book5" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="소스 저장소"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="이 페이지 다운로드">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/causal-inference/section-c3.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="소스 파일 다운로드"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="PDF로 인쇄"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="전체 화면으로보기"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>3. 엉뚱한 비교 상대 — 교란</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 내용 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">보충수업의 역설 — 비교 상대가 엉뚱할 때</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">누가 프로그램에 들어오나</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">숨은 공통 원인 — 교란</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">화살표가 거꾸로일 때 — 역인과</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">같은 문제, 세 이름</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">표본이 커도 고쳐지지 않는다</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>3. 엉뚱한 비교 상대 — 교란<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>이 장 첫머리의 보고서는 요약의 둘째 줄에 이런 숫자를 적었습니다.</p>
+<blockquote>
+<div><p>같은 참가자를 일반 인구 표본과 단순 비교하면 오히려 8,498달러 낮다. 참가자는 프로그램에 들어오기 전부터 소득이 낮던 사람들이다.</p>
+</div></blockquote>
+<p>앞 절에서 본 실험의 답은 1,794달러였습니다. 프로그램이 소득을 올렸다는 것이죠. 그런데 같은 참가자를 다른 사람들과 비교하니 효과가 플러스 1,794달러에서 마이너스 8,498달러로, 크기도 방향도 완전히 달라졌습니다. 이 숫자를 그대로 해석하면 “프로그램에 참가했더니 소득이 8,498달러 줄었다”는 이상한 결론이 나옵니다.</p>
+<p>미리 답부터 말하면, <strong>비교 상대가 엉뚱했기 때문</strong>입니다. 계산은 틀리지 않았습니다. 참가자의 1978년 평균 소득 6,349달러에서 일반 인구의 평균 소득 14,847달러를 빼면 정확히 8,498달러 낮습니다. 문제는 일반 인구가 참가자의 “참가하지 않았다면”을 대신할 대역이 못 된다는 데 있습니다. 이 절에서는 비교 상대가 엉뚱하면 어떤 일이 생기는지를 일상의 예로 먼저 보고, 그 원인에 이름을 붙인 뒤, 보고서의 숫자로 돌아옵니다.</p>
+<section id="id2">
+<h2>보충수업의 역설 — 비교 상대가 엉뚱할 때<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>어느 학교에서 성적이 낮은 학생들을 위해 방과 후 보충수업을 열었습니다. 학기 말에 보니 보충수업을 들은 학생들의 시험 점수가 듣지 않은 학생들보다 평균 15점 낮았습니다. 보충수업이 오히려 성적을 떨어뜨린 걸까요?</p>
+<p>그렇게 생각하는 사람은 없을 것입니다. 이 보충수업은 처음부터 성적이 낮은 학생들이 듣도록 연 것이기 때문입니다. 보충수업을 들은 학생들은 수업을 듣기 전부터 점수가 낮았고, 보충수업 덕분에 조금 올랐더라도 여전히 듣지 않은 학생들보다 낮을 수 있습니다. 15점의 차이는 대부분 보충수업의 효과가 아니라 <strong>원래부터 있던 차이</strong>입니다.</p>
+<p>이런 일은 생각보다 흔합니다.</p>
+<ul class="simple">
+<li><p><strong>큰 병원의 사망률이 동네 의원보다 높다.</strong> 그러니 큰 병원은 위험하다? 아닙니다. 위중한 환자일수록 큰 병원으로 갑니다.</p></li>
+<li><p><strong>소방차가 많이 출동한 화재일수록 피해가 크다.</strong> 그러니 소방차가 피해를 키운다? 아닙니다. 큰불이 나면 소방차가 많이 옵니다.</p></li>
+<li><p><strong>우산을 들고 다니는 날에 교통사고가 많다.</strong> 그러니 우산이 사고를 부른다? 아닙니다. 비가 오면 우산도 들고 길도 미끄럽습니다.</p></li>
+</ul>
+<p>세 예는 모두 구조가 같습니다. 처치를 받은 쪽(큰 병원에 간 환자, 소방차가 많이 온 화재, 우산을 든 날)과 받지 않은 쪽이 처음부터 다른 사람이고, 다른 상황이었습니다. 그래서 두 쪽의 결과 차이 가운데 일부는 처치 때문이 아니라 원래 달랐기 때문이고, 원래의 차이가 클수록 엉뚱한 결론이 나옵니다. 보충수업처럼 효과가 거꾸로 보이기까지 합니다.</p>
+</section>
+<section id="id3">
+<h2>누가 프로그램에 들어오나<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>일자리 제공 프로그램도 보충수업과 같습니다. NSW는 일자리를 얻기 가장 어려운 사람들을 위한 프로그램이었습니다. 이 사람들을 일반 인구와 비교하면 어떨까요? 표 3-1은 앞 절의 표 2-1에 일반 인구 표본(CPS)의 열과 결과인 1978년 소득의 행을 더한 것입니다.</p>
+<p><strong>표 3-1.</strong> 참가자, 실험 대조군, 일반 인구의 특성 (평균, 소득은 1982년 달러)</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>특성</p></th>
+<th class="head"><p>참가자 (185명)</p></th>
+<th class="head"><p>실험 대조군 (260명)</p></th>
+<th class="head"><p>일반 인구 CPS (15,992명)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>나이</p></td>
+<td><p>25.8세</p></td>
+<td><p>25.1세</p></td>
+<td><p>33.2세</p></td>
+</tr>
+<tr class="row-odd"><td><p>학력</p></td>
+<td><p>10.3년</p></td>
+<td><p>10.1년</p></td>
+<td><p>12.0년</p></td>
+</tr>
+<tr class="row-even"><td><p>흑인</p></td>
+<td><p>84%</p></td>
+<td><p>83%</p></td>
+<td><p>7%</p></td>
+</tr>
+<tr class="row-odd"><td><p>히스패닉</p></td>
+<td><p>6%</p></td>
+<td><p>11%</p></td>
+<td><p>7%</p></td>
+</tr>
+<tr class="row-even"><td><p>결혼</p></td>
+<td><p>19%</p></td>
+<td><p>15%</p></td>
+<td><p>71%</p></td>
+</tr>
+<tr class="row-odd"><td><p>고교 미졸업</p></td>
+<td><p>71%</p></td>
+<td><p>83%</p></td>
+<td><p>30%</p></td>
+</tr>
+<tr class="row-even"><td><p>1974년 소득</p></td>
+<td><p>2,096달러</p></td>
+<td><p>2,107달러</p></td>
+<td><p>14,017달러</p></td>
+</tr>
+<tr class="row-odd"><td><p>1975년 소득</p></td>
+<td><p>1,532달러</p></td>
+<td><p>1,267달러</p></td>
+<td><p>13,651달러</p></td>
+</tr>
+<tr class="row-even"><td><p>1974년에 소득이 없던 사람</p></td>
+<td><p>71%</p></td>
+<td><p>75%</p></td>
+<td><p>12%</p></td>
+</tr>
+<tr class="row-odd"><td><p>1978년 소득 (결과)</p></td>
+<td><p>6,349달러</p></td>
+<td><p>4,555달러</p></td>
+<td><p>14,847달러</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>표에서 보듯이 앞의 두 열은 닮았는데, 셋째 열은 딴판입니다. 일반 인구는 참가자보다 일곱 살쯤 많고, 열에 일곱이 결혼했으며, 고등학교를 마친 사람이 대부분입니다. 가장 큰 차이는 참가 전 소득입니다. 1975년 평균 소득이 참가자는 1,532달러인데 일반 인구는 13,651달러로 9배 가까이 됩니다. 1974년에 소득이 전혀 없던 사람이 참가자는 열에 일곱이지만, 일반 인구는 열에 하나 남짓입니다.</p>
+<p>이렇게 다른 사람들이니 1978년 소득도 다를 수밖에 없습니다. 일반 인구는 프로그램과 상관없이 원래 소득이 높은 사람들이고, 참가자는 프로그램 덕분에 소득이 올랐어도 여전히 그보다 한참 낮습니다. 8,498달러의 차이는 대부분 이 원래의 차이입니다. 프로그램의 효과도 그 안에 들어 있지만, 원래의 차이가 워낙 커서 따로 떼어 볼 수 없습니다. 앞 절의 비유로 말하면, 주연 배우와 키도 나이도 전혀 다른 사람을 대역으로 세운 것입니다.</p>
+<p>💡 <strong>팁:</strong> AI가 “A 처치를 받은 그룹이 결과가 더 좋다(나쁘다)”는 보고서를 내놓으면, “A 처치 전에 두 그룹은 어떻게 달랐어?”라고 물어보세요. 처치 전의 차이가 크다면, 그 결과 차이를 A 처치의 효과로 해석하기 어렵습니다.</p>
+</section>
+<section id="id4">
+<h2>숨은 공통 원인 — 교란<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p>이 상황을 그림으로 그려 보면 무엇이 문제인지 한눈에 보입니다. 그림 3-1의 왼쪽 패널은 일반 인구와 비교할 때, 오른쪽 패널은 추첨 실험에서 화살표가 어떻게 이어지는지를 그린 것입니다.</p>
+<p><img alt="교란의 화살표" src="../_images/fig_c3_1_confounding.svg" /></p>
+<p><strong>그림 3-1.</strong> 왼쪽: 관찰 자료에서는 취업 어려움이 참가와 1978년 소득 양쪽에 화살표를 보낸다. 오른쪽: 추첨 실험에서는 추첨이 참가를 정하므로 취업 어려움에서 참가로 가는 화살표가 끊긴다.</p>
+<p>그림에서 보듯이 왼쪽 패널에는 화살표가 세 개 있습니다. 우리가 알고 싶은 것은 아래의 파란 화살표, 즉 참가가 1978년 소득을 바꾸는 효과입니다. 그런데 위에서 내려오는 주황 화살표가 두 개 더 있습니다. 일자리를 얻기 어려운 정도, 곧 <strong>취업 어려움</strong>은 한편으로 사람을 프로그램에 신청하게 만들고, 다른 한편으로 그 사람의 소득을 낮춥니다. 그래서 일반 인구와 비교하면 참가자의 소득이 낮게 나옵니다. 이 낮은 소득은 파란 화살표, 곧 프로그램이 만든 것이 아닙니다. 프로그램이 소득을 올려 주었더라도, 참가자와 일반 인구 사이에 원래부터 있던 소득 차이가 그보다 크면 참가자의 소득은 여전히 낮게 보입니다.</p>
+<p>이렇게 처치와 결과 양쪽에 영향을 주어 둘 사이의 관계를 실제와 다르게 보이게 만드는 것을 <strong>교란</strong>(confounding)이라고 부르고, 그 원인이 되는 요인을 <strong>교란 변수</strong>(confounder)라고 부릅니다. 이 자료에서는 취업 어려움이 교란 변수입니다. 앞의 예들에도 모두 교란 변수가 있었습니다. 보충수업에서는 원래 실력, 큰 병원에서는 환자의 위중함, 소방차에서는 불의 크기, 우산에서는 비입니다.</p>
+<p>교란을 이야기할 때 빠지지 않는 고전적인 예가 하나 더 있습니다. 아이스크림이 많이 팔리는 날에는 물놀이 사고도 많이 납니다. 아이스크림이 사고를 부르는 걸까요? 둘 다 더운 날에 늘어날 뿐입니다. 더위가 아이스크림 판매와 물놀이 사고 양쪽에 화살표를 보내는 교란 변수입니다. 아이스크림 판매를 막는다고 사고가 줄지는 않겠죠.</p>
+<p>이제 그림 3-1의 오른쪽 패널을 봅시다. 실험에서는 참가 여부를 추첨이 정합니다. 취업이 아무리 어려워도, 추첨에서 떨어지면 참가하지 못합니다. 그래서 취업 어려움에서 참가로 가는 화살표가 끊깁니다. 취업 어려움은 여전히 1978년 소득에 영향을 주지만, 추첨이 취업이 더 어려운 사람과 덜 어려운 사람을 양쪽에 고루 나눠 주었으니 두 그룹에 평균적으로 같은 영향을 줍니다. 취업이 어렵든 쉽든 참가할 확률이 같으니, 두 그룹의 평균 차이에는 파란 화살표만 남습니다. 추첨이 하는 일을 한 문장으로 말하면, <strong>교란 변수에서 처치로 가는 화살표를 끊는 것</strong>입니다.</p>
+</section>
+<section id="id5">
+<h2>화살표가 거꾸로일 때 — 역인과<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<p>비교를 엉뚱하게 만드는 것이 하나 더 있습니다. 화살표의 방향이 거꾸로인 경우입니다. 경찰관이 많은 동네일수록 범죄가 많다고 해서, 경찰관이 범죄를 부른다고 해석할 수는 없습니다. 범죄가 많은 동네에 경찰관을 더 보냈을 수 있으니까요. 꾸준히 운동하는 사람이 더 건강한 것도 운동 덕분만은 아닐 수 있습니다. 건강해야 꾸준히 운동할 수 있기도 하니까요. 횡단면 분석 장에서 본 <strong>역인과</strong>(reverse causality), 즉 원인과 결과의 방향이 거꾸로일 수 있는 관계입니다. 그 장에서는 혈압약을 먹는 사람의 혈압이 오히려 높게 나왔는데, 약이 혈압을 올려서가 아니라 혈압이 높은 사람이 약을 먹기 때문이었습니다.</p>
+<p>이 자료의 8,498달러에도 거꾸로 된 화살표처럼 보이는 것이 있습니다. 보고서의 숫자를 그대로 해석하면 “참가하면 소득이 낮아진다”인데, 실제로 일어난 일은 “소득이 낮은 사람이 참가한다”였으니까요. 다만 여기서는 시간의 순서가 분명합니다. 1978년 소득은 참가가 정해지고 나서 한참 뒤의 소득이니, 1978년 소득이 참가를 정할 수는 없습니다. 참가 쪽으로 화살표를 보낸 것은 1978년 소득이 아니라 그 전부터 있던 취업 어려움이고, 그 취업 어려움이 1978년 소득에도 화살표를 보냅니다. 그래서 이 자료의 문제는 역인과가 아니라 교란이라고 부르는 것이 맞습니다.</p>
+<p>원인을 결과보다 먼저 측정하는 것은 역인과를 막는 가장 단순한 방법입니다. 운동과 건강이라면, 지금 운동을 하는지 먼저 조사해 두고 몇 년 뒤에 건강을 재는 식입니다. 몇 년 뒤의 건강이 그 전의 운동을 정할 수는 없으니, 적어도 “건강해서 운동한다”는 거꾸로 된 화살표는 끊깁니다. 하지만 이 자료가 보여 주듯, 순서를 지켜도 교란은 막지 못합니다. 둘을 함께 막는 것은 추첨입니다. 참가를 추첨이 정하면, 취업 어려움도 결과도 참가를 정할 수 없습니다. 취업 어려움에서 오는 화살표도, 결과 쪽에서 거꾸로 오는 화살표도 끊기는 것입니다.</p>
+</section>
+<section id="id6">
+<h2>같은 문제, 세 이름<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
+<p>교란과 거의 같은 문제가 분야에 따라 다른 이름으로도 불립니다. 뜻이 완전히 같지는 않습니다. 예를 들어 내생성은 앞 소절의 역인과까지 포함합니다. 논문이나 AI의 보고서에서 이 이름들을 마주칠 수 있으니 한 번 정리해 둡시다.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>이름</p></th>
+<th class="head"><p>주로 쓰는 분야</p></th>
+<th class="head"><p>같은 문제를 보는 쪽</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>교란</p></td>
+<td><p>통계학, 의학</p></td>
+<td><p>처치와 결과 양쪽에 영향을 주는 제3의 요인이 있다</p></td>
+</tr>
+<tr class="row-odd"><td><p>선택 편향</p></td>
+<td><p>사회과학 전반</p></td>
+<td><p>누가 처치를 받는지가 추첨이 아니라 스스로의 선택으로 정해진다</p></td>
+</tr>
+<tr class="row-even"><td><p>내생성</p></td>
+<td><p>경제학</p></td>
+<td><p>결과를 정하는 보이지 않는 요인과 처치 변수가 함께 움직인다</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>이 자료에서는 세 이름이 같은 것을 가리킵니다. 일자리를 얻기 어려운 사람들이 스스로 프로그램에 신청했다는 사실입니다. 통계학의 눈으로 보면 “취업 어려움”이라는 교란 변수가 있고, 사회과학의 눈으로 보면 참가자가 스스로를 골라 들어온 <strong>선택 편향</strong>(selection bias)이 있으며, 경제학의 눈으로 보면 소득을 결정하는 보이지 않는 요인과 참가 여부가 함께 움직이는 <strong>내생성</strong>(endogeneity)이 있습니다.</p>
+<p>다중회귀분석 장에서 본 누락 변수 편향도 같은 문제를 회귀식 쪽에서 본 이름입니다. 여기서는 교란 변수가 회귀식에 빠져 있으니, <span class="math notranslate nohighlight">\(\textit{treat}\)</span>의 계수 −8,498달러 가운데 큰 몫은 프로그램이 만든 차이가 아니라 참가자와 일반 인구 사이에 원래부터 있던 소득 차이입니다. 그 몫이 워낙 커서 효과의 부호까지 뒤집어 놓은 것입니다.</p>
+</section>
+<section id="id7">
+<h2>표본이 커도 고쳐지지 않는다<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
+<p>표 3-2는 보고서의 추정 결과 표 둘째 행의 회귀식을 상수항과 <span class="math notranslate nohighlight">\(R^2\)</span>까지 실은 것입니다.</p>
+<p><strong>표 3-2.</strong> 일반 인구와 단순 비교한 회귀 결과</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>변수</p></th>
+<th class="head"><p>계수</p></th>
+<th class="head"><p>표준오차</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(p\)</span>값</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>상수항</p></td>
+<td><p>14,847</p></td>
+<td><p>76</p></td>
+<td><p>&lt; 0.001</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\textit{treat}\)</span></p></td>
+<td><p>−8,498</p></td>
+<td><p>712</p></td>
+<td><p>&lt; 0.001</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>주: 종속변수는 1978년 소득(달러), <span class="math notranslate nohighlight">\(R^2\)</span> = 0.009, <span class="math notranslate nohighlight">\(n\)</span> = 16,177. 상수항은 일반 인구의 평균 소득이다. 보고서가 싣지 않은 상수항과 <span class="math notranslate nohighlight">\(R^2\)</span>을 더했다.</p>
+<p>표에서 보듯이 단순 비교의 표준오차는 712달러이고 <span class="math notranslate nohighlight">\(p\)</span>값은 0.001보다 작습니다. 95% 신뢰구간도 마이너스 9,893달러에서 마이너스 7,102달러로, 0에서 한참 떨어져 있습니다. 단순회귀분석 장에서 배운 대로라면 “아주 믿을 만한 차이”입니다. 그런데 이 숫자를 프로그램의 효과로 해석하면 틀립니다.</p>
+<p>단순회귀분석 장과 다중회귀분석 장의 보고서가 한계에 빠짐없이 적어 둔 한 줄을 떠올려 봅시다. “이 결과는 상관이지 인과가 아니다.” 표준오차, <span class="math notranslate nohighlight">\(p\)</span>값, 신뢰구간이 알려 주는 것은 이 차이가 우연히 나온 것이 아니라는 데까지입니다. 참가와 낮은 소득이 함께 나타난다는 것은 믿을 만하지만, 참가 때문에 소득이 낮아졌는지는 이 숫자들이 말해 주지 않습니다. 그 한 줄이 경고하던 일이, 이 자료에서는 효과의 부호까지 뒤집는 모습으로 나타난 것입니다.</p>
+<p>이것이 교란의 무서운 점입니다. 표준오차와 신뢰구간은 표본을 다시 뽑을 때 숫자가 얼마나 흔들리는지를 알려 줍니다. 비교 상대가 엉뚱해서 생긴 차이는 표본을 다시 뽑아도 그대로 다시 나옵니다. 일반 인구를 다시 뽑아도 여전히 참가자보다 소득이 높은 사람들이 뽑히니까요. 그래서 교란이 만든 차이는 흔들림 없이, 믿을 만해 보이는 모습으로 나타납니다. 표본을 늘리면 신뢰구간은 더 좁아지지만, 좁아진 구간이 가리키는 곳은 여전히 틀린 자리입니다.</p>
+<p>미국의 선거 연구에서 이것을 보여 준 유명한 실험이 있습니다. 선거를 앞두고 유권자들에게 “투표하세요”라는 전화를 걸었는데, 누구에게 전화를 걸지를 추첨으로 정했습니다(Arceneaux, Gerber, &amp; Green, 2006).<a class="footnote-reference brackets" href="#gotv" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> 대조군만 200만 명에 가까운 큰 실험이었습니다. 추첨으로 나눈 두 그룹을 비교하니 전화의 효과는 거의 없었습니다. 그런데 같은 자료에서 전화를 받은 사람과 받지 않은 사람을 비교하면, 전화를 받은 사람이 투표를 훨씬 많이 했습니다. 전화를 받는 사람은 원래 집에 잘 있고 걸려 온 전화를 꼬박꼬박 받는 사람일 수 있고, 그런 사람은 투표도 꼬박꼬박 할 수 있습니다. 표본이 그렇게 커도 엉뚱한 비교는 고쳐지지 않았습니다.</p>
+<blockquote>
+<div><p><strong>요약 — 이 절의 물음과 답</strong></p>
+<ul class="simple">
+<li><p><strong>같은 참가자를 일반 인구와 비교하면 왜 소득이 8,498달러 낮게 나올까?</strong> 계산이 틀린 것이 아니라 비교 상대가 엉뚱했기 때문이다. 참가자는 프로그램에 들어오기 전부터 소득이 낮던 사람들이어서, 이 차이는 대부분 프로그램의 효과가 아니라 원래부터 있던 차이다.</p></li>
+<li><p><strong>그 원래의 차이는 어디에서 왔을까?</strong> 취업 어려움, 곧 일자리를 얻기 어려운 정도가 한편으로 사람을 프로그램에 신청하게 만들고, 다른 한편으로 그 사람의 소득을 낮췄다. 이렇게 처치와 결과 양쪽에 영향을 주어 둘 사이의 관계를 실제와 다르게 보이게 만드는 것을 교란이라고 하고, 그 원인이 되는 요인을 교란 변수라고 한다. 추첨 실험에서는 추첨이 참가를 정하므로 취업 어려움에서 참가로 가는 화살표가 끊긴다.</p></li>
+<li><p><strong>표본이 크고 신뢰구간이 0에서 한참 떨어져 있으면 믿어도 되지 않을까?</strong> 그렇지 않다. 교란이 만든 차이는 표본을 다시 뽑아도 그대로 다시 나오므로, 흔들림 없이 믿을 만해 보이는 모습으로 나타난다. 표본을 늘리면 신뢰구간은 좁아지지만, 좁아진 구간이 가리키는 곳은 여전히 틀린 자리다.</p></li>
+</ul>
+</div></blockquote>
+<hr class="footnotes docutils" />
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="gotv" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">1</a><span class="fn-bracket">]</span></span>
+<p>Arceneaux, K., Gerber, A. S., &amp; Green, D. P. (2006). Comparing experimental and matching methods using a large-scale voter mobilization experiment. <em>Political Analysis</em>, 14(1), 37–62. 2002년 미국 중간선거 때 아이오와주와 미시간주에서 한 실험으로, 대조군은 1,845,348명이다(저자들의 자료 페이지, Yale ISPS D026).</p>
+</aside>
+</aside>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./causal-inference"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="section-c2.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">이전</p>
+        <p class="prev-next-title">2. 같은 사람의 두 가지 미래 — 인과 효과와 실험</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="section-c4.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">다음</p>
+        <p class="prev-next-title">4. 조건을 맞추면 — 통제의 계단</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 내용
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">보충수업의 역설 — 비교 상대가 엉뚱할 때</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">누가 프로그램에 들어오나</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">숨은 공통 원인 — 교란</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">화살표가 거꾸로일 때 — 역인과</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">같은 문제, 세 이름</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">표본이 커도 고쳐지지 않는다</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>© 2026 최필선</p>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
