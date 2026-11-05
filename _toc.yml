@@ -39,3 +39,13 @@ chapters:
       - file: panel-data/section-p5
       - file: panel-data/practice-prompt
       - file: panel-data/practice-notebook
+  - file: causal-inference/index
+    sections:
+      - file: causal-inference/section-c1
+      - file: causal-inference/section-c2
+      - file: causal-inference/section-c3
+      - file: causal-inference/section-c4
+      - file: causal-inference/section-c5
+      - file: causal-inference/section-c6
+      - file: causal-inference/practice-prompt
+      - file: causal-inference/practice-notebook
