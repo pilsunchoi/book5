@@ -441,9 +441,8 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">5. 조건을 하나씩 맞추는 계단</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">6. 비교 상대와 넣는 방식을 바꾸면</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">7. 처치 뒤의 변수</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">8. 늘어난 소득으로 비교하기</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">9. 더 해 보기: 랄론드의 원래 표본</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">정리</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">8. 더 해 보기: 랄론드의 원래 표본</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">정리</a></li>
 </ul>
             </nav>
         </div>
@@ -467,7 +466,6 @@
 <li><p>조건을 하나씩 맞추는 계단 — 표 4-1과 보고서의 그림</p></li>
 <li><p>비교 상대와 넣는 방식을 바꾸면 — 닮은 사람끼리, 곡선으로 넣기, PSID</p></li>
 <li><p>처치 뒤의 변수 — 표 5-1</p></li>
-<li><p>늘어난 소득으로 비교하기 — 표 6-1과 대역</p></li>
 <li><p>더 해 보기: 랄론드의 원래 표본 — 본문에서 다루지 않은 탐색</p></li>
 </ol>
 <section id="id2">
@@ -721,30 +719,7 @@
 </div>
 </section>
 <section id="id10">
-<h2>8. 늘어난 소득으로 비교하기<a class="headerlink" href="#id10" title="Link to this heading">#</a></h2>
-<p>6절의 표 6-1 (2)열은 종속변수를 1978년 소득 대신 늘어난 소득(<code class="docutils literal notranslate"><span class="pre">re78</span> <span class="pre">-</span> <span class="pre">re75</span></code>)으로 바꾸고 <code class="docutils literal notranslate"><span class="pre">treat</span></code> 하나만 넣었다. 비교 상대를 실험 대조군과 일반 인구로 바꿔 가며 계산한다. 회귀식 안에서 <code class="docutils literal notranslate"><span class="pre">I(re78</span> <span class="pre">-</span> <span class="pre">re75)</span></code>라고 쓰면 따로 열을 만들지 않아도 된다.</p>
-<p>같은 값을 그림 6-2의 대역으로도 계산한다. 참가자의 1975년 평균 소득에 비교 상대가 늘어난 만큼을 더한 것이 “참가하지 않았다면”의 1978년 소득(대역)이고, 실제 1978년 평균 소득과 대역의 차이가 회귀식의 계수와 같다.</p>
-<p>마지막으로 처치 전 추세를 본다. 1974년에서 1975년까지 평균 소득이 얼마나 바뀌었는지를 그룹마다 센다(6절의 “나란히 움직였을까”).</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">'실험 대조군'</span><span class="p">,</span> <span class="n">exp</span><span class="p">),</span> <span class="p">(</span><span class="s1">'일반 인구(CPS)'</span><span class="p">,</span> <span class="n">obs</span><span class="p">)]:</span>
-    <span class="n">r</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">'I(re78 - re75) ~ treat'</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">10s</span><span class="si">}</span><span class="s2"> 늘어난 소득의 비교 </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">'treat'</span><span class="p">]</span><span class="si">:</span><span class="s2">6,.0f</span><span class="si">}</span><span class="s2">  (</span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">bse</span><span class="p">[</span><span class="s1">'treat'</span><span class="p">]</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
-
-<span class="n">t75</span><span class="p">,</span> <span class="n">t78</span> <span class="o">=</span> <span class="n">treated</span><span class="p">[</span><span class="s1">'re75'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">treated</span><span class="p">[</span><span class="s1">'re78'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">'일반 인구만큼'</span><span class="p">,</span> <span class="n">cps</span><span class="p">),</span> <span class="p">(</span><span class="s1">'실험 대조군만큼'</span><span class="p">,</span> <span class="n">control</span><span class="p">)]:</span>
-    <span class="n">gain</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="s1">'re78'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">g</span><span class="p">[</span><span class="s1">'re75'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"대역(</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> 늘었다면): </span><span class="si">{</span><span class="n">t75</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2"> + </span><span class="si">{</span><span class="n">gain</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">t75</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">gain</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">,  실제 </span><span class="si">{</span><span class="n">t78</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">와의 차이 </span><span class="si">{</span><span class="n">t78</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t75</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">gain</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">'참가자'</span><span class="p">,</span> <span class="n">treated</span><span class="p">),</span> <span class="p">(</span><span class="s1">'실험 대조군'</span><span class="p">,</span> <span class="n">control</span><span class="p">),</span> <span class="p">(</span><span class="s1">'일반 인구(CPS)'</span><span class="p">,</span> <span class="n">cps</span><span class="p">)]:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">10s</span><span class="si">}</span><span class="s2"> 1974 → 1975년 평균 소득의 변화 </span><span class="si">{</span><span class="n">g</span><span class="p">[</span><span class="s1">'re75'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">g</span><span class="p">[</span><span class="s1">'re74'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">6,.0f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="id11">
-<h2>9. 더 해 보기: 랄론드의 원래 표본<a class="headerlink" href="#id11" title="Link to this heading">#</a></h2>
+<h2>8. 더 해 보기: 랄론드의 원래 표본<a class="headerlink" href="#id10" title="Link to this heading">#</a></h2>
 <p>본문에서는 다루지 않은 탐색이다. 이 장의 자료는 데헤이아와 와바가 랄론드의 남성 표본에서 1974년 소득이 있는 사람만 남긴 것이다. 랄론드가 1986년 논문에서 쓴 원래 표본(참가자 297명, 대조군 425명)은 같은 누리집의 <code class="docutils literal notranslate"><span class="pre">nsw_treated.txt</span></code>, <code class="docutils literal notranslate"><span class="pre">nsw_control.txt</span></code>에 있다. 이 파일에는 1974년 소득 열이 없어서 열 이름도 하나 적다.</p>
 <p>원래 표본의 실험의 답은 이 장의 1,794달러보다 훨씬 작다. 어떤 사람을 표본에 남기느냐만으로도 실험의 답이 달라진다는 것이고, 이 때문에 데헤이아·와바의 표본을 두고 연구자들 사이에 논쟁이 있다. 이 장의 결론(관찰 비교는 비교 상대와 가정에 따라 크게 흔들린다)은 어느 표본에서도 같다.</p>
 <div class="cell docutils container">
@@ -758,10 +733,10 @@
 </div>
 </div>
 </section>
-<section id="id12">
-<h2>정리<a class="headerlink" href="#id12" title="Link to this heading">#</a></h2>
-<p>이 노트북의 코드는 이 장에서 본 숫자를 직접 만들어 냈다. 계산은 모두 <code class="docutils literal notranslate"><span class="pre">smf.ols</span></code> 하나였다. 보고서의 세 비교는 3, 4, 5절에서, 본문의 표는 같은 회귀식의 비교 상대를 바꾸거나(6절), 넣는 변수를 바꾸거나(5~7절), 종속변수를 바꾼(8절) 것이다. 같은 계산 도구로 이렇게 다른 답이 나온다는 것이 이 장의 이야기다. 숫자를 효과로 해석할 수 있느냐는 코드가 아니라 비교의 설계가 정한다.</p>
-<p>자기 자료로 분석하려면 1절에서 자기 CSV를 <code class="docutils literal notranslate"><span class="pre">pd.read_csv</span></code>로 읽고, 처치 변수를 <code class="docutils literal notranslate"><span class="pre">treat</span></code>, 결과 변수를 <code class="docutils literal notranslate"><span class="pre">re78</span></code> 자리에 바꿔 넣는다. 2절의 <code class="docutils literal notranslate"><span class="pre">X</span></code>와 <code class="docutils literal notranslate"><span class="pre">steps</span></code>에는 자기 자료의 처치 전 변수를 적는다. 처치 뒤에 측정한 변수는 넣지 않는다(7절). 실험 대조군이 없으면 3절과 6~8절의 실험 비교는 건너뛰고, 처치 전후의 결과가 없으면 8절도 건너뛴다. AI가 만든 보고서를 받았다면, 이 코드로 같은 숫자가 나오는지 확인해 보는 것이 가장 확실한 점검이다.</p>
+<section id="id11">
+<h2>정리<a class="headerlink" href="#id11" title="Link to this heading">#</a></h2>
+<p>이 노트북의 코드는 이 장에서 본 숫자를 직접 만들어 냈다. 계산은 모두 <code class="docutils literal notranslate"><span class="pre">smf.ols</span></code> 하나였다. 보고서의 세 비교는 3, 4, 5절에서, 본문의 표는 같은 회귀식의 비교 상대를 바꾸거나(6절), 넣는 변수를 바꾼(5~7절) 것이다. 같은 계산 도구로 이렇게 다른 답이 나온다는 것이 이 장의 이야기다. 숫자를 효과로 해석할 수 있느냐는 코드가 아니라 비교의 설계가 정한다.</p>
+<p>자기 자료로 분석하려면 1절에서 자기 CSV를 <code class="docutils literal notranslate"><span class="pre">pd.read_csv</span></code>로 읽고, 처치 변수를 <code class="docutils literal notranslate"><span class="pre">treat</span></code>, 결과 변수를 <code class="docutils literal notranslate"><span class="pre">re78</span></code> 자리에 바꿔 넣는다. 2절의 <code class="docutils literal notranslate"><span class="pre">X</span></code>와 <code class="docutils literal notranslate"><span class="pre">steps</span></code>에는 자기 자료의 처치 전 변수를 적는다. 처치 뒤에 측정한 변수는 넣지 않는다(7절). 실험 대조군이 없으면 3절과 6~7절의 실험 비교는 건너뛴다. 처치 전후의 결과가 둘 다 있으면 이중차분도 해 볼 수 있는데, 이 자료로 하는 계산은 이중차분 장의 노트북에 있다. AI가 만든 보고서를 받았다면, 이 코드로 같은 숫자가 나오는지 확인해 보는 것이 가장 확실한 점검이다.</p>
 </section>
 </section>
 
@@ -830,9 +805,8 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">5. 조건을 하나씩 맞추는 계단</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">6. 비교 상대와 넣는 방식을 바꾸면</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">7. 처치 뒤의 변수</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">8. 늘어난 소득으로 비교하기</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">9. 더 해 보기: 랄론드의 원래 표본</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">정리</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">8. 더 해 보기: 랄론드의 원래 표본</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">정리</a></li>
 </ul>
   </nav></div>
 
