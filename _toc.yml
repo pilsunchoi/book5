@@ -57,3 +57,12 @@ chapters:
       - file: difference-in-differences/section-d4
       - file: difference-in-differences/practice-prompt
       - file: difference-in-differences/practice-notebook
+  - file: survey-measurement/index
+    sections:
+      - file: survey-measurement/section-m1
+      - file: survey-measurement/section-m2
+      - file: survey-measurement/section-m3
+      - file: survey-measurement/section-m4
+      - file: survey-measurement/section-m5
+      - file: survey-measurement/practice-prompt
+      - file: survey-measurement/practice-notebook
