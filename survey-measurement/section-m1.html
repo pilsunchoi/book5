@@ -1,0 +1,739 @@
+
+<!DOCTYPE html>
+
+
+<html lang="ko" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="1. 보고서 — 성격 검사 50문항은 다섯 성격을 제대로 측정하나" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://pilsunchoi.github.io/book5/survey-measurement/section-m1.html" />
+<meta property="og:site_name" content="AI 데이터 분석" />
+<meta property="og:description" content="이번 장의 주제는 설문으로 측정하기 입니다. 만족도, 외향성, 직무 몰입, 브랜드 신뢰처럼 자를 대거나 개수를 셀 수 없는 개념을 설문 문항 여러 개로 측정하고, 그 측정을 믿을 수 있는지 확인하는 방법입니다. 졸업논문이나 수업 과제로 설문조사를 하는 학생이 많습니다. 경영학, 심..." />
+<meta name="description" content="이번 장의 주제는 설문으로 측정하기 입니다. 만족도, 외향성, 직무 몰입, 브랜드 신뢰처럼 자를 대거나 개수를 셀 수 없는 개념을 설문 문항 여러 개로 측정하고, 그 측정을 믿을 수 있는지 확인하는 방법입니다. 졸업논문이나 수업 과제로 설문조사를 하는 학생이 많습니다. 경영학, 심..." />
+
+    <title>1. 보고서 — 성격 검사 50문항은 다섯 성격을 제대로 측정하나 &#8212; AI 데이터 분석</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=18f25a40" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=ae323b5b"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = '표시하려면 클릭';</script>
+    <script>let toggleHintHide = '숨기려면 클릭';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/translations.js?v=e33e7ba0"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'survey-measurement/section-m1';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="색인" href="../genindex.html" />
+    <link rel="search" title="검색" href="../search.html" />
+    <link rel="next" title="2. 문항 여러 개로 개념 하나를 — 척도와 역문항" href="section-m2.html" />
+    <link rel="prev" title="설문으로 측정하기 — 문항 여러 개로 개념 하나를" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="ko"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.png" class="logo__image only-light" alt="AI 데이터 분석"/>
+    <img src="../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="AI 데이터 분석"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../simple-regression/index.html">단순회귀분석 — 직선 하나로 관계 읽기</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a1.html">1. 보고서 — 노원구에서 1㎡는 얼마인가</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a2.html">2. 직선은 어떻게 정해지나 — 잔차와 최소제곱</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a3.html">3. 이 기울기를 믿어도 되나 — 표준오차, 신뢰구간, <span class="math notranslate nohighlight">\(p\)</span>값</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a4.html">4. 얼마나 설명하나 — <span class="math notranslate nohighlight">\(R^2\)</span>과 잔차</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a5.html">5. 로그로 읽는 가격 — 탄력성과 % 해석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../multiple-regression/index.html">다중회귀분석 — 여러 변수를 함께</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b1.html">1. 보고서 — 서울 아파트 값은 무엇으로 정해지나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b2.html">2. 다른 조건이 같다면 — 다중회귀분석의 계수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b3.html">3. 숫자가 아닌 변수 — 더미 변수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b4.html">4. 효과가 집단마다 다를 때 — 상호작용</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b5.html">5. 직선으로 부족할 때 — 제곱항</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../health-survey/index.html">횡단면 분석 — 학력과 혈압</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h1.html">1. 보고서 — 학력이 높을수록 혈압이 낮을까</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h2.html">2. 표본이 모집단을 닮게 — 가중치와 표본설계</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h3.html">3. 다른 조건이 같다면 — 계수는 무엇을 비교하나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h4.html">4. 회귀식 밖에 남은 것 — 설명력, 빠진 변수, 남녀의 차이</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h5.html">5. 약 먹고 잰 혈압 — 표본을 정하는 판단과 거꾸로 된 순서</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h6.html">6. 횡단면이 말해 주지 않는 것 — 측정과 자료의 범위</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-prompt.html">직접 해 보기 1 — 자료는 내 컴퓨터에, AI에는 질문만</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../panel-data/index.html">패널 데이터 분석 — FTA와 수출</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p1.html">1. 보고서 — FTA는 한국의 수출을 늘렸나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p2.html">2. 단체 사진과 사진첩 — 횡단면과 패널</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p3.html">3. 어제의 나와 비교하기 — 고정효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p4.html">4. 두 가지 차이를 섞기 — 확률효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p5.html">5. 무엇을 고르나 — 하우스만 검정과 연도 효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../causal-inference/index.html">인과 추론 — 공정한 비교를 찾아서</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c1.html">1. 보고서 — 일자리 제공 프로그램은 소득을 올렸나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c2.html">2. 같은 사람의 두 가지 미래 — 인과 효과와 실험</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c3.html">3. 엉뚱한 비교 상대 — 교란</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c4.html">4. 조건을 맞추면 — 통제의 계단</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c5.html">5. 넣으면 안 되는 변수 — 매개, 총효과, 나쁜 통제</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c6.html">6. 실험이 없을 때 — 설계의 지도</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../difference-in-differences/index.html">이중차분 — 허가구역과 아파트 거래</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/section-d1.html">1. 보고서 — 토지거래허가구역은 거래를 얼마나 줄였나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/section-d2.html">2. 변화로 비교하기 — 대역을 세운다</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/section-d3.html">3. 나란히 움직였을까 — 지정 전 다섯 달</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/section-d4.html">4. 정답이 있는 예 — 나란하지 않으면 얼마나 빗나가나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">설문으로 측정하기 — 문항 여러 개로 개념 하나를</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">1. 보고서 — 성격 검사 50문항은 다섯 성격을 제대로 측정하나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-m2.html">2. 문항 여러 개로 개념 하나를 — 척도와 역문항</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-m3.html">3. 함께 움직이는가 — 크론바흐 α와 문항 수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-m4.html">4. 저절로 다섯 덩어리로 묶이나 — 요인분석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-m5.html">5. 측정이 거칠면 관계가 약해진다 — 감쇠와 설문의 함정</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/pilsunchoi/book5" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="소스 저장소"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="이 페이지 다운로드">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/survey-measurement/section-m1.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="소스 파일 다운로드"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="PDF로 인쇄"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="전체 화면으로보기"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>1. 보고서 — 성격 검사 50문항은 다섯 성격을 제대로 측정하나</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 내용 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">데이터 — 온라인 성격 검사 19,718명</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">문항 10개로 외향성을 측정할 수 있을까</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">보고서의 다섯 부분</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">이 장의 진행 순서</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>1. 보고서 — 성격 검사 50문항은 다섯 성격을 제대로 측정하나<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>이번 장의 주제는 <strong>설문으로 측정하기</strong>입니다. 만족도, 외향성, 직무 몰입, 브랜드 신뢰처럼 자를 대거나 개수를 셀 수 없는 개념을 설문 문항 여러 개로 측정하고, 그 측정을 믿을 수 있는지 확인하는 방법입니다. 졸업논문이나 수업 과제로 설문조사를 하는 학생이 많습니다. 경영학, 심리학, 사회학, 교육학의 설문 연구는 거의 모두 이 단계를 거친 뒤에 회귀분석으로 넘어갑니다. 기업도 같은 일을 합니다. 고객 만족도 조사, 직원 몰입도 조사, 입사 지원자의 인성 검사가 모두 문항 여러 개로 보이지 않는 것을 측정합니다. 이런 연구의 보고서에는 거의 언제나 “크론바흐 α = 0.87”, “요인 적재값 0.4 이상” 같은 줄이 나옵니다.</p>
+<p>예전에는 이 분석을 직접 배워 직접 돌려야 했습니다. 요즘은 AI에게 데이터를 넣어 주고 분석해 달라고 하면 금방 해줍니다. 우리는 AI가 만들어 준 보고서를 잘 이해하고, 잘 점검하면 됩니다. <strong>AI가 해 주는 것, 잘 이해하기. 그게 우리의 일입니다.</strong></p>
+<p>다른 장은 한 변수가 다른 변수와 어떤 관계인지를 물었습니다. 이번 장은 그 앞 단계를 묻습니다. 회귀식에 넣을 변수 하나를 문항 여러 개로 어떻게 만드는가, 그렇게 만든 변수를 믿어도 되는가 하는 질문입니다. 이번 장의 예시는 성격 검사입니다. 문항 10개에 답한 것으로 한 사람의 외향성을 측정할 수 있는가 하는 질문입니다.</p>
+<section id="id2">
+<h2>데이터 — 온라인 성격 검사 19,718명<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>자료는 Open Psychometrics Project라는 사이트의 공개 원자료입니다. 이 사이트는 누구나 무료로 해 볼 수 있는 성격 검사를 운영하면서, 응답자의 동의를 받아 답을 연구용으로 공개해 왔습니다. 이번 장의 자료는 2012년 무렵 그 사이트의 성격 검사에 답한 사람들의 기록이고, 사이트의 원자료 목록(openpsychometrics.org/_rawdata/)에서 BIG5.zip이라는 파일로 받을 수 있습니다. 2026년 10월 17일에 받았습니다. 이 자료에는 재배포를 허락하는 명시적인 이용 조건이 없어서, 이 책의 사이트에서는 파일을 함께 제공하지 않습니다. 원 사이트에서 직접 받으면 되고, 이 장 끝의 직접 해 보기 노트북도 원 사이트에서 바로 읽어 옵니다. 내려받는 일도 AI에게 부탁할 수 있습니다.</p>
+<p>검사는 성격을 다섯 가지로 나눠 측정합니다. 외향성, 신경성, 친화성, 성실성, 개방성입니다. 심리학에서 흔히 쓰는 이 다섯 가지 구분을 <strong>빅 파이브</strong>(Big Five)라고 부릅니다. 문항은 IPIP(International Personality Item Pool)라는, 누구나 쓸 수 있게 공개된 문항 모음에서 왔습니다. 성격마다 10문항, 모두 50문항입니다. 표 1-1은 외향성의 10문항입니다(원래는 영어 문장이고, 우리말 번역은 이 책이 했습니다).</p>
+<p><strong>표 1-1.</strong> 외향성 10문항</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>문항</p></th>
+<th class="head"><p>내용</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>E1</p></td>
+<td><p>나는 모임의 분위기를 띄우는 사람이다.</p></td>
+</tr>
+<tr class="row-odd"><td><p>E2</p></td>
+<td><p>나는 말이 많지 않다.</p></td>
+</tr>
+<tr class="row-even"><td><p>E3</p></td>
+<td><p>나는 사람들 사이에서 편안하다.</p></td>
+</tr>
+<tr class="row-odd"><td><p>E4</p></td>
+<td><p>나는 뒤로 물러나 있는 편이다.</p></td>
+</tr>
+<tr class="row-even"><td><p>E5</p></td>
+<td><p>나는 먼저 말을 건다.</p></td>
+</tr>
+<tr class="row-odd"><td><p>E6</p></td>
+<td><p>나는 할 말이 별로 없다.</p></td>
+</tr>
+<tr class="row-even"><td><p>E7</p></td>
+<td><p>나는 모임에서 여러 사람과 이야기한다.</p></td>
+</tr>
+<tr class="row-odd"><td><p>E8</p></td>
+<td><p>나는 주목받는 것을 좋아하지 않는다.</p></td>
+</tr>
+<tr class="row-even"><td><p>E9</p></td>
+<td><p>나는 관심의 한가운데에 있어도 괜찮다.</p></td>
+</tr>
+<tr class="row-odd"><td><p>E10</p></td>
+<td><p>나는 낯선 사람 앞에서 조용하다.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>응답자는 문항마다 자기에게 얼마나 맞는지를 1부터 5까지의 숫자로 답했습니다. 1은 “동의하지 않음”, 3은 “보통”, 5는 “동의”입니다. 이렇게 문장 하나를 주고 동의하는 정도를 몇 단계로 고르게 하는 방식을 흔히 <strong>리커트 척도</strong>(Likert scale)라고 부릅니다. 이 방식을 처음 쓴 심리학자의 이름을 땄습니다. 5점이나 7점이 가장 흔하고, 여러분이 받아 본 설문의 “전혀 그렇지 않다 ~ 매우 그렇다”도 리커트 척도입니다.</p>
+<p>표를 천천히 읽어 보면 이상한 점이 하나 보입니다. E1, E3, E5는 외향적인 사람이 “동의”할 문장인데, E2, E4, E6은 거꾸로 내향적인 사람이 “동의”할 문장입니다. 같은 외향성을 측정하는 문항인데 방향이 반대입니다. 이런 문항을 역문항이라고 하는데, 왜 이렇게 만드는지와 분석할 때 무엇을 해야 하는지는 다음 절에서 다룹니다.</p>
+<p>받은 파일은 한 행이 응답자 한 명입니다. 변수는 57개입니다.</p>
+<ul class="simple">
+<li><p><strong>E1 ~ E10, N1 ~ N10, A1 ~ A10, C1 ~ C10, O1 ~ O10</strong>: 50문항의 답(1 ~ 5, 답하지 않은 문항은 0). 앞 글자가 성격입니다(E 외향성, N 신경성, A 친화성, C 성실성, O 개방성).</p></li>
+<li><p><strong>age, gender, country</strong> 등 7개: 나이, 성별, 접속한 나라, 영어가 모국어인지, 어느 손으로 글씨를 쓰는지, 인종, 사이트에 들어온 경로</p></li>
+</ul>
+<p>응답자는 19,719명이고, 이 가운데 50문항에 모두 답한 19,718명을 분석합니다. 접속한 나라는 미국이 8,753명으로 가장 많고 영국, 인도가 뒤를 잇습니다. 여성이 61%, 중위 나이는 22세입니다. 일부러 뽑은 표본이 아니라 검사 사이트를 찾아온 사람들이라는 점은 기억해 둘 만합니다.</p>
+</section>
+<section id="id3">
+<h2>문항 10개로 외향성을 측정할 수 있을까<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>자, 이제 질문입니다. <strong>문항 10개에 답한 것으로 한 사람의 외향성을 측정할 수 있을까요?</strong></p>
+<p>외향성은 키나 몸무게처럼 자로, 저울로 측정할 수 있는 것이 아닙니다. 우리가 볼 수 있는 것은 “나는 먼저 말을 건다”에 4점을 줬다는 답뿐입니다. 그 4점에는 그 사람의 외향성도 들어 있지만, 문장을 어떻게 받아들였는지, 그날 기분이 어땠는지, 대충 찍었는지도 들어 있습니다. 그래서 설문 연구는 문항 하나만 쓰지 않고 같은 것을 묻는 문항을 여러 개 둡니다. 그렇다면 확인할 것이 생깁니다. <strong>그 문항들이 정말 같은 것을 묻고 있는가, 문항 50개가 정말 성격 다섯 가지로 나뉘는가</strong>입니다. 이것을 확인하는 것이 이번 장의 일입니다.</p>
+<p>이 질문을 AI에게 맡겨 봤습니다. AI가 이 장의 자료 파일을 열어 분석하게 하고, 역문항을 채점 키대로 뒤집은 뒤 다섯 성격 척도의 신뢰도와 요인분석 결과를 정리한 1쪽 보고서를 요청했습니다. 그렇게 받은 보고서가 아래에 있습니다. 먼저 한 번 읽어 보세요. 크론바흐 α, 역문항, 요인 적재값, 베리맥스 회전처럼 처음 보는 말이 나와도 괜찮습니다. 그 말들을 읽을 수 있게 만드는 것이 이 장의 일입니다.</p>
+<div class="report-box docutils container">
+<p class="report-caption">AI가 만든 1쪽 보고서</p>
+<p class="report-title rubric">성격 검사 50문항은 다섯 가지 성격을 제대로 측정하나 — 온라인 응답자 19,718명의 신뢰도와 요인분석</p>
+<p><em>분석 대상: 온라인 성격 검사(IPIP 50문항, 성격마다 10문항, 5점 척도)에 50문항 모두 답한 19,718명 · 자료: Open Psychometrics Project 공개 원자료(약 2012년 수집)</em></p>
+<p class="report-h2 rubric">요약</p>
+<ul class="simple">
+<li><p>다섯 성격 척도의 <strong>신뢰도(크론바흐 α)는 0.79 ~ 0.89로, 흔히 쓰는 기준 0.7을 모두 넘는다</strong>.</p></li>
+<li><p>50문항으로 요인분석을 하면 <strong>모든 문항이 자기 성격의 요인에 가장 크게 실려, 문항이 성격별로 다섯 덩어리로 나뉜다</strong>.</p></li>
+<li><p>이것은 같은 성격을 묻는 문항들이 서로 일관되게 답해졌다는 뜻이다. 척도가 실제 성격을 맞게 측정하는지는 이 분석으로 알 수 없다.</p></li>
+</ul>
+<p class="report-h2 rubric">신뢰도와 척도 점수</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>척도</p></th>
+<th class="head"><p>문항</p></th>
+<th class="head"><p>역문항</p></th>
+<th class="head"><p>크론바흐 α</p></th>
+<th class="head"><p>척도 점수 평균</p></th>
+<th class="head"><p>표준편차</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>외향성</p></td>
+<td><p>10</p></td>
+<td><p>5</p></td>
+<td><p>0.89</p></td>
+<td><p>3.01</p></td>
+<td><p>0.92</p></td>
+</tr>
+<tr class="row-odd"><td><p>신경성</p></td>
+<td><p>10</p></td>
+<td><p>2</p></td>
+<td><p>0.87</p></td>
+<td><p>3.10</p></td>
+<td><p>0.86</p></td>
+</tr>
+<tr class="row-even"><td><p>친화성</p></td>
+<td><p>10</p></td>
+<td><p>4</p></td>
+<td><p>0.83</p></td>
+<td><p>3.84</p></td>
+<td><p>0.71</p></td>
+</tr>
+<tr class="row-odd"><td><p>성실성</p></td>
+<td><p>10</p></td>
+<td><p>4</p></td>
+<td><p>0.81</p></td>
+<td><p>3.35</p></td>
+<td><p>0.73</p></td>
+</tr>
+<tr class="row-even"><td><p>개방성</p></td>
+<td><p>10</p></td>
+<td><p>3</p></td>
+<td><p>0.79</p></td>
+<td><p>3.91</p></td>
+<td><p>0.63</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>주: 1 = 동의하지 않음, 5 = 동의. 역문항(예: 외향성의 “나는 말이 많지 않다”)은 6에서 답을 빼서 뒤집은 뒤 계산했다. 척도 점수는 문항 10개의 평균(1 ~ 5)</p>
+<p class="report-h2 rubric">요인분석</p>
+<p id="report-figure-survey-measurement"><img alt="문항 50개 × 요인 5개의 적재값" src="../_images/fig1_loadings.png" /></p>
+<p><strong>그림.</strong> 탐색적 요인분석(5요인, 베리맥스 회전)의 요인 적재값. 칸이 진할수록 그 문항이 그 요인과 강하게 함께 움직인다. 요인의 순서는 성격 순서에 맞춰 늘어놓았다.</p>
+<p>주: 자기 요인 적재값 0.31 ~ 0.79, 다른 요인 적재값은 가장 큰 것이 0.37(성실성의 “나는 일을 엉망으로 만든다”), 다섯 요인이 설명한 분산 40%</p>
+<p class="report-h2 rubric">해석</p>
+<ul class="simple">
+<li><p><strong>크론바흐 α</strong> — 같은 척도의 문항끼리 얼마나 함께 움직이는지를 0 ~ 1로 나타낸다. 외향성 0.89는 외향성 문항 하나에 외향적으로 답한 사람이 다른 외향성 문항에도 대개 외향적으로 답했다는 뜻이다(역문항은 뒤집은 답으로).</p></li>
+<li><p><strong>요인 적재값</strong> — 문항이 어느 요인과 함께 움직이는지를 보여 준다. 그림에서 진한 칸이 대각선 위의 다섯 덩어리에 모여 있다. 문항을 어느 성격에 넣을지 미리 알려 주지 않았는데, 자료가 저절로 문항을 성격별로 묶었다.</p></li>
+<li><p><strong>약한 문항</strong> — 자기 요인 적재값이 0.4에 못 미치는 문항이 다섯 개다. 가장 낮은 것은 신경성의 “나는 기분이 가라앉는 일이 드물다”(0.31)와 개방성의 “나는 이것저것 곰곰이 생각한다”(0.33)다.</p></li>
+</ul>
+<p class="report-h2 rubric">한계</p>
+<ul class="simple">
+<li><p>응답자는 검사 사이트를 찾아온 자원자다(미국 44%, 중위 나이 22세). 모든 사람에게 같은 결과가 나온다고 말할 수 없다.</p></li>
+<li><p>신뢰도가 높다는 것은 문항들이 같은 것을 측정한다는 뜻일 뿐, 그것이 성격이라는 증거는 아니다. 행동이나 다른 검사와 맞는지는 다른 자료가 필요하다.</p></li>
+<li><p>같은 사람이 한 번에 50문항에 답했으므로, 답하는 버릇(무엇에나 “동의”하는 경향)이 문항끼리의 관계에 섞여 있을 수 있다.</p></li>
+</ul>
+<div class="report-dl docutils container">
+<p>보고서 내려받기: <a class="reference download internal" download="" href="../_downloads/62a681862bceaa7246550b003bc3d404/report-survey-measurement.pdf"><code class="xref download docutils literal notranslate"><span class="pre">PDF(그림</span> <span class="pre">포함)</span></code></a> · <a class="reference download internal" download="" href="../_downloads/a15cef7872f980f7c753b3ac482eeba6/report-survey-measurement.md"><code class="xref download docutils literal notranslate"><span class="pre">원문(.md)</span></code></a></p>
+</div>
+</div>
+</section>
+<section id="id4">
+<h2>보고서의 다섯 부분<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p>보고서는 다른 장의 보고서와 같이 다섯 부분으로 되어 있습니다. 요약, 신뢰도와 척도 점수의 표, 요인분석의 그림, 해석, 그리고 한계입니다.</p>
+<p><strong>요약</strong>은 세 줄입니다. 첫 줄은 다섯 척도의 신뢰도가 모두 0.79 ~ 0.89로 흔히 쓰는 기준 0.7을 넘는다는 것이고, 둘째 줄은 요인분석에서 50문항이 성격별로 다섯 덩어리로 나뉜다는 것입니다. 셋째 줄은 이 두 결과가 말하지 않는 것을 적었습니다. 문항들이 서로 일관되게 답해졌다는 것과, 척도가 실제 성격을 맞게 측정한다는 것은 다른 이야기라는 것입니다.</p>
+<p><strong>신뢰도와 척도 점수</strong>의 표는 다섯 척도마다 한 행입니다. 열은 문항 수, 그 가운데 역문항 수, 크론바흐 α, 그리고 척도 점수의 평균과 표준편차입니다. 표 아래 주에는 역문항을 어떻게 뒤집었는지와 척도 점수를 어떻게 만들었는지가 적혀 있습니다. 문항 10개의 답을 평균한 것이 한 사람의 척도 점수입니다.</p>
+<p><strong>요인분석</strong>의 그림은 가로로 50문항, 세로로 요인 다섯 개를 놓은 열지도입니다. 칸이 진할수록 그 문항이 그 요인과 강하게 함께 움직인다는 뜻입니다. 진한 칸이 왼쪽 위에서 오른쪽 아래로 계단처럼 다섯 덩어리를 이룹니다. 그림 아래 주에는 적재값의 범위와 다섯 요인이 설명한 분산의 비율이 적혀 있습니다.</p>
+<p><strong>해석</strong>은 크론바흐 α가 무엇을 나타내는지, 요인 적재값으로 무엇을 보는지, 그리고 적재값이 약한 문항이 어느 것인지의 순서입니다. <strong>한계</strong>는 세 줄입니다. 응답자가 어떤 사람들인지, 신뢰도가 높다는 것이 무엇까지 말해 주는지, 그리고 같은 사람이 한 번에 모든 문항에 답해서 생길 수 있는 문제입니다.</p>
+</section>
+<section id="id5">
+<h2>이 장의 진행 순서<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<p>다음 네 절이 이 보고서를 한 부분씩 설명합니다.</p>
+<ul class="simple">
+<li><p><strong>문항 여러 개로 개념 하나를</strong> — 외향성처럼 보이지 않는 개념을 왜 문항 여러 개로 측정하는가. 척도 점수는 어떻게 만드는가. 역문항을 뒤집지 않으면 무슨 일이 생기는가. 표의 역문항 열과 주.</p></li>
+<li><p><strong>함께 움직이는가</strong> — 크론바흐 α는 무엇을 계산한 숫자인가. 문항이 많을수록 α가 왜 커지는가. 기준 0.7은 어디서 왔고 무엇을 말해 주지 않는가. 요약의 첫 줄, 표의 α 열, 한계의 둘째 줄.</p></li>
+<li><p><strong>저절로 다섯 덩어리로 묶이나</strong> — 요인분석은 무엇을 하는가. 적재값과 회전은 무엇인가. 보고서에서 만날 다른 이름들(확인적 요인분석, 구조방정식 모형). 요약의 둘째 줄, 그림, 해석의 둘째·셋째 항목.</p></li>
+<li><p><strong>측정이 거칠면 관계가 약해진다</strong> — 문항 하나로 측정한 변수를 회귀식에 넣으면 무슨 일이 생기는가. 같은 사람이 같은 설문에 답한 두 변수의 관계는 믿을 수 있는가. 한계의 셋째 줄, 그리고 이 장을 마치며.</p></li>
+</ul>
+<p>네 절을 지나면 이 보고서의 모든 줄을 이해할 수 있습니다. 그리고 여러분이 자기 설문 자료로 같은 분석을 요청할 때, 이 보고서가 본보기가 될 것입니다.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./survey-measurement"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">이전</p>
+        <p class="prev-next-title">설문으로 측정하기 — 문항 여러 개로 개념 하나를</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="section-m2.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">다음</p>
+        <p class="prev-next-title">2. 문항 여러 개로 개념 하나를 — 척도와 역문항</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 내용
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">데이터 — 온라인 성격 검사 19,718명</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">문항 10개로 외향성을 측정할 수 있을까</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">보고서의 다섯 부분</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">이 장의 진행 순서</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>© 2026 최필선</p>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,728 @@
+
+<!DOCTYPE html>
+
+
+<html lang="ko" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="4. 저절로 다섯 덩어리로 묶이나 — 요인분석" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://pilsunchoi.github.io/book5/survey-measurement/section-m4.html" />
+<meta property="og:site_name" content="AI 데이터 분석" />
+<meta property="og:description" content="보고서 요약의 둘째 줄은 이렇습니다. 50문항으로 요인분석을 하면 모든 문항이 자기 성격의 요인에 가장 크게 실려, 문항이 성격별로 다섯 덩어리로 나뉜다. 앞 절의 크론바흐 α는 “외향성 문항은 E1 ~ E10”처럼 묶음을 미리 정해 놓고, 그 묶음 안의 문항들이 함께 움직이는지를..." />
+<meta name="description" content="보고서 요약의 둘째 줄은 이렇습니다. 50문항으로 요인분석을 하면 모든 문항이 자기 성격의 요인에 가장 크게 실려, 문항이 성격별로 다섯 덩어리로 나뉜다. 앞 절의 크론바흐 α는 “외향성 문항은 E1 ~ E10”처럼 묶음을 미리 정해 놓고, 그 묶음 안의 문항들이 함께 움직이는지를..." />
+
+    <title>4. 저절로 다섯 덩어리로 묶이나 — 요인분석 &#8212; AI 데이터 분석</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=18f25a40" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=ae323b5b"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = '표시하려면 클릭';</script>
+    <script>let toggleHintHide = '숨기려면 클릭';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/translations.js?v=e33e7ba0"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'survey-measurement/section-m4';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="색인" href="../genindex.html" />
+    <link rel="search" title="검색" href="../search.html" />
+    <link rel="next" title="5. 측정이 거칠면 관계가 약해진다 — 감쇠와 설문의 함정" href="section-m5.html" />
+    <link rel="prev" title="3. 함께 움직이는가 — 크론바흐 α와 문항 수" href="section-m3.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="ko"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.png" class="logo__image only-light" alt="AI 데이터 분석"/>
+    <img src="../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="AI 데이터 분석"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../simple-regression/index.html">단순회귀분석 — 직선 하나로 관계 읽기</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a1.html">1. 보고서 — 노원구에서 1㎡는 얼마인가</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a2.html">2. 직선은 어떻게 정해지나 — 잔차와 최소제곱</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a3.html">3. 이 기울기를 믿어도 되나 — 표준오차, 신뢰구간, <span class="math notranslate nohighlight">\(p\)</span>값</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a4.html">4. 얼마나 설명하나 — <span class="math notranslate nohighlight">\(R^2\)</span>과 잔차</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a5.html">5. 로그로 읽는 가격 — 탄력성과 % 해석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../multiple-regression/index.html">다중회귀분석 — 여러 변수를 함께</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b1.html">1. 보고서 — 서울 아파트 값은 무엇으로 정해지나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b2.html">2. 다른 조건이 같다면 — 다중회귀분석의 계수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b3.html">3. 숫자가 아닌 변수 — 더미 변수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b4.html">4. 효과가 집단마다 다를 때 — 상호작용</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b5.html">5. 직선으로 부족할 때 — 제곱항</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../health-survey/index.html">횡단면 분석 — 학력과 혈압</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h1.html">1. 보고서 — 학력이 높을수록 혈압이 낮을까</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h2.html">2. 표본이 모집단을 닮게 — 가중치와 표본설계</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h3.html">3. 다른 조건이 같다면 — 계수는 무엇을 비교하나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h4.html">4. 회귀식 밖에 남은 것 — 설명력, 빠진 변수, 남녀의 차이</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h5.html">5. 약 먹고 잰 혈압 — 표본을 정하는 판단과 거꾸로 된 순서</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h6.html">6. 횡단면이 말해 주지 않는 것 — 측정과 자료의 범위</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-prompt.html">직접 해 보기 1 — 자료는 내 컴퓨터에, AI에는 질문만</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../panel-data/index.html">패널 데이터 분석 — FTA와 수출</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p1.html">1. 보고서 — FTA는 한국의 수출을 늘렸나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p2.html">2. 단체 사진과 사진첩 — 횡단면과 패널</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p3.html">3. 어제의 나와 비교하기 — 고정효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p4.html">4. 두 가지 차이를 섞기 — 확률효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p5.html">5. 무엇을 고르나 — 하우스만 검정과 연도 효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../causal-inference/index.html">인과 추론 — 공정한 비교를 찾아서</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c1.html">1. 보고서 — 일자리 제공 프로그램은 소득을 올렸나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c2.html">2. 같은 사람의 두 가지 미래 — 인과 효과와 실험</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c3.html">3. 엉뚱한 비교 상대 — 교란</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c4.html">4. 조건을 맞추면 — 통제의 계단</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c5.html">5. 넣으면 안 되는 변수 — 매개, 총효과, 나쁜 통제</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c6.html">6. 실험이 없을 때 — 설계의 지도</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../difference-in-differences/index.html">이중차분 — 허가구역과 아파트 거래</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/section-d1.html">1. 보고서 — 토지거래허가구역은 거래를 얼마나 줄였나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/section-d2.html">2. 변화로 비교하기 — 대역을 세운다</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/section-d3.html">3. 나란히 움직였을까 — 지정 전 다섯 달</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/section-d4.html">4. 정답이 있는 예 — 나란하지 않으면 얼마나 빗나가나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">설문으로 측정하기 — 문항 여러 개로 개념 하나를</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="section-m1.html">1. 보고서 — 성격 검사 50문항은 다섯 성격을 제대로 측정하나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-m2.html">2. 문항 여러 개로 개념 하나를 — 척도와 역문항</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-m3.html">3. 함께 움직이는가 — 크론바흐 α와 문항 수</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">4. 저절로 다섯 덩어리로 묶이나 — 요인분석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-m5.html">5. 측정이 거칠면 관계가 약해진다 — 감쇠와 설문의 함정</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/pilsunchoi/book5" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="소스 저장소"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="이 페이지 다운로드">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/survey-measurement/section-m4.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="소스 파일 다운로드"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="PDF로 인쇄"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="전체 화면으로보기"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>4. 저절로 다섯 덩어리로 묶이나 — 요인분석</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 내용 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">과목 표시를 지운 시험지 — 함께 맞히는 문제끼리 묶기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">요인과 적재값</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4"><a class="report-fig-link" href="../_static/report-figure-survey-measurement.png" rel="noopener" target="_blank">보고서의 그림</a> 읽기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">몇 개로 묶을까 — 고유값과 꺾이는 곳</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">회전 — 같은 결과를 보기 좋은 각도에서</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">보고서에서 만날 다른 이름들</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>4. 저절로 다섯 덩어리로 묶이나 — 요인분석<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>보고서 요약의 둘째 줄은 이렇습니다.</p>
+<blockquote>
+<div><p>50문항으로 요인분석을 하면 <strong>모든 문항이 자기 성격의 요인에 가장 크게 실려, 문항이 성격별로 다섯 덩어리로 나뉜다</strong>.</p>
+</div></blockquote>
+<p>앞 절의 크론바흐 α는 “외향성 문항은 E1 ~ E10”처럼 묶음을 미리 정해 놓고, 그 묶음 안의 문항들이 함께 움직이는지를 확인했습니다. 요인분석은 거꾸로 묻습니다. 어느 문항이 어느 성격인지 알려 주지 않고 50문항을 한꺼번에 넣었을 때, 자료가 스스로 문항을 몇 개의 묶음으로 나누는가 하는 물음입니다. 미리 답부터 말하면, <strong>요인분석은 함께 움직이는 문항끼리 묶어 그 뒤에 있는 보이지 않는 공통 원인(요인)을 찾는 방법이고, 이 자료에서는 50문항이 검사를 만든 사람이 정한 그대로 다섯 덩어리로 묶였습니다.</strong> 이 절에서는 요인과 적재값이 무엇인지 먼저 보고, <a class="report-fig-link" href="../_static/report-figure-survey-measurement.png" target="_blank" rel="noopener">보고서의 그림</a>을 읽은 뒤, 요인을 몇 개로 할지 정하는 법과 회전이 무엇인지를 봅니다.</p>
+<section id="id2">
+<h2>과목 표시를 지운 시험지 — 함께 맞히는 문제끼리 묶기<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>시험 문제와 실력으로 돌아가 봅시다. 국어 문제와 수학 문제가 25개씩 섞인 시험지가 있는데, 문제마다 붙어 있던 과목 표시를 누가 지워 버렸습니다. 학생 수백 명이 이 시험을 봤고, 우리 손에는 학생마다 어느 문제를 맞히고 틀렸는지의 기록만 있습니다. 문제를 읽지 않고 이 기록만으로 국어 문제와 수학 문제를 가려낼 수 있을까요?</p>
+<p>가려낼 수 있습니다. 수학을 잘하는 학생은 수학 문제들을 함께 맞히고, 국어를 잘하는 학생은 국어 문제들을 함께 맞힙니다. 그래서 어떤 문제들이 같은 학생들에게서 함께 맞고 함께 틀리는지를 보면, 함께 움직이는 문제끼리 두 무리로 나뉩니다. 한 무리를 들여다보니 모두 방정식과 도형 문제라면, 그 무리 뒤에 있는 것은 수학 실력이라고 이름 붙일 수 있습니다.</p>
+<p>요인분석이 하는 일이 이것입니다. 50문항의 답에서 어느 문항들이 함께 움직이는지를 보고, 문항들을 함께 움직이게 하는 보이지 않는 원인을 몇 개 찾아냅니다. 이 장의 보고서처럼 미리 정한 묶음 없이 자료에서 묶음을 찾는 것을 <strong>탐색적 요인분석</strong>(exploratory factor analysis)이라고 부릅니다.</p>
+</section>
+<section id="id3">
+<h2>요인과 적재값<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>여러 문항을 함께 움직이게 하는 보이지 않는 공통 원인을 <strong>요인</strong>(factor)이라고 부릅니다. 2절에서 본 구성개념(외향성처럼 직접 관측할 수 없는 개념)을 계산으로 찾아낸 것이 요인이라고 생각하면 됩니다. 그림 4-1은 외향성 요인 하나와 문항 세 개의 관계를 그린 것입니다.</p>
+<p><img alt="요인과 문항" src="../_images/fig_m4_1_factor.svg" /></p>
+<p><strong>그림 4-1.</strong> 보이지 않는 외향성 요인 하나가 문항 세 개의 답을 함께 움직인다. 적재값은 베리맥스 회전 뒤의 값이다.</p>
+<p>그림에서 보듯이 왼쪽의 외향성은 보이지 않고, 오른쪽의 문항 답만 보입니다. 외향성이 높은 사람은 세 문항 모두에 외향적으로 답하므로, 세 문항이 함께 움직입니다. 하지만 문항의 답이 외향성만으로 정해지지는 않습니다. 문장을 어떻게 받아들였는지, 그 문항에만 해당하는 사정(모임에 갈 일이 별로 없는 사람이라든가)도 들어 있습니다. 그림의 “문항마다의 몫”이 그것입니다. 앞 절에서 말한 문항마다의 운과 같은 것입니다.</p>
+<p>문항이 요인과 얼마나 강하게 함께 움직이는지를 나타내는 숫자를 <strong>요인 적재값</strong>(factor loading)이라고 부릅니다. 대개 −1과 1 사이이고, 0이면 그 요인과 아무 관계가 없다는 뜻, 1에 가까울수록 문항의 답이 거의 그 요인만으로 정해진다는 뜻입니다. 음수이면 거꾸로 움직인다는 뜻입니다. 그림 4-1에서 E7(“나는 모임에서 여러 사람과 이야기한다”)의 적재값 0.75는 E1의 0.67보다 커서, E7의 답이 외향성을 조금 더 잘 보여 준다는 뜻입니다. 역문항 E4는 뒤집은 답으로 계산해 0.70이 나왔습니다.</p>
+<p>요인분석은 이런 적재값을 모든 문항과 모든 요인의 짝마다 하나씩 계산합니다. 문항 50개, 요인 5개이니 숫자가 250개입니다. <a class="report-fig-link" href="../_static/report-figure-survey-measurement.png" target="_blank" rel="noopener">보고서의 그림</a>은 그 250개를 칸의 진하기로 그린 것입니다.</p>
+</section>
+<section id="id4">
+<h2><a class="report-fig-link" href="../_static/report-figure-survey-measurement.png" target="_blank" rel="noopener">보고서의 그림</a> 읽기<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p><a class="report-fig-link" href="../_static/report-figure-survey-measurement.png" target="_blank" rel="noopener">보고서의 그림</a>은 가로로 50문항을 성격별로 10개씩, 세로로 요인 다섯 개를 놓았습니다. 진한 칸이 왼쪽 위에서 오른쪽 아래로 계단처럼 다섯 덩어리를 이룹니다. 요인 1에는 외향성 문항 10개가, 요인 2에는 신경성 문항 10개가 진하게 실렸고, 나머지도 그렇습니다. 요인분석에는 어느 문항이 어느 성격인지 알려 주지 않았는데, 함께 움직이는 문항끼리 묶어 보니 검사를 만든 사람이 정한 묶음이 그대로 나온 것입니다. 50문항이 모두 자기 성격의 요인에 가장 크게 실렸습니다.</p>
+<p>다만 이 계단 모양은 요인을 성격 순서대로 늘어놓았기 때문에 보기 좋게 나온 것이기도 합니다. 요인분석이 내놓는 요인에는 순서도 이름도 없습니다. 어느 요인에 “외향성”이라는 이름을 붙이는 것은 그 요인에 진하게 실린 문항들을 읽어 보고 사람이 하는 해석입니다. 보고서가 요인에 성격 이름을 붙이지 않고 “요인 1 ~ 5”로 적은 것도 그래서입니다.</p>
+<p>칸 하나하나의 숫자는 표 4-1처럼 읽습니다. 보고서의 해석과 주에 나온 문항을 포함해 여덟 문항을 골랐습니다.</p>
+<p><strong>표 4-1.</strong> 문항 여덟 개의 요인 적재값</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>문항</p></th>
+<th class="head"><p>요인 1</p></th>
+<th class="head"><p>요인 2</p></th>
+<th class="head"><p>요인 3</p></th>
+<th class="head"><p>요인 4</p></th>
+<th class="head"><p>요인 5</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>E1 나는 모임의 분위기를 띄우는 사람이다</p></td>
+<td><p><strong>0.67</strong></p></td>
+<td><p>−0.04</p></td>
+<td><p>0.05</p></td>
+<td><p>0.00</p></td>
+<td><p>0.05</p></td>
+</tr>
+<tr class="row-odd"><td><p>E7 나는 모임에서 여러 사람과 이야기한다</p></td>
+<td><p><strong>0.75</strong></p></td>
+<td><p>−0.09</p></td>
+<td><p>0.13</p></td>
+<td><p>0.04</p></td>
+<td><p>0.03</p></td>
+</tr>
+<tr class="row-even"><td><p>N8 나는 기분이 자주 오락가락한다</p></td>
+<td><p>−0.05</p></td>
+<td><p><strong>0.76</strong></p></td>
+<td><p>−0.05</p></td>
+<td><p>−0.14</p></td>
+<td><p>−0.01</p></td>
+</tr>
+<tr class="row-odd"><td><p>N4 나는 기분이 가라앉는 일이 드물다(역)</p></td>
+<td><p>−0.15</p></td>
+<td><p><strong>0.31</strong></p></td>
+<td><p>0.04</p></td>
+<td><p>−0.09</p></td>
+<td><p>0.05</p></td>
+</tr>
+<tr class="row-even"><td><p>A4 나는 다른 사람의 감정에 공감한다</p></td>
+<td><p>0.06</p></td>
+<td><p>0.03</p></td>
+<td><p><strong>0.79</strong></p></td>
+<td><p>0.04</p></td>
+<td><p>0.01</p></td>
+</tr>
+<tr class="row-odd"><td><p>A3 나는 사람들을 모욕한다(역)</p></td>
+<td><p>−0.07</p></td>
+<td><p>−0.27</p></td>
+<td><p><strong>0.39</strong></p></td>
+<td><p>0.19</p></td>
+<td><p>−0.08</p></td>
+</tr>
+<tr class="row-even"><td><p>C4 나는 일을 엉망으로 만든다(역)</p></td>
+<td><p>0.08</p></td>
+<td><p>−0.37</p></td>
+<td><p>0.03</p></td>
+<td><p><strong>0.55</strong></p></td>
+<td><p>0.00</p></td>
+</tr>
+<tr class="row-odd"><td><p>O9 나는 이것저것 곰곰이 생각한다</p></td>
+<td><p>−0.14</p></td>
+<td><p>0.15</p></td>
+<td><p>0.19</p></td>
+<td><p>0.03</p></td>
+<td><p><strong>0.33</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>주: 50문항 모두 답한 19,718명, 탐색적 요인분석(5요인, 베리맥스 회전). 역문항은 뒤집은 답으로 계산했다. 굵은 숫자가 자기 성격의 요인이다.</p>
+<p>표에서 보듯이 E7, N8, A4는 자기 요인에 0.75 이상으로 크게 실리고 다른 요인에는 0에 가깝습니다. 한 가지만 측정하는, 깨끗한 문항입니다. N4와 O9는 자기 요인에 실리기는 하지만 0.31과 0.33으로 약합니다. 보고서가 “약한 문항”으로 꼽은 두 문항입니다. 흔히 적재값 0.4를 문항이 요인에 제대로 실렸는지 가르는 기준으로 쓰는데, 크론바흐 α의 0.7처럼 관행으로 쓰이는 숫자입니다. 이 자료에서 0.4에 못 미치는 문항은 다섯 개입니다.</p>
+<p>C4(“나는 일을 엉망으로 만든다”)는 다른 모습을 보입니다. 자기 요인인 요인 4(성실성)에 0.55로 실리면서, 요인 2(신경성)에도 −0.37로 꽤 실립니다. 일을 엉망으로 만든다고 답하는 사람이 성실성이 낮은 쪽으로도, 신경성이 높은 쪽으로도 기운다는 뜻입니다. 이처럼 한 문항이 두 요인에 함께 실리는 것을 <strong>교차 적재</strong>(cross-loading)라고 부릅니다. <a class="report-fig-link" href="../_static/report-figure-survey-measurement.png" target="_blank" rel="noopener">보고서의 그림</a> 주에 “다른 요인 적재값은 가장 큰 것이 0.37”이라고 적힌 것이 이 문항입니다. 교차 적재가 큰 문항은 두 가지를 섞어 측정하므로, 척도를 새로 만들 때는 빼는 경우가 많습니다.</p>
+<p><a class="report-fig-link" href="../_static/report-figure-survey-measurement.png" target="_blank" rel="noopener">보고서의 그림</a> 주에 있는 “다섯 요인이 설명한 분산 40%”도 같은 생각으로 읽습니다. 문항의 답이 흩어진 정도 가운데 다섯 요인과 함께 움직이는 몫이 평균 40%이고, 나머지 60%는 그림 4-1의 “문항마다의 몫”이라는 뜻입니다. 문항마다 다르게 나오는데, A4는 63%로 가장 크고 N4는 13%로 가장 작습니다. 설문 문항 하나의 답에는 원래 그 문항만의 몫이 많이 들어 있습니다. 문항 하나로 측정하지 않고 여러 개를 모으는 까닭이 여기서도 보입니다.</p>
+</section>
+<section id="id5">
+<h2>몇 개로 묶을까 — 고유값과 꺾이는 곳<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<p>보고서는 요인을 다섯 개로 정해 놓고 분석했습니다. 이 검사가 다섯 성격을 측정하려고 만든 것이니 자연스럽습니다. 그런데 자기 설문을 처음 분석할 때는 요인이 몇 개인지 모르는 경우가 많습니다. 그럴 때 먼저 보는 숫자가 <strong>고유값</strong>(eigenvalue)입니다.</p>
+<p>고유값은 요인 하나가 문항들의 흩어짐을 얼마나 설명하는지를 “문항 몇 개 몫”으로 나타낸 숫자입니다. 문항이 50개이니 고유값을 모두 더하면 50이 됩니다. 이 자료에서 가장 큰 요인의 고유값은 8.05로, 문항 8개 몫을 혼자 설명합니다. 그림 4-2는 고유값을 큰 순서대로 15개 늘어놓은 것입니다. 이런 그림을 <strong>스크리 그림</strong>(scree plot)이라고 부릅니다. 스크리는 산비탈 아래에 무너져 쌓인 돌무더기를 가리키는 말인데, 그림의 모양이 가파른 비탈 뒤에 완만한 돌무더기가 이어지는 모습이라 붙은 이름입니다.</p>
+<p><img alt="고유값" src="../_images/fig_m4_2_scree.png" /></p>
+<p><strong>그림 4-2.</strong> 50문항의 고유값(큰 순서대로 15개). 고유값을 모두 더하면 문항 수 50이 된다.</p>
+<p>그림에서 보듯이 고유값은 처음 다섯 개가 8.05, 4.62, 3.75, 3.55, 2.76으로 크고, 여섯째부터 1.57, 1.33, 1.05, …로 뚝 떨어져 완만해집니다. 요인 수를 정하는 흔한 방법은 둘입니다.</p>
+<ul class="simple">
+<li><p><strong>고유값이 1을 넘는 요인만 남긴다.</strong> 문항 하나 몫보다 많이 설명하는 요인만 쓰겠다는 생각입니다. 이 자료에서는 8개가 1을 넘습니다.</p></li>
+<li><p><strong>그래프가 꺾이는 곳까지 남긴다.</strong> 가파른 비탈이 끝나고 돌무더기가 시작되는 곳 앞까지만 의미 있는 요인으로 봅니다. 이 자료에서는 다섯째 요인 뒤에서 꺾입니다.</p></li>
+</ul>
+<p>두 방법의 답이 8과 5로 다릅니다. 이런 일은 흔합니다. 고유값 1의 기준은 문항이 많을 때 요인을 너무 많이 남기는 경향이 있다고 흔히 말합니다. 결국 요인 수는 숫자 하나가 정해 주지 않고, 꺾이는 곳과 함께 요인마다 실린 문항을 읽어 보고 뜻이 통하는 묶음인지로 정합니다. 이 자료에서는 다섯으로 묶었을 때 모든 문항이 자기 성격에 실려 뜻이 분명했습니다.</p>
+<blockquote>
+<div><p><strong>참고:</strong>
+고유값은 요인 수를 가늠하려고 요인분석 전에 하는 간단한 계산(주성분분석)에서 나옵니다. 요인분석 자체는 문항마다의 몫을 따로 떼어 두고 계산하므로, 처음 다섯 고유값을 더한 22.7을 50으로 나눈 약 45%는 보고서의 “다섯 요인이 설명한 분산 40%”와 꼭 같지 않습니다. 요인 수를 정하는 데는 이 차이가 문제 되지 않습니다.</p>
+</div></blockquote>
+</section>
+<section id="id6">
+<h2>회전 — 같은 결과를 보기 좋은 각도에서<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
+<p><a class="report-fig-link" href="../_static/report-figure-survey-measurement.png" target="_blank" rel="noopener">보고서의 그림</a> 설명에는 “베리맥스 회전”이라는 말이 있습니다. 요인분석은 처음에 가장 큰 요인부터 차례로 뽑습니다. 그렇게 뽑은 그대로의 적재값은 대개 읽기 어렵습니다. 그림 4-3의 위 패널이 그 모습이고, 아래 패널이 회전한 뒤의 모습입니다.</p>
+<p><img alt="회전 전과 후의 적재값" src="../_images/fig_m4_3_rotation.png" /></p>
+<p><strong>그림 4-3.</strong> 회전하기 전(위)과 베리맥스 회전 뒤(아래)의 요인 적재값. 같은 자료, 같은 다섯 요인이다.</p>
+<p>그림에서 보듯이 회전하기 전에는 요인 1에 외향성, 신경성, 친화성 문항이 두루 실려 있습니다. 50문항 가운데 29개가 요인 1에 0.3 이상으로 실립니다. 가장 큰 요인부터 뽑다 보니 여러 성격에 걸친 큰 덩어리가 먼저 뽑힌 것입니다. 이대로는 요인 1이 무엇인지 이름을 붙이기 어렵습니다. 회전한 뒤에는 문항마다 한 요인에만 진하게 실려 다섯 덩어리가 또렷합니다.</p>
+<p>회전은 결과를 바꾸는 것이 아니라 보는 각도를 바꾸는 것입니다. 같은 조각상을 정면에서 찍으면 팔이 몸에 가려 보이지 않지만, 옆으로 조금 돌아가서 찍으면 팔과 몸이 따로 보입니다. 조각상은 그대로입니다. 요인분석의 회전도 다섯 요인이 함께 설명하는 몫(40%)은 그대로 두고, 그 몫을 다섯 요인이 나눠 갖는 방식만 바꿔 문항마다 한 요인에 몰리게 합니다. 회전 전과 후 모두 다섯 요인이 설명한 분산은 40%입니다.</p>
+<p><strong>베리맥스</strong>(varimax)는 요인끼리 서로 관계가 없다고 두고 돌리는 가장 흔한 회전입니다. 요인끼리 관계가 있어도 되게 돌리는 방법(오블리민 같은 사각 회전)도 있습니다. 성격 다섯 가지가 서로 전혀 관계없지는 않을 수 있어 사각 회전을 쓰는 연구도 많습니다. 보고서에서 회전 이름을 만나면 “적재값을 읽기 좋게 돌렸구나” 하고 읽으면 됩니다.</p>
+</section>
+<section id="id7">
+<h2>보고서에서 만날 다른 이름들<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
+<p>설문 연구의 보고서에는 이 장의 보고서에 없는 이름들도 자주 나옵니다. 모두 이 절의 생각 위에 있으므로, 이름과 자리만 알아 두면 읽을 수 있습니다.</p>
+<ul class="simple">
+<li><p><strong>KMO</strong>(Kaiser-Meyer-Olkin)와 <strong>바틀렛 검정</strong>(Bartlett’s test): 요인분석을 하기 전에, 문항들이 요인분석을 할 만큼 서로 함께 움직이는지를 점검하는 숫자입니다. 문항들이 서로 거의 관계없이 따로 움직이면 묶을 것이 없기 때문입니다. KMO는 0과 1 사이이고 클수록 요인분석에 알맞다는 뜻이며, 바틀렛 검정은 “문항들이 서로 아무 관계도 없다”는 가설을 검정해 <span class="math notranslate nohighlight">\(p\)</span>값이 작으면 요인분석을 해 볼 만하다는 뜻입니다.</p></li>
+<li><p><strong>확인적 요인분석</strong>(confirmatory factor analysis): 탐색적 요인분석이 묶음을 자료에서 찾는다면, 확인적 요인분석은 “E1 ~ E10은 외향성, N1 ~ N10은 신경성”처럼 묶음을 미리 정해 놓고 자료가 그 묶음과 잘 맞는지 확인합니다. 앞 절의 크론바흐 α와 같은 방향의 물음을 더 엄밀하게 묻는 셈입니다. 결과에는 묶음이 자료와 얼마나 잘 맞는지를 나타내는 적합도 지수(CFI, TLI, RMSEA 같은 이름)가 붙습니다.</p></li>
+<li><p><strong>구조방정식 모형</strong>(structural equation model, SEM): 확인적 요인분석으로 구성개념을 측정하고, 그 구성개념끼리의 관계(직무 만족이 이직 의도에 미치는 영향 같은)를 회귀식처럼 한꺼번에 추정하는 모형입니다. 경영학 설문 연구에서 가장 많이 쓰이는 모형이고, 그 변형인 PLS-SEM도 자주 보입니다. 측정 부분의 결과에는 이 장에서 본 적재값과 신뢰도가 그대로 나오고, 숫자 둘이 함께 실리는 경우가 많습니다. 개념 신뢰도(CR)는 크론바흐 α처럼 문항들이 일관되게 측정하는 정도를 나타내고, 평균분산추출(AVE)은 문항들의 답이 흩어진 정도 가운데 그 구성개념이 평균으로 얼마를 설명하는지를 나타냅니다.</p></li>
+</ul>
+<p>이 책은 이 모형들을 직접 다루지 않습니다. 보고서에서 만나면, 측정 부분은 이 장의 적재값과 신뢰도로, 구성개념끼리의 관계는 회귀분석의 계수로 읽으면 됩니다.</p>
+<p>💡 <strong>팁:</strong> 자기 설문의 문항이 몇 개의 묶음으로 나뉘는지 보고 싶다면 AI에게 이렇게 요청해 보세요. “역문항을 뒤집은 리커트 문항으로 탐색적 요인분석을 해 줘. 먼저 KMO와 바틀렛 검정, 고유값과 스크리 그림을 보여 주고, 요인 수는 스크리 그림과 문항의 뜻을 함께 보고 제안해 줘. 회전은 베리맥스로 하고, 적재값 표에서 0.4 미만인 문항과 두 요인에 0.3 이상 실리는 교차 적재 문항을 표시해 줘.” 요인 수는 AI의 제안을 그대로 받지 말고, 요인마다 실린 문항을 직접 읽어 보고 뜻이 통하는지 확인합니다.</p>
+<blockquote>
+<div><p><strong>요약 — 이 절의 물음과 답</strong></p>
+<ul class="simple">
+<li><p><strong>요인분석은 무엇을 하나?</strong> 어느 문항들이 같은 사람에게서 함께 움직이는지를 보고, 그 뒤에 있는 보이지 않는 공통 원인(요인)을 찾아 문항을 묶는다. 과목 표시를 지운 시험지에서 함께 맞히는 문제끼리 묶어 수학 문제와 국어 문제를 가려내는 것과 같다. 이 자료에서는 50문항이 검사를 만든 사람이 정한 다섯 성격으로 그대로 묶였다.</p></li>
+<li><p><strong>적재값은 어떻게 읽나?</strong> 문항이 요인과 얼마나 강하게 함께 움직이는지다. 자기 요인에 크고 다른 요인에 0에 가까우면 한 가지만 측정하는 깨끗한 문항이고, 자기 요인에도 작으면 약한 문항, 두 요인에 함께 크면 두 가지를 섞어 측정하는 문항이다.</p></li>
+<li><p><strong>요인 수와 회전은 누가 정하나?</strong> 요인 수는 고유값이 꺾이는 곳과 문항의 뜻을 함께 보고 사람이 정한다. 회전은 결과를 바꾸지 않고 보는 각도를 바꿔, 문항마다 한 요인에 몰리게 해서 읽기 쉽게 한다.</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./survey-measurement"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="section-m3.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">이전</p>
+        <p class="prev-next-title">3. 함께 움직이는가 — 크론바흐 α와 문항 수</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="section-m5.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">다음</p>
+        <p class="prev-next-title">5. 측정이 거칠면 관계가 약해진다 — 감쇠와 설문의 함정</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 내용
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">과목 표시를 지운 시험지 — 함께 맞히는 문제끼리 묶기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">요인과 적재값</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4"><a class="report-fig-link" href="../_static/report-figure-survey-measurement.png" rel="noopener" target="_blank">보고서의 그림</a> 읽기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">몇 개로 묶을까 — 고유값과 꺾이는 곳</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">회전 — 같은 결과를 보기 좋은 각도에서</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">보고서에서 만날 다른 이름들</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>© 2026 최필선</p>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

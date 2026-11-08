@@ -1,0 +1,979 @@
+
+<!DOCTYPE html>
+
+
+<html lang="ko" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="직접 해 보기 2 — 파이썬 코드로 따라 해 보기" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://pilsunchoi.github.io/book5/survey-measurement/practice-notebook.html" />
+<meta property="og:site_name" content="AI 데이터 분석" />
+<meta property="og:description" content="AI가 내놓은 결과만 보고 그것이 어떻게 나왔는지 모르면, 그 결과를 믿을 근거도 없다. AI도 실수를 하므로 결과는 점검해야 하고, 점검하려면 결과를 만든 파이썬 코드를 읽을 줄 알아야 한다. 이 노트북은 이 장에서 다룬 계산을 파이썬으로 직접 해 본다. 척도 점수와 크론바흐 α..." />
+<meta name="description" content="AI가 내놓은 결과만 보고 그것이 어떻게 나왔는지 모르면, 그 결과를 믿을 근거도 없다. AI도 실수를 하므로 결과는 점검해야 하고, 점검하려면 결과를 만든 파이썬 코드를 읽을 줄 알아야 한다. 이 노트북은 이 장에서 다룬 계산을 파이썬으로 직접 해 본다. 척도 점수와 크론바흐 α..." />
+
+    <title>직접 해 보기 2 — 파이썬 코드로 따라 해 보기 &#8212; AI 데이터 분석</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=18f25a40" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=ae323b5b"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = '표시하려면 클릭';</script>
+    <script>let toggleHintHide = '숨기려면 클릭';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/translations.js?v=e33e7ba0"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'survey-measurement/practice-notebook';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="색인" href="../genindex.html" />
+    <link rel="search" title="검색" href="../search.html" />
+    <link rel="prev" title="직접 해 보기 1 — 프롬프트로 내 보고서 받기" href="practice-prompt.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="ko"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.png" class="logo__image only-light" alt="AI 데이터 분석"/>
+    <img src="../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="AI 데이터 분석"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../simple-regression/index.html">단순회귀분석 — 직선 하나로 관계 읽기</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a1.html">1. 보고서 — 노원구에서 1㎡는 얼마인가</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a2.html">2. 직선은 어떻게 정해지나 — 잔차와 최소제곱</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a3.html">3. 이 기울기를 믿어도 되나 — 표준오차, 신뢰구간, <span class="math notranslate nohighlight">\(p\)</span>값</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a4.html">4. 얼마나 설명하나 — <span class="math notranslate nohighlight">\(R^2\)</span>과 잔차</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a5.html">5. 로그로 읽는 가격 — 탄력성과 % 해석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../multiple-regression/index.html">다중회귀분석 — 여러 변수를 함께</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b1.html">1. 보고서 — 서울 아파트 값은 무엇으로 정해지나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b2.html">2. 다른 조건이 같다면 — 다중회귀분석의 계수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b3.html">3. 숫자가 아닌 변수 — 더미 변수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b4.html">4. 효과가 집단마다 다를 때 — 상호작용</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b5.html">5. 직선으로 부족할 때 — 제곱항</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../health-survey/index.html">횡단면 분석 — 학력과 혈압</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h1.html">1. 보고서 — 학력이 높을수록 혈압이 낮을까</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h2.html">2. 표본이 모집단을 닮게 — 가중치와 표본설계</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h3.html">3. 다른 조건이 같다면 — 계수는 무엇을 비교하나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h4.html">4. 회귀식 밖에 남은 것 — 설명력, 빠진 변수, 남녀의 차이</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h5.html">5. 약 먹고 잰 혈압 — 표본을 정하는 판단과 거꾸로 된 순서</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h6.html">6. 횡단면이 말해 주지 않는 것 — 측정과 자료의 범위</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-prompt.html">직접 해 보기 1 — 자료는 내 컴퓨터에, AI에는 질문만</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../panel-data/index.html">패널 데이터 분석 — FTA와 수출</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p1.html">1. 보고서 — FTA는 한국의 수출을 늘렸나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p2.html">2. 단체 사진과 사진첩 — 횡단면과 패널</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p3.html">3. 어제의 나와 비교하기 — 고정효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p4.html">4. 두 가지 차이를 섞기 — 확률효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p5.html">5. 무엇을 고르나 — 하우스만 검정과 연도 효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../causal-inference/index.html">인과 추론 — 공정한 비교를 찾아서</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c1.html">1. 보고서 — 일자리 제공 프로그램은 소득을 올렸나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c2.html">2. 같은 사람의 두 가지 미래 — 인과 효과와 실험</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c3.html">3. 엉뚱한 비교 상대 — 교란</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c4.html">4. 조건을 맞추면 — 통제의 계단</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c5.html">5. 넣으면 안 되는 변수 — 매개, 총효과, 나쁜 통제</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c6.html">6. 실험이 없을 때 — 설계의 지도</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../difference-in-differences/index.html">이중차분 — 허가구역과 아파트 거래</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/section-d1.html">1. 보고서 — 토지거래허가구역은 거래를 얼마나 줄였나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/section-d2.html">2. 변화로 비교하기 — 대역을 세운다</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/section-d3.html">3. 나란히 움직였을까 — 지정 전 다섯 달</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/section-d4.html">4. 정답이 있는 예 — 나란하지 않으면 얼마나 빗나가나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">설문으로 측정하기 — 문항 여러 개로 개념 하나를</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="section-m1.html">1. 보고서 — 성격 검사 50문항은 다섯 성격을 제대로 측정하나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-m2.html">2. 문항 여러 개로 개념 하나를 — 척도와 역문항</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-m3.html">3. 함께 움직이는가 — 크론바흐 α와 문항 수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-m4.html">4. 저절로 다섯 덩어리로 묶이나 — 요인분석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-m5.html">5. 측정이 거칠면 관계가 약해진다 — 감쇠와 설문의 함정</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/pilsunchoi/book5" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="소스 저장소"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="이 페이지 다운로드">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/survey-measurement/practice-notebook.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="소스 파일 다운로드"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="PDF로 인쇄"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="전체 화면으로보기"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>직접 해 보기 2 — 파이썬 코드로 따라 해 보기</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 내용 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">준비 — 패키지와 글꼴</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">1. 데이터 읽기 — 원 사이트에서 바로</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">2. 척도와 채점 키 — 역문항 뒤집기와 척도 점수</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">3. 크론바흐 α — 보고서의 표</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">문항 수와 α — 그림 3-2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">문항 하나를 빼면 — 표 3-2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">4. 요인분석 — 보고서의 그림</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">문항 몇 개의 적재값 — 표 4-1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">몇 개로 묶을까 — 고유값(그림 4-2)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">회전 — 같은 결과를 보기 좋은 각도에서</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">5. 감쇠 — 문항 하나로 측정하면</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">6. 더 해 보기: 채점 키를 자료에서 짐작하면</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">7. 더 해 보기: 하만 단일요인검정</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">정리</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>직접 해 보기 2 — 파이썬 코드로 따라 해 보기<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>AI가 내놓은 결과만 보고 그것이 어떻게 나왔는지 모르면, 그 결과를 믿을 근거도 없다. AI도 실수를 하므로 결과는 점검해야 하고, 점검하려면 결과를 만든 파이썬 코드를 읽을 줄 알아야 한다.</p>
+<p>이 노트북은 이 장에서 다룬 계산을 파이썬으로 직접 해 본다. 척도 점수와 크론바흐 α는 평균과 분산만으로 계산하고, 요인분석은 <code class="docutils literal notranslate"><span class="pre">sklearn</span></code>의 <code class="docutils literal notranslate"><span class="pre">FactorAnalysis</span></code> 하나로 한다. 모든 계산을 다섯 성격에 똑같이 하므로, 외향성 말고 다른 척도의 결과도 함께 볼 수 있다.</p>
+<ol class="arabic simple">
+<li><p>데이터 읽기 — 원 사이트에서 바로</p></li>
+<li><p>척도와 채점 키 — 역문항 뒤집기와 척도 점수(표 2-1, 그림 2-2)</p></li>
+<li><p>크론바흐 α — 보고서의 표, 뒤집기 전과 뒤, 문항 수, 문항 하나를 빼면(표 3-1, 그림 3-2, 표 3-2)</p></li>
+<li><p>요인분석 — 보고서의 그림, 고유값, 회전(표 4-1, 그림 4-2)</p></li>
+<li><p>감쇠 — 문항 하나로 측정하면(그림 5-1, 표 5-1)</p></li>
+<li><p>더 해 보기: 채점 키를 자료에서 짐작하면</p></li>
+<li><p>더 해 보기: 하만 단일요인검정</p></li>
+</ol>
+<section id="id2">
+<h2>준비 — 패키지와 글꼴<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">import</span></code>로 쓸 패키지를 불러온다. <code class="docutils literal notranslate"><span class="pre">as</span></code> 뒤의 이름은 줄임말이고, 이후 코드에서는 <code class="docutils literal notranslate"><span class="pre">pd</span></code>, <code class="docutils literal notranslate"><span class="pre">smf</span></code>처럼 줄임말로 부른다. 이 장에서 쓰는 패키지는 모두 Anaconda와 Colab에 기본으로 들어 있다.</p>
+<p>matplotlib는 기본 글꼴에 한글이 없어서 그림의 한글이 네모로 깨진다. 그래서 한글 글꼴을 지정한다. 윈도우는 맑은 고딕(<code class="docutils literal notranslate"><span class="pre">Malgun</span> <span class="pre">Gothic</span></code>), 맥은 애플고딕(<code class="docutils literal notranslate"><span class="pre">AppleGothic</span></code>)을 쓴다. Colab에는 한글 글꼴이 없으므로 새 셀에서 <code class="docutils literal notranslate"><span class="pre">!apt-get</span> <span class="pre">-qq</span> <span class="pre">install</span> <span class="pre">fonts-nanum</span></code>을 실행하고, 런타임을 다시 시작한 뒤 <code class="docutils literal notranslate"><span class="pre">NanumGothic</span></code>을 지정한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">io</span><span class="o">,</span><span class="w"> </span><span class="nn">os</span><span class="o">,</span><span class="w"> </span><span class="nn">zipfile</span><span class="o">,</span><span class="w"> </span><span class="nn">urllib.request</span>             <span class="c1"># 파일 확인, 원 사이트에서 압축 파일 받기</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>                                 <span class="c1"># 무작위 뽑기, 고유값</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>                                <span class="c1"># 표(데이터프레임) 다루기</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.formula.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">smf</span>              <span class="c1"># 회귀분석</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">FactorAnalysis</span>   <span class="c1"># 요인분석</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>                    <span class="c1"># 그림</span>
+
+<span class="c1"># 그림의 한글 글꼴</span>
+<span class="c1"># 맥은 'AppleGothic', Colab은 'NanumGothic'(설치 필요)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'font.family'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Malgun Gothic'</span>   <span class="c1"># 윈도우</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'axes.unicode_minus'</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>      <span class="c1"># 음수 부호(-) 깨짐 방지</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id3">
+<h2>1. 데이터 읽기 — 원 사이트에서 바로<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>이 장의 자료는 Open Psychometrics Project가 공개한 성격 검사 원자료다(2012년 무렵 수집). 재배포를 허락하는 이용 조건이 없어서 책 사이트에는 파일을 두지 않았고, 이 노트북이 원 사이트에서 바로 읽는다(인터넷에 연결돼 있어야 한다). BIG5.zip이라는 압축 파일 안에 <code class="docutils literal notranslate"><span class="pre">data.csv</span></code>(답)와 <code class="docutils literal notranslate"><span class="pre">codebook.txt</span></code>(문항의 문장)가 들어 있다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">urllib.request</span></code>로 압축 파일을 받고, <code class="docutils literal notranslate"><span class="pre">zipfile</span></code>로 그 안의 <code class="docutils literal notranslate"><span class="pre">data.csv</span></code>를 연다. 사이트가 브라우저가 아닌 접속을 막는 경우가 있어서 <code class="docutils literal notranslate"><span class="pre">User-Agent</span></code>에 브라우저 이름을 적어 보낸다. <code class="docutils literal notranslate"><span class="pre">data.csv</span></code>는 이름과 달리 값이 탭으로 나뉘어 있으므로 <code class="docutils literal notranslate"><span class="pre">sep='\t'</span></code>를 준다. 사이트에 접속되지 않으면(접속 오류가 나면) 브라우저로 BIG5.zip을 받아 풀고, 그 안의 <code class="docutils literal notranslate"><span class="pre">data.csv</span></code>를 이 노트북과 같은 폴더에 둔 뒤 다시 실행한다. 코드는 같은 폴더에 <code class="docutils literal notranslate"><span class="pre">data.csv</span></code>가 있으면 그 파일을 먼저 읽는다(<code class="docutils literal notranslate"><span class="pre">os.path.exists</span></code>가 파일이 있는지 확인한다).</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>변수</p></th>
+<th class="head"><p>뜻</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">E1</span></code> ~ <code class="docutils literal notranslate"><span class="pre">E10</span></code>, <code class="docutils literal notranslate"><span class="pre">N1</span></code> ~ <code class="docutils literal notranslate"><span class="pre">N10</span></code>, <code class="docutils literal notranslate"><span class="pre">A1</span></code> ~ <code class="docutils literal notranslate"><span class="pre">A10</span></code>, <code class="docutils literal notranslate"><span class="pre">C1</span></code> ~ <code class="docutils literal notranslate"><span class="pre">C10</span></code>, <code class="docutils literal notranslate"><span class="pre">O1</span></code> ~ <code class="docutils literal notranslate"><span class="pre">O10</span></code></p></td>
+<td><p>50문항의 답(1 = 동의하지 않음 ~ 5 = 동의, 0 = 답하지 않음). 앞 글자가 성격</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">age</span></code>, <code class="docutils literal notranslate"><span class="pre">gender</span></code>, <code class="docutils literal notranslate"><span class="pre">country</span></code> 등 7개</p></td>
+<td><p>나이, 성별(1 남성, 2 여성, 3 기타), 접속한 나라 등</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>답하지 않은 문항은 0으로 적혀 있다. 0을 그대로 두고 평균하면 그 사람의 점수가 낮아지므로, 50문항 모두 답한 사람만 남긴다. <code class="docutils literal notranslate"><span class="pre">(raw[ITEMS]</span> <span class="pre">&gt;</span> <span class="pre">0).all(axis=1)</span></code>은 50문항이 모두 0보다 큰 사람이면 참이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">'data.csv'</span><span class="p">):</span>                            <span class="c1"># 직접 받아 푼 파일이 있으면 그것을</span>
+    <span class="n">raw</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'data.csv'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>                                                     <span class="c1"># 없으면 원 사이트에서 바로</span>
+    <span class="n">URL</span> <span class="o">=</span> <span class="s1">'https://openpsychometrics.org/_rawdata/BIG5.zip'</span>
+    <span class="n">req</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">URL</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">'User-Agent'</span><span class="p">:</span> <span class="s1">'Mozilla/5.0'</span><span class="p">})</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">req</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()))</span>
+    <span class="n">raw</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">'BIG5/data.csv'</span><span class="p">),</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">)</span>
+
+<span class="n">TRAITS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'E'</span><span class="p">:</span> <span class="s1">'외향성'</span><span class="p">,</span> <span class="s1">'N'</span><span class="p">:</span> <span class="s1">'신경성'</span><span class="p">,</span> <span class="s1">'A'</span><span class="p">:</span> <span class="s1">'친화성'</span><span class="p">,</span> <span class="s1">'C'</span><span class="p">:</span> <span class="s1">'성실성'</span><span class="p">,</span> <span class="s1">'O'</span><span class="p">:</span> <span class="s1">'개방성'</span><span class="p">}</span>
+<span class="n">ITEMS</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">TRAITS</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)]</span>   <span class="c1"># E1, ..., O10</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'응답자'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">raw</span><span class="p">),</span> <span class="s1">'명'</span><span class="p">)</span>
+<span class="n">raw</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[(</span><span class="n">raw</span><span class="p">[</span><span class="n">ITEMS</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'50문항 모두 답한 사람'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">raw</span><span class="p">),</span> <span class="s1">'명'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'나라 상위 3:'</span><span class="p">,</span> <span class="n">raw</span><span class="p">[</span><span class="s1">'country'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+<span class="n">raw</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id4">
+<h2>2. 척도와 채점 키 — 역문항 뒤집기와 척도 점수<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p>먼저 문항 50개의 문장을 표로 만든다. 문장은 이 책이 우리말로 옮긴 것이다(원문은 <code class="docutils literal notranslate"><span class="pre">codebook.txt</span></code>의 영어). <code class="docutils literal notranslate"><span class="pre">REV</span></code>는 IPIP 채점 키의 역문항 18개, 즉 문장이 그 성격을 거꾸로 묻는 문항이다. 어느 문항이 역문항인지는 자료의 숫자에 적혀 있지 않으므로, 문장을 보고 정한 목록을 직접 적는다(2절). 표에서 문장과 역문항 표시를 함께 읽어 보자.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ITEM_KO</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'E1'</span><span class="p">:</span> <span class="s1">'나는 모임의 분위기를 띄우는 사람이다.'</span><span class="p">,</span> <span class="s1">'E2'</span><span class="p">:</span> <span class="s1">'나는 말이 많지 않다.'</span><span class="p">,</span>
+    <span class="s1">'E3'</span><span class="p">:</span> <span class="s1">'나는 사람들 사이에서 편안하다.'</span><span class="p">,</span> <span class="s1">'E4'</span><span class="p">:</span> <span class="s1">'나는 뒤로 물러나 있는 편이다.'</span><span class="p">,</span>
+    <span class="s1">'E5'</span><span class="p">:</span> <span class="s1">'나는 먼저 말을 건다.'</span><span class="p">,</span> <span class="s1">'E6'</span><span class="p">:</span> <span class="s1">'나는 할 말이 별로 없다.'</span><span class="p">,</span>
+    <span class="s1">'E7'</span><span class="p">:</span> <span class="s1">'나는 모임에서 여러 사람과 이야기한다.'</span><span class="p">,</span> <span class="s1">'E8'</span><span class="p">:</span> <span class="s1">'나는 주목받는 것을 좋아하지 않는다.'</span><span class="p">,</span>
+    <span class="s1">'E9'</span><span class="p">:</span> <span class="s1">'나는 관심의 한가운데에 있어도 괜찮다.'</span><span class="p">,</span> <span class="s1">'E10'</span><span class="p">:</span> <span class="s1">'나는 낯선 사람 앞에서 조용하다.'</span><span class="p">,</span>
+    <span class="s1">'N1'</span><span class="p">:</span> <span class="s1">'나는 쉽게 스트레스를 받는다.'</span><span class="p">,</span> <span class="s1">'N2'</span><span class="p">:</span> <span class="s1">'나는 대개 느긋하다.'</span><span class="p">,</span>
+    <span class="s1">'N3'</span><span class="p">:</span> <span class="s1">'나는 이런저런 걱정을 한다.'</span><span class="p">,</span> <span class="s1">'N4'</span><span class="p">:</span> <span class="s1">'나는 기분이 가라앉는 일이 드물다.'</span><span class="p">,</span>
+    <span class="s1">'N5'</span><span class="p">:</span> <span class="s1">'나는 쉽게 동요한다.'</span><span class="p">,</span> <span class="s1">'N6'</span><span class="p">:</span> <span class="s1">'나는 쉽게 속상해한다.'</span><span class="p">,</span>
+    <span class="s1">'N7'</span><span class="p">:</span> <span class="s1">'나는 기분이 자주 바뀐다.'</span><span class="p">,</span> <span class="s1">'N8'</span><span class="p">:</span> <span class="s1">'나는 기분이 자주 오락가락한다.'</span><span class="p">,</span>
+    <span class="s1">'N9'</span><span class="p">:</span> <span class="s1">'나는 쉽게 짜증이 난다.'</span><span class="p">,</span> <span class="s1">'N10'</span><span class="p">:</span> <span class="s1">'나는 기분이 가라앉을 때가 많다.'</span><span class="p">,</span>
+    <span class="s1">'A1'</span><span class="p">:</span> <span class="s1">'나는 다른 사람을 별로 걱정하지 않는다.'</span><span class="p">,</span> <span class="s1">'A2'</span><span class="p">:</span> <span class="s1">'나는 사람들에게 관심이 있다.'</span><span class="p">,</span>
+    <span class="s1">'A3'</span><span class="p">:</span> <span class="s1">'나는 사람들을 모욕한다.'</span><span class="p">,</span> <span class="s1">'A4'</span><span class="p">:</span> <span class="s1">'나는 다른 사람의 감정에 공감한다.'</span><span class="p">,</span>
+    <span class="s1">'A5'</span><span class="p">:</span> <span class="s1">'나는 다른 사람의 문제에 관심이 없다.'</span><span class="p">,</span> <span class="s1">'A6'</span><span class="p">:</span> <span class="s1">'나는 마음이 여리다.'</span><span class="p">,</span>
+    <span class="s1">'A7'</span><span class="p">:</span> <span class="s1">'나는 다른 사람에게 그다지 관심이 없다.'</span><span class="p">,</span> <span class="s1">'A8'</span><span class="p">:</span> <span class="s1">'나는 다른 사람을 위해 시간을 낸다.'</span><span class="p">,</span>
+    <span class="s1">'A9'</span><span class="p">:</span> <span class="s1">'나는 다른 사람의 감정을 느낀다.'</span><span class="p">,</span> <span class="s1">'A10'</span><span class="p">:</span> <span class="s1">'나는 사람들을 편안하게 해 준다.'</span><span class="p">,</span>
+    <span class="s1">'C1'</span><span class="p">:</span> <span class="s1">'나는 늘 준비가 되어 있다.'</span><span class="p">,</span> <span class="s1">'C2'</span><span class="p">:</span> <span class="s1">'나는 물건을 아무 데나 둔다.'</span><span class="p">,</span>
+    <span class="s1">'C3'</span><span class="p">:</span> <span class="s1">'나는 세세한 것까지 신경 쓴다.'</span><span class="p">,</span> <span class="s1">'C4'</span><span class="p">:</span> <span class="s1">'나는 일을 엉망으로 만든다.'</span><span class="p">,</span>
+    <span class="s1">'C5'</span><span class="p">:</span> <span class="s1">'나는 해야 할 일을 바로 해치운다.'</span><span class="p">,</span> <span class="s1">'C6'</span><span class="p">:</span> <span class="s1">'나는 물건을 제자리에 두는 것을 자주 잊는다.'</span><span class="p">,</span>
+    <span class="s1">'C7'</span><span class="p">:</span> <span class="s1">'나는 정돈된 것을 좋아한다.'</span><span class="p">,</span> <span class="s1">'C8'</span><span class="p">:</span> <span class="s1">'나는 맡은 일을 게을리한다.'</span><span class="p">,</span>
+    <span class="s1">'C9'</span><span class="p">:</span> <span class="s1">'나는 일정을 지킨다.'</span><span class="p">,</span> <span class="s1">'C10'</span><span class="p">:</span> <span class="s1">'나는 일을 빈틈없이 한다.'</span><span class="p">,</span>
+    <span class="s1">'O1'</span><span class="p">:</span> <span class="s1">'나는 어휘가 풍부하다.'</span><span class="p">,</span> <span class="s1">'O2'</span><span class="p">:</span> <span class="s1">'나는 추상적인 생각을 이해하기 어렵다.'</span><span class="p">,</span>
+    <span class="s1">'O3'</span><span class="p">:</span> <span class="s1">'나는 상상력이 풍부하다.'</span><span class="p">,</span> <span class="s1">'O4'</span><span class="p">:</span> <span class="s1">'나는 추상적인 생각에 관심이 없다.'</span><span class="p">,</span>
+    <span class="s1">'O5'</span><span class="p">:</span> <span class="s1">'나는 좋은 아이디어를 낸다.'</span><span class="p">,</span> <span class="s1">'O6'</span><span class="p">:</span> <span class="s1">'나는 상상력이 좋지 않다.'</span><span class="p">,</span>
+    <span class="s1">'O7'</span><span class="p">:</span> <span class="s1">'나는 이해가 빠르다.'</span><span class="p">,</span> <span class="s1">'O8'</span><span class="p">:</span> <span class="s1">'나는 어려운 낱말을 쓴다.'</span><span class="p">,</span>
+    <span class="s1">'O9'</span><span class="p">:</span> <span class="s1">'나는 이것저것 곰곰이 생각한다.'</span><span class="p">,</span> <span class="s1">'O10'</span><span class="p">:</span> <span class="s1">'나는 아이디어가 넘친다.'</span><span class="p">}</span>
+<span class="n">REV</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'E2'</span><span class="p">,</span> <span class="s1">'E4'</span><span class="p">,</span> <span class="s1">'E6'</span><span class="p">,</span> <span class="s1">'E8'</span><span class="p">,</span> <span class="s1">'E10'</span><span class="p">,</span> <span class="s1">'N2'</span><span class="p">,</span> <span class="s1">'N4'</span><span class="p">,</span> <span class="s1">'A1'</span><span class="p">,</span> <span class="s1">'A3'</span><span class="p">,</span> <span class="s1">'A5'</span><span class="p">,</span> <span class="s1">'A7'</span><span class="p">,</span>
+       <span class="s1">'C2'</span><span class="p">,</span> <span class="s1">'C4'</span><span class="p">,</span> <span class="s1">'C6'</span><span class="p">,</span> <span class="s1">'C8'</span><span class="p">,</span> <span class="s1">'O2'</span><span class="p">,</span> <span class="s1">'O4'</span><span class="p">,</span> <span class="s1">'O6'</span><span class="p">]</span>     <span class="c1"># 채점 키: 역문항</span>
+<span class="n">MAX</span> <span class="o">=</span> <span class="mi">5</span>                                              <span class="c1"># 눈금의 가장 큰 값(5점 척도)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">cols</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">t</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)]</span>       <span class="c1"># 성격 t의 문항 10개</span>
+
+<span class="n">book</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'성격'</span><span class="p">:</span> <span class="p">[</span><span class="n">TRAITS</span><span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">ITEMS</span><span class="p">],</span> <span class="s1">'문장'</span><span class="p">:</span> <span class="p">[</span><span class="n">ITEM_KO</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">ITEMS</span><span class="p">],</span>
+                     <span class="s1">'역문항'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'역'</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">REV</span> <span class="k">else</span> <span class="s1">''</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">ITEMS</span><span class="p">]},</span> <span class="n">index</span><span class="o">=</span><span class="n">ITEMS</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">'display.max_rows'</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+<span class="n">book</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>2절의 표 2-1을 만든다. 응답자를 E1에 준 답으로 다섯 무리로 나누고, 무리마다 E3(정문항)과 E2(역문항)에 준 답의 평균을 낸다. <code class="docutils literal notranslate"><span class="pre">groupby('E1')</span></code>이 E1의 답마다 사람을 묶는다. E1에 높게 답한 무리일수록 E3의 평균은 높아지고 E2의 평균은 낮아지는 것을 확인한다.</p>
+<p>그다음 역문항을 뒤집는다. 뒤집기는 눈금의 가장 큰 값에 1을 더한 수에서 답을 빼는 것이다(5점 척도면 6 − 답, 7점 척도면 8 − 답). 원래 답 <code class="docutils literal notranslate"><span class="pre">raw</span></code>는 그대로 두고, 뒤집은 답을 <code class="docutils literal notranslate"><span class="pre">d</span></code>에 따로 만든다. 3절에서 뒤집기 전과 뒤를 비교하려면 둘 다 있어야 한다.</p>
+<p>척도 점수는 문항 10개의 평균이다. <code class="docutils literal notranslate"><span class="pre">mean(axis=1)</span></code>은 사람마다(행마다) 평균을 낸다. 외향성 점수를 뒤집은 답으로 낸 것과 뒤집지 않은 답으로 낸 것의 분포를 나란히 그려 그림 2-2를 확인한다. 뒤집지 않으면 점수가 3 근처로 몰린다. 마지막 줄은 외향성 10문항에 모두 같은 숫자로 답한 사람의 수다(<code class="docutils literal notranslate"><span class="pre">nunique(axis=1)</span></code>은 사람마다 서로 다른 답의 가짓수).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">raw</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'E1'</span><span class="p">)[[</span><span class="s1">'E3'</span><span class="p">,</span> <span class="s1">'E2'</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>      <span class="c1"># 표 2-1</span>
+
+<span class="n">d</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">d</span><span class="p">[</span><span class="n">REV</span><span class="p">]</span> <span class="o">=</span> <span class="n">MAX</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">d</span><span class="p">[</span><span class="n">REV</span><span class="p">]</span>                                   <span class="c1"># 역문항 뒤집기: 6 − 답</span>
+
+<span class="n">score</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">cols</span><span class="p">(</span><span class="s1">'E'</span><span class="p">)]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>                           <span class="c1"># 외향성 척도 점수(뒤집은 답)</span>
+<span class="n">naive</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">cols</span><span class="p">(</span><span class="s1">'E'</span><span class="p">)]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>                         <span class="c1"># 뒤집지 않고 평균하면</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"2.5 ~ 3.5 안에 든 사람: 뒤집은 점수 </span><span class="si">{</span><span class="n">score</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span><span class="w"> </span><span class="mf">3.5</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">, 뒤집지 않은 점수 </span><span class="si">{</span><span class="n">naive</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span><span class="w"> </span><span class="mf">3.5</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">8.4</span><span class="p">,</span> <span class="mf">2.9</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="mf">5.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">[(</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">score</span><span class="p">,</span> <span class="s1">'역문항을 뒤집은 뒤'</span><span class="p">,</span> <span class="s1">'#2a78d6'</span><span class="p">),</span> <span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">naive</span><span class="p">,</span> <span class="s1">'뒤집지 않고 평균하면'</span><span class="p">,</span> <span class="s1">'#eb6834'</span><span class="p">)]:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">'left'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'외향성 점수(문항 10개의 평균)'</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'사람 수'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'외향성 10문항에 모두 같은 답:'</span><span class="p">,</span> <span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="n">cols</span><span class="p">(</span><span class="s1">'E'</span><span class="p">)]</span><span class="o">.</span><span class="n">nunique</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="s1">'명'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id5">
+<h2>3. 크론바흐 α — 보고서의 표<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<p>크론바흐 α를 함수로 만든다. 3절의 참고 상자의 식 그대로다.</p>
+<div class="math notranslate nohighlight">
+\[\alpha = \frac{k}{k-1}\left(1 - \frac{\text{문항 분산의 합}}{\text{합의 분산}}\right)\]</div>
+<p>문항들이 함께 움직이면 합이 넓게 퍼져(합의 분산이 커서) α가 1에 가까워지고, 따로 움직이면 0에 가까워지며, 거꾸로 움직이면 음수가 된다. <code class="docutils literal notranslate"><span class="pre">x.var()</span></code>는 문항마다의 분산, <code class="docutils literal notranslate"><span class="pre">x.sum(axis=1).var()</span></code>는 사람마다 더한 합의 분산이다.</p>
+<p>먼저 3절의 그림 3-1에 나온 두 문항의 α를 확인한다. 그다음 다섯 척도마다 보고서의 표(문항 수, 역문항 수, α, 척도 점수의 평균과 표준편차)를 만들고, 뒤집기 전의 α(표 3-1)를 한 열로 덧붙인다. 신경성은 뒤집지 않아도 0.7을 넘는 것을 확인한다. 기준만 보면 실수를 놓친다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">alpha</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>                                          <span class="c1"># 문항 수</span>
+    <span class="k">return</span> <span class="n">k</span> <span class="o">/</span> <span class="p">(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">var</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">x</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">var</span><span class="p">())</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'E1 + E3:'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">alpha</span><span class="p">(</span><span class="n">raw</span><span class="p">[[</span><span class="s1">'E1'</span><span class="p">,</span> <span class="s1">'E3'</span><span class="p">]]),</span> <span class="mi">2</span><span class="p">),</span>
+      <span class="s1">' E1 + E2(뒤집지 않음):'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">alpha</span><span class="p">(</span><span class="n">raw</span><span class="p">[[</span><span class="s1">'E1'</span><span class="p">,</span> <span class="s1">'E2'</span><span class="p">]]),</span> <span class="mi">2</span><span class="p">),</span>
+      <span class="s1">' E1 + E2(뒤집음):'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">alpha</span><span class="p">(</span><span class="n">d</span><span class="p">[[</span><span class="s1">'E1'</span><span class="p">,</span> <span class="s1">'E2'</span><span class="p">]]),</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">TRAITS</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">cols</span><span class="p">(</span><span class="n">t</span><span class="p">)]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>                             <span class="c1"># 척도 점수</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">name</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="nb">sum</span><span class="p">(</span><span class="n">c</span> <span class="ow">in</span> <span class="n">REV</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">(</span><span class="n">t</span><span class="p">)),</span> <span class="n">alpha</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">cols</span><span class="p">(</span><span class="n">t</span><span class="p">)]),</span> <span class="n">s</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">s</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span>
+                 <span class="n">alpha</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="n">cols</span><span class="p">(</span><span class="n">t</span><span class="p">)])])</span>
+<span class="n">table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'척도'</span><span class="p">,</span> <span class="s1">'문항'</span><span class="p">,</span> <span class="s1">'역문항'</span><span class="p">,</span> <span class="s1">'α'</span><span class="p">,</span> <span class="s1">'평균'</span><span class="p">,</span> <span class="s1">'표준편차'</span><span class="p">,</span> <span class="s1">'뒤집기 전 α'</span><span class="p">])</span>
+<span class="n">table</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id6">
+<h3>문항 수와 α — 그림 3-2<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<p>척도마다 문항 10개 가운데 <span class="math notranslate nohighlight">\(k\)</span>개를 무작위로 뽑아 α를 계산하기를 300번 하고, 그 평균을 문항 수마다 그린다. <code class="docutils literal notranslate"><span class="pre">rng.choice(cols(t),</span> <span class="pre">k,</span> <span class="pre">replace=False)</span></code>가 문항 <span class="math notranslate nohighlight">\(k\)</span>개를 겹치지 않게 뽑는다. 시드(<code class="docutils literal notranslate"><span class="pre">default_rng(0)</span></code>)를 고정했으므로 몇 번을 실행해도 같은 문항이 뽑히고, 본문과 같은 숫자가 나온다. 뽑은 문항의 목록은 <code class="docutils literal notranslate"><span class="pre">draws</span></code>에 저장해 5절에서 다시 쓴다. 실행에 몇십 초 걸린다.</p>
+<p>문항이 많을수록 α가 오르는 것을 확인한다. 문항마다의 운이 서로 상쇄되기 때문이다(3절).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">K</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+<span class="n">draws</span> <span class="o">=</span> <span class="p">{</span><span class="n">t</span><span class="p">:</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">cols</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">k</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">300</span><span class="p">)]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">)}</span>
+         <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">TRAITS</span><span class="p">}</span>                                   <span class="c1"># 성격 × 문항 수마다 300번 뽑은 문항 목록</span>
+<span class="n">curve</span> <span class="o">=</span> <span class="p">{</span><span class="n">t</span><span class="p">:</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">alpha</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">c</span><span class="p">])</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">draws</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="n">k</span><span class="p">]])</span> <span class="k">if</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="k">else</span> <span class="n">alpha</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">cols</span><span class="p">(</span><span class="n">t</span><span class="p">)])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">K</span><span class="p">]</span>
+         <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">TRAITS</span><span class="p">}</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">curve</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">K</span><span class="p">))</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">TRAITS</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">6.4</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'lightgray'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'--'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">TRAITS</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">K</span><span class="p">),</span> <span class="n">curve</span><span class="p">[</span><span class="n">t</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">TRAITS</span><span class="p">[</span><span class="n">t</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'척도에 넣은 문항 수'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'크론바흐 α'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id7">
+<h3>문항 하나를 빼면 — 표 3-2<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<p>척도마다 문항을 하나씩 빼고 나머지 9문항의 α를 계산한다. 빼면 α가 오르는 문항만 출력한다. 네 문항이 나오고, 오르는 폭은 0.001 ~ 0.006이다. 이 정도 차이라면 문항을 뺄 까닭이 없다(3절).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">TRAITS</span><span class="p">:</span>
+    <span class="n">a10</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">cols</span><span class="p">(</span><span class="n">t</span><span class="p">)])</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+        <span class="n">a9</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">(</span><span class="n">d</span><span class="p">[[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span> <span class="n">c</span><span class="p">]])</span>     <span class="c1"># c를 뺀 9문항</span>
+        <span class="k">if</span> <span class="n">a9</span> <span class="o">&gt;</span> <span class="n">a10</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">TRAITS</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">ITEM_KO</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="si">}</span><span class="s2">  10문항 </span><span class="si">{</span><span class="n">a10</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> → 뺀 9문항 </span><span class="si">{</span><span class="n">a9</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="id8">
+<h2>4. 요인분석 — 보고서의 그림<a class="headerlink" href="#id8" title="Link to this heading">#</a></h2>
+<p>50문항으로 탐색적 요인분석을 한다. 문항을 표준화(평균을 빼고 표준편차로 나누기)한 뒤, 요인 5개, 베리맥스 회전으로 <code class="docutils literal notranslate"><span class="pre">FactorAnalysis</span></code>를 맞춘다. <code class="docutils literal notranslate"><span class="pre">components_</span></code>에 요인 × 문항의 적재값이 들어 있으므로, <code class="docutils literal notranslate"><span class="pre">.T</span></code>로 뒤집어 문항 × 요인의 표 <code class="docutils literal notranslate"><span class="pre">L</span></code>로 만든다.</p>
+<p>요인분석은 요인을 어떤 순서로 내놓을지, 부호를 어느 쪽으로 할지 정하지 않는다. 요인 1이 외향성이라는 보장도, 외향성 문항의 적재값이 양수라는 보장도 없다. 그래서 성격마다 자기 문항 10개가 가장 크게 실린 요인을 찾아 성격 순서로 늘어놓고, 자기 문항의 적재값이 양수가 되도록 부호를 바꾼다. 요인의 뜻은 바뀌지 않는다. 이렇게 맞춘 뒤의 열 이름이 성격의 앞 글자다.</p>
+<p>열지도(<code class="docutils literal notranslate"><span class="pre">imshow</span></code>)로 적재값의 절댓값을 그리면 보고서의 그림이 된다. 이어서 보고서의 그림 주에 적힌 숫자를 계산한다 — 자기 요인에 가장 크게 실린 문항 수, 자기 요인 적재값의 범위, 다른 요인 적재값 가운데 가장 큰 것, 다섯 요인이 설명한 분산(적재값 제곱의 합 ÷ 문항 수).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">zs</span> <span class="o">=</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">ITEMS</span><span class="p">]</span> <span class="o">-</span> <span class="n">d</span><span class="p">[</span><span class="n">ITEMS</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">d</span><span class="p">[</span><span class="n">ITEMS</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>        <span class="c1"># 표준화</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">factor</span><span class="p">(</span><span class="n">rotation</span><span class="p">):</span>
+    <span class="n">fa</span> <span class="o">=</span> <span class="n">FactorAnalysis</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="n">rotation</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">zs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">fa</span><span class="o">.</span><span class="n">components_</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">ITEMS</span><span class="p">)</span>     <span class="c1"># 문항 × 요인의 적재값</span>
+
+<span class="n">L</span> <span class="o">=</span> <span class="n">factor</span><span class="p">(</span><span class="s1">'varimax'</span><span class="p">)</span>
+<span class="n">order</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">TRAITS</span><span class="p">:</span>                                           <span class="c1"># 성격마다 자기 문항이 가장 크게 실린 요인</span>
+    <span class="n">order</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">L</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">cols</span><span class="p">(</span><span class="n">t</span><span class="p">)]</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">order</span><span class="p">)</span><span class="o">.</span><span class="n">idxmax</span><span class="p">())</span>
+<span class="n">L</span> <span class="o">=</span> <span class="n">L</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
+<span class="n">L</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">TRAITS</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">TRAITS</span><span class="p">:</span>                                           <span class="c1"># 자기 문항의 적재값이 양수가 되게</span>
+    <span class="k">if</span> <span class="n">L</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">cols</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">L</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">L</span><span class="p">[</span><span class="n">t</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">8.4</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">))</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">L</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">abs</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'Blues'</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="p">[</span><span class="sa">f</span><span class="s1">'요인 </span><span class="si">{</span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s1">'</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mf">4.5</span> <span class="o">+</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)],</span> <span class="nb">list</span><span class="p">(</span><span class="n">TRAITS</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>   <span class="c1"># 성격마다 문항 10개</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'적재값(절댓값)'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">own</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="n">c</span><span class="p">:</span> <span class="n">L</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">c</span><span class="p">,</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">ITEMS</span><span class="p">})</span>                  <span class="c1"># 자기 요인 적재값</span>
+<span class="n">cross</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="n">c</span><span class="p">:</span> <span class="n">L</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">ITEMS</span><span class="p">})</span>  <span class="c1"># 다른 요인 가운데 가장 큰 것</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'자기 요인에 가장 크게 실린 문항:'</span><span class="p">,</span> <span class="p">(</span><span class="n">L</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">idxmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">ITEMS</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="s1">'/ 50'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'자기 요인 적재값 </span><span class="si">{</span><span class="n">own</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> ~ </span><span class="si">{</span><span class="n">own</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, 0.4 미만'</span><span class="p">,</span> <span class="n">own</span><span class="p">[</span><span class="n">own</span> <span class="o">&lt;</span> <span class="mf">0.4</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'다른 요인 적재값 최대 </span><span class="si">{</span><span class="n">cross</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">cross</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">ITEM_KO</span><span class="p">[</span><span class="n">cross</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()]</span><span class="si">}</span><span class="s1">)'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'다섯 요인이 설명한 분산 </span><span class="si">{</span><span class="p">(</span><span class="n">L</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">50</span><span class="si">:</span><span class="s1">.0%</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id9">
+<h3>문항 몇 개의 적재값 — 표 4-1<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
+<p>4절의 표 4-1에 나온 여덟 문항의 적재값이다. 마지막 열은 문항마다 다섯 요인이 함께 설명한 몫(적재값 제곱의 합, 공통성)이다. C4가 자기 요인(C)에 0.55로 실리면서 신경성(N)에도 −0.37로 실리는 교차 적재를 확인한다. 공통성이 가장 큰 문항과 가장 작은 문항도 출력한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">show</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'E1'</span><span class="p">,</span> <span class="s1">'E7'</span><span class="p">,</span> <span class="s1">'N8'</span><span class="p">,</span> <span class="s1">'N4'</span><span class="p">,</span> <span class="s1">'A4'</span><span class="p">,</span> <span class="s1">'A3'</span><span class="p">,</span> <span class="s1">'C4'</span><span class="p">,</span> <span class="s1">'O9'</span><span class="p">]</span>
+<span class="n">comm</span> <span class="o">=</span> <span class="p">(</span><span class="n">L</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>                                <span class="c1"># 공통성</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">L</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">show</span><span class="p">]</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">공통성</span><span class="o">=</span><span class="n">comm</span><span class="p">[</span><span class="n">show</span><span class="p">])</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'공통성 가장 큰 문항 </span><span class="si">{</span><span class="n">comm</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">comm</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s1">.0%</span><span class="si">}</span><span class="s1">, 가장 작은 문항 </span><span class="si">{</span><span class="n">comm</span><span class="o">.</span><span class="n">idxmin</span><span class="p">()</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">comm</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s1">.0%</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id10">
+<h3>몇 개로 묶을까 — 고유값(그림 4-2)<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
+<p>요인 수를 모를 때 먼저 보는 고유값이다. 문항끼리 함께 움직이는 정도를 모은 표(상관행렬, <code class="docutils literal notranslate"><span class="pre">zs.corr()</span></code>)의 고유값을 <code class="docutils literal notranslate"><span class="pre">np.linalg.eigvalsh</span></code>로 구하고 큰 순서로 늘어놓는다. 고유값을 모두 더하면 문항 수 50이 된다. 고유값 1을 넘는 요인은 8개이고, 그래프는 다섯째 요인 뒤에서 꺾인다(4절).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvalsh</span><span class="p">(</span><span class="n">zs</span><span class="o">.</span><span class="n">corr</span><span class="p">()))[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>          <span class="c1"># 큰 순서</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'고유값 앞 10개'</span><span class="p">,</span> <span class="n">ev</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="s1">' 1을 넘는 것'</span><span class="p">,</span> <span class="p">(</span><span class="n">ev</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="s1">'개, 합'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">ev</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="mi">1</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">6.4</span><span class="p">,</span> <span class="mf">2.9</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span> <span class="n">ev</span><span class="p">[:</span><span class="mi">15</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#2a78d6'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'lightgray'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'--'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'요인 번호(큰 순서)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'고유값'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id11">
+<h3>회전 — 같은 결과를 보기 좋은 각도에서<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
+<p>회전하지 않은 요인분석(<code class="docutils literal notranslate"><span class="pre">rotation=None</span></code>)과 비교한다. 회전하기 전에는 요인 1에 여러 성격의 문항이 한꺼번에 실려, 문항이 성격별로 나뉘어 보이지 않는다. 회전 전 요인 1에 적재값 0.3 이상으로 실린 문항이 29개인 것을 확인한다. 회전은 요인의 축만 돌리므로, 다섯 요인이 함께 설명한 분산은 회전 전과 뒤가 같다(4절).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">U</span> <span class="o">=</span> <span class="n">factor</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>                                           <span class="c1"># 회전하기 전</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'회전 전 요인 1에 0.3 이상 실린 문항:'</span><span class="p">,</span> <span class="p">(</span><span class="n">U</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mf">0.3</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="s1">'개'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'설명한 분산: 회전 전 </span><span class="si">{</span><span class="p">(</span><span class="n">U</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">50</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">, 회전 뒤 </span><span class="si">{</span><span class="p">(</span><span class="n">L</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">50</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="id12">
+<h2>5. 감쇠 — 문항 하나로 측정하면<a class="headerlink" href="#id12" title="Link to this heading">#</a></h2>
+<p>친화성 척도 점수를 종속변수로, 외향성 점수를 설명변수로 회귀분석한다. 외향성을 E1 한 문항으로 측정했을 때와 10문항의 척도 점수로 측정했을 때의 기울기를 비교한다(그림 5-1). 회귀식에 쓰기 쉽게 척도 점수를 <code class="docutils literal notranslate"><span class="pre">s</span></code>라는 표에 모은다.</p>
+<p>측정이 거칠면 기울기가 0 쪽으로 작아지는 것을 확인한다(감쇠). 표 5-1은 문항 수를 늘려 가며 같은 계산을 한 것이다. 3절에서 뽑아 둔 외향성 문항 목록 <code class="docutils literal notranslate"><span class="pre">draws['E']</span></code>를 그대로 쓰므로, α도 3절의 숫자와 같다. 기울기를 1,000번 넘게 구하므로 회귀식 대신 기울기만 빠르게 구하는 <code class="docutils literal notranslate"><span class="pre">np.polyfit(x,</span> <span class="pre">y,</span> <span class="pre">1)[0]</span></code>을 쓴다. 문항 하나일 때의 값은 외향성 문항 열 개 하나하나의 기울기를 평균한 것이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="n">t</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="n">cols</span><span class="p">(</span><span class="n">t</span><span class="p">)]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">TRAITS</span><span class="p">})</span>   <span class="c1"># 척도 점수 5개</span>
+<span class="n">s</span><span class="p">[</span><span class="s1">'E1'</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">'E1'</span><span class="p">]</span>
+<span class="n">b1</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">'A ~ E1'</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">'E1'</span><span class="p">]</span>
+<span class="n">b10</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">'A ~ E'</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">'E'</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'친화성을 설명하는 기울기: E1 한 문항 </span><span class="si">{</span><span class="n">b1</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, 외향성 10문항 </span><span class="si">{</span><span class="n">b10</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+
+<span class="n">slope</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">s</span><span class="p">[</span><span class="s1">'A'</span><span class="p">],</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">slope</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">c</span><span class="p">])</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">(</span><span class="s1">'E'</span><span class="p">)])]]</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">]:</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">k</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">alpha</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">c</span><span class="p">])</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">draws</span><span class="p">[</span><span class="s1">'E'</span><span class="p">][</span><span class="n">k</span><span class="p">]]),</span>
+                 <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">slope</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">draws</span><span class="p">[</span><span class="s1">'E'</span><span class="p">][</span><span class="n">k</span><span class="p">]])])</span>
+<span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="n">alpha</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">cols</span><span class="p">(</span><span class="s1">'E'</span><span class="p">)]),</span> <span class="n">slope</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s1">'E'</span><span class="p">])])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'문항 수'</span><span class="p">,</span> <span class="s1">'α'</span><span class="p">,</span> <span class="s1">'기울기'</span><span class="p">])</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">8.4</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">[(</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">s</span><span class="p">[</span><span class="s1">'E1'</span><span class="p">],</span> <span class="n">s</span><span class="p">[</span><span class="s1">'E1'</span><span class="p">],</span> <span class="s1">'외향성을 문항 하나(E1)로 측정'</span><span class="p">,</span> <span class="s1">'#eb6834'</span><span class="p">),</span>
+                             <span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="p">[</span><span class="s1">'E'</span><span class="p">],</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s1">'E'</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">'외향성을 문항 10개로 측정'</span><span class="p">,</span> <span class="s1">'#2a78d6'</span><span class="p">)]:</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="s1">'A'</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">([</span><span class="s1">'mean'</span><span class="p">,</span> <span class="s1">'size'</span><span class="p">])</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="n">m</span><span class="p">[</span><span class="s1">'size'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">100</span><span class="p">]</span>                                <span class="c1"># 100명 이상인 점수만 점으로</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">m</span><span class="p">[</span><span class="s1">'mean'</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">)</span>
+    <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">s</span><span class="p">[</span><span class="s1">'A'</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="mi">1</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="mi">5</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s1">, 기울기 </span><span class="si">{</span><span class="n">b</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">'left'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'외향성 점수'</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'친화성 점수의 평균'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id13">
+<h2>6. 더 해 보기: 채점 키를 자료에서 짐작하면<a class="headerlink" href="#id13" title="Link to this heading">#</a></h2>
+<p>본문에서는 다루지 않은 계산이다. 채점 키가 없을 때 자료의 숫자로 역문항을 고를 수 있을까? 흔히 떠올리는 방법은 문항마다 나머지 9문항의 합(뒤집기 전의 원래 답)과 거꾸로 움직이는지 보는 것이다. 여기서는 나머지 합을 그 문항으로 회귀분석한 기울기가 음수인 문항을 역문항으로 골라 본다.</p>
+<p>신경성, 친화성, 개방성은 채점 키와 똑같이 골라진다. 역문항이 적어서 나머지 합이 정문항 쪽으로 움직이기 때문이다. 그런데 정문항과 역문항이 5 대 5인 외향성에서는 나머지 합이 이쪽저쪽으로 상쇄되어, 정문항 E5, E7, E9까지 역문항으로 골라진다. 성실성에서도 정문항 C5가 섞인다. 그렇게 고른 키로 뒤집으면 외향성의 α가 0.89에서 0.03으로, 성실성은 0.81에서 0.66으로 떨어진다. 채점 키는 문항의 뜻에서 나와야 한다. 직접 해 보기 1의 프롬프트에 “채점 키를 자료에서 짐작하지 마”를 넣은 까닭이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">TRAITS</span><span class="p">:</span>
+    <span class="n">rest</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="n">raw</span><span class="p">[[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span> <span class="n">c</span><span class="p">]]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># 나머지 9문항의 합</span>
+    <span class="n">guess</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="n">c</span><span class="p">],</span> <span class="n">rest</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">cols</span><span class="p">(</span><span class="n">t</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">g</span><span class="p">[</span><span class="n">guess</span><span class="p">]</span> <span class="o">=</span> <span class="n">MAX</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">g</span><span class="p">[</span><span class="n">guess</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">TRAITS</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="si">}</span><span class="s2"> 짐작한 역문항 </span><span class="si">{</span><span class="n">guess</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"      채점 키 </span><span class="si">{</span><span class="p">[</span><span class="n">c</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">cols</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">REV</span><span class="p">]</span><span class="si">}</span><span class="s2">,  α: 짐작한 키 </span><span class="si">{</span><span class="n">alpha</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, 채점 키 </span><span class="si">{</span><span class="n">alpha</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">cols</span><span class="p">(</span><span class="n">t</span><span class="p">)])</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id14">
+<h2>7. 더 해 보기: 하만 단일요인검정<a class="headerlink" href="#id14" title="Link to this heading">#</a></h2>
+<p>5절에서 이름과 비판을 소개한 하만 단일요인검정이다. 모든 척도의 문항을 한꺼번에 넣고 회전하지 않은 분석을 해서, 첫 요인 하나가 문항들의 흩어짐을 얼마나 설명하는지 본다. 첫 요인이 절반 넘게 설명하면 공통방법편향을 의심한다는 기준이 흔히 쓰인다. 4절의 고유값으로 계산할 수 있다. 첫 고유값을 고유값의 합(문항 수)으로 나눈 것이다.</p>
+<p>이 자료에서는 첫 요인이 약 16%를 설명해 기준 50%에 한참 못 미친다. 다만 5절에서 본 것처럼, 이 검정을 통과했다고 공통방법편향이 없다는 증거가 되지는 않는다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'첫 요인이 설명한 몫 </span><span class="si">{</span><span class="n">ev</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">ev</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s1">.1%</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id15">
+<h2>정리<a class="headerlink" href="#id15" title="Link to this heading">#</a></h2>
+<p>이 노트북의 코드는 이 장에서 본 숫자를 직접 만들어 냈다. 역문항을 뒤집고 평균을 낸 것이 척도 점수였고(2절), 크론바흐 α는 문항 분산의 합과 합의 분산을 비교한 것이었다(3절). 요인분석은 <code class="docutils literal notranslate"><span class="pre">FactorAnalysis</span></code> 한 줄이지만, 요인의 순서와 부호를 맞추고 문항을 읽어 이름을 붙이는 일은 사람이 했다(4절). 척도 점수를 회귀식에 넣으면, 문항 하나로 측정했을 때보다 관계가 제 크기에 가깝게 나왔다(5절).</p>
+<p>자기 설문으로 분석하려면 1절에서 자기 파일을 읽고(쉼표로 나뉜 파일이면 <code class="docutils literal notranslate"><span class="pre">sep='\t'</span></code>를 지운다) <code class="docutils literal notranslate"><span class="pre">TRAITS</span></code>(척도)와 <code class="docutils literal notranslate"><span class="pre">ITEMS</span></code>(문항 이름)를 바꾸고, 2절에서 <code class="docutils literal notranslate"><span class="pre">cols</span></code>(척도마다의 문항 이름), <code class="docutils literal notranslate"><span class="pre">REV</span></code>(채점 키), <code class="docutils literal notranslate"><span class="pre">MAX</span></code>(눈금의 가장 큰 값)를 바꾼다. 빠진 답을 어떻게 적었는지는 1절에서 먼저 확인한다. 다만 이 노트북에는 이 장의 자료에 맞춰 쓴 곳이 남아 있다. 척도마다 문항이 10개, 모두 50개이고 문항 이름의 첫 글자가 척도라고 보고 계산하는 곳(<code class="docutils literal notranslate"><span class="pre">range(1,</span> <span class="pre">11)</span></code>, <code class="docutils literal notranslate"><span class="pre">10</span></code>, <code class="docutils literal notranslate"><span class="pre">50</span></code>, <code class="docutils literal notranslate"><span class="pre">c[0]</span></code>)이 있고, 5절의 회귀분석은 외향성(<code class="docutils literal notranslate"><span class="pre">'E'</span></code>, <code class="docutils literal notranslate"><span class="pre">'E1'</span></code>)과 친화성(<code class="docutils literal notranslate"><span class="pre">'A'</span></code>)을 직접 적었다. 자기 자료가 이와 다르면 이런 곳도 함께 고치고, 4절의 <code class="docutils literal notranslate"><span class="pre">n_components</span></code>를 척도의 수로 바꾼다. 어디를 고칠지는 이 노트북과 자기 자료의 변수 목록을 AI에게 보여 주고 물어봐도 된다. AI가 만든 보고서를 받았다면, 이 코드로 같은 숫자가 나오는지 확인해 보는 것이 가장 확실한 점검이다.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./survey-measurement"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="practice-prompt.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">이전</p>
+        <p class="prev-next-title">직접 해 보기 1 — 프롬프트로 내 보고서 받기</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 내용
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">준비 — 패키지와 글꼴</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">1. 데이터 읽기 — 원 사이트에서 바로</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">2. 척도와 채점 키 — 역문항 뒤집기와 척도 점수</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">3. 크론바흐 α — 보고서의 표</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">문항 수와 α — 그림 3-2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">문항 하나를 빼면 — 표 3-2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">4. 요인분석 — 보고서의 그림</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">문항 몇 개의 적재값 — 표 4-1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">몇 개로 묶을까 — 고유값(그림 4-2)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">회전 — 같은 결과를 보기 좋은 각도에서</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">5. 감쇠 — 문항 하나로 측정하면</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">6. 더 해 보기: 채점 키를 자료에서 짐작하면</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">7. 더 해 보기: 하만 단일요인검정</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">정리</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>© 2026 최필선</p>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
