@@ -49,3 +49,11 @@ chapters:
       - file: causal-inference/section-c6
       - file: causal-inference/practice-prompt
       - file: causal-inference/practice-notebook
+  - file: difference-in-differences/index
+    sections:
+      - file: difference-in-differences/section-d1
+      - file: difference-in-differences/section-d2
+      - file: difference-in-differences/section-d3
+      - file: difference-in-differences/section-d4
+      - file: difference-in-differences/practice-prompt
+      - file: difference-in-differences/practice-notebook
