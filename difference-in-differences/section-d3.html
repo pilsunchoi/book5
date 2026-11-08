@@ -1,0 +1,613 @@
+
+<!DOCTYPE html>
+
+
+<html lang="ko" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="3. 나란히 움직였을까 — 지정 전 다섯 달" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://pilsunchoi.github.io/book5/difference-in-differences/section-d3.html" />
+<meta property="og:site_name" content="AI 데이터 분석" />
+<meta property="og:description" content="보고서의 한계는 이렇게 시작합니다. 지정이 없었다면 4개 구도 21개 구처럼 움직였으리라는 가정 위의 숫자다. 지정 전에 비슷하게 움직였다는 것은 근거일 뿐 증명이 아니다. 앞 절에서 21개 구가 줄어든 만큼을 빌려 와 4개 구의 대역을 세웠습니다. 대역 배우는 주연 배우와 닮아야..." />
+<meta name="description" content="보고서의 한계는 이렇게 시작합니다. 지정이 없었다면 4개 구도 21개 구처럼 움직였으리라는 가정 위의 숫자다. 지정 전에 비슷하게 움직였다는 것은 근거일 뿐 증명이 아니다. 앞 절에서 21개 구가 줄어든 만큼을 빌려 와 4개 구의 대역을 세웠습니다. 대역 배우는 주연 배우와 닮아야..." />
+
+    <title>3. 나란히 움직였을까 — 지정 전 다섯 달 &#8212; AI 데이터 분석</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=18f25a40" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=ae323b5b"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = '표시하려면 클릭';</script>
+    <script>let toggleHintHide = '숨기려면 클릭';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/translations.js?v=e33e7ba0"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'difference-in-differences/section-d3';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="색인" href="../genindex.html" />
+    <link rel="search" title="검색" href="../search.html" />
+    <link rel="next" title="4. 정답이 있는 예 — 나란하지 않으면 얼마나 빗나가나" href="section-d4.html" />
+    <link rel="prev" title="2. 변화로 비교하기 — 대역을 세운다" href="section-d2.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="ko"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.png" class="logo__image only-light" alt="AI 데이터 분석"/>
+    <img src="../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="AI 데이터 분석"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../simple-regression/index.html">단순회귀분석 — 직선 하나로 관계 읽기</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a1.html">1. 보고서 — 노원구에서 1㎡는 얼마인가</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a2.html">2. 직선은 어떻게 정해지나 — 잔차와 최소제곱</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a3.html">3. 이 기울기를 믿어도 되나 — 표준오차, 신뢰구간, <span class="math notranslate nohighlight">\(p\)</span>값</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a4.html">4. 얼마나 설명하나 — <span class="math notranslate nohighlight">\(R^2\)</span>과 잔차</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a5.html">5. 로그로 읽는 가격 — 탄력성과 % 해석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../multiple-regression/index.html">다중회귀분석 — 여러 변수를 함께</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b1.html">1. 보고서 — 서울 아파트 값은 무엇으로 정해지나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b2.html">2. 다른 조건이 같다면 — 다중회귀분석의 계수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b3.html">3. 숫자가 아닌 변수 — 더미 변수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b4.html">4. 효과가 집단마다 다를 때 — 상호작용</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b5.html">5. 직선으로 부족할 때 — 제곱항</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../health-survey/index.html">횡단면 분석 — 학력과 혈압</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h1.html">1. 보고서 — 학력이 높을수록 혈압이 낮을까</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h2.html">2. 표본이 모집단을 닮게 — 가중치와 표본설계</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h3.html">3. 다른 조건이 같다면 — 계수는 무엇을 비교하나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h4.html">4. 회귀식 밖에 남은 것 — 설명력, 빠진 변수, 남녀의 차이</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h5.html">5. 약 먹고 잰 혈압 — 표본을 정하는 판단과 거꾸로 된 순서</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h6.html">6. 횡단면이 말해 주지 않는 것 — 측정과 자료의 범위</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-prompt.html">직접 해 보기 1 — 자료는 내 컴퓨터에, AI에는 질문만</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../panel-data/index.html">패널 데이터 분석 — FTA와 수출</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p1.html">1. 보고서 — FTA는 한국의 수출을 늘렸나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p2.html">2. 단체 사진과 사진첩 — 횡단면과 패널</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p3.html">3. 어제의 나와 비교하기 — 고정효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p4.html">4. 두 가지 차이를 섞기 — 확률효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p5.html">5. 무엇을 고르나 — 하우스만 검정과 연도 효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../causal-inference/index.html">인과 추론 — 공정한 비교를 찾아서</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c1.html">1. 보고서 — 일자리 제공 프로그램은 소득을 올렸나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c2.html">2. 같은 사람의 두 가지 미래 — 인과 효과와 실험</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c3.html">3. 엉뚱한 비교 상대 — 교란</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c4.html">4. 조건을 맞추면 — 통제의 계단</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c5.html">5. 넣으면 안 되는 변수 — 매개, 총효과, 나쁜 통제</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c6.html">6. 실험이 없을 때 — 설계의 지도</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">이중차분 — 허가구역과 아파트 거래</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="section-d1.html">1. 보고서 — 토지거래허가구역은 거래를 얼마나 줄였나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-d2.html">2. 변화로 비교하기 — 대역을 세운다</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3. 나란히 움직였을까 — 지정 전 다섯 달</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-d4.html">4. 정답이 있는 예 — 나란하지 않으면 얼마나 빗나가나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/pilsunchoi/book5" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="소스 저장소"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="이 페이지 다운로드">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/difference-in-differences/section-d3.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="소스 파일 다운로드"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="PDF로 인쇄"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="전체 화면으로보기"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>3. 나란히 움직였을까 — 지정 전 다섯 달</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 내용 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">나란히 움직였다는 것 — 평행 추세</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">지정 전 다섯 달 — 나란히 가다가 2월에 벌어졌다</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">비교 상대도 영향을 받았다면</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">허가를 기다린 계약</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">아파트 자료로 알 수 없는 것</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>3. 나란히 움직였을까 — 지정 전 다섯 달<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>보고서의 한계는 이렇게 시작합니다.</p>
+<blockquote>
+<div><p>지정이 없었다면 4개 구도 21개 구처럼 움직였으리라는 가정 위의 숫자다. 지정 전에 비슷하게 움직였다는 것은 근거일 뿐 증명이 아니다.</p>
+</div></blockquote>
+<p>앞 절에서 21개 구가 줄어든 만큼을 빌려 와 4개 구의 대역을 세웠습니다. 대역 배우는 주연 배우와 닮아야 화면에서 티가 나지 않는다고 했습니다. 이중차분의 대역은 무엇이 닮아야 할까요?</p>
+<p>미리 답부터 말하면, <strong>지정이 없었다면 두 그룹이 나란히 움직였어야 합니다</strong>. 그런데 지정 뒤의 “지정이 없었다면”은 볼 수 없으니, 이 가정은 자료로 확인할 수 없습니다. 할 수 있는 것은 지정 전에 두 그룹이 나란히 움직였는지를 보는 것입니다. 이 절에서는 아파트의 지정 전 다섯 달을 보고, 대역이 맞으려면 필요한 것을 하나 더 짚은 뒤, 지정 뒤 4주라는 숫자를 어떻게 읽을지 봅니다.</p>
+<section id="id2">
+<h2>나란히 움직였다는 것 — 평행 추세<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>앞 절의 보충수업에서 대역은 “보충수업을 들은 학생도 듣지 않은 학생만큼 올랐을 것이다”였습니다. 보충수업이 없었다면 두 학생의 점수가 같은 만큼 오르내렸으리라는 것이고, 점수를 선으로 그리면 두 선이 높이는 달라도 나란히 갔으리라는 것입니다. 이 가정을 <strong>평행 추세</strong>(parallel trends) 가정이라고 부릅니다.</p>
+<p>아파트에서는 두 그룹 모두 지정 직전을 100으로 맞췄으니, 나란히 움직였다는 것은 같은 비율로 늘고 줄었다는 뜻입니다. 지정이 없었다면 4개 구도 21개 구처럼 100에서 73이 되었으리라는 것이 보고서의 가정입니다.</p>
+<p>이 가정이 왜 중요한지는 단열 공사로 보면 쉽습니다. 앞 절에서 옆집 난방비가 7만 원 오른 것을 1월의 추위 몫으로 보았습니다. 그런데 옆집에 1월에 아기가 태어나 난방을 더 세게 틀었다면 어떨까요? 옆집의 7만 원에는 추위 말고 아기 몫이 들어 있으니, 우리 집의 “공사를 하지 않았다면”을 7만 원으로 세우면 대역이 너무 높아집니다. 공사의 효과 3만 원도 그만큼 부풀려집니다. 두 집이 추위에는 똑같이 반응했더라도, 한 집에만 다른 일이 생기면 두 집은 나란히 움직이지 않습니다.</p>
+</section>
+<section id="id3">
+<h2>지정 전 다섯 달 — 나란히 가다가 2월에 벌어졌다<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>볼 수 없는 지정 뒤 대신, 지정 전에 두 그룹이 나란히 움직였는지를 봅니다. 그림 3-1은 2024년 10월부터 2025년 4월까지의 주별 계약 건수를 그린 것입니다. 이번에는 기준을 지정 직전 4주가 아니라 그보다 앞선 15주로 잡아, 그 평균을 100으로 맞췄습니다.</p>
+<p><img alt="그림 3-1" src="../_images/fig_d3_1_before_designation.png" /></p>
+<p><strong>그림 3-1.</strong> 주별 아파트 매매 계약 건수, 2024년 10월 14일 ~ 2025년 1월 26일의 평균 = 100. 4개 구의 3월 17일 주는 657로 그림 밖까지 올라가 위를 잘랐다.</p>
+<p>그림에서 보듯이 회색 띠의 15주 동안 두 선은 거의 겹쳐 있습니다. 같이 오르내리고, 띠가 끝난 바로 뒤 설 연휴가 낀 1월 말 주에는 함께 꺼졌습니다. 월별로 보아도 4개 구의 계약은 21개 구의 0.27배에서 0.32배 사이에 머물렀습니다. 이 15주만 보면 21개 구는 4개 구의 대역으로 손색이 없어 보입니다.</p>
+<p>그런데 2월부터는 다릅니다. 두 그룹 모두 계약이 늘었지만 4개 구가 훨씬 빨리 늘어, 지정 직전 4주에는 21개 구가 259, 4개 구가 356이 되었습니다. 2월 13일에 잠실·삼성·대치·청담의 허가구역이 풀렸고, 이 네 동은 모두 4개 구 안에 있습니다. 4개 구에만 일어난 일이 있었던 것입니다. 단열 공사의 옆집에 아기가 태어난 것과 같은 구조입니다.</p>
+<p>이것이 앞 절의 계산에 무엇을 뜻할까요? 보고서는 지정 직전 4주를 기준으로 삼았는데, 그 4주에 4개 구의 계약은 해제 때문에 평소보다 많이 부풀어 있었습니다. 지정이 없었다면 4개 구의 계약이 그 높이에서 21개 구처럼만 줄었을지, 해제의 열기가 식으며 더 많이 줄었을지는 이 자료로 가릴 수 없습니다.</p>
+<p>기준을 해제 이전 15주, 곧 그림 3-1의 회색 띠로 옮겨 다시 계산해 보면, 21개 구는 100에서 188이 되었고 4개 구는 100에서 27이 되었습니다. 이번에는 4개 구가 지정이 없었을 때의 약 15%로 나옵니다. 보고서의 약 10분의 1보다 조금 크지만, 크게 줄었다는 결론은 같습니다. 기준을 어디로 잡느냐는 계산의 편의 문제가 아니라, <strong>두 그룹이 어느 기간에 나란했다고 볼 것인가</strong>를 고르는 일입니다. 그래서 숫자가 기준에 따라 얼마나 움직이는지를 함께 보아 두면 좋습니다.</p>
+<p>💡 <strong>팁:</strong> 이중차분 보고서를 받았다면 AI에게 이어서 물어보세요. “처치 전 기간의 두 그룹 추세를 그림으로 보여 주고, 처치 직전에 한쪽 그룹에만 일어난 일이 있는지 점검해 줘. 기준 기간을 바꿔 가며 추정하면 결과가 얼마나 달라지는지도 보여 줘.” 처치 직전에 한쪽에만 일어난 일은 자료가 알려 주지 않으므로, 그런 일이 있었는지는 분석을 맡기는 사람이 알려 주어야 합니다.</p>
+</section>
+<section id="id4">
+<h2>비교 상대도 영향을 받았다면<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p>대역이 맞으려면 하나가 더 필요합니다. 비교 상대는 처치의 영향을 받지 않았어야 합니다. 보충수업을 듣지 않은 학생이 보충수업을 들은 친구의 노트를 빌려 공부했다면, 그 학생의 점수에도 보충수업의 몫이 조금 들어갑니다. 그러면 듣지 않은 학생이 오른 만큼을 빌려 세운 대역이 너무 높아지고, 보충수업의 효과는 실제보다 작게 나옵니다.</p>
+<p>아파트에서는 방향이 거꾸로일 수 있습니다. 4개 구에서 집을 사려던 사람 가운데 일부가 지정 뒤에 허가가 필요 없는 21개 구로 눈을 돌렸다면, 21개 구의 계약은 지정이 없었을 때보다 덜 줄었을 것입니다. 그렇다면 21개 구의 73은 지정이 없었을 때의 움직임보다 높고, 4개 구의 대역도 그만큼 높아져 지정의 효과가 부풀려집니다. 그런 일이 얼마나 있었는지는 이 자료로 가릴 수 없습니다. 보고서가 한계의 둘째 줄에 적은 것이 이 걱정입니다.</p>
+</section>
+<section id="id5">
+<h2>허가를 기다린 계약<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<p>보고서 한계의 셋째 줄은 숫자를 읽는 법에 대한 것입니다. 지정 뒤 4개 구에서 아파트를 사려면 계약 전에 구청의 허가를 받아야 하고, 허가에는 시간이 걸립니다. 그러니 지정 직후에는 집을 사려던 사람도 허가를 기다리느라 아직 계약을 맺지 못했을 수 있습니다. 실제로 4개 구의 주별 계약은 지정 뒤 첫 두 주에 36건과 37건이었다가 넷째 주에는 78건으로 늘었습니다.</p>
+<p>그렇다면 지정 뒤 4주 동안 줄어든 계약에는 거래를 아예 접은 몫과 함께 잠시 뒤로 밀린 몫이 섞여 있습니다. 약 10분의 1은 지정 직후 4주의 숫자입니다. 같은 계산을 지정 뒤 8주로 늘리면 약 5분의 1, 12주로 늘리면 약 4분의 1이 남습니다. <a class="report-fig-link" href="../_static/report-figure-difference-in-differences.png" target="_blank" rel="noopener">보고서의 그림</a>에서도 5월과 6월로 갈수록 4개 구의 선이 조금씩 올라옵니다. 다만 시간이 지나며 늘어난 몫에는 밀렸던 계약뿐 아니라 사람들이 허가 절차에 익숙해지며 되살아난 거래도 섞여 있을 수 있고, 둘은 이 자료로 가를 수 없습니다.</p>
+</section>
+<section id="id6">
+<h2>아파트 자료로 알 수 없는 것<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
+<p>이 절에서 본 것은 모두 짐작의 근거입니다. 아파트 자료에는 정답이 없어서, 2월의 사정 때문에 약 10분의 1이 실제로 얼마나 빗나갔는지는 알 수 없습니다. 가정이 깨지면 이중차분의 답이 얼마나 빗나가는지를 숫자로 보려면 정답이 있는 자료가 필요합니다. 다음 절에서 인과 장의 일자리 제공 프로그램 자료로 그것을 봅니다.</p>
+<blockquote>
+<div><p><strong>요약 — 이 절의 물음과 답</strong></p>
+<ul class="simple">
+<li><p><strong>이중차분의 대역이 맞으려면 무엇이 필요할까?</strong> 처치가 없었다면 두 그룹이 나란히 움직였어야 한다(평행 추세). 그리고 비교 상대는 처치의 영향을 받지 않았어야 한다. 둘 다 처치 뒤의 볼 수 없는 미래에 대한 가정이라 자료로 확인할 수 없다.</p></li>
+<li><p><strong>지정 전에 두 그룹은 나란히 움직였을까?</strong> 해제 이전 15주에는 거의 겹쳤지만, 2월 13일 일부 동의 해제를 앞뒤로 4개 구가 훨씬 빨리 늘었다. 기준을 해제 이전 15주로 옮기면 남은 몫은 약 10분의 1에서 약 15%로 바뀌지만, 크게 줄었다는 결론은 같다.</p></li>
+<li><p><strong>지정 뒤 4주의 약 10분의 1은 어떻게 읽어야 할까?</strong> 허가를 기다리느라 뒤로 밀린 계약이 섞여 있다. 4개 구의 계약은 지정 뒤 주마다 조금씩 늘어, 지정 뒤 8주로 늘리면 남은 몫이 약 5분의 1, 12주로 늘리면 약 4분의 1이다.</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./difference-in-differences"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="section-d2.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">이전</p>
+        <p class="prev-next-title">2. 변화로 비교하기 — 대역을 세운다</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="section-d4.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">다음</p>
+        <p class="prev-next-title">4. 정답이 있는 예 — 나란하지 않으면 얼마나 빗나가나</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 내용
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">나란히 움직였다는 것 — 평행 추세</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">지정 전 다섯 달 — 나란히 가다가 2월에 벌어졌다</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">비교 상대도 영향을 받았다면</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">허가를 기다린 계약</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">아파트 자료로 알 수 없는 것</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>© 2026 최필선</p>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

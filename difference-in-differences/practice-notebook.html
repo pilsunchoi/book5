@@ -1,0 +1,871 @@
+
+<!DOCTYPE html>
+
+
+<html lang="ko" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="직접 해 보기 2 — 파이썬 코드로 따라 해 보기" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://pilsunchoi.github.io/book5/difference-in-differences/practice-notebook.html" />
+<meta property="og:site_name" content="AI 데이터 분석" />
+<meta property="og:description" content="AI가 내놓은 결과만 보고 그것이 어떻게 나왔는지 모르면, 그 결과를 믿을 근거도 없다. AI도 실수를 하므로 결과는 점검해야 하고, 점검하려면 결과를 만든 파이썬 코드를 읽을 줄 알아야 한다. 이 노트북은 이 장에서 다룬 계산을 파이썬으로 직접 해 본다. 이중차분의 계산은 대부분..." />
+<meta name="description" content="AI가 내놓은 결과만 보고 그것이 어떻게 나왔는지 모르면, 그 결과를 믿을 근거도 없다. AI도 실수를 하므로 결과는 점검해야 하고, 점검하려면 결과를 만든 파이썬 코드를 읽을 줄 알아야 한다. 이 노트북은 이 장에서 다룬 계산을 파이썬으로 직접 해 본다. 이중차분의 계산은 대부분..." />
+
+    <title>직접 해 보기 2 — 파이썬 코드로 따라 해 보기 &#8212; AI 데이터 분석</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=18f25a40" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=ae323b5b"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = '표시하려면 클릭';</script>
+    <script>let toggleHintHide = '숨기려면 클릭';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/translations.js?v=e33e7ba0"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'difference-in-differences/practice-notebook';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="색인" href="../genindex.html" />
+    <link rel="search" title="검색" href="../search.html" />
+    <link rel="prev" title="직접 해 보기 1 — 프롬프트로 내 보고서 받기" href="practice-prompt.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="ko"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.png" class="logo__image only-light" alt="AI 데이터 분석"/>
+    <img src="../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="AI 데이터 분석"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../simple-regression/index.html">단순회귀분석 — 직선 하나로 관계 읽기</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a1.html">1. 보고서 — 노원구에서 1㎡는 얼마인가</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a2.html">2. 직선은 어떻게 정해지나 — 잔차와 최소제곱</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a3.html">3. 이 기울기를 믿어도 되나 — 표준오차, 신뢰구간, <span class="math notranslate nohighlight">\(p\)</span>값</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a4.html">4. 얼마나 설명하나 — <span class="math notranslate nohighlight">\(R^2\)</span>과 잔차</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a5.html">5. 로그로 읽는 가격 — 탄력성과 % 해석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../multiple-regression/index.html">다중회귀분석 — 여러 변수를 함께</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b1.html">1. 보고서 — 서울 아파트 값은 무엇으로 정해지나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b2.html">2. 다른 조건이 같다면 — 다중회귀분석의 계수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b3.html">3. 숫자가 아닌 변수 — 더미 변수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b4.html">4. 효과가 집단마다 다를 때 — 상호작용</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b5.html">5. 직선으로 부족할 때 — 제곱항</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../health-survey/index.html">횡단면 분석 — 학력과 혈압</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h1.html">1. 보고서 — 학력이 높을수록 혈압이 낮을까</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h2.html">2. 표본이 모집단을 닮게 — 가중치와 표본설계</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h3.html">3. 다른 조건이 같다면 — 계수는 무엇을 비교하나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h4.html">4. 회귀식 밖에 남은 것 — 설명력, 빠진 변수, 남녀의 차이</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h5.html">5. 약 먹고 잰 혈압 — 표본을 정하는 판단과 거꾸로 된 순서</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h6.html">6. 횡단면이 말해 주지 않는 것 — 측정과 자료의 범위</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-prompt.html">직접 해 보기 1 — 자료는 내 컴퓨터에, AI에는 질문만</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../panel-data/index.html">패널 데이터 분석 — FTA와 수출</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p1.html">1. 보고서 — FTA는 한국의 수출을 늘렸나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p2.html">2. 단체 사진과 사진첩 — 횡단면과 패널</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p3.html">3. 어제의 나와 비교하기 — 고정효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p4.html">4. 두 가지 차이를 섞기 — 확률효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p5.html">5. 무엇을 고르나 — 하우스만 검정과 연도 효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../causal-inference/index.html">인과 추론 — 공정한 비교를 찾아서</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c1.html">1. 보고서 — 일자리 제공 프로그램은 소득을 올렸나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c2.html">2. 같은 사람의 두 가지 미래 — 인과 효과와 실험</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c3.html">3. 엉뚱한 비교 상대 — 교란</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c4.html">4. 조건을 맞추면 — 통제의 계단</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c5.html">5. 넣으면 안 되는 변수 — 매개, 총효과, 나쁜 통제</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c6.html">6. 실험이 없을 때 — 설계의 지도</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">이중차분 — 허가구역과 아파트 거래</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="section-d1.html">1. 보고서 — 토지거래허가구역은 거래를 얼마나 줄였나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-d2.html">2. 변화로 비교하기 — 대역을 세운다</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-d3.html">3. 나란히 움직였을까 — 지정 전 다섯 달</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-d4.html">4. 정답이 있는 예 — 나란하지 않으면 얼마나 빗나가나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/pilsunchoi/book5" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="소스 저장소"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="이 페이지 다운로드">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/difference-in-differences/practice-notebook.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="소스 파일 다운로드"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="PDF로 인쇄"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="전체 화면으로보기"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>직접 해 보기 2 — 파이썬 코드로 따라 해 보기</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 내용 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">준비 — 패키지와 글꼴</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">1. 데이터 읽기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">2. 처치와 기간 정하기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">3. 주별 건수와 2×2 표 — 표 2-1과 대역</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">4. 보고서의 그림 — 지정 직전 = 100</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">5. 회귀식으로 — 상호작용 하나</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">6. 지정 전 다섯 달과 지정 뒤 몇 주 — 그림 3-1, 기준 기간 바꾸기, 뒤로 밀린 계약</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">7. 정답이 있는 예 — 일자리 제공 프로그램 자료(표 4-1, 그림 4-1)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">8. 더 해 보기: 역할을 바꿔 — 2025년 10월 20일 서울 전역 지정</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#csv">9. 더 해 보기: 자료 만들기 — 실거래가 원자료에서 1절의 CSV로</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">정리</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>직접 해 보기 2 — 파이썬 코드로 따라 해 보기<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>AI가 내놓은 결과만 보고 그것이 어떻게 나왔는지 모르면, 그 결과를 믿을 근거도 없다. AI도 실수를 하므로 결과는 점검해야 하고, 점검하려면 결과를 만든 파이썬 코드를 읽을 줄 알아야 한다.</p>
+<p>이 노트북은 이 장에서 다룬 계산을 파이썬으로 직접 해 본다. 이중차분의 계산은 대부분 평균을 내고 빼는 것이라, 새로 배울 함수는 <code class="docutils literal notranslate"><span class="pre">groupby</span></code>로 건수를 세는 것과 회귀식 하나(<code class="docutils literal notranslate"><span class="pre">smf.glm</span></code>)뿐이다.</p>
+<ol class="arabic simple">
+<li><p>데이터 읽기 — 구 × 계약일의 계약 건수</p></li>
+<li><p>처치와 기간 정하기</p></li>
+<li><p>주별 건수와 2×2 표 — 표 2-1과 대역</p></li>
+<li><p>보고서의 그림 — 지정 직전 = 100</p></li>
+<li><p>회귀식으로 — 상호작용 하나</p></li>
+<li><p>지정 전 다섯 달과 지정 뒤 몇 주 — 그림 3-1, 기준 기간 바꾸기, 뒤로 밀린 계약</p></li>
+<li><p>정답이 있는 예 — 일자리 제공 프로그램 자료(표 4-1, 그림 4-1)</p></li>
+<li><p>더 해 보기: 역할을 바꿔 — 2025년 10월 20일 서울 전역 지정</p></li>
+<li><p>더 해 보기: 자료 만들기 — 실거래가 원자료에서 1절의 CSV로</p></li>
+</ol>
+<section id="id2">
+<h2>준비 — 패키지와 글꼴<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">import</span></code>로 쓸 패키지를 불러온다. <code class="docutils literal notranslate"><span class="pre">as</span></code> 뒤의 이름은 줄임말이고, 이후 코드에서는 <code class="docutils literal notranslate"><span class="pre">pd</span></code>, <code class="docutils literal notranslate"><span class="pre">smf</span></code>처럼 줄임말로 부른다. 이 장에서 쓰는 패키지는 모두 Anaconda와 Colab에 기본으로 들어 있다.</p>
+<p>matplotlib는 기본 글꼴에 한글이 없어서 그림의 한글이 네모로 깨진다. 그래서 한글 글꼴을 지정한다. 윈도우는 맑은 고딕(<code class="docutils literal notranslate"><span class="pre">Malgun</span> <span class="pre">Gothic</span></code>), 맥은 애플고딕(<code class="docutils literal notranslate"><span class="pre">AppleGothic</span></code>)을 쓴다. Colab에는 한글 글꼴이 없으므로 새 셀에서 <code class="docutils literal notranslate"><span class="pre">!apt-get</span> <span class="pre">-qq</span> <span class="pre">install</span> <span class="pre">fonts-nanum</span></code>을 실행하고, 런타임을 다시 시작한 뒤 <code class="docutils literal notranslate"><span class="pre">NanumGothic</span></code>을 지정한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>                       <span class="c1"># 지수(np.exp) 계산</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>                      <span class="c1"># 표(데이터프레임) 다루기</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sm</span>             <span class="c1"># 회귀식의 분포족(포아송)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.formula.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">smf</span>    <span class="c1"># 회귀분석</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>          <span class="c1"># 그림</span>
+
+<span class="c1"># 그림의 한글 글꼴</span>
+<span class="c1"># 맥은 'AppleGothic', Colab은 'NanumGothic'(설치 필요)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'font.family'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Malgun Gothic'</span>   <span class="c1"># 윈도우</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'axes.unicode_minus'</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>      <span class="c1"># 음수 부호(-) 깨짐 방지</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id3">
+<h2>1. 데이터 읽기<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>이 장의 자료는 서울 25개 구의 아파트 매매 계약 건수를 계약일마다 센 것이다(2024년 10월 8일 ~ 2026년 10월 6일). 국토교통부 실거래가 공개시스템에서 받은 거래 자료에서 해제된 거래를 빼고, 중개거래와 직거래를 모두 구마다 날마다 셌다. 계약이 없던 날도 0건으로 들어 있다. 책 사이트의 장 첫 페이지에서 내려받을 수 있고, 원자료에서 이 파일을 만드는 코드는 9절에 있다.</p>
+<ul class="simple">
+<li><p>내 컴퓨터의 주피터: CSV를 이 노트북 파일과 같은 폴더에 두고, 아래 코드의 <code class="docutils literal notranslate"><span class="pre">CSV</span> <span class="pre">=</span></code> 줄에 파일 이름을 그대로 적는다.</p></li>
+<li><p>Colab: 왼쪽의 폴더 아이콘을 누르고 업로드 버튼으로 CSV를 올린 뒤 <code class="docutils literal notranslate"><span class="pre">CSV</span> <span class="pre">=</span> <span class="pre">'/content/파일이름.csv'</span></code>로 적는다.</p></li>
+</ul>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>변수</p></th>
+<th class="head"><p>뜻</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">계약일</span></code></p></td>
+<td><p>계약한 날(예: 2025-03-24)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">구</span></code></p></td>
+<td><p>서울의 구 이름</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">계약건수</span></code></p></td>
+<td><p>그 구에서 그날 맺은 아파트 매매 계약 건수</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">parse_dates=['계약일']</span></code>은 계약일 열을 글자가 아니라 날짜로 읽으라는 옵션이다. 날짜로 읽어야 주를 묶고 기간을 자를 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">CSV</span> <span class="o">=</span> <span class="s1">'seoul-apt-contracts-daily-by-gu-2024-10-2026-10.csv'</span>   <span class="c1"># 자기 파일 이름으로 바꾼다</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">CSV</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s1">'계약일'</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">),</span> <span class="s1">'행,'</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">'구'</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span> <span class="s1">'개 구,'</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">'계약일'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">(),</span> <span class="s1">'~'</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">'계약일'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'계약'</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">'계약건수'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="s1">'건'</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id4">
+<h2>2. 처치와 기간 정하기<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p>누가 언제 처치를 받았는지는 자료에 적혀 있지 않으므로 직접 적는다. 2025년 3월 24일부터 강남·서초·송파·용산구 아파트 전체가 토지거래허가구역이 되었다. 이 네 구가 처치 그룹이고, 나머지 21개 구가 비교 상대다.</p>
+<p>비교할 두 기간은 보고서와 같게 4주씩 잡는다. 지정 전 4주는 2월 17일 ~ 3월 16일이다. 3월 19일 발표 뒤 계약이 몰린 3월 17일 주는 뺀다(3절의 표에서 확인한다). 지정 뒤 4주는 3월 24일 ~ 4월 20일이다.</p>
+<p>주는 월요일에 시작한다. <code class="docutils literal notranslate"><span class="pre">dt.to_period('W-SUN')</span></code>은 일요일에 끝나는 주로 묶고, <code class="docutils literal notranslate"><span class="pre">.dt.start_time</span></code>은 그 주의 첫날(월요일)을 꼬리표로 붙인다. <code class="docutils literal notranslate"><span class="pre">isin(G4)</span></code>는 구 이름이 G4 목록에 들어 있으면 참이고, <code class="docutils literal notranslate"><span class="pre">astype(int)</span></code>가 참·거짓을 1과 0으로 바꾼다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">G4</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'강남구'</span><span class="p">,</span> <span class="s1">'서초구'</span><span class="p">,</span> <span class="s1">'송파구'</span><span class="p">,</span> <span class="s1">'용산구'</span><span class="p">]</span>    <span class="c1"># 처치 그룹</span>
+<span class="n">PRE</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'2025-02-17'</span><span class="p">,</span> <span class="s1">'2025-03-16'</span><span class="p">)</span>              <span class="c1"># 지정 전 4주</span>
+<span class="n">POST</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'2025-03-24'</span><span class="p">,</span> <span class="s1">'2025-04-20'</span><span class="p">)</span>             <span class="c1"># 지정 뒤 4주</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s1">'4구'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'구'</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">G4</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'주'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'계약일'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">to_period</span><span class="p">(</span><span class="s1">'W-SUN'</span><span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">start_time</span>   <span class="c1"># 월요일에 시작하는 주</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id5">
+<h2>3. 주별 건수와 2×2 표 — 표 2-1과 대역<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<p>구 묶음(4개 구, 21개 구)마다 주별로 계약 건수를 더한다. <code class="docutils literal notranslate"><span class="pre">groupby(['주',</span> <span class="pre">'4구'])['계약건수'].sum()</span></code>은 주와 묶음의 짝마다 건수를 더하고, <code class="docutils literal notranslate"><span class="pre">unstack()</span></code>은 묶음을 열로 펼친다. 열 이름 0과 1을 알아보기 쉽게 바꾼다.</p>
+<p>먼저 3월 17일 주 앞뒤를 출력해 발표 뒤 계약이 몰린 것을 확인한다. 그다음 두 기간의 주 평균을 내고, 묶음마다 지정 전 4주를 100으로 맞춘다(2절의 “지정 직전 = 100”). 21개 구가 100에서 간 곳이 4개 구의 대역이고, 4개 구의 실제를 대역으로 나눈 것이 “지정이 없었을 때의 몇 분의 1”이다.</p>
+<p>마지막 줄은 2절에서 본 “건수를 그대로 빼면”이다. 4개 구도 21개 구만큼 건수가 줄었다고 보면 4개 구의 대역이 주 200건 남짓으로 내려가는데, 이것이 크기가 다른 두 그룹을 건수로 비교할 때의 문제였다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">wk</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'주'</span><span class="p">,</span> <span class="s1">'4구'</span><span class="p">])[</span><span class="s1">'계약건수'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">'21개 구'</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">'4개 구'</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">wk</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">'2025-03-03'</span><span class="p">:</span><span class="s1">'2025-04-07'</span><span class="p">])</span>        <span class="c1"># 3월 17일 주에 4개 구 계약이 몰렸다</span>
+
+<span class="n">pre</span> <span class="o">=</span> <span class="n">wk</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">PRE</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">PRE</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>              <span class="c1"># 지정 전 4주의 주 평균</span>
+<span class="n">post</span> <span class="o">=</span> <span class="n">wk</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">POST</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">POST</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>           <span class="c1"># 지정 뒤 4주의 주 평균</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="n">post</span> <span class="o">/</span> <span class="n">pre</span> <span class="o">*</span> <span class="mi">100</span>                          <span class="c1"># 지정 직전 = 100</span>
+<span class="n">table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'지정 전 4주'</span><span class="p">:</span> <span class="n">pre</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s1">'지정 뒤 4주'</span><span class="p">:</span> <span class="n">post</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s1">'지정 직전 = 100'</span><span class="p">:</span> <span class="n">idx</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">0</span><span class="p">)})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+
+<span class="n">stand_in</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[</span><span class="s1">'21개 구'</span><span class="p">]</span>                       <span class="c1"># 4개 구의 대역: 21개 구처럼 움직였다면</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"4개 구의 대역 100 → </span><span class="si">{</span><span class="n">stand_in</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">, 실제 </span><span class="si">{</span><span class="n">idx</span><span class="p">[</span><span class="s1">'4개 구'</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">, 실제 ÷ 대역 </span><span class="si">{</span><span class="n">idx</span><span class="p">[</span><span class="s1">'4개 구'</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">stand_in</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"건수를 그대로 빼면 4개 구의 대역: </span><span class="si">{</span><span class="n">pre</span><span class="p">[</span><span class="s1">'4개 구'</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">pre</span><span class="p">[</span><span class="s1">'21개 구'</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">post</span><span class="p">[</span><span class="s1">'21개 구'</span><span class="p">])</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">건"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id6">
+<h2>4. 보고서의 그림 — 지정 직전 = 100<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
+<p>보고서의 그림처럼 2024년 10월 중순부터 2025년 6월 중순까지의 주별 건수를, 묶음마다 지정 전 4주의 평균으로 나눠 100을 곱해 그린다. <code class="docutils literal notranslate"><span class="pre">axvspan</span></code>은 비교한 두 기간을 회색 띠로, <code class="docutils literal notranslate"><span class="pre">axvline</span></code>은 지정일을 세로 점선으로 표시한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="n">wk</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">'2024-10-14'</span><span class="p">:</span><span class="s1">'2025-06-15'</span><span class="p">]</span> <span class="o">/</span> <span class="n">pre</span> <span class="o">*</span> <span class="mi">100</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">8.4</span><span class="p">,</span> <span class="mf">3.6</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="ow">in</span> <span class="p">(</span><span class="n">PRE</span><span class="p">,</span> <span class="n">POST</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">lo</span><span class="p">),</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">hi</span><span class="p">)</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">6</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#efeee9'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s1">'2025-03-24'</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'lightgray'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">w</span><span class="p">[</span><span class="s1">'21개 구'</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#2a78d6'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'나머지 21개 구'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">w</span><span class="p">[</span><span class="s1">'4개 구'</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#eb6834'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'강남·서초·송파·용산'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'주별 계약 건수</span><span class="se">\n</span><span class="s1">(지정 직전 4주 평균 = 100)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id7">
+<h2>5. 회귀식으로 — 상호작용 하나<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
+<p>보고서의 표 주에 적힌 회귀식이다(2절의 “회귀식으로 쓰면”). 자료를 구 × 주로 만들고, 두 기간의 주만 남긴다. 계약이 없던 구 × 주도 0건으로 남아야 하므로 <code class="docutils literal notranslate"><span class="pre">unstack(fill_value=0).stack()</span></code>으로 빈칸을 0으로 채운다.</p>
+<p>회귀식 <code class="docutils literal notranslate"><span class="pre">건수</span> <span class="pre">~</span> <span class="pre">C(구)</span> <span class="pre">+</span> <span class="pre">후</span> <span class="pre">+</span> <span class="pre">처치:후</span></code>는 2절의 식 <span class="math notranslate nohighlight">\(	ext{로그 계약 건수}_{it} = a_i + c 	imes 	ext{지정 뒤}_t + d 	imes (	ext{4개 구}_i 	imes 	ext{지정 뒤}_t)\)</span>를 코드로 쓴 것이다. <code class="docutils literal notranslate"><span class="pre">C(구)</span></code>는 구마다 자기 높이 <span class="math notranslate nohighlight">\(a_i\)</span>를 두는 구 더미로, 첫째 빼기에서 지워지는 몫(구마다 원래 몇 건짜리였나)을 맡는다. <code class="docutils literal notranslate"><span class="pre">후</span></code>는 지정 뒤이면 1인 더미로, 계수가 <span class="math notranslate nohighlight">\(c\)</span>이고 둘째 빼기에서 지워지는 몫(지정 뒤에 모든 구에 함께 일어난 변화)을 맡는다. <code class="docutils literal notranslate"><span class="pre">처치:후</span></code>는 4개 구 더미와 지정 뒤 더미를 곱한 상호작용 항으로, 그 계수 <span class="math notranslate nohighlight">\(d\)</span>가 두 번 빼기의 답이다. 4개 구 더미를 따로 넣지 않는 것은 구 더미에 이미 들어 있기 때문이다.</p>
+<p>종속변수가 건수라서 <code class="docutils literal notranslate"><span class="pre">smf.ols</span></code> 대신 포아송 회귀(<code class="docutils literal notranslate"><span class="pre">smf.glm(...,</span> <span class="pre">family=sm.families.Poisson())</span></code>)를 쓴다. 회귀식을 쓰고 계수를 읽는 원리는 다중회귀분석과 같고, 종속변수에 로그를 취한 식이라 계수 <span class="math notranslate nohighlight">\(d\)</span>를 <span class="math notranslate nohighlight">\(e^d\)</span>배로 읽는다. 표준오차는 같은 구의 여러 주가 서로 닮은 것을 감안해 구 단위 군집 표준오차로 구한다(<code class="docutils literal notranslate"><span class="pre">cov_type='cluster'</span></code>). 3절의 “실제 ÷ 대역”과 같은 0.105가 나오는 것을 확인한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gw</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'구'</span><span class="p">,</span> <span class="s1">'주'</span><span class="p">])[</span><span class="s1">'계약건수'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">'건수'</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">in_pre</span> <span class="o">=</span> <span class="p">(</span><span class="n">gw</span><span class="p">[</span><span class="s1">'주'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">PRE</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">gw</span><span class="p">[</span><span class="s1">'주'</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">PRE</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">in_post</span> <span class="o">=</span> <span class="p">(</span><span class="n">gw</span><span class="p">[</span><span class="s1">'주'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">POST</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">gw</span><span class="p">[</span><span class="s1">'주'</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">POST</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">gw</span> <span class="o">=</span> <span class="n">gw</span><span class="p">[</span><span class="n">in_pre</span> <span class="o">|</span> <span class="n">in_post</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">gw</span><span class="p">[</span><span class="s1">'처치'</span><span class="p">]</span> <span class="o">=</span> <span class="n">gw</span><span class="p">[</span><span class="s1">'구'</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">G4</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">gw</span><span class="p">[</span><span class="s1">'후'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">gw</span><span class="p">[</span><span class="s1">'주'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">POST</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">glm</span><span class="p">(</span><span class="s1">'건수 ~ C(구) + 후 + 처치:후'</span><span class="p">,</span> <span class="n">gw</span><span class="p">,</span> <span class="n">family</span><span class="o">=</span><span class="n">sm</span><span class="o">.</span><span class="n">families</span><span class="o">.</span><span class="n">Poisson</span><span class="p">())</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+    <span class="n">cov_type</span><span class="o">=</span><span class="s1">'cluster'</span><span class="p">,</span> <span class="n">cov_kwds</span><span class="o">=</span><span class="p">{</span><span class="s1">'groups'</span><span class="p">:</span> <span class="n">gw</span><span class="p">[</span><span class="s1">'구'</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">'category'</span><span class="p">)</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">codes</span><span class="p">})</span>
+<span class="n">b</span><span class="p">,</span> <span class="n">se</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">'처치:후'</span><span class="p">],</span> <span class="n">m</span><span class="o">.</span><span class="n">bse</span><span class="p">[</span><span class="s1">'처치:후'</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"처치:후 계수 </span><span class="si">{</span><span class="n">b</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> (표준오차 </span><span class="si">{</span><span class="n">se</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">), e^b = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">배, "</span>
+      <span class="sa">f</span><span class="s2">"95% 신뢰구간 </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1.96</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">se</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> ~ </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1.96</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">se</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, 구 × 주 </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">gw</span><span class="p">)</span><span class="si">}</span><span class="s2">개"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id8">
+<h2>6. 지정 전 다섯 달과 지정 뒤 몇 주 — 그림 3-1, 기준 기간 바꾸기, 뒤로 밀린 계약<a class="headerlink" href="#id8" title="Link to this heading">#</a></h2>
+<p>3절의 그림 3-1이다. 이번에는 기준을 해제 이전 15주(2024년 10월 14일 ~ 2025년 1월 26일)로 잡아 그 평균을 100으로 맞춘다. 15주 동안 두 선이 거의 겹치다가, 2월 13일 잠실·삼성·대치·청담의 허가구역 해제 뒤로 4개 구만 더 빨리 늘어나는 것을 확인한다. 4개 구의 3월 17일 주는 그림 밖으로 올라가므로 <code class="docutils literal notranslate"><span class="pre">set_ylim</span></code>으로 위를 자른다.</p>
+<p>월별로 4개 구 ÷ 21개 구를 계산하면 같은 이야기를 숫자로 볼 수 있다. 마지막으로 3절의 계산을 기준 기간만 그림의 15주로 바꿔 다시 해 본다. 남은 몫이 약 10분의 1에서 약 15%로 바뀌는 것을 확인한다.</p>
+<p>끝으로 3절의 “허가를 기다린 계약”이다. 지정 뒤 4개 구의 주별 건수를 출력해 주마다 조금씩 늘어나는 것을 보고, 지정 뒤 기간을 4주, 8주, 12주로 늘려 가며 3절의 계산을 되풀이한다. 지정 전 기간은 그대로 두고 지정 뒤 기간만 늘린다. 12주는 6월 15일까지로, 6월 말의 대출 규제 앞에서 멈춘다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">base</span> <span class="o">=</span> <span class="n">wk</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">'2024-10-14'</span><span class="p">:</span><span class="s1">'2025-01-26'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">w2</span> <span class="o">=</span> <span class="n">wk</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">'2024-10-14'</span><span class="p">:</span><span class="s1">'2025-04-27'</span><span class="p">]</span> <span class="o">/</span> <span class="n">base</span> <span class="o">*</span> <span class="mi">100</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">8.4</span><span class="p">,</span> <span class="mf">3.6</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">day</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'2025-02-13'</span><span class="p">,</span> <span class="s1">'2025-03-24'</span><span class="p">]:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">day</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'lightgray'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">w2</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">w2</span><span class="p">[</span><span class="s1">'21개 구'</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#2a78d6'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'나머지 21개 구'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">w2</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">w2</span><span class="p">[</span><span class="s1">'4개 구'</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#eb6834'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'강남·서초·송파·용산'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">450</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'주별 계약 건수</span><span class="se">\n</span><span class="s1">(해제 이전 15주 평균 = 100)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">mo</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="n">df</span><span class="p">[</span><span class="s1">'계약일'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">to_period</span><span class="p">(</span><span class="s1">'M'</span><span class="p">),</span> <span class="s1">'4구'</span><span class="p">])[</span><span class="s1">'계약건수'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'월별 4개 구 ÷ 21개 구:'</span><span class="p">,</span> <span class="p">(</span><span class="n">mo</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">mo</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">'2024-10'</span><span class="p">:</span><span class="s1">'2025-03'</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+
+<span class="n">pre2</span> <span class="o">=</span> <span class="n">wk</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">'2024-10-14'</span><span class="p">:</span><span class="s1">'2025-01-26'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>   <span class="c1"># 해제 이전 15주를 기준으로</span>
+<span class="n">idx2</span> <span class="o">=</span> <span class="n">post</span> <span class="o">/</span> <span class="n">pre2</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"해제 이전 기준: 21개 구 100 → </span><span class="si">{</span><span class="n">idx2</span><span class="p">[</span><span class="s1">'21개 구'</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">, 4개 구 100 → </span><span class="si">{</span><span class="n">idx2</span><span class="p">[</span><span class="s1">'4개 구'</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">, "</span>
+      <span class="sa">f</span><span class="s2">"실제 ÷ 대역 </span><span class="si">{</span><span class="n">idx2</span><span class="p">[</span><span class="s1">'4개 구'</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">idx2</span><span class="p">[</span><span class="s1">'21개 구'</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'지정 뒤 4주의 4개 구 주별 건수:'</span><span class="p">,</span> <span class="n">wk</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">POST</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">POST</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">'4개 구'</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="k">for</span> <span class="n">end</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'2025-04-20'</span><span class="p">,</span> <span class="s1">'2025-05-18'</span><span class="p">,</span> <span class="s1">'2025-06-15'</span><span class="p">]:</span>          <span class="c1"># 지정 뒤 4주, 8주, 12주</span>
+    <span class="n">idx3</span> <span class="o">=</span> <span class="n">wk</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">POST</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">end</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">/</span> <span class="n">pre</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"지정 뒤 ~ </span><span class="si">{</span><span class="n">end</span><span class="si">}</span><span class="s2">: 21개 구 100 → </span><span class="si">{</span><span class="n">idx3</span><span class="p">[</span><span class="s1">'21개 구'</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">, 4개 구 100 → </span><span class="si">{</span><span class="n">idx3</span><span class="p">[</span><span class="s1">'4개 구'</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">, "</span>
+          <span class="sa">f</span><span class="s2">"실제 ÷ 대역 </span><span class="si">{</span><span class="n">idx3</span><span class="p">[</span><span class="s1">'4개 구'</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">idx3</span><span class="p">[</span><span class="s1">'21개 구'</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id9">
+<h2>7. 정답이 있는 예 — 일자리 제공 프로그램 자료(표 4-1, 그림 4-1)<a class="headerlink" href="#id9" title="Link to this heading">#</a></h2>
+<p>4절에서 쓴 인과 장의 자료다. 인과 장의 노트북처럼 데헤이아의 누리집에서 바로 읽는다(인터넷에 연결돼 있어야 한다). 열 이름도 같다 — <code class="docutils literal notranslate"><span class="pre">treat</span></code>는 참가자이면 1, <code class="docutils literal notranslate"><span class="pre">re74</span></code>, <code class="docutils literal notranslate"><span class="pre">re75</span></code>, <code class="docutils literal notranslate"><span class="pre">re78</span></code>은 1974년, 1975년, 1978년 소득이다.</p>
+<p>표 4-1의 이중차분 열은 종속변수를 1978년 소득 대신 늘어난 소득(<code class="docutils literal notranslate"><span class="pre">re78</span> <span class="pre">-</span> <span class="pre">re75</span></code>)으로 바꾸고 <code class="docutils literal notranslate"><span class="pre">treat</span></code> 하나만 넣은 회귀식의 계수다. 비교 상대를 실험 대조군과 일반 인구로 바꿔 가며 계산한다. 회귀식 안에서 <code class="docutils literal notranslate"><span class="pre">I(re78</span> <span class="pre">-</span> <span class="pre">re75)</span></code>라고 쓰면 따로 열을 만들지 않아도 된다.</p>
+<p>같은 값을 대역으로도 계산한다. 참가자의 1975년 평균 소득에 비교 상대가 늘어난 만큼을 더한 것이 “참가하지 않았다면”의 1978년 소득(대역)이고, 실제 1978년 평균 소득과 대역의 차이가 회귀식의 계수와 같다. 마지막으로 참가 전인 1974년에서 1975년까지 평균 소득이 얼마나 바뀌었는지를 그룹마다 센다(4절의 “나란해 보여도 증명은 아니다”).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">URL</span> <span class="o">=</span> <span class="s1">'https://users.nber.org/~rdehejia/data/'</span>
+<span class="n">COLS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'treat'</span><span class="p">,</span> <span class="s1">'age'</span><span class="p">,</span> <span class="s1">'educ'</span><span class="p">,</span> <span class="s1">'black'</span><span class="p">,</span> <span class="s1">'hisp'</span><span class="p">,</span> <span class="s1">'married'</span><span class="p">,</span> <span class="s1">'nodegree'</span><span class="p">,</span> <span class="s1">'re74'</span><span class="p">,</span> <span class="s1">'re75'</span><span class="p">,</span> <span class="s1">'re78'</span><span class="p">]</span>
+<span class="n">read</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">name</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">URL</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">'.txt'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sa">r</span><span class="s1">'\s+'</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">COLS</span><span class="p">)</span>
+<span class="n">treated</span><span class="p">,</span> <span class="n">control</span><span class="p">,</span> <span class="n">cps</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="s1">'nswre74_treated'</span><span class="p">),</span> <span class="n">read</span><span class="p">(</span><span class="s1">'nswre74_control'</span><span class="p">),</span> <span class="n">read</span><span class="p">(</span><span class="s1">'cps_controls'</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">ctrl</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">'실험 대조군'</span><span class="p">,</span> <span class="n">control</span><span class="p">),</span> <span class="p">(</span><span class="s1">'일반 인구(CPS)'</span><span class="p">,</span> <span class="n">cps</span><span class="p">)]:</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">treated</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">])</span>
+    <span class="n">lvl</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">'re78 ~ treat'</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+    <span class="n">did</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">'I(re78 - re75) ~ treat'</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">10s</span><span class="si">}</span><span class="s2"> 1978년 소득 비교 </span><span class="si">{</span><span class="n">lvl</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">'treat'</span><span class="p">]</span><span class="si">:</span><span class="s2">7,.0f</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">lvl</span><span class="o">.</span><span class="n">bse</span><span class="p">[</span><span class="s1">'treat'</span><span class="p">]</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">)   "</span>
+          <span class="sa">f</span><span class="s2">"이중차분 </span><span class="si">{</span><span class="n">did</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">'treat'</span><span class="p">]</span><span class="si">:</span><span class="s2">6,.0f</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">did</span><span class="o">.</span><span class="n">bse</span><span class="p">[</span><span class="s1">'treat'</span><span class="p">]</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+
+<span class="n">t75</span><span class="p">,</span> <span class="n">t78</span> <span class="o">=</span> <span class="n">treated</span><span class="p">[</span><span class="s1">'re75'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">treated</span><span class="p">[</span><span class="s1">'re78'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">'일반 인구만큼'</span><span class="p">,</span> <span class="n">cps</span><span class="p">),</span> <span class="p">(</span><span class="s1">'실험 대조군만큼'</span><span class="p">,</span> <span class="n">control</span><span class="p">)]:</span>
+    <span class="n">gain</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="s1">'re78'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">g</span><span class="p">[</span><span class="s1">'re75'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"대역(</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> 늘었다면): </span><span class="si">{</span><span class="n">t75</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">gain</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">,  실제 </span><span class="si">{</span><span class="n">t78</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">와의 차이 </span><span class="si">{</span><span class="n">t78</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t75</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">gain</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">'참가자'</span><span class="p">,</span> <span class="n">treated</span><span class="p">),</span> <span class="p">(</span><span class="s1">'실험 대조군'</span><span class="p">,</span> <span class="n">control</span><span class="p">),</span> <span class="p">(</span><span class="s1">'일반 인구(CPS)'</span><span class="p">,</span> <span class="n">cps</span><span class="p">)]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">10s</span><span class="si">}</span><span class="s2"> 1974 → 1975년 평균 소득의 변화 </span><span class="si">{</span><span class="n">g</span><span class="p">[</span><span class="s1">'re75'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">g</span><span class="p">[</span><span class="s1">'re74'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">6,.0f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">7.2</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">'프로그램 참가자'</span><span class="p">,</span> <span class="n">treated</span><span class="p">,</span> <span class="s1">'#eb6834'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'실험 대조군'</span><span class="p">,</span> <span class="n">control</span><span class="p">,</span> <span class="s1">'#2a78d6'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'일반 인구(CPS)'</span><span class="p">,</span> <span class="n">cps</span><span class="p">,</span> <span class="s1">'gray'</span><span class="p">)]:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">1974</span><span class="p">,</span> <span class="mi">1975</span><span class="p">,</span> <span class="mi">1978</span><span class="p">],</span> <span class="p">[</span><span class="n">g</span><span class="p">[</span><span class="s1">'re74'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">g</span><span class="p">[</span><span class="s1">'re75'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">g</span><span class="p">[</span><span class="s1">'re78'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mi">1974</span><span class="p">,</span> <span class="mi">1975</span><span class="p">,</span> <span class="mi">1978</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'평균 소득 (달러)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id10">
+<h2>8. 더 해 보기: 역할을 바꿔 — 2025년 10월 20일 서울 전역 지정<a class="headerlink" href="#id10" title="Link to this heading">#</a></h2>
+<p>본문에서는 다루지 않은 계산이다. 2025년 10월 15일 대책으로 10월 20일부터 서울 전역이 토지거래허가구역이 되었다. 강남·서초·송파·용산은 3월부터 이미 지정돼 있었으므로, 이번에는 역할이 뒤바뀐다. 처치 그룹은 21개 구, 비교 상대는 4개 구다.</p>
+<p>기간은 6주씩 잡는다. 지정 전은 8월 25일 ~ 10월 5일이다. 10월 6일 주는 추석 연휴가 끼었고, 10월 13일 주는 대책 발표 뒤 계약이 몰렸으므로 둘 다 뺀다. 지정 뒤는 10월 20일 ~ 11월 30일이다. 3절의 계산을 그대로 하되, 대역은 이번에는 4개 구가 100에서 간 곳이다.</p>
+<p>21개 구의 계약이 크게 줄어드는 것은 3월의 4개 구와 같다. 그런데 비교 상대인 4개 구의 계약이 오히려 늘어난 것을 확인한다. 같은 대책에 4개 구에도 걸린 다른 내용(대출 규제 등)이 있었는지, 4개 구 쪽에 다른 사정이 있었는지는 이 자료로 가릴 수 없다. 그래서 이 대역이 21개 구의 “지정이 없었다면”을 대신할 만한지는 따로 따져 봐야 한다. 직접 해 보기 1의 “역할을 바꿔 다시 해 보기”에서 AI에게 이 점을 물어보자.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">PRE2</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'2025-08-25'</span><span class="p">,</span> <span class="s1">'2025-10-05'</span><span class="p">)</span>
+<span class="n">POST2</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'2025-10-20'</span><span class="p">,</span> <span class="s1">'2025-11-30'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">wk</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">'2025-09-22'</span><span class="p">:</span><span class="s1">'2025-11-03'</span><span class="p">])</span>        <span class="c1"># 10월 13일 주에 21개 구 계약이 몰렸다</span>
+
+<span class="n">pre_b</span> <span class="o">=</span> <span class="n">wk</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">PRE2</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">PRE2</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">post_b</span> <span class="o">=</span> <span class="n">wk</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">POST2</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">POST2</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">idx_b</span> <span class="o">=</span> <span class="n">post_b</span> <span class="o">/</span> <span class="n">pre_b</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'지정 전 6주'</span><span class="p">:</span> <span class="n">pre_b</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s1">'지정 뒤 6주'</span><span class="p">:</span> <span class="n">post_b</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s1">'지정 직전 = 100'</span><span class="p">:</span> <span class="n">idx_b</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">0</span><span class="p">)}))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"21개 구의 대역 100 → </span><span class="si">{</span><span class="n">idx_b</span><span class="p">[</span><span class="s1">'4개 구'</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">, 실제 </span><span class="si">{</span><span class="n">idx_b</span><span class="p">[</span><span class="s1">'21개 구'</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">, 실제 ÷ 대역 </span><span class="si">{</span><span class="n">idx_b</span><span class="p">[</span><span class="s1">'21개 구'</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">idx_b</span><span class="p">[</span><span class="s1">'4개 구'</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="csv">
+<h2>9. 더 해 보기: 자료 만들기 — 실거래가 원자료에서 1절의 CSV로<a class="headerlink" href="#csv" title="Link to this heading">#</a></h2>
+<p>1절의 CSV를 만든 코드다. 국토교통부 실거래가 공개시스템에서 서울 아파트 매매 자료를 1년씩 두 번 받았다(2024년 10월 8일 ~ 2025년 10월 7일, 2025년 10월 8일 ~ 2026년 10월 7일). 받는 방법은 단순회귀분석 장의 직접 해 보기 2, “데이터 수집”과 같다. 두 파일을 이 노트북과 같은 폴더에 두고 <code class="docutils literal notranslate"><span class="pre">MAKE</span> <span class="pre">=</span> <span class="pre">True</span></code>로 바꿔 실행한다.</p>
+<p>원자료는 표 위에 안내문이 있는데, 받은 때에 따라 그 줄 수가 다를 수 있다. 그래서 <code class="docutils literal notranslate"><span class="pre">&quot;NO&quot;</span></code>로 시작하는 머리글 줄을 찾아 그 위를 건너뛴다. 해제된 거래(<code class="docutils literal notranslate"><span class="pre">해제사유발생일</span></code>이 적힌 거래)는 뺀다. <code class="docutils literal notranslate"><span class="pre">시군구</span></code>의 둘째 낱말이 구 이름이다. 마지막으로 구 × 날짜의 모든 짝을 만들어 계약이 없던 날을 0건으로 채운다(<code class="docutils literal notranslate"><span class="pre">reindex(...,</span> <span class="pre">fill_value=0)</span></code>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">MAKE</span> <span class="o">=</span> <span class="kc">False</span>   <span class="c1"># 원자료 두 파일이 있으면 True로 바꾼다</span>
+<span class="n">RAW</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'seoul-apt-sales-2024-10-2025-10.csv'</span><span class="p">,</span> <span class="s1">'seoul-apt-sales-2025-10-2026-10.csv'</span><span class="p">]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">read_raw</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'cp949'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'"NO"'</span><span class="p">):</span>        <span class="c1"># 머리글 줄</span>
+                <span class="k">break</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'cp949'</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">thousands</span><span class="o">=</span><span class="s1">','</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">MAKE</span><span class="p">:</span>
+    <span class="n">raw</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">read_raw</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">RAW</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">cancel</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="s1">'해제사유발생일'</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">raw</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">cancel</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">''</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">,</span> <span class="s1">'nan'</span><span class="p">])]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>            <span class="c1"># 해제된 거래 빼기</span>
+    <span class="n">raw</span><span class="p">[</span><span class="s1">'구'</span><span class="p">]</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="s1">'시군구'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">raw</span><span class="p">[</span><span class="s1">'계약일'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="s1">'계약년월'</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">+</span> <span class="n">raw</span><span class="p">[</span><span class="s1">'계약일'</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="nb">format</span><span class="o">=</span><span class="s1">'%Y%m</span><span class="si">%d</span><span class="s1">'</span><span class="p">)</span>
+    <span class="n">days</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="s1">'계약일'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">raw</span><span class="p">[</span><span class="s1">'계약일'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">freq</span><span class="o">=</span><span class="s1">'D'</span><span class="p">)</span>
+    <span class="n">full</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_product</span><span class="p">([</span><span class="nb">sorted</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="s1">'구'</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()),</span> <span class="n">days</span><span class="p">],</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">'구'</span><span class="p">,</span> <span class="s1">'계약일'</span><span class="p">])</span>
+    <span class="n">daily</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'구'</span><span class="p">,</span> <span class="s1">'계약일'</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">full</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">'계약건수'</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="n">daily</span><span class="p">[</span><span class="s1">'계약일'</span><span class="p">]</span> <span class="o">=</span> <span class="n">daily</span><span class="p">[</span><span class="s1">'계약일'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%Y-%m-</span><span class="si">%d</span><span class="s1">'</span><span class="p">)</span>
+    <span class="n">daily</span><span class="p">[[</span><span class="s1">'계약일'</span><span class="p">,</span> <span class="s1">'구'</span><span class="p">,</span> <span class="s1">'계약건수'</span><span class="p">]]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">'계약일'</span><span class="p">,</span> <span class="s1">'구'</span><span class="p">])</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">CSV</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8-sig'</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">daily</span><span class="p">),</span> <span class="s1">'행 저장:'</span><span class="p">,</span> <span class="n">CSV</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id11">
+<h2>정리<a class="headerlink" href="#id11" title="Link to this heading">#</a></h2>
+<p>이 노트북의 코드는 이 장에서 본 숫자를 직접 만들어 냈다. 이중차분의 계산은 묶음마다 두 기간의 평균을 내고, 크기를 100으로 맞추고, 비교 상대가 움직인 만큼을 처치 그룹에 빌려 오는 것이 전부였다(3절). 회귀식은 같은 계산을 상호작용 하나로 했다(5절). 계산은 어렵지 않지만, 그 숫자를 효과로 해석할 수 있느냐는 두 그룹이 나란히 움직였으리라는 가정에 달려 있고(6, 7절), 같은 가정 아래서도 처치 뒤 기간을 어떻게 잡느냐에 따라 답이 달라진다(6절).</p>
+<p>자기 자료로 분석하려면 1절에서 자기 CSV를 읽고(날짜, 대상, 결과의 세 열), 2절의 <code class="docutils literal notranslate"><span class="pre">G4</span></code>(처치 그룹), <code class="docutils literal notranslate"><span class="pre">PRE</span></code>, <code class="docutils literal notranslate"><span class="pre">POST</span></code>(두 기간)를 바꾼다. 처치 날짜 앞뒤에 결과가 유난히 몰리거나 빠진 주가 있는지 3절의 출력으로 먼저 보고, 있으면 기간에서 뺀다. 6절의 기준 기간과 처치 뒤 기간도 자기 자료의 사정에 맞게 바꿔, 결과가 기간에 따라 얼마나 움직이는지 함께 본다. 7절은 정답이 있는 이 장의 회수 자료라 자기 자료로는 건너뛴다. AI가 만든 보고서를 받았다면, 이 코드로 같은 숫자가 나오는지 확인해 보는 것이 가장 확실한 점검이다.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./difference-in-differences"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="practice-prompt.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">이전</p>
+        <p class="prev-next-title">직접 해 보기 1 — 프롬프트로 내 보고서 받기</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 내용
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">준비 — 패키지와 글꼴</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">1. 데이터 읽기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">2. 처치와 기간 정하기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">3. 주별 건수와 2×2 표 — 표 2-1과 대역</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">4. 보고서의 그림 — 지정 직전 = 100</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">5. 회귀식으로 — 상호작용 하나</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">6. 지정 전 다섯 달과 지정 뒤 몇 주 — 그림 3-1, 기준 기간 바꾸기, 뒤로 밀린 계약</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">7. 정답이 있는 예 — 일자리 제공 프로그램 자료(표 4-1, 그림 4-1)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">8. 더 해 보기: 역할을 바꿔 — 2025년 10월 20일 서울 전역 지정</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#csv">9. 더 해 보기: 자료 만들기 — 실거래가 원자료에서 1절의 CSV로</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">정리</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>© 2026 최필선</p>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
