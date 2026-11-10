@@ -26,6 +26,9 @@ jobs:
         run: pip install -r requirements.txt
       - name: Build
         run: jupyter-book build .
+      # 탭 제목, 링크 미리보기, 인쇄용 제목처럼 수식을 그릴 수 없는 자리의 수식 코드를 글자로 바꾼다
+      - name: Fix math in titles
+        run: python tools/fix_head_math.py _build/html
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
