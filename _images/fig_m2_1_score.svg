@@ -262,7 +262,7 @@ z
     </g>
    </g>
    <g id="text_2">
-    <!-- ② 역문항 뒤집기 -->
+    <!-- ② 답 뒤집기 -->
     <g style="fill: #52514e" transform="translate(13.1904 89.571349) scale(0.078 -0.078)">
      <defs>
       <path id="Pretendard-Bold-2461" d="M 2869 -306 
@@ -292,117 +292,6 @@ C 3006 2950 3125 2850 3125 2681
 C 3125 2525 3019 2425 2863 2288 
 L 2063 1606 
 L 2063 1206 
-z
-" transform="scale(0.015625)"/>
-      <path id="Pretendard-Bold-c5ed" d="M 4963 1494 
-L 1056 1494 
-L 1056 869 
-L 4169 869 
-L 4169 -575 
-L 4963 -575 
-L 4963 1494 
-z
-M 4963 5113 
-L 4169 5113 
-L 4169 4350 
-L 2894 4350 
-C 2622 4638 2219 4809 1756 4806 
-C 894 4813 238 4225 244 3419 
-C 238 2594 894 2000 1756 2000 
-C 2219 2000 2622 2175 2894 2469 
-L 4169 2469 
-L 4169 1750 
-L 4963 1750 
-L 4963 5113 
-z
-M 1756 4138 
-C 2175 4138 2500 3863 2500 3419 
-C 2500 2950 2175 2681 1756 2681 
-C 1313 2681 994 2950 1000 3419 
-C 994 3863 1313 4138 1756 4138 
-z
-M 3225 3106 
-C 3244 3206 3256 3309 3256 3419 
-C 3256 3519 3247 3616 3231 3706 
-L 4169 3706 
-L 4169 3106 
-L 3225 3106 
-z
-" transform="scale(0.015625)"/>
-      <path id="Pretendard-Bold-bb38" d="M 5369 2300 
-L 163 2300 
-L 163 1669 
-L 2438 1669 
-L 2438 688 
-L 3225 688 
-L 3225 1669 
-L 5369 1669 
-L 5369 2300 
-z
-M 4700 4863 
-L 813 4863 
-L 813 2769 
-L 4700 2769 
-L 4700 4863 
-z
-M 1594 4244 
-L 3919 4244 
-L 3919 3388 
-L 1594 3388 
-L 1594 4244 
-z
-M 4794 163 
-L 1569 163 
-L 1569 1181 
-L 775 1181 
-L 775 -475 
-L 4794 -475 
-L 4794 163 
-z
-" transform="scale(0.015625)"/>
-      <path id="Pretendard-Bold-d56d" d="M 4681 5113 
-L 3881 5113 
-L 3881 1500 
-L 4681 1500 
-L 4681 2994 
-L 5450 2994 
-L 5450 3656 
-L 4681 3656 
-L 4681 5113 
-z
-M 2825 1450 
-C 1631 1450 894 1069 900 431 
-C 894 -194 1631 -575 2825 -575 
-C 3994 -575 4744 -194 4744 431 
-C 4744 1069 3994 1450 2825 1450 
-z
-M 2825 844 
-C 3550 844 3944 713 3944 431 
-C 3944 163 3550 19 2825 19 
-C 2081 19 1681 163 1688 431 
-C 1681 713 2081 844 2825 844 
-z
-M 3544 4569 
-L 2256 4569 
-L 2256 5144 
-L 1463 5144 
-L 1463 4569 
-L 169 4569 
-L 169 3950 
-L 3544 3950 
-L 3544 4569 
-z
-M 1856 3756 
-C 1019 3756 444 3338 444 2731 
-C 444 2119 1019 1713 1856 1713 
-C 2681 1713 3256 2119 3256 2731 
-C 3256 3338 2681 3756 1856 3756 
-z
-M 1856 3175 
-C 2238 3175 2500 3019 2500 2731 
-C 2500 2450 2238 2300 1856 2306 
-C 1475 2300 1219 2450 1225 2731 
-C 1219 3019 1475 3175 1856 3175 
 z
 " transform="scale(0.015625)"/>
       <path id="Pretendard-Bold-b4a4" d="M 4963 5106 
@@ -486,13 +375,11 @@ z
      </defs>
      <use xlink:href="#Pretendard-Bold-2461"/>
      <use xlink:href="#Pretendard-Bold-20" transform="translate(89.453125 0)"/>
-     <use xlink:href="#Pretendard-Bold-c5ed" transform="translate(112.5 0)"/>
-     <use xlink:href="#Pretendard-Bold-bb38" transform="translate(198.925781 0)"/>
-     <use xlink:href="#Pretendard-Bold-d56d" transform="translate(285.351562 0)"/>
-     <use xlink:href="#Pretendard-Bold-20" transform="translate(371.777344 0)"/>
-     <use xlink:href="#Pretendard-Bold-b4a4" transform="translate(394.824219 0)"/>
-     <use xlink:href="#Pretendard-Bold-c9d1" transform="translate(481.25 0)"/>
-     <use xlink:href="#Pretendard-Bold-ae30" transform="translate(567.675781 0)"/>
+     <use xlink:href="#Pretendard-Bold-b2f5" transform="translate(112.5 0)"/>
+     <use xlink:href="#Pretendard-Bold-20" transform="translate(198.925781 0)"/>
+     <use xlink:href="#Pretendard-Bold-b4a4" transform="translate(221.972656 0)"/>
+     <use xlink:href="#Pretendard-Bold-c9d1" transform="translate(308.398438 0)"/>
+     <use xlink:href="#Pretendard-Bold-ae30" transform="translate(394.824219 0)"/>
     </g>
    </g>
    <g id="text_3">
