@@ -68,6 +68,8 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'survey-measurement/section-m5';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="색인" href="../genindex.html" />
@@ -284,7 +286,7 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">설문으로 측정하기 — 문항 여러 개로 개념 하나를</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="section-m1.html">1. 보고서 — 성격 검사 50문항은 다섯 성격을 일관되게 측정하나</a></li>
 <li class="toctree-l2"><a class="reference internal" href="section-m2.html">2. 문항 여러 개로 개념 하나를 — 척도와 역문항</a></li>
-<li class="toctree-l2"><a class="reference internal" href="section-m3.html">3. 함께 움직이는가 — 크론바흐 α와 문항 수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-m3.html">3. 함께 움직이는가 — 크론바흐 <span class="math notranslate nohighlight">\(\alpha\)</span>와 문항 수</a></li>
 <li class="toctree-l2"><a class="reference internal" href="section-m4.html">4. 저절로 다섯 묶음으로 나뉘나 — 요인분석</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">5. 측정이 거칠면 관계가 약해진다 — 감쇠와 설문의 함정</a></li>
 <li class="toctree-l2"><a class="reference internal" href="practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
@@ -491,12 +493,12 @@
 </section>
 <section id="id4">
 <h2>신뢰도가 높을수록 관계가 제 크기에 가까워진다<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
-<p>앞 절들에서 본 크론바흐 α가 여기서 다시 등장합니다. 측정이 거친 정도가 곧 신뢰도가 낮은 정도이기 때문입니다. 표 5-1은 외향성을 문항 몇 개로 측정하느냐에 따라 α와 기울기가 어떻게 달라지는지를 보인 것입니다.</p>
+<p>앞 절들에서 본 크론바흐 <span class="math notranslate nohighlight">\(\alpha\)</span>가 여기서 다시 등장합니다. 측정이 거친 정도가 곧 신뢰도가 낮은 정도이기 때문입니다. 표 5-1은 외향성을 문항 몇 개로 측정하느냐에 따라 <span class="math notranslate nohighlight">\(\alpha\)</span>와 기울기가 어떻게 달라지는지를 보인 것입니다.</p>
 <p><strong>표 5-1.</strong> 외향성을 측정한 문항 수와 친화성을 설명하는 기울기</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>외향성을 측정한 문항 수</p></th>
-<th class="head"><p>크론바흐 α</p></th>
+<th class="head"><p>크론바흐 <span class="math notranslate nohighlight">\(\alpha\)</span></p></th>
 <th class="head"><p>기울기</p></th>
 </tr>
 </thead>
@@ -525,10 +527,10 @@
 </table>
 </div>
 <p>주: 50문항 모두 답한 19,718명. 종속변수는 친화성 척도 점수(10문항 평균), 설명변수는 외향성 문항 그 수만큼의 평균. 2 ~ 5문항 행은 그림 3-2처럼 외향성 10문항 가운데 그 수만큼 무작위로 300번 골라 평균했고, 1문항 행은 열 문항 하나하나로 측정한 기울기의 평균이다(그래서 E1 하나일 때의 0.12와 조금 다르다).</p>
-<p>표에서 보듯이 α가 0.61에서 0.89로 올라가는 동안 기울기도 0.18에서 0.26으로 커집니다. 문항이 많아져 운이 상쇄될수록 외향성 점수가 실제 외향성에 가까워지고, 그만큼 친화성과의 관계가 덜 약해집니다. 거꾸로 말하면, α가 0.6인 척도로 측정한 변수를 회귀식에 넣으면 그 변수의 계수는 실제보다 꽤 작게 나올 수 있습니다. 신뢰도는 측정을 믿을 수 있는지의 문제일 뿐 아니라, 그 척도로 얻은 회귀 계수가 얼마나 작아져 있는지의 문제이기도 합니다.</p>
+<p>표에서 보듯이 <span class="math notranslate nohighlight">\(\alpha\)</span>가 0.61에서 0.89로 올라가는 동안 기울기도 0.18에서 0.26으로 커집니다. 문항이 많아져 운이 상쇄될수록 외향성 점수가 실제 외향성에 가까워지고, 그만큼 친화성과의 관계가 덜 약해집니다. 거꾸로 말하면, <span class="math notranslate nohighlight">\(\alpha\)</span>가 0.6인 척도로 측정한 변수를 회귀식에 넣으면 그 변수의 계수는 실제보다 꽤 작게 나올 수 있습니다. 신뢰도는 측정을 믿을 수 있는지의 문제일 뿐 아니라, 그 척도로 얻은 회귀 계수가 얼마나 작아져 있는지의 문제이기도 합니다.</p>
 <p>이것은 학생들이 하는 설문 연구에서 특히 기억해 둘 만합니다. 설문지가 길어지는 것이 부담스러워 개념 하나를 문항 하나나 둘로 묻는 경우가 많기 때문입니다. 그렇게 측정한 변수가 회귀분석에서 “유의하지 않다”고 나왔다면, 관계가 없어서일 수도 있지만 측정이 거칠어 관계가 작게 보였을 수도 있습니다. 4절에서 이름만 본 구조방정식 모형이 설문 연구에서 널리 쓰이는 까닭 가운데 하나도 여기에 있습니다. 문항들 뒤의 요인으로 개념을 측정하므로, 문항마다의 몫 때문에 관계가 약해지는 것을 어느 정도 바로잡을 수 있습니다.</p>
 <p>외향성과 친화성의 관계가 어느 쪽이 원인인지, 아니면 둘 다 다른 무엇의 결과인지는 이 자료로 가릴 수 없습니다. 여기서 본 것은 관계의 크기가 측정에 따라 달라진다는 것뿐입니다.</p>
-<p>💡 <strong>팁:</strong> 설문으로 만든 척도를 회귀분석에 넣을 때는 AI에게 척도마다의 크론바흐 α를 회귀 결과와 함께 보여 달라고 요청하세요. “회귀식에 들어간 척도 변수마다 문항 수와 크론바흐 알파를 표로 함께 보여 주고, 알파가 0.7보다 낮은 변수는 측정 오차 때문에 계수가 작게 나왔을 수 있다는 점을 한계에 적어 줘.” 문항 하나로 측정한 변수가 있다면 그 사실도 밝히게 합니다.</p>
+<p>💡 <strong>팁:</strong> 설문으로 만든 척도를 회귀분석에 넣을 때는 AI에게 척도마다의 크론바흐 <span class="math notranslate nohighlight">\(\alpha\)</span>를 회귀 결과와 함께 보여 달라고 요청하세요. “회귀식에 들어간 척도 변수마다 문항 수와 크론바흐 알파를 표로 함께 보여 주고, 알파가 0.7보다 낮은 변수는 측정 오차 때문에 계수가 작게 나왔을 수 있다는 점을 한계에 적어 줘.” 문항 하나로 측정한 변수가 있다면 그 사실도 밝히게 합니다.</p>
 </section>
 <section id="id5">
 <h2>같은 사람이 같은 설문에 답하면 — 공통방법편향<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
@@ -553,11 +555,11 @@
 </section>
 <section id="id6">
 <h2>이 장을 마치며<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
-<p>이제 이 장 첫머리의 보고서를 처음부터 끝까지 이해할 수 있습니다. 표 아래 주의 “역문항은 6에서 답을 빼서 뒤집은 뒤”와 “척도 점수는 문항 10개의 평균”은 보이지 않는 개념을 측정하는 첫 단계였고, 뒤집지 않으면 모두가 보통 사람이 된다는 것을 보았습니다(2절). 요약 첫 줄의 크론바흐 α 0.79 ~ 0.89는 문항들이 함께 움직이는 정도와 문항 수가 함께 만든 숫자이고, 기준 0.7은 관행일 뿐이며, 셋째 줄의 “일관되게 답했다”와 “맞게 측정했다”는 신뢰도와 타당도의 차이였습니다(3절). 요약 둘째 줄과 그림은 어느 문항이 어느 성격인지 알려 주지 않았는데도 함께 움직이는 문항끼리 다섯 묶음으로 나뉘었다는 것이고, 회전은 그 결과를 보기 좋은 각도로 돌린 것이었습니다(4절). 한계의 셋째 줄은 같은 사람이 같은 설문에 답할 때의 버릇을 걱정한 것이었습니다(5절).</p>
-<p>여러분이 직접 설문을 하고 분석한다면, 이 장의 순서가 그대로 분석의 순서입니다. 채점 키대로 역문항을 뒤집고, 척도 점수를 만들고, 크론바흐 α로 문항들이 함께 움직이는지 확인하고, 요인분석으로 문항이 생각한 대로 묶이는지 보고, 그다음에야 척도 점수를 회귀식에 넣습니다. 이 계산은 모두 AI가 금방 해 줍니다. 그러나 어느 문항이 역문항인지는 자료의 숫자에 적혀 있지 않고, 요인이 몇 개인지와 요인의 이름은 문항을 읽어 본 사람이 정하며, 두 척도의 관계가 답하는 버릇에 부풀었을지는 설문을 어떻게 했는지 아는 사람만 따질 수 있습니다.</p>
+<p>이제 이 장 첫머리의 보고서를 처음부터 끝까지 이해할 수 있습니다. 표 아래 주의 “역문항은 6에서 답을 빼서 뒤집은 뒤”와 “척도 점수는 문항 10개의 평균”은 보이지 않는 개념을 측정하는 첫 단계였고, 뒤집지 않으면 모두가 보통 사람이 된다는 것을 보았습니다(2절). 요약 첫 줄의 크론바흐 <span class="math notranslate nohighlight">\(\alpha\)</span> 0.79 ~ 0.89는 문항들이 함께 움직이는 정도와 문항 수가 함께 만든 숫자이고, 기준 0.7은 관행일 뿐이며, 셋째 줄의 “일관되게 답했다”와 “맞게 측정했다”는 신뢰도와 타당도의 차이였습니다(3절). 요약 둘째 줄과 그림은 어느 문항이 어느 성격인지 알려 주지 않았는데도 함께 움직이는 문항끼리 다섯 묶음으로 나뉘었다는 것이고, 회전은 그 결과를 보기 좋은 각도로 돌린 것이었습니다(4절). 한계의 셋째 줄은 같은 사람이 같은 설문에 답할 때의 버릇을 걱정한 것이었습니다(5절).</p>
+<p>여러분이 직접 설문을 하고 분석한다면, 이 장의 순서가 그대로 분석의 순서입니다. 채점 키대로 역문항을 뒤집고, 척도 점수를 만들고, 크론바흐 <span class="math notranslate nohighlight">\(\alpha\)</span>로 문항들이 함께 움직이는지 확인하고, 요인분석으로 문항이 생각한 대로 묶이는지 보고, 그다음에야 척도 점수를 회귀식에 넣습니다. 이 계산은 모두 AI가 금방 해 줍니다. 그러나 어느 문항이 역문항인지는 자료의 숫자에 적혀 있지 않고, 요인이 몇 개인지와 요인의 이름은 문항을 읽어 본 사람이 정하며, 두 척도의 관계가 답하는 버릇에 부풀었을지는 설문을 어떻게 했는지 아는 사람만 따질 수 있습니다.</p>
 <p>측정은 회귀분석의 앞 단계라서 결과표에는 잘 드러나지 않습니다. 하지만 측정이 거칠면 관계는 약하게 보이고, 같은 버릇이 섞이면 강하게 보입니다. 계수 하나를 믿기 전에 그 변수를 어떻게 측정했는지부터 보는 습관이 이 장이 남기려는 것입니다.</p>
 <blockquote>
-<div><p>AI의 보고서가 설문 척도를 쓰면, 역문항을 뒤집었는지와 크론바흐 α부터 본다.</p>
+<div><p>AI의 보고서가 설문 척도를 쓰면, 역문항을 뒤집었는지와 크론바흐 <span class="math notranslate nohighlight">\(\alpha\)</span>부터 본다.</p>
 </div></blockquote>
 <p>직접 해 보기에서는 이 장의 분석을 파이썬 코드로 따라 해 보고, 같은 방법을 다른 척도에 적용해 봅니다.</p>
 </section>

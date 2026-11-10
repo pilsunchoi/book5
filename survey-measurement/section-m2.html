@@ -68,11 +68,13 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'survey-measurement/section-m2';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="색인" href="../genindex.html" />
     <link rel="search" title="검색" href="../search.html" />
-    <link rel="next" title="3. 함께 움직이는가 — 크론바흐 α와 문항 수" href="section-m3.html" />
+    <link rel="next" title="3. 함께 움직이는가 — 크론바흐 \(\alpha\)와 문항 수" href="section-m3.html" />
     <link rel="prev" title="1. 보고서 — 성격 검사 50문항은 다섯 성격을 일관되게 측정하나" href="section-m1.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="ko"/>
@@ -284,7 +286,7 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">설문으로 측정하기 — 문항 여러 개로 개념 하나를</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="section-m1.html">1. 보고서 — 성격 검사 50문항은 다섯 성격을 일관되게 측정하나</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">2. 문항 여러 개로 개념 하나를 — 척도와 역문항</a></li>
-<li class="toctree-l2"><a class="reference internal" href="section-m3.html">3. 함께 움직이는가 — 크론바흐 α와 문항 수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-m3.html">3. 함께 움직이는가 — 크론바흐 <span class="math notranslate nohighlight">\(\alpha\)</span>와 문항 수</a></li>
 <li class="toctree-l2"><a class="reference internal" href="section-m4.html">4. 저절로 다섯 묶음으로 나뉘나 — 요인분석</a></li>
 <li class="toctree-l2"><a class="reference internal" href="section-m5.html">5. 측정이 거칠면 관계가 약해진다 — 감쇠와 설문의 함정</a></li>
 <li class="toctree-l2"><a class="reference internal" href="practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
@@ -544,7 +546,7 @@
 <p><strong>그림 2-2.</strong> 외향성 점수의 분포. 왼쪽은 역문항을 뒤집은 뒤, 오른쪽은 뒤집지 않고 평균한 점수다(50문항 모두 답한 19,718명).</p>
 <p>그림에서 보듯이 왼쪽 패널의 점수는 1부터 5까지 넓게 퍼져 있습니다. 아주 내향적인 사람부터 아주 외향적인 사람까지 고루 있습니다. 오른쪽 패널의 점수는 3 근처에 좁게 몰려 있습니다. 뒤집지 않은 점수로는 열에 아홉(88%)이 2.5와 3.5 사이에 듭니다. 뒤집은 점수로는 41%입니다.</p>
 <p>왜 이렇게 될까요? 외향적인 사람은 정문항에 높은 점수를, 역문항에 낮은 점수를 줍니다. 뒤집지 않고 평균하면 높은 점수와 낮은 점수가 서로 상쇄되어 3 근처가 됩니다. 내향적인 사람은 반대로 정문항에 낮은 점수를, 역문항에 높은 점수를 주니 역시 3 근처가 됩니다. 외향성 문항의 절반이 역문항이라, 외향적인 사람도 내향적인 사람도 모두 보통 사람이 되는 것입니다. 숫자로 보면 더 또렷합니다. 뒤집은 점수로 상위 10%인 사람들의 평균은 4.49, 하위 10%는 1.49입니다. 같은 사람들을 뒤집지 않은 점수로 보면 3.09와 2.99입니다. 3점 차이가 0.1점 차이로 줄어듭니다.</p>
-<p>이 실수가 무서운 것은 결과만 보아서는 잘 드러나지 않는다는 점입니다. 뒤집지 않은 외향성 점수의 평균은 3.08로, 뒤집은 점수의 평균 3.01과 0.07밖에 다르지 않습니다. 표에 평균만 적혀 있으면 아무 문제가 없어 보입니다. 그 점수로 회귀분석을 하면 외향성은 무엇과도 관계가 약하게 나올 것이고, 사람들은 “외향성은 별 상관이 없다”고 결론 내릴 것입니다. 다음 절에서 볼 크론바흐 α는 이 실수를 숫자로 잡아낼 수 있습니다.</p>
+<p>이 실수가 무서운 것은 결과만 보아서는 잘 드러나지 않는다는 점입니다. 뒤집지 않은 외향성 점수의 평균은 3.08로, 뒤집은 점수의 평균 3.01과 0.07밖에 다르지 않습니다. 표에 평균만 적혀 있으면 아무 문제가 없어 보입니다. 그 점수로 회귀분석을 하면 외향성은 무엇과도 관계가 약하게 나올 것이고, 사람들은 “외향성은 별 상관이 없다”고 결론 내릴 것입니다. 다음 절에서 볼 크론바흐 <span class="math notranslate nohighlight">\(\alpha\)</span>는 이 실수를 숫자로 잡아낼 수 있습니다.</p>
 <p>💡 <strong>팁:</strong> 설문 자료를 AI에게 분석시킬 때는 채점 키를 요청문에 직접 적어 주세요. “이 설문의 리커트 문항으로 척도 점수를 만들어 줘. 역문항은 E2, E4, E6, E8, E10이고 5점 척도이니 6에서 빼서 역코딩(reverse coding)한 뒤 평균해 줘. 역코딩 전후의 문항별 평균도 보여 줘.” 채점 키를 알려 주지 않으면, AI는 문장의 뜻을 짐작해 역문항을 고르거나 아예 뒤집지 않을 수 있습니다. 어느 문항이 역문항인지는 자료의 숫자가 아니라 문장의 뜻과 척도를 만든 사람의 채점 키에서 나옵니다.</p>
 </section>
 <section id="id6">
@@ -618,7 +620,7 @@
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">다음</p>
-        <p class="prev-next-title">3. 함께 움직이는가 — 크론바흐 α와 문항 수</p>
+        <p class="prev-next-title">3. 함께 움직이는가 — 크론바흐 <span class="math notranslate nohighlight">\(\alpha\)</span>와 문항 수</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
