@@ -284,10 +284,10 @@
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../survey-measurement/index.html">설문으로 측정하기 — 문항 여러 개로 개념 하나를</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m1.html">1. 보고서 — 성격 검사 50문항은 다섯 성격을 제대로 측정하나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m1.html">1. 보고서 — 성격 검사 50문항은 다섯 성격을 일관되게 측정하나</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m2.html">2. 문항 여러 개로 개념 하나를 — 척도와 역문항</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m3.html">3. 함께 움직이는가 — 크론바흐 α와 문항 수</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m4.html">4. 저절로 다섯 덩어리로 묶이나 — 요인분석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m4.html">4. 저절로 다섯 묶음으로 나뉘나 — 요인분석</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m5.html">5. 측정이 거칠면 관계가 약해진다 — 감쇠와 설문의 함정</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../survey-measurement/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../survey-measurement/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
@@ -474,8 +474,7 @@
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
 <h1>1. 보고서 — 학력이 높을수록 혈압이 낮을까<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
 <p>이번 장의 주제는 <strong>국가 표본조사 자료의 회귀분석</strong>입니다. 단순회귀분석 장과 다중회귀분석 장에서 배운 회귀분석을 정부가 해마다 수행하는 대규모 조사 자료에 적용해 봅니다. 이런 조사 자료는 쓰임이 아주 넓습니다. 정부는 이 자료로 국민의 건강 목표를 세우고 그 성과를 점검합니다. 연구자는 소득이나 학력에 따라 건강이 얼마나 다른지, 즉 건강 불평등을 분석합니다. 기업도 같은 자료로 시장을 읽습니다. 건강식품 회사라면 어느 연령대의 어떤 사람들이 어떤 영양소를 덜 먹는지 궁금할 테니까요. 이런 자료는 아파트 거래 기록과 달리 <strong>사람을 뽑아서 조사한 자료</strong>라서, 회귀분석을 할 때 챙겨야 할 것이 몇 가지 더 있습니다. 이번 장이 그것을 다룹니다.</p>
-<p>요즘은 AI에게 데이터를 넣어 주고 분석해 달라고 하면 금방 해 줍니다. 우리는 AI가 만들어 준 보고서를 잘 이해하고, 잘 점검하면 됩니다. <strong>AI가 해 주는 것, 잘 이해하기. 그게 우리의 일입니다.</strong></p>
-<p>그런데 이 말에는 단서가 붙습니다. AI에게 데이터를 넣어 주는 것 자체가 허락되지 않는 경우가 생각보다 많기 때문입니다. 이번 장의 자료가 바로 그런 자료입니다. 왜 그런지, 그리고 그런 자료로 어떻게 AI의 도움을 받아 분석하는지가 이번 장의 또 하나의 주제입니다. 아래 데이터 소개에서 자세히 이야기하겠습니다.</p>
+<p>요즘은 AI에게 데이터를 넣어 주고 분석해 달라고 하면 금방 해 줍니다. 그런데 AI에게 데이터를 넣어 주는 것 자체가 허락되지 않는 경우가 생각보다 많습니다. 이번 장의 자료가 바로 그런 자료입니다. 왜 그런지, 그리고 그런 자료로 어떻게 AI의 도움을 받아 분석하는지가 이번 장의 또 하나의 주제입니다. 아래 데이터 소개에서 자세히 이야기하겠습니다.</p>
 <p>이번 장의 예시는 학력과 혈압입니다. 학력이 높은 사람은 혈압이 낮을까요? 성별과 나이가 같은 사람끼리 비교해도 그럴까요?</p>
 <section id="id2">
 <h2>데이터 — 국민건강영양조사 2024<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>

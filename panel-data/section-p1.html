@@ -284,10 +284,10 @@
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../survey-measurement/index.html">설문으로 측정하기 — 문항 여러 개로 개념 하나를</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m1.html">1. 보고서 — 성격 검사 50문항은 다섯 성격을 제대로 측정하나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m1.html">1. 보고서 — 성격 검사 50문항은 다섯 성격을 일관되게 측정하나</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m2.html">2. 문항 여러 개로 개념 하나를 — 척도와 역문항</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m3.html">3. 함께 움직이는가 — 크론바흐 α와 문항 수</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m4.html">4. 저절로 다섯 덩어리로 묶이나 — 요인분석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m4.html">4. 저절로 다섯 묶음으로 나뉘나 — 요인분석</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m5.html">5. 측정이 거칠면 관계가 약해진다 — 감쇠와 설문의 함정</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../survey-measurement/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../survey-measurement/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
@@ -471,7 +471,6 @@
   <section class="tex2jax_ignore mathjax_ignore" id="fta">
 <h1>1. 보고서 — FTA는 한국의 수출을 늘렸나<a class="headerlink" href="#fta" title="Link to this heading">#</a></h1>
 <p>이번 장의 주제는 <strong>패널 데이터</strong>(panel data) 분석입니다. 여러 대상이 있을 때, 각 대상을 여러 시점에 걸쳐 반복해서 관측한 자료를 분석하는 방법입니다. 같은 대상을 추적 관찰하는 셈이죠. 여러 나라의 경제를 해마다, 여러 회사의 실적을 분기마다, 여러 학생의 성적을 학기마다 기록한 자료가 모두 패널 데이터입니다. 경제학과 경영학의 실증 연구에서 가장 흔히 쓰이는 자료이고, 국제무역에서는 특히 그렇습니다. 나라와 나라 사이의 교역은 해마다 기록되니까요. 정부가 정책의 효과를 따질 때도 이런 자료를 씁니다. 예를 들어 주 52시간 근무제는 2018년 큰 기업부터 시작해 2021년까지 기업 규모에 따라 차례로 적용됐는데, 여러 기업의 고용과 근로시간을 해마다 따라가면 이 제도가 무엇을 바꿨는지 따져 볼 수 있습니다. 기업이 여러 지점의 매출을 달마다 비교할 때도 마찬가지입니다.</p>
-<p>예전에는 이 분석을 직접 배워 직접 돌려야 했습니다. 요즘은 AI에게 데이터를 넣어 주고 분석해 달라고 하면 금방 해줍니다. 우리는 AI가 만들어 준 보고서를 잘 이해하고, 잘 점검하면 됩니다. <strong>AI가 해 주는 것, 잘 이해하기. 그게 우리의 일입니다.</strong></p>
 <p>이번 장의 예시는 FTA(자유무역협정)와 수출입니다. 한국이 어떤 나라와 FTA를 맺으면, 그 나라로의 수출이 늘어날까요? 단순회귀분석 장과 다중회귀분석 장의 아파트 거래, 횡단면 분석 장의 건강 조사는 모두 여러 대상을 한 시점에 관측한 자료, 즉 횡단면 자료였습니다. 여러 대상을 사진 한 장에 담은 것과 같죠. 이번 장의 자료는 같은 나라들을 26년 동안 해마다 따라간 기록, 즉 패널 데이터입니다. 횡단면이 사진 한 장이라면, 패널 데이터는 해마다 찍은 사진을 모은 사진첩입니다. 같은 질문이라도 자료의 구조가 달라지면 답하는 방법도, 답 자체도 달라질 수 있습니다. 이번 장이 보여 주려는 것이 바로 그것입니다.</p>
 <section id="id1">
 <h2>데이터 — 한국과 206개국의 26년<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
