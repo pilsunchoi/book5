@@ -248,8 +248,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h3.html">3. 다른 조건이 같다면 — 계수는 무엇을 비교하나</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h4.html">4. 회귀식 밖에 남은 것 — 설명력, 빠진 변수, 남녀의 차이</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h5.html">5. 약 먹고 잰 혈압 — 표본을 정하는 판단과 거꾸로 된 순서</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h6.html">6. 횡단면이 말해 주지 않는 것 — 측정과 자료의 범위</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-prompt.html">직접 해 보기 1 — 자료는 내 컴퓨터에, AI에는 질문만</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h6.html">6. 횡단면이 말해 주지 않는 것 — 측정과 데이터의 범위</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-prompt.html">직접 해 보기 1 — 데이터는 내 컴퓨터에, AI에는 질문만</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
 </ul>
 </details></li>
@@ -468,7 +468,7 @@
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">5. 감쇠 — 문항 하나로 측정하면</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">6. 더 해 보기: 채점 키를 자료에서 짐작하면</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">6. 더 해 보기: 채점 키를 데이터에서 짐작하면</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">7. 더 해 보기: 하만 단일요인검정</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">정리</a></li>
 </ul>
@@ -492,7 +492,7 @@
 <li><p>크론바흐 α — 보고서의 표, 뒤집기 전과 뒤, 문항 수, 문항 하나를 빼면(표 3-2, 그림 3-3, 표 3-3)</p></li>
 <li><p>요인분석 — 보고서의 그림, 문항마다의 적재값, 고유값, 회전(표 4-2, 표 4-3, 그림 4-4)</p></li>
 <li><p>감쇠 — 문항 하나로 측정하면(그림 5-1, 표 5-1)</p></li>
-<li><p>더 해 보기: 채점 키를 자료에서 짐작하면</p></li>
+<li><p>더 해 보기: 채점 키를 데이터에서 짐작하면</p></li>
 <li><p>더 해 보기: 하만 단일요인검정</p></li>
 </ol>
 <section id="id2">
@@ -519,7 +519,7 @@
 </section>
 <section id="id3">
 <h2>1. 데이터 읽기 — 원 사이트에서 바로<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
-<p>이 장의 자료는 Open Psychometrics Project가 공개한 성격 검사 원자료다(2012년 무렵 수집). 재배포를 허락하는 이용 조건이 없어서 책 사이트에는 파일을 두지 않았고, 이 노트북이 원 사이트에서 바로 읽는다(인터넷에 연결돼 있어야 한다). BIG5.zip이라는 압축 파일 안에 <code class="docutils literal notranslate"><span class="pre">data.csv</span></code>(답)와 <code class="docutils literal notranslate"><span class="pre">codebook.txt</span></code>(문항의 문장)가 들어 있다.</p>
+<p>이 장의 데이터는 Open Psychometrics Project가 공개한 성격 검사 원데이터다(2012년 무렵 수집). 재배포를 허락하는 이용 조건이 없어서 책 사이트에는 파일을 두지 않았고, 이 노트북이 원 사이트에서 바로 읽는다(인터넷에 연결돼 있어야 한다). BIG5.zip이라는 압축 파일 안에 <code class="docutils literal notranslate"><span class="pre">data.csv</span></code>(답)와 <code class="docutils literal notranslate"><span class="pre">codebook.txt</span></code>(문항의 문장)가 들어 있다.</p>
 <p><code class="docutils literal notranslate"><span class="pre">urllib.request</span></code>로 압축 파일을 받고, <code class="docutils literal notranslate"><span class="pre">zipfile</span></code>로 그 안의 <code class="docutils literal notranslate"><span class="pre">data.csv</span></code>를 연다. 사이트가 브라우저가 아닌 접속을 막는 경우가 있어서 <code class="docutils literal notranslate"><span class="pre">User-Agent</span></code>에 브라우저 이름을 적어 보낸다. <code class="docutils literal notranslate"><span class="pre">data.csv</span></code>는 이름과 달리 값이 탭으로 나뉘어 있으므로 <code class="docutils literal notranslate"><span class="pre">sep='\t'</span></code>를 준다. 사이트에 접속되지 않으면(접속 오류가 나면) 브라우저로 BIG5.zip을 받아 풀고, 그 안의 <code class="docutils literal notranslate"><span class="pre">data.csv</span></code>를 이 노트북과 같은 폴더에 둔 뒤 다시 실행한다. 코드는 같은 폴더에 <code class="docutils literal notranslate"><span class="pre">data.csv</span></code>가 있으면 그 파일을 먼저 읽는다(<code class="docutils literal notranslate"><span class="pre">os.path.exists</span></code>가 파일이 있는지 확인한다).</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
@@ -562,7 +562,7 @@
 </section>
 <section id="id4">
 <h2>2. 척도와 채점 키 — 역문항의 답 뒤집기와 척도 점수<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
-<p>먼저 문항 50개의 문장을 표로 만든다. 문장은 이 책이 우리말로 옮긴 것이고, 영어 원문(자료와 함께 받는 <code class="docutils literal notranslate"><span class="pre">codebook.txt</span></code>)을 옆에 나란히 둔다. <code class="docutils literal notranslate"><span class="pre">REV</span></code>는 IPIP 채점 키의 역문항 18개, 즉 문장이 그 성격을 거꾸로 묻는 문항이다. 어느 문항이 역문항인지는 자료의 숫자에 적혀 있지 않으므로, 문장을 보고 정한 목록을 직접 적는다(2절). 표에서 문장과 역문항 표시를 함께 읽어 보자.</p>
+<p>먼저 문항 50개의 문장을 표로 만든다. 문장은 이 책이 우리말로 옮긴 것이고, 영어 원문(데이터와 함께 받는 <code class="docutils literal notranslate"><span class="pre">codebook.txt</span></code>)을 옆에 나란히 둔다. <code class="docutils literal notranslate"><span class="pre">REV</span></code>는 IPIP 채점 키의 역문항 18개, 즉 문장이 그 성격을 거꾸로 묻는 문항이다. 어느 문항이 역문항인지는 데이터의 숫자에 적혀 있지 않으므로, 문장을 보고 정한 목록을 직접 적는다(2절). 표에서 문장과 역문항 표시를 함께 읽어 보자.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ITEM_KO</span> <span class="o">=</span> <span class="p">{</span>
@@ -882,9 +882,9 @@
 </div>
 </section>
 <section id="id13">
-<h2>6. 더 해 보기: 채점 키를 자료에서 짐작하면<a class="headerlink" href="#id13" title="Link to this heading">#</a></h2>
-<p>본문에서는 다루지 않은 계산이다. 채점 키가 없을 때 자료의 숫자로 역문항을 고를 수 있을까? 흔히 떠올리는 방법은 문항마다 나머지 9문항의 합(뒤집기 전의 원래 답)과 거꾸로 움직이는지 보는 것이다. 여기서는 나머지 합을 그 문항으로 회귀분석한 기울기가 음수인 문항을 역문항으로 골라 본다.</p>
-<p>신경성, 친화성, 개방성은 채점 키와 똑같이 골라진다. 역문항이 적어서 나머지 합이 정문항 쪽으로 움직이기 때문이다. 그런데 정문항과 역문항이 5 대 5인 외향성에서는 나머지 합이 이쪽저쪽으로 상쇄되어, 정문항 E5, E7, E9까지 역문항으로 골라진다. 성실성에서도 정문항 C5가 섞인다. 그렇게 고른 키로 뒤집으면 외향성의 α가 0.89에서 0.03으로, 성실성은 0.81에서 0.66으로 떨어진다. 채점 키는 문항의 뜻에서 나와야 한다. 직접 해 보기 1의 프롬프트에 “채점 키를 자료에서 짐작하지 마”를 넣은 까닭이다.</p>
+<h2>6. 더 해 보기: 채점 키를 데이터에서 짐작하면<a class="headerlink" href="#id13" title="Link to this heading">#</a></h2>
+<p>본문에서는 다루지 않은 계산이다. 채점 키가 없을 때 데이터의 숫자로 역문항을 고를 수 있을까? 흔히 떠올리는 방법은 문항마다 나머지 9문항의 합(뒤집기 전의 원래 답)과 거꾸로 움직이는지 보는 것이다. 여기서는 나머지 합을 그 문항으로 회귀분석한 기울기가 음수인 문항을 역문항으로 골라 본다.</p>
+<p>신경성, 친화성, 개방성은 채점 키와 똑같이 골라진다. 역문항이 적어서 나머지 합이 정문항 쪽으로 움직이기 때문이다. 그런데 정문항과 역문항이 5 대 5인 외향성에서는 나머지 합이 이쪽저쪽으로 상쇄되어, 정문항 E5, E7, E9까지 역문항으로 골라진다. 성실성에서도 정문항 C5가 섞인다. 그렇게 고른 키로 뒤집으면 외향성의 α가 0.89에서 0.03으로, 성실성은 0.81에서 0.66으로 떨어진다. 채점 키는 문항의 뜻에서 나와야 한다. 직접 해 보기 1의 프롬프트에 “채점 키를 데이터에서 짐작하지 마”를 넣은 까닭이다.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">TRAITS</span><span class="p">:</span>
@@ -902,7 +902,7 @@
 <section id="id14">
 <h2>7. 더 해 보기: 하만 단일요인검정<a class="headerlink" href="#id14" title="Link to this heading">#</a></h2>
 <p>본문에서는 다루지 않은 계산이다. 논문이나 보고서에서 공통방법편향(5절)을 점검했다며 <strong>하만 단일요인검정</strong>(Harman’s single-factor test)을 내놓는 일이 많다. 모든 척도의 문항을 한꺼번에 넣고 회전하지 않은 분석을 해서, 첫 요인 하나가 문항들의 흩어짐을 얼마나 설명하는지 본다. 첫 요인이 절반 넘게 설명하면 공통방법편향을 의심한다는 기준이 흔히 쓰인다. 4절의 고유값으로 계산할 수 있다. 첫 고유값을 고유값의 합(문항 수)으로 나눈 것이다.</p>
-<p>이 자료에서는 첫 요인이 약 16%를 설명해 기준 50%에 한참 못 미친다. 다만 이 검정을 통과했다고 공통방법편향이 없다는 증거가 되지는 않는다는 비판이 많다. 버릇이 관계를 부풀리기에는 충분하면서도 요인 하나가 절반을 넘지는 않을 수 있기 때문이다. 이 검정보다는 두 변수를 어떻게 측정했는지(같은 사람의 같은 설문인지)를 직접 확인하는 편이 낫다.</p>
+<p>이 데이터에서는 첫 요인이 약 16%를 설명해 기준 50%에 한참 못 미친다. 다만 이 검정을 통과했다고 공통방법편향이 없다는 증거가 되지는 않는다는 비판이 많다. 버릇이 관계를 부풀리기에는 충분하면서도 요인 하나가 절반을 넘지는 않을 수 있기 때문이다. 이 검정보다는 두 변수를 어떻게 측정했는지(같은 사람의 같은 설문인지)를 직접 확인하는 편이 낫다.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'첫 요인이 설명한 몫 </span><span class="si">{</span><span class="n">ev</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">ev</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s1">.1%</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
@@ -914,7 +914,7 @@
 <section id="id15">
 <h2>정리<a class="headerlink" href="#id15" title="Link to this heading">#</a></h2>
 <p>이 노트북의 코드는 이 장에서 본 숫자를 직접 만들어 냈다. 역문항의 답을 뒤집고 평균을 낸 것이 척도 점수였고(2절), 크론바흐 α는 문항 분산의 합과 합의 분산을 비교한 것이었다(3절). 요인분석은 <code class="docutils literal notranslate"><span class="pre">FactorAnalysis</span></code> 한 줄이지만, 요인의 순서와 부호를 맞추고 문항을 읽어 이름을 붙이는 일은 사람이 했다(4절). 척도 점수를 회귀식에 넣으면, 문항 하나로 측정했을 때보다 관계가 제 크기에 가깝게 나왔다(5절).</p>
-<p>자기 설문으로 분석하려면 1절에서 자기 파일을 읽고(쉼표로 나뉜 파일이면 <code class="docutils literal notranslate"><span class="pre">sep='\t'</span></code>를 지운다) <code class="docutils literal notranslate"><span class="pre">TRAITS</span></code>(척도)와 <code class="docutils literal notranslate"><span class="pre">ITEMS</span></code>(문항 이름)를 바꾸고, 2절에서 <code class="docutils literal notranslate"><span class="pre">cols</span></code>(척도마다의 문항 이름), <code class="docutils literal notranslate"><span class="pre">REV</span></code>(채점 키), <code class="docutils literal notranslate"><span class="pre">MAX</span></code>(눈금의 가장 큰 값)를 바꾼다. 빠진 답을 어떻게 적었는지는 1절에서 먼저 확인한다. 다만 이 노트북에는 이 장의 자료에 맞춰 쓴 곳이 남아 있다. 척도마다 문항이 10개, 모두 50개이고 문항 이름의 첫 글자가 척도라고 보고 계산하는 곳(<code class="docutils literal notranslate"><span class="pre">range(1,</span> <span class="pre">11)</span></code>, <code class="docutils literal notranslate"><span class="pre">10</span></code>, <code class="docutils literal notranslate"><span class="pre">50</span></code>, <code class="docutils literal notranslate"><span class="pre">c[0]</span></code>)이 있고, 5절의 회귀분석은 외향성(<code class="docutils literal notranslate"><span class="pre">'E'</span></code>, <code class="docutils literal notranslate"><span class="pre">'E1'</span></code>)과 친화성(<code class="docutils literal notranslate"><span class="pre">'A'</span></code>)을 직접 적었다. 자기 자료가 이와 다르면 이런 곳도 함께 고치고, 4절의 <code class="docutils literal notranslate"><span class="pre">n_components</span></code>를 척도의 수로 바꾼다. 어디를 고칠지는 이 노트북과 자기 자료의 변수 목록을 AI에게 보여 주고 물어봐도 된다. AI가 만든 보고서를 받았다면, 이 코드로 같은 숫자가 나오는지 확인해 보는 것이 가장 확실한 점검이다.</p>
+<p>자기 설문으로 분석하려면 1절에서 자기 파일을 읽고(쉼표로 나뉜 파일이면 <code class="docutils literal notranslate"><span class="pre">sep='\t'</span></code>를 지운다) <code class="docutils literal notranslate"><span class="pre">TRAITS</span></code>(척도)와 <code class="docutils literal notranslate"><span class="pre">ITEMS</span></code>(문항 이름)를 바꾸고, 2절에서 <code class="docutils literal notranslate"><span class="pre">cols</span></code>(척도마다의 문항 이름), <code class="docutils literal notranslate"><span class="pre">REV</span></code>(채점 키), <code class="docutils literal notranslate"><span class="pre">MAX</span></code>(눈금의 가장 큰 값)를 바꾼다. 빠진 답을 어떻게 적었는지는 1절에서 먼저 확인한다. 다만 이 노트북에는 이 장의 데이터에 맞춰 쓴 곳이 남아 있다. 척도마다 문항이 10개, 모두 50개이고 문항 이름의 첫 글자가 척도라고 보고 계산하는 곳(<code class="docutils literal notranslate"><span class="pre">range(1,</span> <span class="pre">11)</span></code>, <code class="docutils literal notranslate"><span class="pre">10</span></code>, <code class="docutils literal notranslate"><span class="pre">50</span></code>, <code class="docutils literal notranslate"><span class="pre">c[0]</span></code>)이 있고, 5절의 회귀분석은 외향성(<code class="docutils literal notranslate"><span class="pre">'E'</span></code>, <code class="docutils literal notranslate"><span class="pre">'E1'</span></code>)과 친화성(<code class="docutils literal notranslate"><span class="pre">'A'</span></code>)을 직접 적었다. 자기 데이터가 이와 다르면 이런 곳도 함께 고치고, 4절의 <code class="docutils literal notranslate"><span class="pre">n_components</span></code>를 척도의 수로 바꾼다. 어디를 고칠지는 이 노트북과 자기 데이터의 변수 목록을 AI에게 보여 주고 물어봐도 된다. AI가 만든 보고서를 받았다면, 이 코드로 같은 숫자가 나오는지 확인해 보는 것이 가장 확실한 점검이다.</p>
 </section>
 </section>
 
@@ -990,7 +990,7 @@
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">5. 감쇠 — 문항 하나로 측정하면</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">6. 더 해 보기: 채점 키를 자료에서 짐작하면</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">6. 더 해 보기: 채점 키를 데이터에서 짐작하면</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">7. 더 해 보기: 하만 단일요인검정</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">정리</a></li>
 </ul>

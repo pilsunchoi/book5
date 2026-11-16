@@ -249,8 +249,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h3.html">3. 다른 조건이 같다면 — 계수는 무엇을 비교하나</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h4.html">4. 회귀식 밖에 남은 것 — 설명력, 빠진 변수, 남녀의 차이</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h5.html">5. 약 먹고 잰 혈압 — 표본을 정하는 판단과 거꾸로 된 순서</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h6.html">6. 횡단면이 말해 주지 않는 것 — 측정과 자료의 범위</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-prompt.html">직접 해 보기 1 — 자료는 내 컴퓨터에, AI에는 질문만</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h6.html">6. 횡단면이 말해 주지 않는 것 — 측정과 데이터의 범위</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-prompt.html">직접 해 보기 1 — 데이터는 내 컴퓨터에, AI에는 질문만</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
 </ul>
 </details></li>
@@ -489,7 +489,7 @@
 <li><p>새 신호등을 단 교차로에서 다음 해 사고가 줄었습니다. 그런데 그해에 도시 전체의 교통사고가 줄었다면, 줄어든 사고가 모두 신호등 덕분은 아닙니다.</p></li>
 </ul>
 <p>세 예 모두 처치(할인 행사, 단열 공사, 신호등)를 받은 쪽만 전과 후로 보았고, 그 사이에 날씨나 계절이나 도시 전체의 흐름처럼 <strong>처치와 상관없이 함께 바뀐 것</strong>이 있었습니다. 전후의 차이에는 처치의 효과와 그 함께 바뀐 몫이 같이 들어 있고, 처치를 받은 쪽만 보아서는 둘을 나눌 수 없습니다.</p>
-<p>아파트 거래도 같습니다. <a class="report-fig-link" href="../_static/report-figure-difference-in-differences.png" target="_blank" rel="noopener">보고서의 그림</a>에서 보듯이 3월 말에는 지정되지 않은 21개 구의 계약도 지정 직전보다 줄었습니다. 왜 줄었는지는 이 자료로 가릴 수 없지만, 4개 구에도 같은 흐름이 있었다면 4개 구에서 줄어든 92% 가운데 일부는 지정이 없었어도 줄었을 몫입니다.</p>
+<p>아파트 거래도 같습니다. <a class="report-fig-link" href="../_static/report-figure-difference-in-differences.png" target="_blank" rel="noopener">보고서의 그림</a>에서 보듯이 3월 말에는 지정되지 않은 21개 구의 계약도 지정 직전보다 줄었습니다. 왜 줄었는지는 이 데이터로 가릴 수 없지만, 4개 구에도 같은 흐름이 있었다면 4개 구에서 줄어든 92% 가운데 일부는 지정이 없었어도 줄었을 몫입니다.</p>
 </section>
 <section id="id3">
 <h2>보충수업의 오른 점수 — 비교 상대가 그동안 변한 만큼 빼기<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
@@ -541,7 +541,7 @@
 <p><img alt="그림 2-1" src="../_images/fig_d2_1_stand_in.png" /></p>
 <p><strong>그림 2-1.</strong> 4개 구의 대역. 지정 직전 4주를 100으로 맞추고, 21개 구가 줄어든 만큼(100 → 73)을 4개 구에 빌려 오면 “지정이 없었다면”의 73이 된다. 실제는 8이다.</p>
 <p>그림에서 보듯이 대역의 막대는 73이고 실제의 막대는 8이어서, 실제는 대역의 약 10분의 1입니다. 보고서가 “지정 뒤 4개 구의 계약은 지정이 없었을 때의 약 10분의 1”이라고 쓴 것이 이 비교입니다. 4개 구만의 전과 후를 보면 지정 뒤의 계약이 지정 전의 8%였지만, 그 가운데 100에서 73까지는 지정이 없었어도 줄었을 몫이고, 지정 때문에 줄어든 것은 73에서 8까지입니다.</p>
-<p>크기가 다른 두 그룹을 100으로 맞춰 비교하는 것은 아파트에서만 쓰는 방법이 아닙니다. 인구가 다른 두 도시의 범죄 건수, 매출이 다른 두 매장의 판매량, 학생 수가 다른 두 학교의 결석 일수처럼 건수를 세는 자료에서는 흔히 이렇게 비율로 비교합니다.</p>
+<p>크기가 다른 두 그룹을 100으로 맞춰 비교하는 것은 아파트에서만 쓰는 방법이 아닙니다. 인구가 다른 두 도시의 범죄 건수, 매출이 다른 두 매장의 판매량, 학생 수가 다른 두 학교의 결석 일수처럼 건수를 세는 데이터에서는 흔히 이렇게 비율로 비교합니다.</p>
 </section>
 <section id="id5">
 <h2>회귀식으로 쓰면<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
@@ -579,14 +579,14 @@
 \text{로그 계약 건수}_{it} = a_i + c \times \text{지정 뒤}_t + d \times (\text{4개 구}_i \times \text{지정 뒤}_t)
 \]</div>
 <p>뺄셈은 보충수업과 똑같습니다. 구마다 지정 뒤에서 지정 전을 빼면 <span class="math notranslate nohighlight">\(a_i\)</span>가 지워져, 21개 구에는 <span class="math notranslate nohighlight">\(c\)</span>가, 4개 구에는 <span class="math notranslate nohighlight">\(c + d\)</span>가 남습니다. 두 그룹의 차이를 빼면 <span class="math notranslate nohighlight">\(c\)</span>도 지워지고 <span class="math notranslate nohighlight">\(d\)</span>가 남습니다. <span class="math notranslate nohighlight">\(a_i\)</span>가 지워지는 것이 첫째 빼기, <span class="math notranslate nohighlight">\(c\)</span>가 지워지는 것이 둘째 빼기입니다.</p>
-<p>로그를 취한 덕분에 달라지는 것은 빼기의 뜻입니다. 로그에서는 빼기가 나누기가 됩니다. 다중회귀분석 장에서 로그가격의 차이가 <span class="math notranslate nohighlight">\(d\)</span>이면 가격이 <span class="math notranslate nohighlight">\(e^d\)</span>배 차이 난다고 했던 것과 같습니다. 그래서 첫째 빼기는 “지정 뒤가 지정 전의 몇 배인가”를 구하는 일이 됩니다. 표 2-1에서 두 그룹을 지정 직전 = 100으로 맞춰 21개 구는 0.73배, 4개 구는 0.08배를 구한 것이 바로 이 일입니다. 둘째 빼기는 그 두 배수를 나누는 일이 되어, 4개 구의 배수가 21개 구의 배수의 몇 배인가, 곧 실제가 대역의 몇 배인가를 구합니다. 보고서의 자료로 추정하면 상호작용 항의 계수 추정값은 <span class="math notranslate nohighlight">\(\hat{d}\)</span> = −2.25이고, <span class="math notranslate nohighlight">\(e^{-2.25}\)</span> ≈ 0.105배입니다. 표 2-1에서 대역 73과 실제 8로 구한 약 10분의 1과 같은 답이고, 같은 계산을 식으로 한 것이라 같은 답이 나옵니다.</p>
+<p>로그를 취한 덕분에 달라지는 것은 빼기의 뜻입니다. 로그에서는 빼기가 나누기가 됩니다. 다중회귀분석 장에서 로그가격의 차이가 <span class="math notranslate nohighlight">\(d\)</span>이면 가격이 <span class="math notranslate nohighlight">\(e^d\)</span>배 차이 난다고 했던 것과 같습니다. 그래서 첫째 빼기는 “지정 뒤가 지정 전의 몇 배인가”를 구하는 일이 됩니다. 표 2-1에서 두 그룹을 지정 직전 = 100으로 맞춰 21개 구는 0.73배, 4개 구는 0.08배를 구한 것이 바로 이 일입니다. 둘째 빼기는 그 두 배수를 나누는 일이 되어, 4개 구의 배수가 21개 구의 배수의 몇 배인가, 곧 실제가 대역의 몇 배인가를 구합니다. 보고서의 데이터로 추정하면 상호작용 항의 계수 추정값은 <span class="math notranslate nohighlight">\(\hat{d}\)</span> = −2.25이고, <span class="math notranslate nohighlight">\(e^{-2.25}\)</span> ≈ 0.105배입니다. 표 2-1에서 대역 73과 실제 8로 구한 약 10분의 1과 같은 답이고, 같은 계산을 식으로 한 것이라 같은 답이 나옵니다.</p>
 <p>보고서는 이 식을 <strong>포아송 회귀</strong>(Poisson regression)로 추정했습니다. 이름이 낯설지만 복잡하게 생각할 것은 없습니다. 종속변수가 계약 건수처럼 0, 1, 2, … 의 정수만 가질 때 쓰는 회귀분석이라는 점이 다를 뿐, 설명변수를 넣어 회귀식을 세우고 계수를 해석하는 원리는 다중회귀분석 장에서 본 회귀분석과 같습니다. 더미 변수도, 상호작용 항도, “다른 조건이 같다면”이라는 해석도 그대로입니다. 다만 종속변수에 로그를 취한 회귀식이라서, 다중회귀분석 장의 로그가격 회귀식처럼 계수 <span class="math notranslate nohighlight">\(d\)</span>를 <span class="math notranslate nohighlight">\(e^d\)</span>배로 읽습니다. 위에서 0.105배를 구한 방법이 바로 그것입니다.</p>
 <blockquote>
 <div><p><strong>참고:</strong>
 엄밀히 말하면 포아송 회귀가 로그를 취하는 것은 실제 건수가 아니라 평균적으로 기대되는 건수입니다. 그래서 계약이 0건인 구 × 주도 그대로 쓸 수 있습니다(실제 건수 0에는 로그를 취할 수 없습니다).</p>
 </div></blockquote>
 <p>신뢰구간 0.08 ~ 0.14는 표본을 다시 뽑아도 답이 10분의 1 안팎에서 크게 흔들리지 않는다는 뜻입니다. 표준오차는 같은 구의 여러 주가 서로 닮은 것을 감안해 구 단위 군집 표준오차로 구했습니다. 건강 횡단면 장에서 본 군집 표준오차와 같은 생각입니다.</p>
-<p>💡 <strong>팁:</strong> 처치 전후의 자료와 처치를 받지 않은 비교 상대가 있으면, AI에게 이렇게 요청해 보세요. “처치 그룹과 비교 그룹의 처치 전후 평균을 2×2 표로 보여 주고, 이중차분(difference-in-differences)으로 처치 효과를 추정해 줘. 두 그룹의 크기가 크게 다르면 건수 대신 비율로 비교하고, 회귀식으로도 추정해서 같은지 확인해 줘.”</p>
+<p>💡 <strong>팁:</strong> 처치 전후의 데이터와 처치를 받지 않은 비교 상대가 있으면, AI에게 이렇게 요청해 보세요. “처치 그룹과 비교 그룹의 처치 전후 평균을 2×2 표로 보여 주고, 이중차분(difference-in-differences)으로 처치 효과를 추정해 줘. 두 그룹의 크기가 크게 다르면 건수 대신 비율로 비교하고, 회귀식으로도 추정해서 같은지 확인해 줘.”</p>
 </section>
 <section id="id6">
 <h2>4개 구에서 일어난 일<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>

@@ -11,8 +11,8 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://pilsunchoi.github.io/book5/panel-data/index.html" />
 <meta property="og:site_name" content="AI 데이터 분석" />
-<meta property="og:description" content="한국과 206개국의 26년 무역 자료로 FTA가 한국의 수출을 늘렸는지 분석한다. 횡단면과 패널, 고정효과, 확률효과, 하우스만 검정과 연도 효과를 차례로 본다. 이 장을 읽는 법: 이 장은 AI가 만든 1쪽 보고서에서 출발한다. 첫 절에서 보고서 전체를 훑고, 이어지는 네 절에서..." />
-<meta name="description" content="한국과 206개국의 26년 무역 자료로 FTA가 한국의 수출을 늘렸는지 분석한다. 횡단면과 패널, 고정효과, 확률효과, 하우스만 검정과 연도 효과를 차례로 본다. 이 장을 읽는 법: 이 장은 AI가 만든 1쪽 보고서에서 출발한다. 첫 절에서 보고서 전체를 훑고, 이어지는 네 절에서..." />
+<meta property="og:description" content="한국과 206개국의 26년 무역 데이터로 FTA가 한국의 수출을 늘렸는지 분석한다. 횡단면과 패널, 고정효과, 확률효과, 하우스만 검정과 연도 효과를 차례로 본다. 이 장을 읽는 법: 이 장은 AI가 만든 1쪽 보고서에서 출발한다. 첫 절에서 보고서 전체를 훑고, 이어지는 네 절에..." />
+<meta name="description" content="한국과 206개국의 26년 무역 데이터로 FTA가 한국의 수출을 늘렸는지 분석한다. 횡단면과 패널, 고정효과, 확률효과, 하우스만 검정과 연도 효과를 차례로 본다. 이 장을 읽는 법: 이 장은 AI가 만든 1쪽 보고서에서 출발한다. 첫 절에서 보고서 전체를 훑고, 이어지는 네 절에..." />
 
     <title>패널 데이터 분석 — FTA와 수출 &#8212; AI 데이터 분석</title>
   
@@ -249,8 +249,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h3.html">3. 다른 조건이 같다면 — 계수는 무엇을 비교하나</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h4.html">4. 회귀식 밖에 남은 것 — 설명력, 빠진 변수, 남녀의 차이</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h5.html">5. 약 먹고 잰 혈압 — 표본을 정하는 판단과 거꾸로 된 순서</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h6.html">6. 횡단면이 말해 주지 않는 것 — 측정과 자료의 범위</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-prompt.html">직접 해 보기 1 — 자료는 내 컴퓨터에, AI에는 질문만</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h6.html">6. 횡단면이 말해 주지 않는 것 — 측정과 데이터의 범위</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-prompt.html">직접 해 보기 1 — 데이터는 내 컴퓨터에, AI에는 질문만</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
 </ul>
 </details></li>
@@ -470,7 +470,7 @@
                   
   <section class="tex2jax_ignore mathjax_ignore" id="fta">
 <h1>패널 데이터 분석 — FTA와 수출<a class="headerlink" href="#fta" title="Link to this heading">#</a></h1>
-<p>한국과 206개국의 26년 무역 자료로 FTA가 한국의 수출을 늘렸는지 분석한다. 횡단면과 패널, 고정효과, 확률효과, 하우스만 검정과 연도 효과를 차례로 본다.</p>
+<p>한국과 206개국의 26년 무역 데이터로 FTA가 한국의 수출을 늘렸는지 분석한다. 횡단면과 패널, 고정효과, 확률효과, 하우스만 검정과 연도 효과를 차례로 본다.</p>
 <section id="id1">
 <h2>이 장을 읽는 법<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
 <p>이 장은 AI가 만든 1쪽 보고서에서 출발한다. 첫 절에서 보고서 전체를 훑고, 이어지는 네 절에서 보고서의 줄을 하나씩 살펴본다. 장 끝의 “직접 해 보기”에서는 같은 보고서를 자기 데이터로 받아 내는 프롬프트와, 이 장의 계산을 파이썬으로 따라 하는 노트북을 다룬다.</p>
@@ -479,8 +479,8 @@
 <h2>데이터<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
 <p>CEPII Gravity 데이터베이스(2022년 11월 판)에서 수출국을 한국으로 고정해 뽑은 상대국 × 연도 패널, 1995~2020년, 206개국, 4,909개 관측. <a class="reference download internal" download="" href="../_downloads/28bd2cdb36f91307da30e62f673cc8b5/korea-exports-panel-1995-2020.csv"><code class="xref download docutils literal notranslate"><span class="pre">CSV</span> <span class="pre">내려받기</span></code></a></p>
 <div class="note admonition">
-<p class="admonition-title">자료 출처와 이용 안내</p>
-<p>자료: CEPII Gravity V202211 (Conte, M., Cotterlaz, P., &amp; Mayer, T. (2022). The CEPII Gravity Database. CEPII Working Paper 2022-05). Etalab Open License 2.0에 따라 출처를 밝히고 가공해 제공한다. 이 책은 한국이 수출국인 행만 골라 변수 일곱 개(연도, 상대국코드, 상대국, 수출, 상대국 GDP, 거리, FTA)로 정리했다.</p>
+<p class="admonition-title">데이터 출처와 이용 안내</p>
+<p>출처: CEPII Gravity V202211 (Conte, M., Cotterlaz, P., &amp; Mayer, T. (2022). The CEPII Gravity Database. CEPII Working Paper 2022-05). Etalab Open License 2.0에 따라 출처를 밝히고 가공해 제공한다. 이 책은 한국이 수출국인 행만 골라 변수 일곱 개(연도, 상대국코드, 상대국, 수출, 상대국 GDP, 거리, FTA)로 정리했다.</p>
 </div>
 </section>
 <section id="id3">

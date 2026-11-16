@@ -11,8 +11,8 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://pilsunchoi.github.io/book5/survey-measurement/index.html" />
 <meta property="og:site_name" content="AI 데이터 분석" />
-<meta property="og:description" content="온라인 성격 검사에 답한 19,718명의 자료로 문항 50개가 다섯 가지 성격을 일관되게 측정하는지 분석한다. 척도와 역문항, 크론바흐 α, 요인분석, 측정에 따라 관계가 약하게도 강하게도 보이는 문제(감쇠와 공통방법편향)를 차례로 본다. 이 장을 읽는 법: 이 장은 AI가 만든 ..." />
-<meta name="description" content="온라인 성격 검사에 답한 19,718명의 자료로 문항 50개가 다섯 가지 성격을 일관되게 측정하는지 분석한다. 척도와 역문항, 크론바흐 α, 요인분석, 측정에 따라 관계가 약하게도 강하게도 보이는 문제(감쇠와 공통방법편향)를 차례로 본다. 이 장을 읽는 법: 이 장은 AI가 만든 ..." />
+<meta property="og:description" content="온라인 성격 검사에 답한 19,718명의 데이터로 문항 50개가 다섯 가지 성격을 일관되게 측정하는지 분석한다. 척도와 역문항, 크론바흐 α, 요인분석, 측정에 따라 관계가 약하게도 강하게도 보이는 문제(감쇠와 공통방법편향)를 차례로 본다. 이 장을 읽는 법: 이 장은 AI가 만든..." />
+<meta name="description" content="온라인 성격 검사에 답한 19,718명의 데이터로 문항 50개가 다섯 가지 성격을 일관되게 측정하는지 분석한다. 척도와 역문항, 크론바흐 α, 요인분석, 측정에 따라 관계가 약하게도 강하게도 보이는 문제(감쇠와 공통방법편향)를 차례로 본다. 이 장을 읽는 법: 이 장은 AI가 만든..." />
 
     <title>설문으로 측정하기 — 문항 여러 개로 개념 하나를 &#8212; AI 데이터 분석</title>
   
@@ -249,8 +249,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h3.html">3. 다른 조건이 같다면 — 계수는 무엇을 비교하나</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h4.html">4. 회귀식 밖에 남은 것 — 설명력, 빠진 변수, 남녀의 차이</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h5.html">5. 약 먹고 잰 혈압 — 표본을 정하는 판단과 거꾸로 된 순서</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h6.html">6. 횡단면이 말해 주지 않는 것 — 측정과 자료의 범위</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-prompt.html">직접 해 보기 1 — 자료는 내 컴퓨터에, AI에는 질문만</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h6.html">6. 횡단면이 말해 주지 않는 것 — 측정과 데이터의 범위</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-prompt.html">직접 해 보기 1 — 데이터는 내 컴퓨터에, AI에는 질문만</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
 </ul>
 </details></li>
@@ -470,14 +470,14 @@
                   
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
 <h1>설문으로 측정하기 — 문항 여러 개로 개념 하나를<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
-<p>온라인 성격 검사에 답한 19,718명의 자료로 문항 50개가 다섯 가지 성격을 일관되게 측정하는지 분석한다. 척도와 역문항, 크론바흐 α, 요인분석, 측정에 따라 관계가 약하게도 강하게도 보이는 문제(감쇠와 공통방법편향)를 차례로 본다.</p>
+<p>온라인 성격 검사에 답한 19,718명의 데이터로 문항 50개가 다섯 가지 성격을 일관되게 측정하는지 분석한다. 척도와 역문항, 크론바흐 α, 요인분석, 측정에 따라 관계가 약하게도 강하게도 보이는 문제(감쇠와 공통방법편향)를 차례로 본다.</p>
 <section id="id2">
 <h2>이 장을 읽는 법<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
 <p>이 장은 AI가 만든 1쪽 보고서에서 출발한다. 첫 절에서 보고서 전체를 훑고, 이어지는 네 절에서 보고서의 줄을 하나씩 살펴본다. 장 끝의 “직접 해 보기”에서는 같은 보고서를 자기 데이터로 받아 내는 프롬프트와, 이 장의 계산을 파이썬으로 따라 하는 노트북을 다룬다.</p>
 </section>
 <section id="id3">
 <h2>데이터<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
-<p>Open Psychometrics Project가 공개한 성격 검사 원자료(BIG5.zip — IPIP 50문항, 5점 척도, 2012년 무렵 수집, 응답자 19,719명). 재배포를 허락하는 이용 조건이 없어 이 책은 자료를 다시 배포하지 않는다. 자료는 원 사이트의 원자료 목록(<a class="reference external" href="https://openpsychometrics.org/_rawdata/">https://openpsychometrics.org/_rawdata/</a>)에 있고, “직접 해 보기”의 노트북은 그곳에서 바로 읽어 들인다.</p>
+<p>Open Psychometrics Project가 공개한 성격 검사 원데이터(BIG5.zip — IPIP 50문항, 5점 척도, 2012년 무렵 수집, 응답자 19,719명). 재배포를 허락하는 이용 조건이 없어 이 책은 데이터를 다시 배포하지 않는다. 데이터는 원 사이트의 원데이터 목록(<a class="reference external" href="https://openpsychometrics.org/_rawdata/">https://openpsychometrics.org/_rawdata/</a>)에 있고, “직접 해 보기”의 노트북은 그곳에서 바로 읽어 들인다.</p>
 </section>
 <section id="id4">
 <h2>강의영상<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>

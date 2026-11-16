@@ -11,8 +11,8 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://pilsunchoi.github.io/book5/causal-inference/index.html" />
 <meta property="og:site_name" content="AI 데이터 분석" />
-<meta property="og:description" content="NSW 일자리 제공 프로그램 자료로 프로그램이 소득을 올렸는지 분석한다. 실험의 답과 관찰 자료의 비교를 나란히 놓고, 인과 효과, 교란, 조건을 맞춘 비교, 나쁜 통제, 실험이 없을 때의 설계를 차례로 본다. 이 장을 읽는 법: 이 장은 AI가 만든 1쪽 보고서에서 출발한다. 첫..." />
-<meta name="description" content="NSW 일자리 제공 프로그램 자료로 프로그램이 소득을 올렸는지 분석한다. 실험의 답과 관찰 자료의 비교를 나란히 놓고, 인과 효과, 교란, 조건을 맞춘 비교, 나쁜 통제, 실험이 없을 때의 설계를 차례로 본다. 이 장을 읽는 법: 이 장은 AI가 만든 1쪽 보고서에서 출발한다. 첫..." />
+<meta property="og:description" content="NSW 일자리 제공 프로그램 데이터로 프로그램이 소득을 올렸는지 분석한다. 실험의 답과 관찰 데이터의 비교를 나란히 놓고, 인과 효과, 교란, 조건을 맞춘 비교, 나쁜 통제, 실험이 없을 때의 설계를 차례로 본다. 이 장을 읽는 법: 이 장은 AI가 만든 1쪽 보고서에서 출발한다...." />
+<meta name="description" content="NSW 일자리 제공 프로그램 데이터로 프로그램이 소득을 올렸는지 분석한다. 실험의 답과 관찰 데이터의 비교를 나란히 놓고, 인과 효과, 교란, 조건을 맞춘 비교, 나쁜 통제, 실험이 없을 때의 설계를 차례로 본다. 이 장을 읽는 법: 이 장은 AI가 만든 1쪽 보고서에서 출발한다...." />
 
     <title>인과 추론 — 공정한 비교를 찾아서 &#8212; AI 데이터 분석</title>
   
@@ -249,8 +249,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h3.html">3. 다른 조건이 같다면 — 계수는 무엇을 비교하나</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h4.html">4. 회귀식 밖에 남은 것 — 설명력, 빠진 변수, 남녀의 차이</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h5.html">5. 약 먹고 잰 혈압 — 표본을 정하는 판단과 거꾸로 된 순서</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h6.html">6. 횡단면이 말해 주지 않는 것 — 측정과 자료의 범위</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-prompt.html">직접 해 보기 1 — 자료는 내 컴퓨터에, AI에는 질문만</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h6.html">6. 횡단면이 말해 주지 않는 것 — 측정과 데이터의 범위</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-prompt.html">직접 해 보기 1 — 데이터는 내 컴퓨터에, AI에는 질문만</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
 </ul>
 </details></li>
@@ -470,14 +470,14 @@
                   
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
 <h1>인과 추론 — 공정한 비교를 찾아서<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
-<p>NSW 일자리 제공 프로그램 자료로 프로그램이 소득을 올렸는지 분석한다. 실험의 답과 관찰 자료의 비교를 나란히 놓고, 인과 효과, 교란, 조건을 맞춘 비교, 나쁜 통제, 실험이 없을 때의 설계를 차례로 본다.</p>
+<p>NSW 일자리 제공 프로그램 데이터로 프로그램이 소득을 올렸는지 분석한다. 실험의 답과 관찰 데이터의 비교를 나란히 놓고, 인과 효과, 교란, 조건을 맞춘 비교, 나쁜 통제, 실험이 없을 때의 설계를 차례로 본다.</p>
 <section id="id2">
 <h2>이 장을 읽는 법<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
 <p>이 장은 AI가 만든 1쪽 보고서에서 출발한다. 첫 절에서 보고서 전체를 훑고, 이어지는 다섯 절에서 보고서의 줄을 하나씩 살펴본다. 장 끝의 “직접 해 보기”에서는 같은 보고서를 자기 데이터로 받아 내는 프롬프트와, 이 장의 계산을 파이썬으로 따라 하는 노트북을 다룬다.</p>
 </section>
 <section id="id3">
 <h2>데이터<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
-<p>데헤이아·와바(Dehejia·Wahba, 1999)가 정리한 랄론드(LaLonde, 1986)의 NSW 자료. 남성 참가자 185명, 실험 대조군 260명, 일반 인구 표본(CPS) 15,992명이고 소득은 1982년 달러다. 재배포 조건이 밝혀져 있지 않아 이 책은 자료를 다시 배포하지 않는다. 자료는 데헤이아의 누리집(<a class="reference external" href="https://users.nber.org/~rdehejia/data/">https://users.nber.org/~rdehejia/data/</a>)에 있고, “직접 해 보기”의 노트북은 그곳에서 바로 읽어 들인다.</p>
+<p>데헤이아·와바(Dehejia·Wahba, 1999)가 정리한 랄론드(LaLonde, 1986)의 NSW 데이터. 남성 참가자 185명, 실험 대조군 260명, 일반 인구 표본(CPS) 15,992명이고 소득은 1982년 달러다. 재배포 조건이 밝혀져 있지 않아 이 책은 데이터를 다시 배포하지 않는다. 데이터는 데헤이아의 누리집(<a class="reference external" href="https://users.nber.org/~rdehejia/data/">https://users.nber.org/~rdehejia/data/</a>)에 있고, “직접 해 보기”의 노트북은 그곳에서 바로 읽어 들인다.</p>
 </section>
 <section id="id4">
 <h2>강의영상<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
