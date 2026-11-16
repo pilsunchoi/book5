@@ -1,6 +1,6 @@
 # 패널 데이터 분석 — FTA와 수출
 
-한국과 206개국의 26년 무역 자료로 FTA가 한국의 수출을 늘렸는지 분석한다. 횡단면과 패널, 고정효과, 확률효과, 하우스만 검정과 연도 효과를 차례로 본다.
+한국과 206개국의 26년 무역 데이터로 FTA가 한국의 수출을 늘렸는지 분석한다. 횡단면과 패널, 고정효과, 확률효과, 하우스만 검정과 연도 효과를 차례로 본다.
 
 ## 이 장을 읽는 법
 
@@ -10,9 +10,9 @@
 
 CEPII Gravity 데이터베이스(2022년 11월 판)에서 수출국을 한국으로 고정해 뽑은 상대국 × 연도 패널, 1995~2020년, 206개국, 4,909개 관측. {download}`CSV 내려받기 <../data/korea-exports-panel-1995-2020.csv>`
 
-:::{admonition} 자료 출처와 이용 안내
+:::{admonition} 데이터 출처와 이용 안내
 :class: note
-자료: CEPII Gravity V202211 (Conte, M., Cotterlaz, P., & Mayer, T. (2022). The CEPII Gravity Database. CEPII Working Paper 2022-05). Etalab Open License 2.0에 따라 출처를 밝히고 가공해 제공한다. 이 책은 한국이 수출국인 행만 골라 변수 일곱 개(연도, 상대국코드, 상대국, 수출, 상대국 GDP, 거리, FTA)로 정리했다.
+출처: CEPII Gravity V202211 (Conte, M., Cotterlaz, P., & Mayer, T. (2022). The CEPII Gravity Database. CEPII Working Paper 2022-05). Etalab Open License 2.0에 따라 출처를 밝히고 가공해 제공한다. 이 책은 한국이 수출국인 행만 골라 변수 일곱 개(연도, 상대국코드, 상대국, 수출, 상대국 GDP, 거리, FTA)로 정리했다.
 :::
 
 ## 강의영상
