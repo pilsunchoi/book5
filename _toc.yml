@@ -66,3 +66,13 @@ chapters:
       - file: survey-measurement/section-m5
       - file: survey-measurement/practice-prompt
       - file: survey-measurement/practice-notebook
+  - file: machine-learning/index
+    sections:
+      - file: machine-learning/section-l1
+      - file: machine-learning/section-l2
+      - file: machine-learning/section-l3
+      - file: machine-learning/section-l4
+      - file: machine-learning/section-l5
+      - file: machine-learning/section-l6
+      - file: machine-learning/practice-prompt
+      - file: machine-learning/practice-notebook
