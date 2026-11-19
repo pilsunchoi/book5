@@ -1,0 +1,737 @@
+
+<!DOCTYPE html>
+
+
+<html lang="ko" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="3. 외운 것과 배운 것 — 훈련 데이터와 시험 데이터" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://pilsunchoi.github.io/book5/machine-learning/section-l3.html" />
+<meta property="og:site_name" content="AI 데이터 분석" />
+<meta property="og:description" content="보고서의 요약 둘째 줄에는 이상한 숫자가 있습니다. 가장 닮은 단지 1개로 예측하면 훈련 데이터에서는 0%, 시험 데이터에서는 16% 빗나간다(다르게 나누면 16 ~ 19%). 같은 모형인데 두 점수가 크게 다릅니다. 하나는 0%, 곧 하나도 빗나가지 않았다는 점수이고, 다른 하나..." />
+<meta name="description" content="보고서의 요약 둘째 줄에는 이상한 숫자가 있습니다. 가장 닮은 단지 1개로 예측하면 훈련 데이터에서는 0%, 시험 데이터에서는 16% 빗나간다(다르게 나누면 16 ~ 19%). 같은 모형인데 두 점수가 크게 다릅니다. 하나는 0%, 곧 하나도 빗나가지 않았다는 점수이고, 다른 하나..." />
+
+    <title>3. 외운 것과 배운 것 — 훈련 데이터와 시험 데이터 &#8212; AI 데이터 분석</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=6a604523" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=18f25a40" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=ae323b5b"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = '표시하려면 클릭';</script>
+    <script>let toggleHintHide = '숨기려면 클릭';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/translations.js?v=e33e7ba0"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../_static/design-tabs.js?v=fcb327ea"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'machine-learning/section-l3';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../_static/custom.js?v=a6a97908"></script>
+    <link rel="index" title="색인" href="../genindex.html" />
+    <link rel="search" title="검색" href="../search.html" />
+    <link rel="next" title="4. 알맞은 유연함 — 과적합" href="section-l4.html" />
+    <link rel="prev" title="2. 설명하기와 맞히기 — 오차로 채점한다" href="section-l2.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="ko"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.png" class="logo__image only-light" alt="AI 데이터 분석"/>
+    <img src="../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="AI 데이터 분석"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../simple-regression/index.html">단순회귀분석 — 직선 하나로 관계 읽기</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a1.html">1. 보고서 — 노원구에서 1㎡는 얼마인가</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a2.html">2. 직선은 어떻게 정해지나 — 잔차와 최소제곱</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a3.html">3. 이 기울기를 믿어도 되나 — 표준오차, 신뢰구간, <span class="math notranslate nohighlight">\(p\)</span>값</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a4.html">4. 얼마나 설명하나 — <span class="math notranslate nohighlight">\(R^2\)</span>과 잔차</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a5.html">5. 로그로 읽는 가격 — 탄력성과 % 해석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../multiple-regression/index.html">다중회귀분석 — 여러 변수를 함께</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b1.html">1. 보고서 — 서울 아파트 값은 무엇으로 정해지나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b2.html">2. 다른 조건이 같다면 — 다중회귀분석의 계수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b3.html">3. 숫자가 아닌 변수 — 더미 변수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b4.html">4. 효과가 집단마다 다를 때 — 상호작용</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b5.html">5. 직선으로 부족할 때 — 제곱항</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../health-survey/index.html">횡단면 분석 — 학력과 혈압</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h1.html">1. 보고서 — 학력이 높을수록 혈압이 낮을까</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h2.html">2. 표본이 모집단을 닮게 — 가중치와 표본설계</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h3.html">3. 다른 조건이 같다면 — 계수는 무엇을 비교하나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h4.html">4. 회귀식 밖에 남은 것 — 설명력, 빠진 변수, 남녀의 차이</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h5.html">5. 약 먹고 잰 혈압 — 표본을 정하는 판단과 거꾸로 된 순서</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h6.html">6. 횡단면이 말해 주지 않는 것 — 측정과 데이터의 범위</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-prompt.html">직접 해 보기 1 — 데이터는 내 컴퓨터에, AI에는 질문만</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../panel-data/index.html">패널 데이터 분석 — FTA와 수출</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p1.html">1. 보고서 — FTA는 한국의 수출을 늘렸나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p2.html">2. 단체 사진과 사진첩 — 횡단면과 패널</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p3.html">3. 어제의 나와 비교하기 — 고정효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p4.html">4. 두 가지 차이를 섞기 — 확률효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p5.html">5. 무엇을 고르나 — 하우스만 검정과 연도 효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../causal-inference/index.html">인과 추론 — 공정한 비교를 찾아서</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c1.html">1. 보고서 — 일자리 제공 프로그램은 소득을 올렸나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c2.html">2. 같은 사람의 두 가지 미래 — 인과 효과와 실험</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c3.html">3. 엉뚱한 비교 상대 — 교란</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c4.html">4. 조건을 맞추면 — 통제의 계단</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c5.html">5. 넣으면 안 되는 변수 — 매개, 총효과, 나쁜 통제</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c6.html">6. 실험이 없을 때 — 설계의 지도</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../difference-in-differences/index.html">이중차분 — 허가구역과 아파트 거래</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/section-d1.html">1. 보고서 — 토지거래허가구역은 거래를 얼마나 줄였나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/section-d2.html">2. 변화로 비교하기 — 대역을 세운다</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/section-d3.html">3. 나란히 움직였을까 — 지정 전 다섯 달</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/section-d4.html">4. 정답이 있는 예 — 나란하지 않으면 얼마나 빗나가나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../survey-measurement/index.html">설문으로 측정하기 — 문항 여러 개로 개념 하나를</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m1.html">1. 보고서 — 성격 검사 50문항은 다섯 성격을 일관되게 측정하나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m2.html">2. 문항 여러 개로 개념 하나를 — 척도와 역문항</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m3.html">3. 함께 움직이는가 — 크론바흐 <span class="math notranslate nohighlight">\(\alpha\)</span>와 문항 수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m4.html">4. 알려 주지 않아도 성격별로 묶이나 — 요인분석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m5.html">5. 관계가 약하게도, 강하게도 보인다 — 감쇠와 공통방법편향</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">머신러닝 — 처음 보는 데이터로 채점하기</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="section-l1.html">1. 보고서 — 처음 보는 단지의 아파트 가격을 얼마나 잘 맞히나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-l2.html">2. 설명하기와 맞히기 — 오차로 채점한다</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3. 외운 것과 배운 것 — 훈련 데이터와 시험 데이터</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-l4.html">4. 알맞은 유연함 — 과적합</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-l5.html">5. 점수를 믿어도 되나 — 누출</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-l6.html">6. 머신러닝의 지도</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/pilsunchoi/book5" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="소스 저장소"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="이 페이지 다운로드">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/machine-learning/section-l3.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="소스 파일 다운로드"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="PDF로 인쇄"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="전체 화면으로보기"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>3. 외운 것과 배운 것 — 훈련 데이터와 시험 데이터</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 내용 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">기출문제와 본시험</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">닮은 단지 모형 — 가장 가까운 이웃</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">닮은 단지 1개 모형은 이렇게 맞힌다</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">0%는 점수가 아니다</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">회귀식은 외울 수 없다</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">왜 500개를 숨겼나</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">외우는 것이 늘 나쁜가</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>3. 외운 것과 배운 것 — 훈련 데이터와 시험 데이터<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>보고서의 요약 둘째 줄에는 이상한 숫자가 있습니다.</p>
+<blockquote>
+<div><p>가장 닮은 단지 1개로 예측하면 훈련 데이터에서는 <strong>0</strong>%, 시험 데이터에서는 <strong>16</strong>% 빗나간다(다르게 나누면 16 ~ 19%).</p>
+</div></blockquote>
+<p>같은 모형인데 두 점수가 크게 다릅니다. 하나는 0%, 곧 하나도 빗나가지 않았다는 점수이고, 다른 하나는 16%입니다. 이 절에서는 시험공부 이야기로 감을 잡은 뒤, 닮은 단지 모형이 가격을 어떻게 예측하는지를 먼저 설명합니다. 그런 다음 세 가지를 묻습니다. 닮은 단지 1개 모형은 어떻게 0%를 받았는가. 0%와 16% 가운데 어느 쪽이 이 모형의 점수인가. 회귀식은 왜 두 점수가 거의 같은가.</p>
+<section id="id2">
+<h2>기출문제와 본시험<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>숫자를 보기 전에 시험공부 이야기를 하나 해 보죠. 이 이야기는 이 장이 끝날 때까지 계속 씁니다.</p>
+<p>두 학생이 같은 기출문제집으로 시험을 준비합니다. 한 학생은 문제마다 답을 통째로 외웁니다. “17번의 답은 3번.” 다른 학생은 풀이를 익힙니다. 왜 3번이 답인지를 이해하려고 합니다. 공부를 마친 뒤 두 학생에게 그 기출문제집을 다시 풀게 하면 어떻게 될까요? 답을 외운 학생이 만점을 받습니다. 풀이를 익힌 학생은 몇 문제 틀립니다. 기출문제집의 점수만 보면 외운 학생이 더 잘하는 학생입니다.</p>
+<p>본시험에서는 사정이 달라집니다. 본시험에는 처음 보는 문제가 나옵니다. 답을 외운 학생에게는 외워 둔 답이 쓸모가 없고, 풀이를 익힌 학생은 기출문제집에서와 비슷한 점수를 받습니다. 누가 정말 배웠는지는 본시험이 가려 줍니다.</p>
+<p>머신러닝도 이 문제를 그대로 안고 있습니다. 규칙을 계산하는 데 쓴 훈련 데이터가 기출문제집이고, 채점하려고 따로 떼어 둔 시험 데이터가 본시험입니다. 우리 보고서에서는 2,209개 단지가 기출문제집, 500개 단지가 본시험인 셈입니다. 기출문제집으로 채점하면 외운 쪽이 가장 높은 점수를 받습니다.</p>
+</section>
+<section id="id3">
+<h2>닮은 단지 모형 — 가장 가까운 이웃<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>닮은 단지 모형은 이렇게 예측합니다. 가격을 맞히려는 단지와 같은 구에서 연식과 최고층이 가장 비슷한 단지를 찾아, 그 단지들의 가격을 평균해 답으로 내놓습니다.</p>
+<p>이 방법의 교과서 이름은 <strong><span class="math notranslate nohighlight">\(k\)</span>-최근접 이웃</strong>(<span class="math notranslate nohighlight">\(k\)</span>-nearest neighbors, 줄여서 KNN)입니다. 가장 가까운 이웃 <span class="math notranslate nohighlight">\(k\)</span>개를 본다는 뜻이고, <span class="math notranslate nohighlight">\(k\)</span>는 닮은 단지를 몇 개 보느냐를 가리킵니다. 이 장에서는 지금처럼 닮은 단지 모형이라고 부르겠습니다.</p>
+<p>얼마나 닮았는지는 연식의 차이와 최고층의 차이를 합쳐서 따집니다. 연식은 “년”, 최고층은 “층”으로 단위가 달라서 그대로는 합칠 수 없으므로, 먼저 두 변수를 같은 눈금으로 바꿉니다. 눈금은 각 변수의 표준편차로 맞춥니다. 표준편차는 단지들의 값이 평균에서 보통 얼마나 떨어져 있는지를 나타내는 숫자입니다. 훈련 데이터에서 연식의 표준편차는 8.2년이고 최고층의 표준편차는 7.2층입니다. 차이를 표준편차로 나누면, 두 변수 모두 “보통 떨어져 있는 폭의 몇 배만큼 다른가”라는 같은 눈금이 됩니다. 식으로 쓰면 이렇습니다.</p>
+<div class="math notranslate nohighlight">
+\[
+\text{거리} = \sqrt{\left(\frac{\text{연식의 차이}}{8.2}\right)^2 + \left(\frac{\text{최고층의 차이}}{7.2}\right)^2}
+\]</div>
+<p>이 값을 두 단지 사이의 거리라고 부릅니다. 예를 들어 연식이 1년, 최고층이 1층 다른 두 단지를 봅시다. 연식의 차이 1년은 1 ÷ 8.2 = 0.12가 되고, 최고층의 차이 1층은 1 ÷ 7.2 = 0.14가 됩니다. 두 값이 비슷하니, 이 데이터에서는 연식 1년의 차이와 최고층 1층의 차이가 거의 같은 무게로 들어갑니다. 두 단지의 거리는 <span class="math notranslate nohighlight">\(\sqrt{0.12^2 + 0.14^2} = 0.18\)</span>입니다. 거리가 가장 짧은 단지가 가장 닮은 단지입니다. 교과서 이름의 “가장 가까운 이웃”이 이 뜻입니다.</p>
+</section>
+<section id="id4">
+<h2>닮은 단지 1개 모형은 이렇게 맞힌다<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p>먼저 <strong>훈련 데이터</strong>에서 단지 한 곳을 뽑아, 닮은 단지 모형이 그 가격을 얼마로 예측하는지 보겠습니다. 강서구에 지은 지 18년 되고 최고층이 20층인 단지가 있고, 가격은 15.2억원입니다. 훈련 데이터의 2,209개 단지 가운데 이 단지와 가장 닮은 단지는 어디일까요? 바로 이 단지 자신입니다. 구가 같고, 연식도 최고층도 똑같으니 이보다 더 닮은 단지는 있을 수 없습니다. 닮은 단지를 1개만 본다면 평균할 것도 없이 그 한 곳의 가격이 그대로 답이 됩니다. 그래서 모형은 이 단지의 가격 15.2억원을 답으로 내놓고, 실제 가격도 15.2억원이니 오차는 0%입니다.</p>
+<p>모형이 한 일은 가격을 맞힌 것이 아니라 그 단지의 가격을 다시 읽은 것입니다. 훈련 데이터에 있는 단지의 가격은 전부 저장되어 있고, 어느 단지를 물어도 자기 자신이 가장 닮은 단지로 뽑힙니다. 기출문제집의 답을 통째로 외운 학생과 같습니다. 훈련 데이터의 2,209개 단지 가운데 열에 아홉 가까이는 이렇게 자기 자신이 뽑혀 오차가 정확히 0입니다. 나머지는 같은 구에 연식과 최고층이 똑같은 단지가 하나 더 있어서 그쪽이 뽑힌 경우입니다. 절반이 훨씬 넘는 단지의 오차가 0이므로, 오차의 중위값도 0%입니다.</p>
+<p>이번에는 <strong>시험 데이터</strong>에 있는 단지의 가격을 예측해 봅시다. 시험 데이터 500개 단지는 모형을 만들 때 쓰지 않았으므로, 모형은 이 단지들의 가격을 모릅니다. 모형에 알려 주는 것은 구, 연식, 최고층뿐입니다. 닮은 단지를 찾을 곳도 가격이 저장되어 있는 훈련 데이터의 2,209개 단지뿐입니다. 그래서 이번에는 자기 자신이 뽑힐 수 없고, 훈련 데이터의 다른 단지 가운데 가장 닮은 곳이 뽑힙니다. 표 3-1은 시험 데이터의 단지 네 곳과, 그 단지마다 가장 닮은 단지로 뽑힌 곳을 나란히 놓은 것입니다.</p>
+<p><strong>표 3-1.</strong> 시험 데이터의 단지와 가장 닮은 단지 (연식과 최고층, 가장 닮은 단지의 가격이 곧 예측)</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>구</p></th>
+<th class="head"><p>시험 데이터의 단지</p></th>
+<th class="head"><p>실제 가격</p></th>
+<th class="head"><p>가장 닮은 단지</p></th>
+<th class="head"><p>그 단지의 가격</p></th>
+<th class="head"><p>오차</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>동작구</p></td>
+<td><p>22년, 18층</p></td>
+<td><p>15.00억원</p></td>
+<td><p>22년, 18층</p></td>
+<td><p>14.95억원</p></td>
+<td><p>0.3%</p></td>
+</tr>
+<tr class="row-odd"><td><p>은평구</p></td>
+<td><p>22년, 15층</p></td>
+<td><p>6.19억원</p></td>
+<td><p>22년, 15층</p></td>
+<td><p>7.12억원</p></td>
+<td><p>15.1%</p></td>
+</tr>
+<tr class="row-even"><td><p>마포구</p></td>
+<td><p>23년, 15층</p></td>
+<td><p>22.00억원</p></td>
+<td><p>23년, 15층</p></td>
+<td><p>12.60억원</p></td>
+<td><p>42.7%</p></td>
+</tr>
+<tr class="row-odd"><td><p>구로구</p></td>
+<td><p>33년, 15층</p></td>
+<td><p>6.15억원</p></td>
+<td><p>33년, 15층</p></td>
+<td><p>11.75억원</p></td>
+<td><p>91.1%</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>표에서 보듯이 닮은 단지를 찾는 일 자체는 잘 됐습니다. 네 곳 모두 연식과 최고층이 똑같은 단지가 뽑혔습니다. 시험 데이터 500개 단지 전체로 봐도, 열에 아홉은 연식이 2년 안쪽으로 가까운 단지가 뽑혔습니다. 문제는 연식과 최고층이 닮았다고 가격까지 닮지는 않는다는 데 있습니다. 첫 행의 동작구 단지는 500만원 차이로 맞혔지만, 셋째 행의 마포구 단지는 같은 구, 같은 연식, 같은 최고층의 단지가 뽑혔는데도 가격이 9억원 넘게 달랐습니다. 넷째 행의 구로구 단지는 실제 가격의 두 배에 가까운 답이 나왔습니다. 같은 구로구에서 연식과 최고층이 똑같은 두 단지의 가격이 6.15억원과 11.75억원입니다.</p>
+<p>닮은 단지를 1개만 보면 그 한 곳이 어떤 단지냐에 답이 통째로 달려 있습니다. 우연히 가격이 비슷한 단지가 뽑히면 잘 맞고, 같은 구에서도 유난히 높거나 유난히 낮은 단지가 뽑히면 크게 빗나갑니다. 시험 데이터 500개 단지의 오차를 한 줄로 세우면 한가운데가 16.1%입니다.</p>
+<p>그림 3-1은 두 채점을 나란히 그린 것입니다. 점 하나가 단지 하나입니다. 왼쪽 패널에는 선에서 벗어난 회색 점도 있습니다. 같은 구에 연식과 최고층이 똑같은 단지가 하나 더 있어서, 자기 자신이 아니라 그 단지가 뽑힌 경우입니다. 이런 단지는 2,209개 가운데 283개이고, 나머지 1,926개는 모두 선 위에 있습니다.</p>
+<p><img alt="닮은 단지 1개로 예측한 결과: 훈련 데이터와 시험 데이터" src="../_images/fig_l3_1_memorize.png" /></p>
+<p><strong>그림 3-1.</strong> 가장 닮은 단지 1개의 가격으로 예측한 결과. 점 하나가 단지 하나이고, 선 위의 점은 예측과 실제가 같은 단지다. 왼쪽: 훈련 데이터 2,209개 단지(회색 점은 선에서 벗어난 283개). 오른쪽: 시험 데이터 500개 단지.</p>
+<p>그림에서 보듯이 왼쪽 패널에서는 파란 점 1,926개가 선 위에 한 줄로 서 있습니다. 예측한 가격과 실제 가격이 똑같다는 뜻입니다. 열에 아홉 가까운 단지의 오차가 0이니, 오차를 한 줄로 세웠을 때 한가운데 있는 값도 0%입니다. 보고서의 0%가 이 숫자입니다. 오른쪽 패널의 점은 선 둘레에 넓게 흩어져 있습니다. 같은 모형이 그린 두 그림이라고 믿기 어려울 만큼 다릅니다.</p>
+</section>
+<section id="id5">
+<h2>0%는 점수가 아니다<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<p>이제 물음에 답할 수 있습니다. 0%와 16% 가운데 이 모형의 점수는 16%입니다.</p>
+<p>우리가 알고 싶었던 것은 처음 보는 단지의 가격을 얼마나 잘 맞히느냐였습니다. 0%는 이미 가격을 알려 준 단지에게 그 가격을 되물어 얻은 점수입니다. 답을 외운 학생에게 기출문제집을 다시 풀린 것과 같아서, 모형이 무엇을 배웠는지에 대해 아무것도 말해 주지 않습니다. 우리가 이 모형을 쓴다면 가격을 모르는 단지에 쓸 것이므로, 그때 얼마나 빗나갈지를 미리 알려 주는 숫자는 16%입니다.</p>
+<p>두 점수에도 이름이 있습니다. 훈련 데이터로 채점한 오차를 훈련 오차, 시험 데이터로 채점한 오차를 시험 오차라고 부릅니다. 닮은 단지 1개 모형의 훈련 오차는 0%, 시험 오차는 16%입니다. <strong>모형의 점수는 시험 오차입니다.</strong> 훈련 오차가 아무리 작아도 그것만으로는 모형이 좋다고 말할 수 없습니다.</p>
+<p>AI가 내놓은 분석 결과를 볼 때 가장 먼저 확인할 것이 이것입니다. “이 모형의 오차는 몇 %”라는 문장을 만나면, 그 오차가 훈련 데이터로 매긴 것인지 시험 데이터로 매긴 것인지부터 봅니다. 시험 데이터를 따로 떼어 두지 않고 가진 데이터 전부로 모형을 만든 다음 똑같은 데이터로 채점했다면, 그 점수는 닮은 단지 1개 모형의 0%와 같은 종류의 숫자일 수 있습니다.</p>
+</section>
+<section id="id6">
+<h2>회귀식은 외울 수 없다<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
+<p>보고서의 표에서 회귀식의 행을 보면 훈련 오차도 15.8%, 시험 오차도 15.8%입니다. 닮은 단지 1개 모형과 달리 두 점수가 거의 같습니다. 왜 그럴까요?</p>
+<p>회귀식에는 외워 둘 자리가 없기 때문입니다. 닮은 단지 모형은 훈련 데이터의 단지 2,209개의 가격을 전부 저장해 두고 씁니다. 회귀식은 그렇지 않습니다. 훈련 데이터로 계수를 계산하고 나면 단지 하나하나의 가격은 더 쓰지 않습니다. 남는 것은 계수뿐이고, 이 회귀식의 계수는 상수, 최고층, 연식, 연식의 제곱 등 4개, 그리고 구 24개를 합쳐 28개입니다. 숫자 28개로 단지 2,209개의 가격을 낱낱이 기억할 수는 없습니다. 회귀식이 담을 수 있는 것은 “강남구는 노원구보다 얼마나 높다”, “오래된 단지는 얼마나 낮다” 같은 큰 흐름뿐입니다.</p>
+<p>큰 흐름은 훈련 데이터에만 있는 것이 아니라 시험 데이터에도 똑같이 있습니다. 강남구의 단지가 노원구의 단지보다 높은 것은 어느 쪽 데이터에서나 마찬가지입니다. 그래서 회귀식은 훈련 데이터에서도 시험 데이터에서도 비슷하게 맞히고, 비슷하게 빗나갑니다. 풀이를 익힌 학생이 기출문제집에서나 본시험에서나 비슷한 점수를 받는 것과 같습니다.</p>
+<p>표 3-2는 두 모형의 점수를 나란히 놓은 것입니다.</p>
+<p><strong>표 3-2.</strong> 훈련 데이터의 점수와 시험 데이터의 점수</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>모형</p></th>
+<th class="head"><p>훈련 오차</p></th>
+<th class="head"><p>시험 오차</p></th>
+<th class="head"><p>훈련 <span class="math notranslate nohighlight">\(R^2\)</span></p></th>
+<th class="head"><p>시험 <span class="math notranslate nohighlight">\(R^2\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>닮은 단지 1개</p></td>
+<td><p>0.0%</p></td>
+<td><p>16.1%</p></td>
+<td><p>0.96</p></td>
+<td><p>0.64</p></td>
+</tr>
+<tr class="row-odd"><td><p>회귀식</p></td>
+<td><p>15.8%</p></td>
+<td><p>15.8%</p></td>
+<td><p>0.75</p></td>
+<td><p>0.75</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>표에서 보듯이 훈련 데이터의 점수만 보면 닮은 단지 1개 모형이 압도적으로 좋습니다. 오차는 0.0% 대 15.8%, <span class="math notranslate nohighlight">\(R^2\)</span>은 0.96 대 0.75입니다. 시험 데이터로 채점하면 이야기가 달라집니다. 오차는 16.1%와 15.8%로 비슷하고, <span class="math notranslate nohighlight">\(R^2\)</span>은 닮은 단지 1개 모형이 0.64로 회귀식의 0.75보다 낮습니다. 훈련 데이터의 점수로 모형을 골랐다면 잘못 골랐을 것입니다.</p>
+<p>시험 데이터에서 두 모형의 오차는 비슷한데, <span class="math notranslate nohighlight">\(R^2\)</span>은 왜 닮은 단지 1개 모형 쪽이 낮을까요? 두 점수가 보는 곳이 다르기 때문입니다. 오차는 한가운데 단지 하나를 보기 때문에 크게 빗나간 단지가 얼마나 많은지는 반영하지 않습니다. <span class="math notranslate nohighlight">\(R^2\)</span>은 모든 단지를 다 보고, 크게 빗나간 단지일수록 무겁게 셉니다. 표 3-1의 넷째 행처럼 크게 빗나간 곳이 닮은 단지 1개 모형에는 여럿 있습니다. 시험 데이터 500개 단지 가운데 오차가 50%를 넘는 단지가 회귀식에서는 6%인데 닮은 단지 1개 모형에서는 9%입니다. 보통의 단지는 두 모형이 비슷하게 맞히지만, 닮은 단지 1개 모형은 가끔 아주 크게 틀립니다.</p>
+<p>닮은 단지 1개 모형의 훈련 <span class="math notranslate nohighlight">\(R^2\)</span>이 1이 아니라 0.96인 것은, 앞에서 본 대로 연식과 최고층이 똑같은 단지가 같은 구에 또 있어 자기 자신이 뽑히지 않은 단지가 있기 때문입니다.</p>
+</section>
+<section id="id7">
+<h2>왜 500개를 숨겼나<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
+<p>시험 데이터가 왜 필요한지는 이제 분명합니다. 데이터를 훈련 데이터와 시험 데이터로 나누는 일을 <strong>분할</strong>(split)이라고 합니다. 남은 것은 얼마나 떼어 둘 것인가입니다. 이 보고서는 2,709개 단지 가운데 5분의 1 정도인 500개를 시험 데이터로 떼었습니다.</p>
+<p>여기에는 양쪽으로 당기는 사정이 있습니다. 시험 데이터를 많이 떼면 훈련 데이터가 줄어 모형이 볼 수 있는 예가 적어집니다. 시험 데이터를 적게 떼면 채점에 쓰는 단지가 적어 점수가 우연에 흔들립니다. 문제가 다섯 개뿐인 시험으로는 실력을 가늠하기 어려운 것과 같습니다. 정해진 답은 없고, 전체의 20%나 25%를 떼는 것이 흔한 선택입니다.</p>
+<p>어느 단지를 뗄지는 무작위로 정합니다. 가격이 높은 단지만 골라 숨기거나 강남구의 단지만 골라 숨기면, 시험 데이터가 훈련 데이터와 다른 종류의 단지가 되어 버립니다. 무작위로 고르면 시험 데이터가 훈련 데이터와 닮은 구성이 됩니다. 본시험이 기출문제집과 같은 범위에서 나오게 하는 것입니다.</p>
+<p>지켜야 할 규칙은 하나입니다. <strong>시험 데이터는 모형을 만드는 동안 한 번도 보지 않는다.</strong> 시험 데이터를 떼어 놓고도 모형을 만들 때 슬쩍 참고한다면, 본시험 문제를 미리 보고 공부한 것과 같아서 점수를 믿을 수 없게 됩니다. 이 규칙이 생각보다 지키기 까다롭다는 것은 뒤의 절에서 다시 봅니다.</p>
+</section>
+<section id="id8">
+<h2>외우는 것이 늘 나쁜가<a class="headerlink" href="#id8" title="Link to this heading">#</a></h2>
+<p>닮은 단지 1개 모형이 외우는 모형이라고 해서 쓸모없는 모형은 아닙니다. 시험 오차 16.1%는 모든 단지를 전체 평균 가격 하나로 예측할 때의 36.4%보다 훨씬 낫고, 보통의 단지에서는 회귀식과 비슷합니다. 가장 닮은 단지의 가격은 꽤 쓸 만한 정보입니다.</p>
+<p>문제는 한 곳에만 의지하는 데 있습니다. 한 곳의 가격에는 그 단지만의 사정이 섞여 있습니다. 역에서 가깝다거나, 세대수가 유난히 적다거나, 1년 동안 한 건뿐인 거래가 마침 급하게 판 것이었다거나 하는 사정입니다. 그런 사정은 다른 단지에는 해당하지 않습니다. 닮은 단지를 한 곳이 아니라 여러 곳 보고 평균하면 그런 사정이 서로 지워질 것 같습니다. 실제로 보고서에서 오차가 가장 작은 모형은 닮은 단지 10개의 가격을 평균해 예측하는 모형이었습니다. 그렇다면 많이 볼수록 좋을까요? 다음 절에서 봅니다.</p>
+<blockquote>
+<div><p><strong>요약 — 이 절의 물음과 답</strong></p>
+<ul class="simple">
+<li><p><strong>닮은 단지 1개 모형은 어떻게 0%를 받았는가?</strong> 훈련 데이터에 있는 단지의 가격을 물으면 가장 닮은 단지로 그 단지 자신이 뽑힌다. 모형은 가격을 맞힌 것이 아니라 저장해 둔 가격을 다시 읽었다. 기출문제집의 답을 외운 학생이 그 문제집에서 만점을 받는 것과 같다.</p></li>
+<li><p><strong>0%와 16% 가운데 어느 쪽이 이 모형의 점수인가?</strong> 16%다. 모형을 만드는 데 쓴 데이터를 훈련 데이터, 따로 떼어 채점에만 쓰는 데이터를 시험 데이터라고 한다. 처음 보는 단지를 얼마나 잘 맞히는지는 시험 데이터의 오차만 말해 준다.</p></li>
+<li><p><strong>회귀식은 왜 두 점수가 거의 같은가?</strong> 회귀식에 남는 것은 계수 28개뿐이어서 단지 2,209개의 가격을 외울 수 없다. 계수가 담는 큰 흐름은 훈련 데이터와 시험 데이터에 똑같이 있으므로, 양쪽에서 비슷하게 맞힌다(둘 다 15.8%).</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./machine-learning"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="section-l2.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">이전</p>
+        <p class="prev-next-title">2. 설명하기와 맞히기 — 오차로 채점한다</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="section-l4.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">다음</p>
+        <p class="prev-next-title">4. 알맞은 유연함 — 과적합</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 내용
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">기출문제와 본시험</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">닮은 단지 모형 — 가장 가까운 이웃</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">닮은 단지 1개 모형은 이렇게 맞힌다</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">0%는 점수가 아니다</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">회귀식은 외울 수 없다</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">왜 500개를 숨겼나</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">외우는 것이 늘 나쁜가</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>© 2026 최필선</p>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
