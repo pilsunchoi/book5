@@ -18,9 +18,9 @@
 
 ## 강의영상
 
-- 1\. 보고서 — 노원구에서 1㎡는 얼마인가 (준비 중)
-- 2\. 직선은 어떻게 정해지나 — 잔차와 최소제곱 (준비 중)
-- 3\. 이 기울기를 믿어도 되나 — 표준오차, 신뢰구간, $p$값 (준비 중)
-- 4\. 얼마나 설명하나 — $R^2$과 잔차 (준비 중)
-- 5\. 로그로 읽는 가격 — 탄력성과 % 해석 (준비 중)
-- 직접 해 보기(프롬프트와 파이썬 노트북) (준비 중)
+- [1\. 보고서 — 노원구에서 1㎡는 얼마인가](https://www.youtube.com/watch?v=JFgNF28slvU)
+- [2\. 직선은 어떻게 정해지나 — 잔차와 최소제곱](https://www.youtube.com/watch?v=JOC4HLk1q48)
+- [3\. 이 기울기를 믿어도 되나 — 표준오차, 신뢰구간, $p$값](https://www.youtube.com/watch?v=XMpkoIUgKfU)
+- [4\. 얼마나 설명하나 — $R^2$과 잔차](https://www.youtube.com/watch?v=P5r0eURx5xM)
+- [5\. 로그로 읽는 가격 — 탄력성과 % 해석](https://www.youtube.com/watch?v=6n4WtDkjNs4)
+- [직접 해 보기(프롬프트와 파이썬 노트북)](https://www.youtube.com/watch?v=tMx-xAU3rEQ)
