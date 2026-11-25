@@ -18,8 +18,8 @@
 
 ## 강의영상
 
-- 1\. 보고서 — 서울 아파트 값은 무엇으로 정해지나 (준비 중)
-- 2\. 다른 조건이 같다면 — 다중회귀분석의 계수 (준비 중)
+- [1\. 보고서 — 서울 아파트 값은 무엇으로 정해지나](https://www.youtube.com/watch?v=UgiMfGEWMn0)
+- [2\. 다른 조건이 같다면 — 다중회귀분석의 계수](https://www.youtube.com/watch?v=TzSjcSzsg-g)
 - [3\. 숫자가 아닌 변수 — 더미 변수](https://www.youtube.com/watch?v=lP6sDgChJhw)
 - 4\. 효과가 집단마다 다를 때 — 상호작용 (준비 중)
 - 5\. 직선으로 부족할 때 — 제곱항 (준비 중)
