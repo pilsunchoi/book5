@@ -18,10 +18,10 @@
 
 ## 강의영상
 
-- [1\. 보고서 — 처음 보는 단지의 아파트 가격을 얼마나 잘 맞히나](https://www.youtube.com/watch?v=0c_CFSUIAkI)
-- 2\. 설명하기와 맞히기 — 오차로 채점한다 (준비 중)
-- 3\. 외운 것과 배운 것 — 훈련 데이터와 시험 데이터 (준비 중)
-- 4\. 알맞은 유연함 — 과적합 (준비 중)
-- 5\. 점수를 믿어도 되나 — 누출 (준비 중)
-- 6\. 머신러닝의 지도 (준비 중)
-- 직접 해 보기(프롬프트와 파이썬 노트북) (준비 중)
+- [1\. 보고서 — 처음 보는 단지의 아파트 가격을 얼마나 잘 맞히나](https://www.youtube.com/watch?v=e-f-GpNsaok)
+- [2\. 설명하기와 맞히기 — 오차로 채점한다](https://www.youtube.com/watch?v=-CjPiGdYPyY)
+- [3\. 외운 것과 배운 것 — 훈련 데이터와 시험 데이터](https://www.youtube.com/watch?v=X5SwKs3pVl4)
+- [4\. 알맞은 유연함 — 과적합](https://www.youtube.com/watch?v=lZbPD6MK_E0)
+- [5\. 점수를 믿어도 되나 — 누출](https://www.youtube.com/watch?v=JJPia9K1Sjs)
+- [6\. 머신러닝의 지도](https://www.youtube.com/watch?v=fLwNDMcG8As)
+- [직접 해 보기(프롬프트와 파이썬 노트북)](https://www.youtube.com/watch?v=-2BvIBX5TA0)
