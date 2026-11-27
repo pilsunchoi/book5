@@ -566,7 +566,7 @@
 <li><p>저녁 습도(<code class="docutils literal notranslate"><span class="pre">hum</span></code>): 21시의 상대습도</p></li>
 <li><p>기압 변화(<code class="docutils literal notranslate"><span class="pre">chg</span></code>): 21시 해면기압 − 9시 해면기압. 음수면 낮 동안 기압이 내린 것이다</p></li>
 <li><p>저녁 구름양(<code class="docutils literal notranslate"><span class="pre">cloud</span></code>): 21시의 전운량(0 ~ 10)</p></li>
-<li><p>오늘비(<code class="docutils literal notranslate"><span class="pre">rain</span></code>): 1시부터 21시 사이에 강수량이 기록된 시간이 하나라도 있으면 1</p></li>
+<li><p>오늘비(<code class="docutils literal notranslate"><span class="pre">rain</span></code>): 1시부터 21시 사이에 강수량이 기록된 시간이 하나라도 있으면 1. 시간별 데이터의 1시 기록은 0시 ~ 1시의 강수이므로, 오늘 0시부터 21시까지다</p></li>
 <li><p>여름(<code class="docutils literal notranslate"><span class="pre">summer</span></code>): 6 ~ 8월이면 1</p></li>
 </ul>
 <p><code class="docutils literal notranslate"><span class="pre">at(21)</span></code>은 시간별 데이터에서 21시 행만 골라 날짜를 행 이름으로 삼은 표다. 날짜가 같은 행끼리 짝이 맞춰져 <code class="docutils literal notranslate"><span class="pre">d</span></code>에 들어간다. 값이 빠진 날을 빼면 3,651일이 남아야 한다.</p>
@@ -622,7 +622,7 @@
 <h2>4. 직선으로 — 선형확률모형<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
 <p>2절에서 한 일이다. 0과 1인 결과에 지금까지와 같은 회귀식(<code class="docutils literal notranslate"><span class="pre">smf.ols</span></code>)을 그대로 쓴다. 회귀식은 다른 장과 같은 방식으로 적는다. <code class="docutils literal notranslate"><span class="pre">~</span></code> 왼쪽이 종속변수, 오른쪽이 설명변수다.</p>
 <p><code class="docutils literal notranslate"><span class="pre">cov_type='HC1'</span></code>은 표준오차를 이분산 강건 표준오차로 계산하라는 옵션이다(2절의 참고 상자). 계수는 그대로이고 표준오차만 달라진다.</p>
-<p>계수는 %포인트로 바로 해석한다. 기압 변화의 계수 −0.0256은 기압이 1hPa 오른 날 다음 날 비가 올 확률이 2.6%포인트 낮다는 뜻이다. <code class="docutils literal notranslate"><span class="pre">fittedvalues</span></code>는 회귀식이 날마다 계산한 값, 즉 내일비 확률이다. 이 값이 0보다 낮은 날이 138일이다.</p>
+<p>계수는 퍼센트포인트로 바로 해석한다. 기압 변화의 계수 −0.0256은 기압이 1hPa 오른 날 다음 날 비가 올 확률이 2.6%포인트 낮다는 뜻이다. <code class="docutils literal notranslate"><span class="pre">fittedvalues</span></code>는 회귀식이 날마다 계산한 값, 즉 내일비 확률이다. 이 값이 0보다 낮은 날이 138일이다.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">F</span> <span class="o">=</span> <span class="s1">'tomorrow ~ hum + chg + cloud + rain + summer'</span>   <span class="c1"># 보고서의 회귀식</span>
