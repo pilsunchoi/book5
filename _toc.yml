@@ -76,3 +76,12 @@ chapters:
       - file: machine-learning/section-l6
       - file: machine-learning/practice-prompt
       - file: machine-learning/practice-notebook
+  - file: logistic-regression/index
+    sections:
+      - file: logistic-regression/section-g1
+      - file: logistic-regression/section-g2
+      - file: logistic-regression/section-g3
+      - file: logistic-regression/section-g4
+      - file: logistic-regression/section-g5
+      - file: logistic-regression/practice-prompt
+      - file: logistic-regression/practice-notebook
