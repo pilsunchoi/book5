@@ -1,0 +1,793 @@
+
+<!DOCTYPE html>
+
+
+<html lang="ko" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="3. S자 곡선 — 로지스틱 회귀" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://pilsunchoi.github.io/book5/logistic-regression/section-g3.html" />
+<meta property="og:site_name" content="AI 데이터 분석" />
+<meta property="og:description" content="직선이 0%와 100% 밖으로 나간다면, 그 사이에서 휘는 선을 쓰면 됩니다. 이 절의 답은 이것입니다. 로지스틱 회귀는 확률을 두 단계로 계산합니다. 먼저 지금까지처럼 변수에 계수를 곱해 더한 값을 만들고, 그 값을 S자 모양의 곡선에 넣어 0%와 100% 사이의 확률로 바꿉니다..." />
+<meta name="description" content="직선이 0%와 100% 밖으로 나간다면, 그 사이에서 휘는 선을 쓰면 됩니다. 이 절의 답은 이것입니다. 로지스틱 회귀는 확률을 두 단계로 계산합니다. 먼저 지금까지처럼 변수에 계수를 곱해 더한 값을 만들고, 그 값을 S자 모양의 곡선에 넣어 0%와 100% 사이의 확률로 바꿉니다..." />
+
+    <title>3. S자 곡선 — 로지스틱 회귀 &#8212; AI 데이터 분석</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=6a604523" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=18f25a40" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=ae323b5b"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = '표시하려면 클릭';</script>
+    <script>let toggleHintHide = '숨기려면 클릭';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/translations.js?v=e33e7ba0"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../_static/design-tabs.js?v=fcb327ea"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'logistic-regression/section-g3';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../_static/custom.js?v=a6a97908"></script>
+    <link rel="index" title="색인" href="../genindex.html" />
+    <link rel="search" title="검색" href="../search.html" />
+    <link rel="next" title="4. 계수를 어떻게 읽나 — 오즈와 확률의 차이" href="section-g4.html" />
+    <link rel="prev" title="2. 0과 1을 회귀하면 — 선형확률모형" href="section-g2.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="ko"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.png" class="logo__image only-light" alt="AI 데이터 분석"/>
+    <img src="../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="AI 데이터 분석"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../simple-regression/index.html">단순회귀분석 — 직선 하나로 관계 읽기</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a1.html">1. 보고서 — 노원구에서 1㎡는 얼마인가</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a2.html">2. 직선은 어떻게 정해지나 — 잔차와 최소제곱</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a3.html">3. 이 기울기를 믿어도 되나 — 표준오차, 신뢰구간, <span class="math notranslate nohighlight">\(p\)</span>값</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a4.html">4. 얼마나 설명하나 — <span class="math notranslate nohighlight">\(R^2\)</span>과 잔차</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a5.html">5. 로그로 읽는 가격 — 탄력성과 % 해석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../multiple-regression/index.html">다중회귀분석 — 여러 변수를 함께</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b1.html">1. 보고서 — 서울 아파트 값은 무엇으로 정해지나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b2.html">2. 다른 조건이 같다면 — 다중회귀분석의 계수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b3.html">3. 숫자가 아닌 변수 — 더미 변수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b4.html">4. 효과가 집단마다 다를 때 — 상호작용</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b5.html">5. 직선으로 부족할 때 — 제곱항</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../health-survey/index.html">횡단면 분석 — 학력과 혈압</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h1.html">1. 보고서 — 학력이 높을수록 혈압이 낮을까</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h2.html">2. 표본이 모집단을 닮게 — 가중치와 표본설계</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h3.html">3. 다른 조건이 같다면 — 계수는 무엇을 비교하나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h4.html">4. 회귀식 밖에 남은 것 — 설명력, 빠진 변수, 남녀의 차이</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h5.html">5. 약 먹고 잰 혈압 — 표본을 정하는 판단과 거꾸로 된 순서</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h6.html">6. 횡단면이 말해 주지 않는 것 — 측정과 데이터의 범위</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-prompt.html">직접 해 보기 1 — 데이터는 내 컴퓨터에, AI에는 질문만</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../panel-data/index.html">패널 데이터 분석 — FTA와 수출</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p1.html">1. 보고서 — FTA는 한국의 수출을 늘렸나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p2.html">2. 단체 사진과 사진첩 — 횡단면과 패널</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p3.html">3. 어제의 나와 비교하기 — 고정효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p4.html">4. 두 가지 차이를 섞기 — 확률효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p5.html">5. 무엇을 고르나 — 하우스만 검정과 연도 효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../causal-inference/index.html">인과 추론 — 공정한 비교를 찾아서</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c1.html">1. 보고서 — 일자리 제공 프로그램은 소득을 올렸나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c2.html">2. 같은 사람의 두 가지 미래 — 인과 효과와 실험</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c3.html">3. 엉뚱한 비교 상대 — 교란</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c4.html">4. 조건을 맞추면 — 통제의 계단</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c5.html">5. 넣으면 안 되는 변수 — 매개, 총효과, 나쁜 통제</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c6.html">6. 실험이 없을 때 — 설계의 지도</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../difference-in-differences/index.html">이중차분 — 허가구역과 아파트 거래</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/section-d1.html">1. 보고서 — 토지거래허가구역은 거래를 얼마나 줄였나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/section-d2.html">2. 변화로 비교하기 — 대역을 세운다</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/section-d3.html">3. 나란히 움직였을까 — 지정 전 다섯 달</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/section-d4.html">4. 정답이 있는 예 — 나란하지 않으면 얼마나 빗나가나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../survey-measurement/index.html">설문으로 측정하기 — 문항 여러 개로 개념 하나를</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m1.html">1. 보고서 — 성격 검사 50문항은 다섯 성격을 일관되게 측정하나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m2.html">2. 문항 여러 개로 개념 하나를 — 척도와 역문항</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m3.html">3. 함께 움직이는가 — 크론바흐 <span class="math notranslate nohighlight">\(\alpha\)</span>와 문항 수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m4.html">4. 알려 주지 않아도 성격별로 묶이나 — 요인분석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m5.html">5. 관계가 약하게도, 강하게도 보인다 — 감쇠와 공통방법편향</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../machine-learning/index.html">머신러닝 — 처음 보는 데이터로 채점하기</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../machine-learning/section-l1.html">1. 보고서 — 처음 보는 단지의 아파트 가격을 얼마나 잘 맞히나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../machine-learning/section-l2.html">2. 설명하기와 맞히기 — 오차로 채점한다</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../machine-learning/section-l3.html">3. 외운 것과 배운 것 — 훈련 데이터와 시험 데이터</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../machine-learning/section-l4.html">4. 알맞은 유연함 — 과적합</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../machine-learning/section-l5.html">5. 점수를 믿어도 되나 — 누출</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../machine-learning/section-l6.html">6. 머신러닝의 지도</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../machine-learning/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../machine-learning/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">로지스틱 회귀 — 내일 비가 올 확률</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="section-g1.html">1. 보고서 — 오늘 저녁의 날씨로 본 내일 비의 확률</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-g2.html">2. 0과 1을 회귀하면 — 선형확률모형</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3. S자 곡선 — 로지스틱 회귀</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-g4.html">4. 계수를 어떻게 읽나 — 오즈와 확률의 차이</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-g5.html">5. 30%라고 한 날 열에 셋 — 예측 확률 읽기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/pilsunchoi/book5" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="소스 저장소"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="이 페이지 다운로드">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/logistic-regression/section-g3.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="소스 파일 다운로드"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="PDF로 인쇄"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="전체 화면으로보기"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>3. S자 곡선 — 로지스틱 회귀</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 내용 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">버스 정류장의 S자</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">점수를 확률로 바꾸는 곡선</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">보고서의 계수로 점수 계산하기</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">데이터는 S자를 따르나</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">맑은 날과 흐린 날은 같은 곡선 위의 다른 자리</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">계수는 어떻게 구하나 — 가장 그럴듯한 계수</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#r-2">보고서에 <span class="math notranslate nohighlight">\(R^2\)</span>이 없는 까닭</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">계수의 부호</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="s">
+<h1>3. S자 곡선 — 로지스틱 회귀<a class="headerlink" href="#s" title="Link to this heading">#</a></h1>
+<p>직선이 0%와 100% 밖으로 나간다면, 그 사이에서 휘는 선을 쓰면 됩니다. 이 절의 답은 이것입니다. 로지스틱 회귀는 확률을 두 단계로 계산합니다. 먼저 지금까지처럼 변수에 계수를 곱해 더한 값을 만들고, 그 값을 S자 모양의 곡선에 넣어 0%와 100% 사이의 확률로 바꿉니다. 이 곡선이 보고서 그림의 왼쪽 패널에서 휘어 있던 두 곡선의 정체입니다.</p>
+<section id="id1">
+<h2>버스 정류장의 S자<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p>아침 버스를 생각해 봅시다. 8시 정각에 떠나는 버스가 있고, 집에서 정류장까지는 보통 10분이 걸립니다. 하지만 횡단보도 신호등에 걸리느냐에 따라 7분이 걸리기도 하고 13분이 걸리기도 합니다. 집을 나서는 시각을 가로축에, 이 버스를 탈 확률을 세로축에 놓고 그래프를 그리면 어떤 모양이 될까요?</p>
+<p>7시 30분이나 7시 35분에 나서면 탈 확률은 100%에 붙어 있습니다. 그래프의 왼쪽은 평평합니다. 7시 45분쯤부터 확률이 내려가기 시작해, 7시 50분 근처에서 가장 가파르게 떨어집니다. 7시 55분을 지나면 다시 0% 근처에 붙어 평평해집니다. 양 끝은 평평하고 가운데는 가파른 모양, 알파벳 S를 옆으로 늘인 것 같은 모양입니다.</p>
+<p>그림 3-1이 이 모양을 대략 그린 것입니다.</p>
+<p><img alt="집을 나서는 시각에 따라 8시 버스를 탈 확률 — 양 끝은 평평하고 7시 50분 근처가 가파른 S자" src="../_images/fig_g3_1_bus.svg" /></p>
+<p><strong>그림 3-1.</strong> 8시 버스를 탈 확률. 데이터가 아니라 모양만 보이려고 대략 그린 그림이다.</p>
+<p>이 모양에는 앞 절에서 본 직선의 두 문제가 모두 해결되어 있습니다. 첫째, 곡선은 0%와 100% 사이에 머뭅니다. 아무리 일찍 나서도 100%에 가까워질 뿐 넘지 않습니다. 둘째, 기울기가 자리마다 다릅니다. 가운데에서는 1분이 확률을 크게 바꾸고, 양 끝에서는 거의 바꾸지 못합니다.</p>
+</section>
+<section id="id2">
+<h2>점수를 확률로 바꾸는 곡선<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>로지스틱 회귀는 이런 S자 곡선을 쓰는 회귀입니다. 계산은 두 단계입니다.</p>
+<p>첫째 단계는 지금까지와 같습니다. 변수마다 계수를 곱해 모두 더합니다. 이번 장에서는 이렇게 더한 값을 <strong>점수</strong>라고 부르겠습니다.</p>
+<div class="math notranslate nohighlight">
+\[\text{점수} = b_0 + b_1 \times \text{저녁 습도} + b_2 \times \text{기압 변화} + b_3 \times \text{저녁 구름양} + b_4 \times \text{오늘비} + b_5 \times \text{여름}\]</div>
+<p>선형확률모형이라면 이 값이 바로 확률이었습니다. 그래서 확률이 0% 아래로도, 100% 위로도 나갔습니다. 로지스틱 회귀는 둘째 단계를 하나 더 거칩니다. 점수를 다음 식에 넣어 확률로 바꿉니다.</p>
+<div class="math notranslate nohighlight">
+\[\text{내일 비가 올 확률} = \frac{1}{1 + e^{-\text{점수}}}\]</div>
+<p>여기서 <span class="math notranslate nohighlight">\(e\)</span>는 <strong>자연상수</strong>(Euler’s number)라고 부르는, 약 2.718인 수입니다. 다중회귀분석 장에서 더미의 계수를 “몇 배”로 바꿀 때 쓴 바로 그 수입니다. 식이 낯설어 보여도 하는 일은 단순합니다. 어떤 점수가 들어오든 0과 1 사이(0%와 100% 사이)의 숫자를 내놓습니다. 점수가 아주 크면 <span class="math notranslate nohighlight">\(e^{-\text{점수}}\)</span>는 0에 가까워져 분수는 1에 가까워지고, 점수가 아주 작으면 <span class="math notranslate nohighlight">\(e^{-\text{점수}}\)</span>가 아주 커져 분수는 0에 가까워지기 때문입니다. 점수에 몇 가지 값을 넣어 보면 표 3-1과 같습니다.</p>
+<p><strong>표 3-1.</strong> 점수와 확률</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>점수</p></th>
+<th class="head"><p>−4</p></th>
+<th class="head"><p>−2</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>2</p></th>
+<th class="head"><p>4</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>확률</p></td>
+<td><p>1.8%</p></td>
+<td><p>11.9%</p></td>
+<td><p>50.0%</p></td>
+<td><p>88.1%</p></td>
+<td><p>98.2%</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>점수가 0이면 확률은 정확히 50%입니다. 점수가 커질수록 확률은 100%에 가까워지지만 넘지 못하고, 작아질수록 0%에 가까워지지만 그 아래로 내려가지 않습니다. 점수 −4에서 −2로 2만큼 오르면 확률은 10.1%포인트 오르는데, 점수 −1에서 1로 똑같이 2만큼 오르면 26.9%에서 73.1%로 46.2%포인트 오릅니다. 같은 점수 변화라도 가운데에서는 확률이 크게 움직이고 양 끝에서는 조금 움직입니다.</p>
+<p>그림 3-2의 왼쪽 패널이 이 곡선입니다. 표 3-1의 다섯 점이 곡선 위에 찍혀 있습니다. 그림 3-1의 버스 그래프와 좌우가 뒤집혔을 뿐 같은 S자입니다. 이 곡선을 <strong>로지스틱 곡선</strong>(logistic curve)이라고 부르고, 로지스틱 곡선으로 확률을 설명하는 회귀를 로지스틱 회귀라고 부릅니다.</p>
+<p><img alt="로지스틱 곡선과, 3,651일을 점수에 따라 놓았을 때 실제로 비가 온 비율" src="../_images/fig_g3_2_s_curve.png" /></p>
+<p><strong>그림 3-2.</strong> 왼쪽: 로지스틱 곡선. 점수가 어떤 값이든 확률은 0%와 100% 사이에 있다. 오른쪽: 보고서의 계수로 날마다 점수를 계산하고, 점수를 구간으로 나눠 구간마다 다음 날 실제로 비가 온 비율을 찍었다(파란 동그라미, 크기는 일수). 주황 곡선은 왼쪽과 같은 로지스틱 곡선이다.</p>
+</section>
+<section id="id3">
+<h2>보고서의 계수로 점수 계산하기<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>이제 보고서의 회귀 결과를 다시 봅시다. 보고서의 표에 적힌 계수는 바로 이 점수의 계수입니다. 표준오차와 함께 다시 정리하면 표 3-2와 같습니다.</p>
+<p><strong>표 3-2.</strong> 로지스틱 회귀 — 내일 비가 올 확률을 변수 다섯 개로 설명</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>계수</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>저녁 습도 (21시, %)</p></td>
+<td><p>0.011 (0.003)</p></td>
+</tr>
+<tr class="row-odd"><td><p>기압 변화 (21시 − 9시, hPa)</p></td>
+<td><p>−0.155 (0.017)</p></td>
+</tr>
+<tr class="row-even"><td><p>저녁 구름양 (21시, 0 ~ 10)</p></td>
+<td><p>0.178 (0.012)</p></td>
+</tr>
+<tr class="row-odd"><td><p>오늘비 (21시까지, 예 = 1)</p></td>
+<td><p>0.281 (0.110)</p></td>
+</tr>
+<tr class="row-even"><td><p>여름 (6 ~ 8월 = 1)</p></td>
+<td><p>0.606 (0.092)</p></td>
+</tr>
+<tr class="row-odd"><td><p>상수</p></td>
+<td><p>−2.962 (0.186)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>주: 괄호는 표준오차. <span class="math notranslate nohighlight">\(n\)</span> = 3,651일.</p>
+<p>보고서 요약 첫 줄의 “맑고 건조한 날”을 계산해 봅시다. 습도 50%, 기압 변화 0, 구름양 2, 오늘 비 없음, 여름이 아닌 날입니다. 이 값들을 넣으면 점수는 다음과 같습니다.</p>
+<div class="math notranslate nohighlight">
+\[\text{점수} = −2.962 + 0.011 \times 50 − 0.155 \times 0 + 0.178 \times 2 + 0.281 \times 0 + 0.606 \times 0 \approx −2.06\]</div>
+<p>점수 −2.06을 곡선에 넣으면 확률은 11%쯤입니다. 표 3-1에서 점수 −2가 11.9%였으니 그 근처입니다. 보고서가 말한 11.5%가 이렇게 나온 것입니다. 표의 계수는 반올림한 값이라 손으로 계산하면 끝자리가 조금 다를 수 있습니다. 같은 방법으로 “흐리고 습한 날”(습도 85%, 구름양 8)을 계산하면 점수는 약 −0.6, 확률은 36.0%입니다.</p>
+<section id="id4">
+<h3>데이터는 S자를 따르나<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<p>곡선을 쓰기로 한 것은 우리의 선택입니다. 데이터가 정말 이런 모양인지는 따로 확인해야 합니다. 그림 3-2의 오른쪽 패널이 그 확인입니다. 3,651일 하루하루의 점수를 보고서의 계수로 계산한 다음, 점수가 비슷한 날끼리 묶어 다음 날 실제로 비가 온 비율을 찍었습니다.</p>
+<p>그림에서 보듯이 파란 동그라미들이 주황 곡선을 꽤 잘 따라갑니다. 점수가 −2 근처인 날들은 10% 남짓, −1 근처는 20 ~ 30%, 0 근처는 40 ~ 50%대에서 비가 왔습니다. 곡선과 다른 곳도 있습니다. 점수가 0.5에서 1.5 사이인 날들(285일)은 곡선이 말하는 것보다 비가 더 자주 왔고, 점수가 가장 낮은 날들(67일)도 그랬습니다. 이런 어긋남을 어떻게 볼지는 5절에서 다시 다룹니다.</p>
+</section>
+<section id="id5">
+<h3>맑은 날과 흐린 날은 같은 곡선 위의 다른 자리<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<p>이제 보고서 그림의 왼쪽 패널에서 두 곡선이 왜 다르게 휘었는지 알 수 있습니다. 맑고 건조한 날의 점수는 약 −2.06이고, 흐리고 습한 날의 점수는 약 −0.6입니다. 두 날은 같은 S자 곡선 위의 다른 자리에 있습니다. 맑은 날은 곡선의 아래쪽, 아직 평평한 곳에 있고, 흐린 날은 가운데에 더 가까운, 가파른 곳에 있습니다.</p>
+<p>기압이 1hPa 더 내리면 점수는 어느 날이든 똑같이 0.155 올라갑니다. 기압 변화의 계수가 −0.155이고, 기압이 내리면 기압 변화가 음수가 되기 때문입니다. 그런데 가로로 같은 거리만큼 움직여도, 곡선이 평평한 곳에서는 확률이 조금 오르고 가파른 곳에서는 많이 오릅니다. 보고서가 같은 2hPa이 맑은 날에는 3.5%포인트, 흐린 날에는 7.4%포인트를 올린다고 한 까닭이 이것입니다. 이 이야기는 다음 절에서 계수를 확률의 말로 바꿔 보며 자세히 다룹니다.</p>
+</section>
+</section>
+<section id="id6">
+<h2>계수는 어떻게 구하나 — 가장 그럴듯한 계수<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
+<p>선형확률모형의 계수는 단순회귀분석 장에서 배운 최소제곱법으로 구했습니다. 잔차의 제곱을 더한 값이 가장 작아지는 계수였죠. 로지스틱 회귀는 다른 기준을 씁니다.</p>
+<p>원리는 이렇습니다. 계수의 후보를 하나 정하면, 그 계수로 내일비 확률을 계산할 수 있습니다. 좋은 계수라면 다음 날 실제로 비가 온 날에는 높은 확률을, 비가 오지 않은 날에는 낮은 확률을 주었을 것입니다. 그래서 날마다 “모형이 실제로 일어난 일에 준 확률”을 봅니다. 비가 온 날은 모형이 말한 비 올 확률이고, 오지 않은 날은 비가 오지 않을 확률(100%에서 비 올 확률을 뺀 값)입니다.</p>
+<p>사흘만으로 예를 들어 봅시다. 첫째 날은 다음 날 비가 왔고, 둘째 날과 셋째 날은 오지 않았습니다. 계수 후보 A는 사흘의 비 올 확률을 80%, 20%, 30%로 계산하고, 후보 B는 셋 다 50%로 계산한다고 합시다. 표 3-3이 두 후보가 실제로 일어난 일에 준 확률입니다.</p>
+<p><strong>표 3-3.</strong> 사흘의 실제 결과와 두 계수 후보</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>첫째 날</p></th>
+<th class="head"><p>둘째 날</p></th>
+<th class="head"><p>셋째 날</p></th>
+<th class="head"><p>곱</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>다음 날 비</p></td>
+<td><p>O</p></td>
+<td><p>X</p></td>
+<td><p>X</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>후보 A</strong></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>계산한 비 올 확률</p></td>
+<td><p>80%</p></td>
+<td><p>20%</p></td>
+<td><p>30%</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>실제로 일어난 일에 부여한 확률</p></td>
+<td><p>0.8</p></td>
+<td><p>0.8</p></td>
+<td><p>0.7</p></td>
+<td><p>0.448</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>후보 B</strong></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>계산한 비 올 확률</p></td>
+<td><p>50%</p></td>
+<td><p>50%</p></td>
+<td><p>50%</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>실제로 일어난 일에 부여한 확률</p></td>
+<td><p>0.5</p></td>
+<td><p>0.5</p></td>
+<td><p>0.5</p></td>
+<td><p>0.125</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>표에서 보듯이 비가 오지 않은 둘째 날과 셋째 날에는 100%에서 비 올 확률을 뺀 값이 들어갑니다. A가 둘째 날에 준 확률은 1 − 0.2 = 0.8입니다. 셋을 곱하면 A는 0.448, B는 0.125입니다. A가 사흘의 실제 결과를 훨씬 그럴듯하게 설명합니다.</p>
+<p>로지스틱 회귀는 이 곱이 가장 커지는 계수를 찾습니다. 3,651일의 실제 결과가 나올 확률을 가장 높게 만드는 계수, 즉 데이터를 가장 그럴듯하게 설명하는 계수입니다. 이 곱을 <strong>가능도</strong>(likelihood)라고 부르고, 가능도가 가장 커지는 계수를 찾는 방법을 <strong>최대가능도 추정</strong>(maximum likelihood estimation)이라고 합니다. 가능도는 우도라고도 합니다. 이 계수는 식 하나로 바로 계산되지 않아서, 컴퓨터가 계수를 조금씩 바꿔 가며 곱이 더 커지지 않는 곳을 찾습니다. 우리가 직접 할 일은 없습니다. AI나 통계 프로그램에 로지스틱 회귀를 해 달라고 하면 이 계산을 합니다.</p>
+<p>계산 방법은 달라도 표준오차와 <span class="math notranslate nohighlight">\(p\)</span>값의 뜻은 지금까지와 같습니다. 표준오차는 다른 날들로 데이터를 다시 모아 계산하면 계수가 얼마나 흔들릴지를 말하고, <span class="math notranslate nohighlight">\(p\)</span>값은 참값이 0이라면 이만한 계수가 우연히 나올 확률입니다. 표 3-2에서 오늘비의 계수 0.281은 표준오차 0.110의 두 배 반쯤이고(<span class="math notranslate nohighlight">\(p\)</span>값 0.011), 나머지 네 계수는 표준오차의 3.6배에서 14.9배입니다(<span class="math notranslate nohighlight">\(p\)</span>값 모두 0.001 미만).</p>
+<section id="r-2">
+<h3>보고서에 <span class="math notranslate nohighlight">\(R^2\)</span>이 없는 까닭<a class="headerlink" href="#r-2" title="Link to this heading">#</a></h3>
+<p>다중회귀분석 장의 보고서에는 <span class="math notranslate nohighlight">\(R^2\)</span>이 있었는데, 이번 보고서에는 없습니다. <span class="math notranslate nohighlight">\(R^2\)</span>은 최소제곱법에서 나온 숫자이기 때문입니다. 로지스틱 회귀는 최소제곱법을 쓰지 않으므로 보통의 <span class="math notranslate nohighlight">\(R^2\)</span>이 없습니다. 비슷한 역할을 하도록 만든 숫자(유사 <span class="math notranslate nohighlight">\(R^2\)</span>, pseudo <span class="math notranslate nohighlight">\(R^2\)</span>)가 있고 AI가 보고서에 넣기도 하지만, 보통의 <span class="math notranslate nohighlight">\(R^2\)</span>처럼 “흩어짐의 몇 %를 설명했다”로 해석할 수 없어서 이 장에서는 쓰지 않습니다. 모형이 확률을 얼마나 잘 말하는지는 5절에서 다른 방법으로 확인합니다.</p>
+</section>
+</section>
+<section id="id7">
+<h2>계수의 부호<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
+<p>계수를 해석하는 첫걸음은 지금까지와 같습니다. 계수가 양수이면 그 변수가 클수록 점수가 높고, 점수가 높으면 확률도 높습니다. 음수이면 반대입니다. 표 3-2에서는 기압 변화의 계수만 음수이고, 나머지 넷은 양수입니다. 기압 변화의 계수가 음수라는 것은 기압이 오를수록 확률이 낮고, 많이 떨어질수록 높다는 뜻입니다. 다른 조건이 같다면 저녁이 습할수록, 낮 동안 기압이 많이 떨어졌을수록, 저녁 하늘에 구름이 많을수록, 오늘 비가 왔다면, 여름이라면 내일 비가 올 확률이 높습니다. 보고서 해석의 첫 항목 “계수의 부호”가 이것입니다.</p>
+<p>하지만 계수의 크기는 그대로 확률로 해석할 수 없습니다. 기압 변화의 계수 −0.155는 기압이 1hPa 더 내릴 때 점수가 0.155 오른다는 뜻이지, 확률이 15.5%포인트 오른다는 뜻이 아닙니다. 점수가 0.155 오를 때 확률이 얼마나 오르는지는 그날이 곡선의 어디에 있느냐에 달려 있습니다. 그러면 계수의 크기는 어떻게 이해해야 할까요? 다음 절의 물음입니다.</p>
+<blockquote>
+<div><p><strong>요약 — 이 절의 물음과 답</strong></p>
+<ul class="simple">
+<li><p><strong>직선 대신 무엇을 쓰나?</strong> S자 모양의 로지스틱 곡선을 쓴다. 변수에 계수를 곱해 더한 점수를 곡선에 넣으면, 점수가 어떤 값이든 확률은 0%와 100% 사이에 있다. 이것이 로지스틱 회귀다.</p></li>
+<li><p><strong>같은 변화가 왜 출발점에 따라 다르게 작용하나?</strong> 곡선이 가운데는 가파르고 양 끝은 평평하기 때문이다. 기압이 1hPa 더 내리면 점수는 어느 날이든 0.155 오르지만, 맑은 날은 곡선의 평평한 곳에, 흐린 날은 가파른 곳에 있어 확률이 오르는 폭이 다르다.</p></li>
+<li><p><strong>계수는 어떻게 구하나?</strong> 다음 날 실제로 일어난 일을 가장 그럴듯하게 설명하는 계수를 찾는다. 이것을 최대가능도 추정이라고 한다. 표준오차와 <span class="math notranslate nohighlight">\(p\)</span>값의 뜻은 지금까지와 같지만, 보통의 <span class="math notranslate nohighlight">\(R^2\)</span>은 없다.</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./logistic-regression"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="section-g2.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">이전</p>
+        <p class="prev-next-title">2. 0과 1을 회귀하면 — 선형확률모형</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="section-g4.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">다음</p>
+        <p class="prev-next-title">4. 계수를 어떻게 읽나 — 오즈와 확률의 차이</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 내용
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">버스 정류장의 S자</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">점수를 확률로 바꾸는 곡선</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">보고서의 계수로 점수 계산하기</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">데이터는 S자를 따르나</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">맑은 날과 흐린 날은 같은 곡선 위의 다른 자리</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">계수는 어떻게 구하나 — 가장 그럴듯한 계수</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#r-2">보고서에 <span class="math notranslate nohighlight">\(R^2\)</span>이 없는 까닭</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">계수의 부호</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>© 2026 최필선</p>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

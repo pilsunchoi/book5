@@ -1,0 +1,895 @@
+
+<!DOCTYPE html>
+
+
+<html lang="ko" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="직접 해 보기 2 — 파이썬 코드로 따라 해 보기" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://pilsunchoi.github.io/book5/logistic-regression/practice-notebook.html" />
+<meta property="og:site_name" content="AI 데이터 분석" />
+<meta property="og:description" content="AI가 내놓은 결과만 보고 그것이 어떻게 나왔는지 모르면, 그 결과를 믿을 근거도 없다. AI도 실수를 하므로 결과는 점검해야 하고, 점검하려면 결과를 만든 파이썬 코드를 읽을 줄 알아야 한다. 이 노트북은 이 장에서 다룬 계산과 그림을 파이썬으로 직접 해 본다. 일별 데이터와 시..." />
+<meta name="description" content="AI가 내놓은 결과만 보고 그것이 어떻게 나왔는지 모르면, 그 결과를 믿을 근거도 없다. AI도 실수를 하므로 결과는 점검해야 하고, 점검하려면 결과를 만든 파이썬 코드를 읽을 줄 알아야 한다. 이 노트북은 이 장에서 다룬 계산과 그림을 파이썬으로 직접 해 본다. 일별 데이터와 시..." />
+
+    <title>직접 해 보기 2 — 파이썬 코드로 따라 해 보기 &#8212; AI 데이터 분석</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=6a604523" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=18f25a40" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=ae323b5b"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = '표시하려면 클릭';</script>
+    <script>let toggleHintHide = '숨기려면 클릭';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/translations.js?v=e33e7ba0"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../_static/design-tabs.js?v=fcb327ea"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'logistic-regression/practice-notebook';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script src="../_static/custom.js?v=a6a97908"></script>
+    <link rel="index" title="색인" href="../genindex.html" />
+    <link rel="search" title="검색" href="../search.html" />
+    <link rel="prev" title="직접 해 보기 1 — 프롬프트로 내 보고서 받기" href="practice-prompt.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="ko"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.png" class="logo__image only-light" alt="AI 데이터 분석"/>
+    <img src="../_static/logo-dark.png" class="logo__image only-dark pst-js-only" alt="AI 데이터 분석"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">검색</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../simple-regression/index.html">단순회귀분석 — 직선 하나로 관계 읽기</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a1.html">1. 보고서 — 노원구에서 1㎡는 얼마인가</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a2.html">2. 직선은 어떻게 정해지나 — 잔차와 최소제곱</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a3.html">3. 이 기울기를 믿어도 되나 — 표준오차, 신뢰구간, <span class="math notranslate nohighlight">\(p\)</span>값</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a4.html">4. 얼마나 설명하나 — <span class="math notranslate nohighlight">\(R^2\)</span>과 잔차</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/section-a5.html">5. 로그로 읽는 가격 — 탄력성과 % 해석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../simple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../multiple-regression/index.html">다중회귀분석 — 여러 변수를 함께</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b1.html">1. 보고서 — 서울 아파트 값은 무엇으로 정해지나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b2.html">2. 다른 조건이 같다면 — 다중회귀분석의 계수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b3.html">3. 숫자가 아닌 변수 — 더미 변수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b4.html">4. 효과가 집단마다 다를 때 — 상호작용</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/section-b5.html">5. 직선으로 부족할 때 — 제곱항</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multiple-regression/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../health-survey/index.html">횡단면 분석 — 학력과 혈압</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h1.html">1. 보고서 — 학력이 높을수록 혈압이 낮을까</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h2.html">2. 표본이 모집단을 닮게 — 가중치와 표본설계</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h3.html">3. 다른 조건이 같다면 — 계수는 무엇을 비교하나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h4.html">4. 회귀식 밖에 남은 것 — 설명력, 빠진 변수, 남녀의 차이</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h5.html">5. 약 먹고 잰 혈압 — 표본을 정하는 판단과 거꾸로 된 순서</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/section-h6.html">6. 횡단면이 말해 주지 않는 것 — 측정과 데이터의 범위</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-prompt.html">직접 해 보기 1 — 데이터는 내 컴퓨터에, AI에는 질문만</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../health-survey/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../panel-data/index.html">패널 데이터 분석 — FTA와 수출</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p1.html">1. 보고서 — FTA는 한국의 수출을 늘렸나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p2.html">2. 단체 사진과 사진첩 — 횡단면과 패널</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p3.html">3. 어제의 나와 비교하기 — 고정효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p4.html">4. 두 가지 차이를 섞기 — 확률효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/section-p5.html">5. 무엇을 고르나 — 하우스만 검정과 연도 효과</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../panel-data/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../causal-inference/index.html">인과 추론 — 공정한 비교를 찾아서</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c1.html">1. 보고서 — 일자리 제공 프로그램은 소득을 올렸나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c2.html">2. 같은 사람의 두 가지 미래 — 인과 효과와 실험</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c3.html">3. 엉뚱한 비교 상대 — 교란</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c4.html">4. 조건을 맞추면 — 통제의 계단</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c5.html">5. 넣으면 안 되는 변수 — 매개, 총효과, 나쁜 통제</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/section-c6.html">6. 실험이 없을 때 — 설계의 지도</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../causal-inference/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../difference-in-differences/index.html">이중차분 — 허가구역과 아파트 거래</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/section-d1.html">1. 보고서 — 토지거래허가구역은 거래를 얼마나 줄였나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/section-d2.html">2. 변화로 비교하기 — 대역을 세운다</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/section-d3.html">3. 나란히 움직였을까 — 지정 전 다섯 달</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/section-d4.html">4. 정답이 있는 예 — 나란하지 않으면 얼마나 빗나가나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../difference-in-differences/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../survey-measurement/index.html">설문으로 측정하기 — 문항 여러 개로 개념 하나를</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m1.html">1. 보고서 — 성격 검사 50문항은 다섯 성격을 일관되게 측정하나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m2.html">2. 문항 여러 개로 개념 하나를 — 척도와 역문항</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m3.html">3. 함께 움직이는가 — 크론바흐 <span class="math notranslate nohighlight">\(\alpha\)</span>와 문항 수</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m4.html">4. 알려 주지 않아도 성격별로 묶이나 — 요인분석</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/section-m5.html">5. 관계가 약하게도, 강하게도 보인다 — 감쇠와 공통방법편향</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../survey-measurement/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../machine-learning/index.html">머신러닝 — 처음 보는 데이터로 채점하기</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../machine-learning/section-l1.html">1. 보고서 — 처음 보는 단지의 아파트 가격을 얼마나 잘 맞히나</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../machine-learning/section-l2.html">2. 설명하기와 맞히기 — 오차로 채점한다</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../machine-learning/section-l3.html">3. 외운 것과 배운 것 — 훈련 데이터와 시험 데이터</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../machine-learning/section-l4.html">4. 알맞은 유연함 — 과적합</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../machine-learning/section-l5.html">5. 점수를 믿어도 되나 — 누출</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../machine-learning/section-l6.html">6. 머신러닝의 지도</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../machine-learning/practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../machine-learning/practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">로지스틱 회귀 — 내일 비가 올 확률</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="section-g1.html">1. 보고서 — 오늘 저녁의 날씨로 본 내일 비의 확률</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-g2.html">2. 0과 1을 회귀하면 — 선형확률모형</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-g3.html">3. S자 곡선 — 로지스틱 회귀</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-g4.html">4. 계수를 어떻게 읽나 — 오즈와 확률의 차이</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-g5.html">5. 30%라고 한 날 열에 셋 — 예측 확률 읽기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/pilsunchoi/book5" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="소스 저장소"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="이 페이지 다운로드">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/logistic-regression/practice-notebook.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="소스 파일 다운로드"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="PDF로 인쇄"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="전체 화면으로보기"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="검색" aria-label="검색" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>직접 해 보기 2 — 파이썬 코드로 따라 해 보기</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 내용 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">준비 — 패키지와 글꼴</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">1. 데이터 읽기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">2. 하루 한 행 만들기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">3. 0과 1의 평균은 비율</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">4. 직선으로 — 선형확률모형</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">5. 로지스틱 회귀</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">6. 맑은 날과 흐린 날의 확률</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">7. 오즈와 오즈비</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">8. 평균 한계효과</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">9. 모형이 말한 확률과 실제</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">10. 측정 시점 — 오늘비를 하루 전체로 바꾸면</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">정리</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>직접 해 보기 2 — 파이썬 코드로 따라 해 보기<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>AI가 내놓은 결과만 보고 그것이 어떻게 나왔는지 모르면, 그 결과를 믿을 근거도 없다. AI도 실수를 하므로 결과는 점검해야 하고, 점검하려면 결과를 만든 파이썬 코드를 읽을 줄 알아야 한다.</p>
+<p>이 노트북은 이 장에서 다룬 계산과 그림을 파이썬으로 직접 해 본다. 일별 데이터와 시간별 데이터로 하루 한 행의 표를 만들고, 직선과 로지스틱 회귀로 내일 비가 올 확률을 설명하고, 계수를 오즈비와 확률의 말로 바꾸고, 모형이 말한 확률을 실제와 비교한다. 보고서의 표에 실린 숫자가 모두 여기서 나온다. 코드는 될 수 있는 한 단순하게 썼다.</p>
+<ol class="arabic simple">
+<li><p>데이터 읽기 — 일별 데이터와 시간별 데이터</p></li>
+<li><p>하루 한 행 만들기 — 결과와 21시까지의 설명변수</p></li>
+<li><p>0과 1의 평균은 비율 — 구름양에 따른 내일 비의 비율</p></li>
+<li><p>직선으로 — 선형확률모형(표 2-2)</p></li>
+<li><p>로지스틱 회귀 — 보고서의 회귀 결과 표</p></li>
+<li><p>맑은 날과 흐린 날의 확률 — 같은 2hPa이 올리는 확률(표 4-2)</p></li>
+<li><p>오즈와 오즈비 — 어느 날에나 같은 배수</p></li>
+<li><p>평균 한계효과 — 모든 날의 평균(보고서의 확률 변화)</p></li>
+<li><p>모형이 말한 확률과 실제 — 표 5-1</p></li>
+<li><p>측정 시점 — 오늘비를 하루 전체로 바꾸면</p></li>
+</ol>
+<section id="id2">
+<h2>준비 — 패키지와 글꼴<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">import</span></code>로 쓸 패키지를 불러온다. 다른 장과 같은 네 가지다. 로지스틱 회귀도 statsmodels에 들어 있다.</p>
+<p>matplotlib는 기본 글꼴에 한글이 없어서 그림의 한글이 네모로 깨진다. 그래서 한글 글꼴을 지정한다. 윈도우는 맑은 고딕(<code class="docutils literal notranslate"><span class="pre">Malgun</span> <span class="pre">Gothic</span></code>), 맥은 애플고딕(<code class="docutils literal notranslate"><span class="pre">AppleGothic</span></code>)을 쓴다. Colab에는 한글 글꼴이 없으므로 새 셀에서 <code class="docutils literal notranslate"><span class="pre">!apt-get</span> <span class="pre">-qq</span> <span class="pre">install</span> <span class="pre">fonts-nanum</span></code>을 실행하고, 런타임을 다시 시작한 뒤 <code class="docutils literal notranslate"><span class="pre">NanumGothic</span></code>을 지정한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>                       <span class="c1"># 수치 계산</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>                      <span class="c1"># 표(데이터프레임) 다루기</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.formula.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">smf</span>    <span class="c1"># 회귀분석</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>          <span class="c1"># 그림</span>
+
+<span class="c1"># 그림의 한글 글꼴</span>
+<span class="c1"># 맥은 'AppleGothic', Colab은 'NanumGothic'(설치 필요)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'font.family'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Malgun Gothic'</span>   <span class="c1"># 윈도우</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'axes.unicode_minus'</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>      <span class="c1"># 음수 부호(-) 깨짐 방지</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id3">
+<h2>1. 데이터 읽기<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>데이터는 기상청 종관기상관측(ASOS) 서울 지점의 2016 ~ 2025년 기록이다. 두 파일을 쓴다. 책 사이트의 이 장 첫 페이지에서 내려받을 수 있고, 다른 지점이나 기간은 기상청 기상자료개방포털(data.kma.go.kr)에서 받는다.</p>
+<ul class="simple">
+<li><p><strong>일별 데이터</strong>(<code class="docutils literal notranslate"><span class="pre">DAILY</span></code>): 한 행이 하루다. 여기서는 그날의 강수량(<code class="docutils literal notranslate"><span class="pre">일강수량(mm)</span></code>)만 쓴다.</p></li>
+<li><p><strong>시간별 데이터</strong>(<code class="docutils literal notranslate"><span class="pre">HOURLY</span></code>): 한 행이 한 시간이다. 그 시각의 습도, 해면기압, 전운량, 강수량을 쓴다. 10년이면 8만 행이 넘는다.</p></li>
+<li><p>내 컴퓨터의 주피터: 두 CSV를 이 노트북 파일과 같은 폴더에 두고, 아래 코드에 파일 이름을 그대로 적는다.</p></li>
+<li><p>Colab: 왼쪽의 폴더 아이콘을 누르고 업로드 버튼으로 두 CSV를 올린 뒤 <code class="docutils literal notranslate"><span class="pre">'/content/파일이름.csv'</span></code>로 적는다.</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">encoding='utf-8-sig'</span></code>는 파일 맨 앞에 붙은 보이지 않는 표시(BOM)를 떼어 내는 옵션이다. 이것이 없으면 첫 열의 이름이 <code class="docutils literal notranslate"><span class="pre">지점</span></code>이 아니라 <code class="docutils literal notranslate"><span class="pre">﻿지점</span></code>으로 읽힌다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">DAILY</span> <span class="o">=</span> <span class="s1">'asos-seoul-daily-2016-2025.csv'</span>     <span class="c1"># 일별 데이터, 자기 파일 이름으로 바꾼다</span>
+<span class="n">HOURLY</span> <span class="o">=</span> <span class="s1">'asos-seoul-hourly-2016-2025.csv'</span>   <span class="c1"># 시간별 데이터</span>
+
+<span class="n">dd</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">DAILY</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8-sig'</span><span class="p">)</span>
+<span class="n">hh</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">HOURLY</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8-sig'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'일별 데이터'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">dd</span><span class="p">),</span> <span class="s1">'행, 시간별 데이터'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">hh</span><span class="p">),</span> <span class="s1">'행'</span><span class="p">)</span>
+<span class="n">hh</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id4">
+<h2>2. 하루 한 행 만들기<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p>1절의 “데이터”에서 한 일이다. 한 행을 하루로 하는 표 <code class="docutils literal notranslate"><span class="pre">d</span></code>를 만든다.</p>
+<p><strong>결과: 내일 비가 왔나.</strong> 일별 데이터의 일강수량이 0.1mm 이상이면 그날 비가 온 것으로 본다(1). 기상청 일자료는 비가 오지 않은 날의 일강수량을 0이 아니라 <strong>빈칸</strong>으로 둔다. 그래서 <code class="docutils literal notranslate"><span class="pre">fillna(0)</span></code>으로 빈칸을 0으로 채운다. 빈칸을 빠진 값으로 여겨 버리면 비가 온 날만 잔뜩 남는다. <code class="docutils literal notranslate"><span class="pre">shift(-1)</span></code>은 한 행씩 위로 당겨, 오늘 행에 다음 날의 값을 놓는다.</p>
+<p><strong>설명변수: 오늘 21시에 이미 알 수 있는 값만.</strong> 시간별 데이터에서 만든다.</p>
+<ul class="simple">
+<li><p>저녁 습도(<code class="docutils literal notranslate"><span class="pre">hum</span></code>): 21시의 상대습도</p></li>
+<li><p>기압 변화(<code class="docutils literal notranslate"><span class="pre">chg</span></code>): 21시 해면기압 − 9시 해면기압. 음수면 낮 동안 기압이 내린 것이다</p></li>
+<li><p>저녁 구름양(<code class="docutils literal notranslate"><span class="pre">cloud</span></code>): 21시의 전운량(0 ~ 10)</p></li>
+<li><p>오늘비(<code class="docutils literal notranslate"><span class="pre">rain</span></code>): 1시부터 21시 사이에 강수량이 기록된 시간이 하나라도 있으면 1</p></li>
+<li><p>여름(<code class="docutils literal notranslate"><span class="pre">summer</span></code>): 6 ~ 8월이면 1</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">at(21)</span></code>은 시간별 데이터에서 21시 행만 골라 날짜를 행 이름으로 삼은 표다. 날짜가 같은 행끼리 짝이 맞춰져 <code class="docutils literal notranslate"><span class="pre">d</span></code>에 들어간다. 값이 빠진 날을 빼면 3,651일이 남아야 한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 시간별 데이터: 날짜와 시각을 나눈다</span>
+<span class="n">hh</span><span class="p">[</span><span class="s1">'t'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">hh</span><span class="p">[</span><span class="s1">'일시'</span><span class="p">])</span>
+<span class="n">hh</span><span class="p">[</span><span class="s1">'날짜'</span><span class="p">]</span> <span class="o">=</span> <span class="n">hh</span><span class="p">[</span><span class="s1">'t'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>     <span class="c1"># 2016-01-01 21:00 → 2016-01-01</span>
+<span class="n">hh</span><span class="p">[</span><span class="s1">'시'</span><span class="p">]</span> <span class="o">=</span> <span class="n">hh</span><span class="p">[</span><span class="s1">'t'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">hour</span>              <span class="c1"># 2016-01-01 21:00 → 21</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">at</span><span class="p">(</span><span class="n">hour</span><span class="p">):</span>                           <span class="c1"># 그 시각의 행만, 날짜를 행 이름으로</span>
+    <span class="k">return</span> <span class="n">hh</span><span class="p">[</span><span class="n">hh</span><span class="p">[</span><span class="s1">'시'</span><span class="p">]</span> <span class="o">==</span> <span class="n">hour</span><span class="p">]</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'날짜'</span><span class="p">)</span>
+
+<span class="c1"># 하루 한 행의 표</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">dd</span><span class="p">[</span><span class="s1">'일시'</span><span class="p">]))</span>
+<span class="n">비</span> <span class="o">=</span> <span class="p">(</span><span class="n">dd</span><span class="p">[</span><span class="s1">'일강수량(mm)'</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mf">0.1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>   <span class="c1"># 빈칸 = 비가 오지 않은 날</span>
+<span class="n">d</span><span class="p">[</span><span class="s1">'tomorrow'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">비</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>          <span class="c1"># 다음 날의 값을 오늘 행에</span>
+
+<span class="n">d</span><span class="p">[</span><span class="s1">'hum'</span><span class="p">]</span> <span class="o">=</span> <span class="n">at</span><span class="p">(</span><span class="mi">21</span><span class="p">)[</span><span class="s1">'습도(%)'</span><span class="p">]</span>
+<span class="n">d</span><span class="p">[</span><span class="s1">'chg'</span><span class="p">]</span> <span class="o">=</span> <span class="n">at</span><span class="p">(</span><span class="mi">21</span><span class="p">)[</span><span class="s1">'해면기압(hPa)'</span><span class="p">]</span> <span class="o">-</span> <span class="n">at</span><span class="p">(</span><span class="mi">9</span><span class="p">)[</span><span class="s1">'해면기압(hPa)'</span><span class="p">]</span>
+<span class="n">d</span><span class="p">[</span><span class="s1">'cloud'</span><span class="p">]</span> <span class="o">=</span> <span class="n">at</span><span class="p">(</span><span class="mi">21</span><span class="p">)[</span><span class="s1">'전운량(10분위)'</span><span class="p">]</span>
+<span class="n">낮</span> <span class="o">=</span> <span class="n">hh</span><span class="p">[(</span><span class="n">hh</span><span class="p">[</span><span class="s1">'시'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">hh</span><span class="p">[</span><span class="s1">'시'</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">21</span><span class="p">)]</span>
+<span class="n">d</span><span class="p">[</span><span class="s1">'rain'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">낮</span><span class="p">[</span><span class="s1">'강수량(mm)'</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">낮</span><span class="p">[</span><span class="s1">'날짜'</span><span class="p">])</span><span class="o">.</span><span class="n">any</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">d</span><span class="p">[</span><span class="s1">'summer'</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">month</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'모든 날'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">),</span> <span class="s1">'일'</span><span class="p">)</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>                          <span class="c1"># 값이 빠진 날을 뺀다</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'분석한 날'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">),</span> <span class="s1">'일, 다음 날 비가 온 날'</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">'tomorrow'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()),</span> <span class="s1">'일'</span><span class="p">)</span>
+<span class="n">d</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id5">
+<h2>3. 0과 1의 평균은 비율<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<p>2절의 “0과 1의 평균은 비율이다”에서 한 일이다. 결과가 0과 1이면 그 평균이 곧 1의 비율이다. 3,651일의 <code class="docutils literal notranslate"><span class="pre">tomorrow</span></code>를 평균하면 다음 날 비가 온 날의 비율, 29.5%가 나온다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">groupby('cloud')</span></code>로 21시 구름양이 같은 날끼리 묶어 평균하면, 구름양마다 다음 날 비가 온 비율이 나온다. 1절에서 본 숫자다. 구름이 한 점도 없던 날(0)은 11%, 하늘을 다 덮은 날(10)은 72%다. 조건이 같은 날들의 평균, 즉 비율이 그 조건에서의 확률이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">'다음 날 비가 온 비율'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">'tomorrow'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">'%'</span><span class="p">)</span>
+
+<span class="n">by_cloud</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'cloud'</span><span class="p">)[</span><span class="s1">'tomorrow'</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">([</span><span class="s1">'size'</span><span class="p">,</span> <span class="s1">'mean'</span><span class="p">])</span>
+<span class="n">by_cloud</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'일수'</span><span class="p">,</span> <span class="s1">'내일 비의 비율'</span><span class="p">]</span>
+<span class="n">by_cloud</span><span class="p">[</span><span class="s1">'내일 비의 비율'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">by_cloud</span><span class="p">[</span><span class="s1">'내일 비의 비율'</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">by_cloud</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id6">
+<h2>4. 직선으로 — 선형확률모형<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
+<p>2절에서 한 일이다. 0과 1인 결과에 지금까지와 같은 회귀식(<code class="docutils literal notranslate"><span class="pre">smf.ols</span></code>)을 그대로 쓴다. 회귀식은 다른 장과 같은 방식으로 적는다. <code class="docutils literal notranslate"><span class="pre">~</span></code> 왼쪽이 종속변수, 오른쪽이 설명변수다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">cov_type='HC1'</span></code>은 표준오차를 이분산 강건 표준오차로 계산하라는 옵션이다(2절의 참고 상자). 계수는 그대로이고 표준오차만 달라진다.</p>
+<p>계수는 %포인트로 바로 해석한다. 기압 변화의 계수 −0.0256은 기압이 1hPa 오른 날 다음 날 비가 올 확률이 2.6%포인트 낮다는 뜻이다. <code class="docutils literal notranslate"><span class="pre">fittedvalues</span></code>는 회귀식이 날마다 계산한 값, 즉 내일비 확률이다. 이 값이 0보다 낮은 날이 138일이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">F</span> <span class="o">=</span> <span class="s1">'tomorrow ~ hum + chg + cloud + rain + summer'</span>   <span class="c1"># 보고서의 회귀식</span>
+
+<span class="n">lpm</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">'HC1'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'계수'</span><span class="p">:</span> <span class="n">lpm</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="s1">'표준오차'</span><span class="p">:</span> <span class="n">lpm</span><span class="o">.</span><span class="n">bse</span><span class="p">})</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+
+<span class="n">p_line</span> <span class="o">=</span> <span class="n">lpm</span><span class="o">.</span><span class="n">fittedvalues</span>                             <span class="c1"># 날마다의 내일비 확률(직선)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'0%보다 낮은 날'</span><span class="p">,</span> <span class="p">(</span><span class="n">p_line</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="s1">'일, 100%보다 높은 날'</span><span class="p">,</span> <span class="p">(</span><span class="n">p_line</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="s1">'일'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id7">
+<h2>5. 로지스틱 회귀<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
+<p>3절에서 한 일이다. <code class="docutils literal notranslate"><span class="pre">smf.ols</span></code>를 <code class="docutils literal notranslate"><span class="pre">smf.logit</span></code>으로 바꾸기만 하면 된다. 계수는 최대가능도 추정으로 계산된다. 컴퓨터가 계수를 조금씩 바꿔 가며 가능도가 더 커지지 않는 곳을 찾으므로, <code class="docutils literal notranslate"><span class="pre">disp=0</span></code>으로 그 과정의 메시지를 끈다.</p>
+<p>표의 계수, 표준오차, <span class="math notranslate nohighlight">\(p\)</span>값이 보고서의 회귀 결과 표와 같다. 오즈비는 7절, 확률 변화는 8절에서 계산한다.</p>
+<p>계수는 점수를 만든다. 점수는 상수에 변수마다 계수를 곱해 더한 값이고, 로지스틱 곡선 <span class="math notranslate nohighlight">\(1 / (1 + e^{-점수})\)</span>에 넣으면 확률이 된다. <code class="docutils literal notranslate"><span class="pre">predict</span></code>가 이 계산을 날마다 해 준다. 모든 날의 확률이 0%와 100% 사이에 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lg</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">logit</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">disp</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'계수'</span><span class="p">:</span> <span class="n">lg</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="s1">'표준오차'</span><span class="p">:</span> <span class="n">lg</span><span class="o">.</span><span class="n">bse</span><span class="p">,</span> <span class="s1">'p값'</span><span class="p">:</span> <span class="n">lg</span><span class="o">.</span><span class="n">pvalues</span><span class="p">})</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+
+<span class="n">d</span><span class="p">[</span><span class="s1">'p'</span><span class="p">]</span> <span class="o">=</span> <span class="n">lg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>                                <span class="c1"># 날마다의 내일비 확률(곡선)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'확률의 범위'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">'p'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">'% ~'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">'p'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">'%'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id8">
+<h2>6. 맑은 날과 흐린 날의 확률<a class="headerlink" href="#id8" title="Link to this heading">#</a></h2>
+<p>3절과 4절에서 한 일이다. 보고서가 고른 두 날을 표로 만들어 <code class="docutils literal notranslate"><span class="pre">predict</span></code>에 넣는다. 맑고 건조한 날은 21시 습도 50%, 구름양 2이고, 흐리고 습한 날은 습도 85%, 구름양 8이다. 둘 다 오늘 비가 오지 않았고 여름이 아니다. 기압 변화만 0, −2, −4hPa로 바꿔 가며 확률을 계산한다.</p>
+<p>맑은 날은 11.5% → 15.1%, 흐린 날은 36.0% → 43.4%다. 같은 2hPa이 맑은 날에는 3.5%포인트, 흐린 날에는 7.4%포인트를 올린다. 흐린 날 기압이 4hPa 내리면 51%로, 보고서 요약의 첫 줄이다.</p>
+<p>그림은 보고서 그림의 왼쪽 패널을 단순하게 다시 그린 것이다. <code class="docutils literal notranslate"><span class="pre">np.linspace(-12,</span> <span class="pre">6,</span> <span class="pre">200)</span></code>은 −12부터 6까지를 200개로 고르게 나눈 값이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">CLEAR</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">hum</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">cloud</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">rain</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">summer</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>       <span class="c1"># 맑고 건조한 날</span>
+<span class="n">CLOUDY</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">hum</span><span class="o">=</span><span class="mi">85</span><span class="p">,</span> <span class="n">cloud</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">rain</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">summer</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>      <span class="c1"># 흐리고 습한 날</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">prob</span><span class="p">(</span><span class="n">day</span><span class="p">,</span> <span class="n">chg</span><span class="p">):</span>                                   <span class="c1"># 그날 기압 변화가 chg일 때의 확률</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([{</span><span class="o">**</span><span class="n">day</span><span class="p">,</span> <span class="s1">'chg'</span><span class="p">:</span> <span class="n">c</span><span class="p">}</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chg</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">lg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">day</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">'맑은 날'</span><span class="p">,</span> <span class="n">CLEAR</span><span class="p">),</span> <span class="p">(</span><span class="s1">'흐린 날'</span><span class="p">,</span> <span class="n">CLOUDY</span><span class="p">)]:</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">prob</span><span class="p">(</span><span class="n">day</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">'기압 변화 0, −2, −4hPa:'</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="s1">'  2hPa 더 내리면'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">'%포인트'</span><span class="p">)</span>
+
+<span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mf">3.6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">prob</span><span class="p">(</span><span class="n">CLOUDY</span><span class="p">,</span> <span class="n">xs</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'흐리고 습한 날'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">prob</span><span class="p">(</span><span class="n">CLEAR</span><span class="p">,</span> <span class="n">xs</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'맑고 건조한 날'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'기압 변화 (hPa, 21시 - 9시)'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'내일 비가 올 확률 (%)'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id9">
+<h2>7. 오즈와 오즈비<a class="headerlink" href="#id9" title="Link to this heading">#</a></h2>
+<p>4절에서 한 일이다. 오즈는 비가 올 확률을 비가 오지 않을 확률로 나눈 값이다. 오즈비는 계수 <span class="math notranslate nohighlight">\(b\)</span>로 <span class="math notranslate nohighlight">\(e^{b}\)</span>를 계산한 것이다. <code class="docutils literal notranslate"><span class="pre">np.exp</span></code>가 <span class="math notranslate nohighlight">\(e\)</span>의 거듭제곱을 계산한다. 기압 변화의 오즈비 0.86은 기압이 1hPa 오르면 오즈가 0.86배가 된다는 뜻이고, 1 ÷ 0.86 ≈ 1.17은 1hPa 내리면 1.17배가 된다는 뜻이다.</p>
+<p>오즈비가 어느 날에나 같은지 확인한다. 6절의 두 날에서 기압이 2hPa 더 내릴 때 오즈가 몇 배가 되는지 계산하면, 확률의 차이는 두 배 넘게 다른데 오즈의 배수는 둘 다 1.36이다(표 4-2).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">'오즈비'</span><span class="p">);</span> <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">lg</span><span class="o">.</span><span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'기압이 1hPa 내리면 오즈가'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">lg</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">'chg'</span><span class="p">]),</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">'배'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">odds</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">p</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">day</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">'맑은 날'</span><span class="p">,</span> <span class="n">CLEAR</span><span class="p">),</span> <span class="p">(</span><span class="s1">'흐린 날'</span><span class="p">,</span> <span class="n">CLOUDY</span><span class="p">)]:</span>
+    <span class="n">p0</span><span class="p">,</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">prob</span><span class="p">(</span><span class="n">day</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">' 오즈'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">odds</span><span class="p">(</span><span class="n">p0</span><span class="p">),</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">'→'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">odds</span><span class="p">(</span><span class="n">p2</span><span class="p">),</span> <span class="mi">3</span><span class="p">),</span>
+          <span class="s1">' 오즈의 배수'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">odds</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span> <span class="o">/</span> <span class="n">odds</span><span class="p">(</span><span class="n">p0</span><span class="p">),</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">' 확률의 차이'</span><span class="p">,</span> <span class="nb">round</span><span class="p">((</span><span class="n">p2</span> <span class="o">-</span> <span class="n">p0</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">'%포인트'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id10">
+<h2>8. 평균 한계효과<a class="headerlink" href="#id10" title="Link to this heading">#</a></h2>
+<p>4절의 “확률의 차이 — 두 가지 방법”에서 둘째 방법이다. 확률의 차이는 날마다 다르므로 모든 날의 평균을 낸다. <code class="docutils literal notranslate"><span class="pre">get_margeff(at='overall')</span></code>이 날마다 “변수가 조금 더 클 때 확률이 얼마나 오르나”를 계산해 평균한다. 기압 변화는 −2.6%포인트로, 보고서 표의 확률 변화다.</p>
+<p>같은 계산을 직접 해 볼 수도 있다. 로지스틱 곡선의 기울기는 그날의 확률이 <span class="math notranslate nohighlight">\(p\)</span>일 때 <span class="math notranslate nohighlight">\(p(1-p)\)</span>이고, 여기에 계수를 곱하면 그날의 한계효과다. 확률이 50%인 날에 기울기가 가장 크다. 날마다 계산해 평균하면 같은 −2.6%포인트가 나온다.</p>
+<p>마지막 셀은 4절의 “오즈비는 확률의 배수가 아니다”에서 한 계산이다. 모든 날을 여름이라고 했을 때와 여름이 아니라고 했을 때의 확률을 각각 평균하면 37.0%와 26.5%다. 확률로는 1.40배로, 여름의 오즈비 1.83과 꽤 다르다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ame</span> <span class="o">=</span> <span class="n">lg</span><span class="o">.</span><span class="n">get_margeff</span><span class="p">(</span><span class="n">at</span><span class="o">=</span><span class="s1">'overall'</span><span class="p">)</span><span class="o">.</span><span class="n">summary_frame</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'평균 한계효과(%포인트)'</span><span class="p">);</span> <span class="nb">print</span><span class="p">((</span><span class="n">ame</span><span class="p">[</span><span class="s1">'dy/dx'</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="c1"># 직접 계산: 날마다 계수 × p(1 − p)를 계산해 평균</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">lg</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">'chg'</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'직접 계산한 기압 변화의 평균 한계효과'</span><span class="p">,</span> <span class="nb">round</span><span class="p">((</span><span class="n">b</span> <span class="o">*</span> <span class="n">d</span><span class="p">[</span><span class="s1">'p'</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">d</span><span class="p">[</span><span class="s1">'p'</span><span class="p">]))</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">'%포인트'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">여름</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">summer</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>                             <span class="c1"># 모든 날을 여름이라고 하면</span>
+<span class="n">여름아님</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">summer</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>                         <span class="c1"># 모든 날을 여름이 아니라고 하면</span>
+<span class="n">a</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">lg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">여름</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">lg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">여름아님</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'여름'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">'%, 여름 아님'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">c</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">'%, 확률로는'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">a</span> <span class="o">/</span> <span class="n">c</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">'배'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'여름의 오즈비'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">lg</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">'summer'</span><span class="p">]),</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id11">
+<h2>9. 모형이 말한 확률과 실제<a class="headerlink" href="#id11" title="Link to this heading">#</a></h2>
+<p>5절에서 한 일이다. 날마다의 확률(<code class="docutils literal notranslate"><span class="pre">p</span></code>)을 10%포인트씩 구간으로 나누고, 구간마다 일수, 모형이 말한 확률의 평균, 다음 날 실제로 비가 온 비율을 계산한다. <code class="docutils literal notranslate"><span class="pre">pd.cut</span></code>이 값을 구간으로 나눈다. <code class="docutils literal notranslate"><span class="pre">np.linspace(0,</span> <span class="pre">1,</span> <span class="pre">11)</span></code>은 0, 0.1, …, 1의 열한 경계다.</p>
+<p>20 ~ 30% 구간을 보면 461일, 모형이 말한 확률의 평균 24.8%, 실제 23.4%다. 60%를 넘는 구간에서는 실제 비율이 모형보다 높다. 그림의 점이 점선(대각선) 위에 있으면 모형이 말한 대로 비가 온 것이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">구간</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">'p'</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+<span class="n">cal</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">구간</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">일수</span><span class="o">=</span><span class="p">(</span><span class="s1">'tomorrow'</span><span class="p">,</span> <span class="s1">'size'</span><span class="p">),</span>
+                                          <span class="n">모형의_확률</span><span class="o">=</span><span class="p">(</span><span class="s1">'p'</span><span class="p">,</span> <span class="s1">'mean'</span><span class="p">),</span>
+                                          <span class="n">실제_비율</span><span class="o">=</span><span class="p">(</span><span class="s1">'tomorrow'</span><span class="p">,</span> <span class="s1">'mean'</span><span class="p">))</span>
+<span class="n">cal</span><span class="p">[[</span><span class="s1">'모형의_확률'</span><span class="p">,</span> <span class="s1">'실제_비율'</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="n">cal</span><span class="p">[[</span><span class="s1">'모형의_확률'</span><span class="p">,</span> <span class="s1">'실제_비율'</span><span class="p">]]</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cal</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">)</span>   <span class="c1"># 말한 대로라면 이 선 위</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">cal</span><span class="p">[</span><span class="s1">'모형의_확률'</span><span class="p">],</span> <span class="n">cal</span><span class="p">[</span><span class="s1">'실제_비율'</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="n">cal</span><span class="p">[</span><span class="s1">'일수'</span><span class="p">]</span> <span class="o">/</span> <span class="mi">5</span><span class="p">)</span>   <span class="c1"># 점의 크기 = 일수</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'모형이 말한 확률 (%)'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'다음 날 실제로 비가 온 비율 (%)'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id12">
+<h2>10. 측정 시점 — 오늘비를 하루 전체로 바꾸면<a class="headerlink" href="#id12" title="Link to this heading">#</a></h2>
+<p>5절의 “오늘 밤에 알 수 있는 것만 쓴다”에서 한 일이다. 오늘비를 21시까지가 아니라 일별 데이터의 일강수량(0 ~ 24시)으로 만들면 계수가 0.281에서 0.472로 커진다. 21시에서 자정 사이에 내린 비, 즉 오늘 21시에는 아직 알 수 없는 정보가 섞여 들어갔기 때문이다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">d['rain24']</span></code>는 2절에서 결과를 만들 때 쓴 <code class="docutils literal notranslate"><span class="pre">비</span></code>를 하루 늦추지 않고 그대로 붙인 것이다. 2절에서 값이 빠진 날을 뺐으므로, 날짜로 짝을 맞춰 붙인다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">오늘비24</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">비</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">dd</span><span class="p">[</span><span class="s1">'일시'</span><span class="p">]))</span>      <span class="c1"># 오늘 0 ~ 24시의 비</span>
+<span class="n">d</span><span class="p">[</span><span class="s1">'rain24'</span><span class="p">]</span> <span class="o">=</span> <span class="n">오늘비24</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+
+<span class="n">lg24</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">logit</span><span class="p">(</span><span class="s1">'tomorrow ~ hum + chg + cloud + rain24 + summer'</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">disp</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'오늘비(21시까지)의 계수'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">lg</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">'rain'</span><span class="p">],</span> <span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'오늘비(하루 전체)의 계수'</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">lg24</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">'rain24'</span><span class="p">],</span> <span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id13">
+<h2>정리<a class="headerlink" href="#id13" title="Link to this heading">#</a></h2>
+<p>이 노트북의 코드는 이 장에서 본 숫자를 직접 만들어 냈다. 보고서의 숫자는 세 가지에서 나온다. 하루 한 행의 표를 만드는 2절, 로지스틱 회귀 한 줄(5절의 <code class="docutils literal notranslate"><span class="pre">smf.logit</span></code>), 그리고 그 결과를 확률의 말로 바꾸는 <code class="docutils literal notranslate"><span class="pre">predict</span></code>와 <code class="docutils literal notranslate"><span class="pre">get_margeff</span></code>(6 ~ 9절)다. 이 가운데 AI가 가장 틀리기 쉬운 곳은 2절이다. 일강수량의 빈칸을 0으로 채웠는지, 설명변수를 21시까지의 값으로 만들었는지에 따라 숫자가 달라진다(10절).</p>
+<p>자기 데이터로 분석하려면 1절의 두 파일 이름을 바꾼다. 기상자료개방포털에서 받은 파일이라면 열 이름이 같으므로 나머지는 그대로 돌아간다. 다른 지역은 계절이 다를 수 있으니, 2절의 여름(6 ~ 8월)이 그 지역에도 맞는지 생각해 본다.</p>
+<p>AI가 만든 보고서를 받았다면, 이 코드로 같은 숫자가 나오는지 확인해 보는 것이 가장 확실한 점검이다.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./logistic-regression"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="practice-prompt.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">이전</p>
+        <p class="prev-next-title">직접 해 보기 1 — 프롬프트로 내 보고서 받기</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 내용
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">준비 — 패키지와 글꼴</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">1. 데이터 읽기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">2. 하루 한 행 만들기</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">3. 0과 1의 평균은 비율</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">4. 직선으로 — 선형확률모형</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">5. 로지스틱 회귀</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">6. 맑은 날과 흐린 날의 확률</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">7. 오즈와 오즈비</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">8. 평균 한계효과</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">9. 모형이 말한 확률과 실제</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">10. 측정 시점 — 오늘비를 하루 전체로 바꾸면</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">정리</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>© 2026 최필선</p>
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
