@@ -481,7 +481,7 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">허리둘레와 체질량지수, 어느 쪽이 혈압과 더 가까울까</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">평균이 가리는 것 — 상호작용 하나</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">평균이 가리는 것 — 상호작용 항</a></li>
 </ul>
             </nav>
         </div>
@@ -652,9 +652,9 @@
 </section>
 </section>
 <section id="id4">
-<h2>평균이 가리는 것 — 상호작용 하나<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<h2>평균이 가리는 것 — 상호작용 항<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
 <p>보고서의 회귀식은 학력의 계수를 남녀에게 똑같이 두었습니다. 그래서 남성과 여성에게 따로 나올 수도 있었을 학력의 차이가 하나로 묶여, 7.53이라는 숫자 하나로 나온 것이죠. 그런데 앞 절의 표 3-2에서 60세 이상의 초졸 이하와 대졸 이상의 차이는 남성 4.7, 여성 8.5로 달랐습니다. 보고서의 한계 줄도 “학력의 차이가 남녀에 따라 다른지는 보지 않았다”고 적었습니다.</p>
-<p>이것을 확인하려면 다중회귀분석 장에서 소개한 상호작용 항을 하나 넣으면 됩니다. 보고서의 회귀식에 “학력 × 여성”을 더하면, 학력의 계수가 남녀에게 따로 나옵니다. 나이 곡선은 그대로 남녀 공통으로 둡니다. 식으로 쓰면 이렇습니다. 학력은 대졸 이상만 적었습니다.</p>
+<p>이것을 확인하려면 다중회귀분석 장에서 소개한 상호작용 항을 넣으면 됩니다. 보고서의 회귀식에 “학력 × 여성”을 더하면, 학력의 계수가 남녀에게 따로 나옵니다. 학력은 중졸, 고졸, 대졸 이상의 세 스위치이므로 상호작용 항도 중졸 × 여성, 고졸 × 여성, 대졸 이상 × 여성의 셋입니다. 나이 곡선은 그대로 남녀 공통으로 둡니다. 식으로 쓰면 이렇습니다. 학력은 대졸 이상만 적었습니다(셋이 하는 일은 같습니다).</p>
 <div class="math notranslate nohighlight">
 \[\text{혈압} = \cdots + b_3 \times \text{대졸 이상} + c \times \text{여성} + h_3 \times (\text{대졸 이상} \times \text{여성}) + \cdots\]</div>
 <p>여기서 <span class="math notranslate nohighlight">\(\cdots\)</span>는 상수항, 중졸과 고졸(그리고 그 둘의 상호작용 항), 나이와 나이²입니다. 여성은 남성이면 0, 여성이면 1인 스위치입니다. 그러니 상호작용 항 <span class="math notranslate nohighlight">\(\text{대졸 이상} \times \text{여성}\)</span>은 대졸 이상인 여성에게만 1이고, 나머지 사람에게는 0입니다. 그래서 대졸 이상과 초졸 이하의 차이는 남녀에게 이렇게 따로 나옵니다.</p>
@@ -662,7 +662,7 @@
 <li><p>남성(여성 = 0): <span class="math notranslate nohighlight">\(b_3\)</span></p></li>
 <li><p>여성(여성 = 1): <span class="math notranslate nohighlight">\(b_3 + h_3\)</span></p></li>
 </ul>
-<p><span class="math notranslate nohighlight">\(h_3\)</span>이 0이면 남녀의 학력 차이가 같고, 0이 아니면 다릅니다. 보고서의 회귀식은 이 항이 없는 식, 즉 <span class="math notranslate nohighlight">\(h_3\)</span>을 0으로 둔 식입니다. 결과는 표 4-3과 같습니다.</p>
+<p><span class="math notranslate nohighlight">\(h_3\)</span>이 0이면 학력에 따른 혈압 차이가 남녀에게 같고, 0이 아니면 다릅니다. 보고서의 회귀식은 이 항들이 없는 식, 즉 <span class="math notranslate nohighlight">\(h_3\)</span>을 비롯한 상호작용 항 셋의 계수를 모두 0으로 둔 식입니다. 결과는 표 4-3과 같습니다.</p>
 <p><strong>표 4-3.</strong> 수축기 혈압의 회귀분석 — 보고서의 회귀식에 학력 × 여성을 더하기 전과 후</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
@@ -810,7 +810,7 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">허리둘레와 체질량지수, 어느 쪽이 혈압과 더 가까울까</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">평균이 가리는 것 — 상호작용 하나</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">평균이 가리는 것 — 상호작용 항</a></li>
 </ul>
   </nav></div>
 
