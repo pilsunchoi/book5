@@ -75,7 +75,7 @@
     <script src="../_static/custom.js?v=a6a97908"></script>
     <link rel="index" title="색인" href="../genindex.html" />
     <link rel="search" title="검색" href="../search.html" />
-    <link rel="next" title="5. 30%라고 한 날 열에 셋 — 예측 확률 읽기" href="section-g5.html" />
+    <link rel="next" title="5. 가장 그럴듯한 계수 — 최대가능도 추정" href="section-g5.html" />
     <link rel="prev" title="3. S자 곡선 — 로지스틱 회귀" href="section-g3.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="ko"/>
@@ -310,7 +310,8 @@
 <li class="toctree-l2"><a class="reference internal" href="section-g2.html">2. 0과 1을 회귀하면 — 선형확률모형</a></li>
 <li class="toctree-l2"><a class="reference internal" href="section-g3.html">3. S자 곡선 — 로지스틱 회귀</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">4. 계수를 어떻게 읽나 — 오즈와 확률의 차이</a></li>
-<li class="toctree-l2"><a class="reference internal" href="section-g5.html">5. 30%라고 한 날 열에 셋 — 예측 확률 읽기</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-g5.html">5. 가장 그럴듯한 계수 — 최대가능도 추정</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-g6.html">6. 30%라고 한 날 열에 셋 — 예측 확률 읽기</a></li>
 <li class="toctree-l2"><a class="reference internal" href="practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
 <li class="toctree-l2"><a class="reference internal" href="practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
 </ul>
@@ -619,6 +620,7 @@
 <p>표에서 보듯이 다섯 변수 가운데 넷은 두 숫자가 아주 가깝습니다. 기압 변화는 −2.56과 −2.56으로 같습니다. 오늘비만 4.67과 7.36으로 차이가 큽니다. 평균으로 숫자 하나를 말하는 데는 직선도 곡선과 크게 다르지 않은 결과를 내는 경우가 많습니다. 다만 오늘비처럼 둘이 다른 변수도 있으니, 두 결과를 함께 보면 좋습니다.</p>
 <p>그렇다면 왜 굳이 곡선을 쓸까요? 평균 하나로 말할 때는 비슷해도, 하루하루의 확률을 말할 때는 다르기 때문입니다. 선형확률모형은 138일에 대해 0%보다 낮은 확률을 내놓았고, 어느 날에나 기압 2hPa의 몫을 5.1%포인트로 똑같이 말했습니다. 로지스틱 회귀는 모든 날의 확률을 0%와 100% 사이에서 내놓고, 맑은 날에는 3.5%포인트, 흐린 날에는 7.4%포인트라고 말합니다.</p>
 <p>💡 <strong>팁:</strong> AI에게 로지스틱 회귀를 부탁할 때는 계수와 오즈비만 받지 말고 확률의 말로도 받으세요. “오즈비와 함께 평균 한계효과를 퍼센트포인트로 보여 주고, 대표적인 두 경우를 골라 예측 확률과 그 차이도 계산해 줘”라고 요청하면 됩니다. 이 장의 보고서가 이렇게 요청해서 받은 것입니다.</p>
+<p>지금까지 보고서의 계수를 점수와 확률과 오즈의 말로 옮겨 보았습니다. 그런데 계수 −0.155와 그 옆의 표준오차 0.017은 어떻게 구한 숫자일까요? 직선의 회귀식처럼 최소제곱법으로 구한 것은 아닙니다. 다음 절의 물음입니다.</p>
 <blockquote>
 <div><p><strong>요약 — 이 절의 물음과 답</strong></p>
 <ul class="simple">
@@ -675,7 +677,7 @@
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">다음</p>
-        <p class="prev-next-title">5. 30%라고 한 날 열에 셋 — 예측 확률 읽기</p>
+        <p class="prev-next-title">5. 가장 그럴듯한 계수 — 최대가능도 추정</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

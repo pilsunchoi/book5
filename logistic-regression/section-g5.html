@@ -7,14 +7,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="5. 30%라고 한 날 열에 셋 — 예측 확률 읽기" />
+<meta property="og:title" content="5. 가장 그럴듯한 계수 — 최대가능도 추정" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://pilsunchoi.github.io/book5/logistic-regression/section-g5.html" />
 <meta property="og:site_name" content="AI 데이터 분석" />
-<meta property="og:description" content="로지스틱 회귀는 날마다 내일비 확률을 하나씩 내놓습니다. 이 절의 물음은 두 가지입니다. 그 확률은 무슨 뜻일까요? 그리고 그 확률을 믿어도 되는지 어떻게 확인할까요? 답을 먼저 말하면 이렇습니다. 확률 30%는 “이런 날을 많이 모으면 열에 셋쯤 다음 날 비가 온다”는 뜻입니다...." />
-<meta name="description" content="로지스틱 회귀는 날마다 내일비 확률을 하나씩 내놓습니다. 이 절의 물음은 두 가지입니다. 그 확률은 무슨 뜻일까요? 그리고 그 확률을 믿어도 되는지 어떻게 확인할까요? 답을 먼저 말하면 이렇습니다. 확률 30%는 “이런 날을 많이 모으면 열에 셋쯤 다음 날 비가 온다”는 뜻입니다...." />
+<meta property="og:description" content="앞의 두 절에서 보고서의 계수를 점수로 바꾸고, 점수를 확률로 바꾸고, 확률의 말로 옮겼습니다. 그런데 계수 −0.155나 0.178 같은 숫자는 어디서 나왔을까요? 직선의 회귀식에서는 기준이 분명했습니다. 단순회귀분석 장에서 배운 최소제곱법은 잔차의 제곱을 모두 더한 값이 가장 ..." />
+<meta name="description" content="앞의 두 절에서 보고서의 계수를 점수로 바꾸고, 점수를 확률로 바꾸고, 확률의 말로 옮겼습니다. 그런데 계수 −0.155나 0.178 같은 숫자는 어디서 나왔을까요? 직선의 회귀식에서는 기준이 분명했습니다. 단순회귀분석 장에서 배운 최소제곱법은 잔차의 제곱을 모두 더한 값이 가장 ..." />
 
-    <title>5. 30%라고 한 날 열에 셋 — 예측 확률 읽기 &#8212; AI 데이터 분석</title>
+    <title>5. 가장 그럴듯한 계수 — 최대가능도 추정 &#8212; AI 데이터 분석</title>
   
   
   
@@ -68,12 +68,14 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'logistic-regression/section-g5';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <script src="../_static/custom.js?v=a6a97908"></script>
     <link rel="index" title="색인" href="../genindex.html" />
     <link rel="search" title="검색" href="../search.html" />
-    <link rel="next" title="직접 해 보기 1 — 프롬프트로 내 보고서 받기" href="practice-prompt.html" />
+    <link rel="next" title="6. 30%라고 한 날 열에 셋 — 예측 확률 읽기" href="section-g6.html" />
     <link rel="prev" title="4. 계수를 어떻게 읽나 — 오즈와 확률의 차이" href="section-g4.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="ko"/>
@@ -308,7 +310,8 @@
 <li class="toctree-l2"><a class="reference internal" href="section-g2.html">2. 0과 1을 회귀하면 — 선형확률모형</a></li>
 <li class="toctree-l2"><a class="reference internal" href="section-g3.html">3. S자 곡선 — 로지스틱 회귀</a></li>
 <li class="toctree-l2"><a class="reference internal" href="section-g4.html">4. 계수를 어떻게 읽나 — 오즈와 확률의 차이</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">5. 30%라고 한 날 열에 셋 — 예측 확률 읽기</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">5. 가장 그럴듯한 계수 — 최대가능도 추정</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-g6.html">6. 30%라고 한 날 열에 셋 — 예측 확률 읽기</a></li>
 <li class="toctree-l2"><a class="reference internal" href="practice-prompt.html">직접 해 보기 1 — 프롬프트로 내 보고서 받기</a></li>
 <li class="toctree-l2"><a class="reference internal" href="practice-notebook.html">직접 해 보기 2 — 파이썬 코드로 따라 해 보기</a></li>
 </ul>
@@ -463,7 +466,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>5. 30%라고 한 날 열에 셋 — 예측 확률 읽기</h1>
+    <h1>5. 가장 그럴듯한 계수 — 최대가능도 추정</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -473,15 +476,17 @@
             </div>
             <nav aria-label="Page">
                 <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">강수확률 30%는 무슨 뜻인가</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">모형이 말한 확률과 실제</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">확률을 확인하는 것과 맞혔는지 채점하는 것</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">실제로 일어난 일에 매긴 확률</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">곱이 가장 커지는 계수</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">변수가 없는 모형으로 생각하면</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">계수 하나만 움직여 보면</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">오늘 밤에 알 수 있는 것만 쓴다</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">함께 나타나는 것과 원인</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">확률을 내놓는데 왜 예보가 아닌가</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">이 장을 마치며</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">봉우리의 모양과 표준오차</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#r-2">보고서에 <span class="math notranslate nohighlight">\(R^2\)</span>이 없는 까닭</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">평균은 맞는다, 그러면 날마다는</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -494,124 +499,153 @@
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>5. 30%라고 한 날 열에 셋 — 예측 확률 읽기<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
-<p>로지스틱 회귀는 날마다 내일비 확률을 하나씩 내놓습니다. 이 절의 물음은 두 가지입니다. 그 확률은 무슨 뜻일까요? 그리고 그 확률을 믿어도 되는지 어떻게 확인할까요? 답을 먼저 말하면 이렇습니다. 확률 30%는 “이런 날을 많이 모으면 열에 셋쯤 다음 날 비가 온다”는 뜻입니다. 그래서 하루만 보고 확률이 맞았는지 틀렸는지 따질 수 없고, 같은 확률을 받은 날들을 모아서 확인합니다. 이번 장의 모형은 이 확인을 대체로 통과합니다. 그리고 이 확률이 뜻을 가지려면, 설명변수가 모두 오늘 21시에 이미 알 수 있는 값이어야 합니다.</p>
+<h1>5. 가장 그럴듯한 계수 — 최대가능도 추정<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>앞의 두 절에서 보고서의 계수를 점수로 바꾸고, 점수를 확률로 바꾸고, 확률의 말로 옮겼습니다. 그런데 계수 −0.155나 0.178 같은 숫자는 어디서 나왔을까요? 직선의 회귀식에서는 기준이 분명했습니다. 단순회귀분석 장에서 배운 최소제곱법은 잔차의 제곱을 모두 더한 값이 가장 작아지는 계수를 골랐습니다. 로지스틱 회귀는 다른 기준을 씁니다. 이 절의 답을 먼저 말하면 이렇습니다. 계수의 후보를 하나 정하면 날마다 비 올 확률이 나옵니다. 그 확률로 모형이 날마다 실제로 일어난 일에 얼마나 높은 확률을 매겼는지 보고, 그 확률을 모두 곱합니다. 곱이 가장 큰 후보를 고릅니다. 실제로 일어난 일을 가장 그럴듯하게 만드는 계수입니다.</p>
 <section id="id2">
-<h2>강수확률 30%는 무슨 뜻인가<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
-<p>일기예보에서 내일 강수확률이 30%라고 했는데 다음 날 비가 왔다고 해 봅시다. 예보가 틀린 걸까요? 그렇지 않습니다. 30%는 비가 오지 않는다는 말이 아니라, 비가 올 가능성이 열에 셋쯤 된다는 말이니까요. 반대로 비가 오지 않았다고 해서 예보가 맞았다고 할 수도 없습니다. 30%라고 했으니 오지 않을 가능성이 더 컸을 뿐입니다.</p>
-<p>이렇게 하루만 보아서는 확률이 맞았는지 알 수 없습니다. 확인하려면 날을 모아야 합니다. 예보가 30%라고 한 날을 100일 모았는데 그 가운데 30일쯤 비가 왔다면, 그 예보의 30%는 믿을 만합니다. 100일 가운데 60일이나 비가 왔다면, 그 예보는 비가 올 확률을 너무 낮게 말한 것입니다. 이것이 확률을 확인하는 방법이고, 이번 장 보고서의 넷째 해석 항목과 보고서 그림의 오른쪽 패널이 하는 일입니다.</p>
-</section>
-<section id="id3">
-<h2>모형이 말한 확률과 실제<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
-<p>보고서의 모형은 3,651일 하루하루에 대해 내일비 확률을 계산했습니다. 이 확률을 10%포인트씩 구간으로 나누고, 구간마다 다음 날 실제로 비가 온 비율을 계산한 것이 표 5-1입니다. 보고서 그림의 오른쪽 패널은 이 표를 점으로 그린 것입니다.</p>
-<p><strong>표 5-1.</strong> 모형이 말한 확률과 실제로 비가 온 비율</p>
+<h2>실제로 일어난 일에 매긴 확률<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>계수의 후보를 하나 정하면, 그 계수로 날마다 내일비 확률을 계산할 수 있습니다. 좋은 계수라면 다음 날 실제로 비가 온 날에는 높은 확률을, 비가 오지 않은 날에는 낮은 확률을 매겼을 것입니다. 그래서 날마다 “모형이 실제로 일어난 일에 매긴 확률”을 봅니다. 비가 온 날은 모형이 계산한 비 올 확률이고, 오지 않은 날은 비가 오지 않을 확률(100%에서 비 올 확률을 뺀 값)입니다.</p>
+<p>사흘만으로 예를 들어 봅시다. 첫째 날은 다음 날 비가 왔고, 둘째 날과 셋째 날은 오지 않았습니다. 계수 후보 A는 사흘의 비 올 확률을 80%, 20%, 30%로 계산하고, 후보 B는 셋 다 50%로 계산한다고 합시다. 표 5-1이 두 후보가 실제로 일어난 일에 매긴 확률입니다.</p>
+<p><strong>표 5-1.</strong> 사흘의 실제 결과와 두 계수 후보</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="head"><p>모형이 말한 확률</p></th>
-<th class="head"><p>일수</p></th>
-<th class="head"><p>모형이 말한 확률의 평균</p></th>
-<th class="head"><p>다음 날 실제로 비가 온 비율</p></th>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>첫째 날</p></th>
+<th class="head"><p>둘째 날</p></th>
+<th class="head"><p>셋째 날</p></th>
+<th class="head"><p>곱</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>0 ~ 10%</p></td>
-<td><p>721</p></td>
-<td><p>7.4%</p></td>
-<td><p>9.2%</p></td>
+<tr class="row-even"><td><p>다음 날 비</p></td>
+<td><p>O</p></td>
+<td><p>X</p></td>
+<td><p>X</p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p>10 ~ 20%</p></td>
-<td><p>895</p></td>
-<td><p>14.1%</p></td>
-<td><p>13.9%</p></td>
+<tr class="row-odd"><td><p><strong>후보 A</strong></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-even"><td><p>20 ~ 30%</p></td>
-<td><p>461</p></td>
-<td><p>24.8%</p></td>
-<td><p>23.4%</p></td>
+<tr class="row-even"><td><p>계산한 비 올 확률</p></td>
+<td><p>80%</p></td>
+<td><p>20%</p></td>
+<td><p>30%</p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p>30 ~ 40%</p></td>
-<td><p>462</p></td>
-<td><p>35.0%</p></td>
-<td><p>33.3%</p></td>
+<tr class="row-odd"><td><p>실제로 일어난 일에 매긴 확률</p></td>
+<td><p>0.8</p></td>
+<td><p>0.8</p></td>
+<td><p>0.7</p></td>
+<td><p>0.448</p></td>
 </tr>
-<tr class="row-even"><td><p>40 ~ 50%</p></td>
-<td><p>430</p></td>
-<td><p>44.7%</p></td>
-<td><p>40.9%</p></td>
+<tr class="row-even"><td><p><strong>후보 B</strong></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p>50 ~ 60%</p></td>
-<td><p>320</p></td>
-<td><p>54.7%</p></td>
-<td><p>51.9%</p></td>
+<tr class="row-odd"><td><p>계산한 비 올 확률</p></td>
+<td><p>50%</p></td>
+<td><p>50%</p></td>
+<td><p>50%</p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-even"><td><p>60 ~ 70%</p></td>
-<td><p>213</p></td>
-<td><p>64.9%</p></td>
-<td><p>72.3%</p></td>
-</tr>
-<tr class="row-odd"><td><p>70 ~ 80%</p></td>
-<td><p>106</p></td>
-<td><p>74.2%</p></td>
-<td><p>84.9%</p></td>
-</tr>
-<tr class="row-even"><td><p>80 ~ 90%</p></td>
-<td><p>37</p></td>
-<td><p>84.4%</p></td>
-<td><p>86.5%</p></td>
-</tr>
-<tr class="row-odd"><td><p>90 ~ 100%</p></td>
-<td><p>6</p></td>
-<td><p>91.7%</p></td>
-<td><p>100.0%</p></td>
+<tr class="row-even"><td><p>실제로 일어난 일에 매긴 확률</p></td>
+<td><p>0.5</p></td>
+<td><p>0.5</p></td>
+<td><p>0.5</p></td>
+<td><p>0.125</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>보고서가 예로 든 구간을 보세요. 표 5-1의 셋째 행입니다. 모형이 20 ~ 30%라고 한 날은 461일이었고, 그 가운데 다음 날 실제로 비가 온 날은 108일, 23.4%였습니다. 네 날에 하루꼴입니다. 이 461일에 모형이 말한 확률은 평균 24.8%였으니, 모형이 말한 확률이 실제와 잘 맞는 셈입니다.</p>
-<p>표 5-1 전체를 보면, 모형이 60%보다 낮게 말한 구간들(3,289일)에서는 모형의 확률과 실제 비율의 차이가 모두 3.8%포인트 이내입니다. 60%를 넘는 구간에서는 실제 비율이 모형보다 높습니다. 60 ~ 70% 구간은 7.4%포인트, 70 ~ 80% 구간은 10.7%포인트 높습니다. 일수가 적은 구간이라 비율이 흔들리기 쉽지만, 그것만으로는 다 설명되지 않는 차이입니다. 이 모형은 비가 올 가능성이 높은 날에는 확률을 조금 낮게 말하는 편입니다. 보고서의 해석이 “60%를 넘는 구간은 실제가 조금 더 높다”고 적은 것이 이것입니다. 3절의 그림 3-2 오른쪽 패널에서 점수가 높은 쪽의 동그라미들이 곡선보다 위에 있었던 것도 같은 모습입니다.</p>
-<section id="id4">
-<h3>확률을 확인하는 것과 맞혔는지 채점하는 것<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
-<p>모형이 “내일 비가 온다”, “안 온다” 가운데 하나로 답하게 하고 그 답이 얼마나 맞았는지 채점하는 것은, 확률이 실제와 맞는지 확인하는 것과는 다른 일입니다. 확률을 몇 퍼센트에서 끊어 “온다”고 할지 정해야 하고, 비가 오는데 안 온다고 한 실수와 안 오는데 온다고 한 실수를 따로 세어야 합니다. 맞힌 날의 비율 하나만 보면 속기 쉽습니다. 3,651일 가운데 71%는 다음 날 비가 오지 않았으므로, 모형 없이 날마다 “내일 비 안 온다”고만 해도 71%는 맞힙니다. 이런 채점은 이 책의 머신러닝을 다루는 장들의 몫입니다. 이번 장은 확률을 설명하고, 그 확률이 실제와 맞는지 확인하는 데까지 갑니다.</p>
-<p>그 확인에도 조심할 점이 하나 있습니다. 앞에서는 계수를 추정하는 데 쓴 바로 그 3,651일로 확률을 확인했습니다. 모형이 처음 보는 날에도 확률을 잘 말하는지 알려면, 데이터의 일부를 계수 추정에 쓰지 않고 떼어 두었다가 그 데이터로 확인해야 합니다. 계수를 추정한 날들로만 확인하면, 모형이 그 날들에 맞춰진 만큼 실제보다 잘 맞아 보일 수 있기 때문입니다.</p>
-<p>💡 <strong>팁:</strong> AI가 로지스틱 회귀의 결과를 내놓으면, 모형이 말한 확률이 실제와 맞는지도 함께 보여 달라고 하세요. “예측 확률을 10% 구간으로 나눠, 구간마다 일수(관측 수), 예측 확률의 평균, 실제 비율을 표로 보여 줘”라고 요청하면 표 5-1과 같은 표를 받을 수 있습니다. AI는 이런 표를 calibration table(보정 표)이라고 부르기도 합니다.</p>
+<p>표에서 보듯이 비가 오지 않은 둘째 날과 셋째 날에는 100%에서 비 올 확률을 뺀 값이 들어갑니다. A가 둘째 날에 매긴 확률은 1 − 0.2 = 0.8입니다.</p>
+<p>이 세 값을 곱합니다. 왜 곱할까요? 동전을 세 번 던져 세 번 모두 앞면이 나올 확률은 1/2을 세 번 곱한 1/8입니다. 날마다의 결과가 서로 따로 정해진다고 보면, 마찬가지로 이 곱은 “모형이 맞다면 사흘의 결과가 실제와 똑같이 나올 확률”입니다. 셋을 곱하면 A는 0.448, B는 0.125입니다. A가 사흘의 실제 결과를 훨씬 그럴듯하게 설명합니다.</p>
+<p>이 곱을 <strong>가능도</strong>(likelihood)라고 부르고, 가능도가 가장 커지는 계수를 찾는 방법을 <strong>최대가능도 추정</strong>(maximum likelihood estimation)이라고 합니다. 가능도는 우도(尤度)라고도 합니다. 실제로 일어난 일을 가장 그럴듯하게 만드는 계수를 고른다는 뜻입니다.</p>
+<blockquote>
+<div><p><strong>참고:</strong>
+로지스틱 회귀가 최소제곱법과 “다른 기준”을 쓴다고 했지만, 사실 최소제곱법도 같은 원리에서 나옵니다. 직선의 회귀식에서 잔차가 0을 중심으로 좌우가 대칭인 종 모양으로 흩어진다고 보고(이런 흩어짐을 <strong>정규분포</strong>, normal distribution라고 부릅니다) 가능도를 계산하면, 가능도가 가장 커지는 직선이 바로 잔차의 제곱을 더한 값이 가장 작은 직선입니다. 실제로 일어난 일을 가장 그럴듯하게 만드는 계수를 고른다는 원리는 같고, 결과가 연속된 숫자이면 그 원리가 최소제곱법이 되며, 결과가 0과 1이면 이 절에서 본 확률의 곱이 됩니다.</p>
+</div></blockquote>
 </section>
+<section id="id3">
+<h2>곱이 가장 커지는 계수<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>후보 둘을 비교하는 것은 쉽습니다. 그런데 계수의 후보는 셀 수 없이 많습니다. 가장 좋은 후보는 어떻게 찾을까요?</p>
+<section id="id4">
+<h3>변수가 없는 모형으로 생각하면<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<p>먼저 아주 단순한 모형부터 봅시다. 변수를 아예 넣지 않고, 어느 날에나 비 올 확률을 똑같이 매기는 모형입니다.</p>
+<p>설명을 위해 예를 하나 정해 둡시다. 열흘 동안의 기록이 있고, 그 가운데 사흘은 다음 날 비가 왔고 나머지 7일은 오지 않았다고 해 봅시다. 실제 데이터가 아니라 가정한 예입니다. 비가 온 날의 비율은 30%입니다. 변수를 하나도 쓰지 않는다는 것은 이날과 저날이 어떻게 다른지 모형이 전혀 보지 못한다는 뜻입니다. 그러니 이 모형이 할 수 있는 일은 모든 날에 똑같은 확률 하나를 매기는 것뿐이고, 모형이 정할 숫자도 그 확률 하나입니다. 우리는 비가 온 비율이 30%라는 것을 압니다. 하지만 컴퓨터에는 이 답을 숨겨 두고, 열흘의 기록만 주면서 최대가능도 방법으로 확률을 찾아보라고 해 봅시다. 컴퓨터는 어떤 확률을 고를까요? 몇 가지 확률을 넣어 곱을 계산해 보며 확인해 봅시다.</p>
+<p>모형이 모든 날에 똑같이 50%를 매기면, 비가 온 사흘에 매긴 확률은 0.5이고, 비가 오지 않은 7일에 매긴 확률도 1 − 0.5 = 0.5입니다. 열흘의 곱은 0.5를 열 번 곱한 값, 약 0.00098입니다.</p>
+<p>이번에는 모형이 모든 날에 똑같이 20%를 매긴다고 해 봅시다. 그러면 비가 온 사흘에는 0.2를 매기고, 비가 오지 않은 7일에는 1 − 0.2 = 0.8을 매깁니다. 열흘의 곱은 0.2를 세 번, 0.8을 일곱 번 곱한 값, 약 0.00168입니다. 50%를 매길 때보다 큽니다.</p>
+<p>같은 방법으로 몇 가지 확률에 대해 계산한 것이 표 5-2입니다.</p>
+<p><strong>표 5-2.</strong> 모든 날에 똑같은 확률을 매기는 모형 — 열흘 가운데 사흘 비</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>확률</p></th>
+<th class="head"><p>10%</p></th>
+<th class="head"><p>20%</p></th>
+<th class="head"><p>30%</p></th>
+<th class="head"><p>40%</p></th>
+<th class="head"><p>50%</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>계산</p></td>
+<td><p><span class="math notranslate nohighlight">\(0.1^3 \times 0.9^7\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(0.2^3 \times 0.8^7\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(0.3^3 \times 0.7^7\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(0.4^3 \times 0.6^7\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(0.5^3 \times 0.5^7\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>곱(가능도)</p></td>
+<td><p>0.00048</p></td>
+<td><p>0.00168</p></td>
+<td><p>0.00222</p></td>
+<td><p>0.00179</p></td>
+<td><p>0.00098</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>확률을 0%부터 100%까지 바꿔 가며 곱(가능도)의 값을 찍어 연결하면 그림 5-1처럼 산 모양이 나옵니다. 봉우리는 정확히 30%, 비가 온 날의 비율입니다. 가정한 예처럼 열흘 가운데 사흘 비가 왔다면, 가능도를 가장 크게 만드는 확률은 0.3입니다. 이 열흘의 기록을 주고 컴퓨터에 변수 없이 최대가능도 추정을 해 달라고 하면, 컴퓨터는 모든 날에 매길 확률로 0.3을 골라 줍니다. 어느 날에나 똑같은 확률을 매겨야 한다면, 가장 그럴듯한 확률은 실제로 비가 온 날의 비율인 것입니다. 이 장의 데이터에서도 같습니다. 3,651일 가운데 다음 날 비가 온 날은 1,076일, 29.5%이고, 이 모형의 봉우리도 29.5%입니다.</p>
+<p><img alt="모든 날에 똑같은 확률을 매기는 모형의 가능도 — 열흘 가운데 사흘 비" src="../_images/fig_g5_1_likelihood.png" /></p>
+<p><strong>그림 5-1.</strong> 열흘 가운데 사흘 비가 왔을 때, 모든 날에 똑같은 확률을 매기는 모형의 가능도. 봉우리는 30%다.</p>
 </section>
 <section id="id5">
-<h2>오늘 밤에 알 수 있는 것만 쓴다<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
-<p>1절에서 이번 장의 설명변수를 모두 오늘 21시까지의 값으로 정했습니다. 오늘비도 자정까지가 아니라 21시까지 비가 내렸는지만 봅니다. 이렇게 측정 시점을 따지지 않으면 어떻게 될까요? 두 가지로 확인해 봅시다.</p>
-<p>첫째, 오늘비를 하루 전체(0시 ~ 24시)로 바꾸면 오늘비의 계수는 0.281에서 0.472로 커집니다. 21시에서 자정 사이에 내리기 시작한 비가 오늘비에 들어가기 때문입니다. 오늘비를 이렇게 바꾸면 0에서 1로 바뀌는 날이 75일인데, 그 가운데 77%는 다음 날에도 비가 왔습니다. 하지만 21시에서 자정 사이에 내린 비는, 오늘 21시에 내일을 말하려는 우리가 아직 알 수 없는 정보입니다. 계수가 커진 것은 이 정보가 섞여 들어갔기 때문입니다.</p>
-<p>둘째, 아예 내일 아침 9시의 습도를 설명변수에 더해 봅시다. 내일 아침이 습하면 내일 비가 올 가능성이 높으니, 이 변수를 넣으면 모형은 훨씬 자신 있게 말합니다. 모형이 내일비 확률을 90%보다 높게 말한 날이 보고서의 모형에서는 6일이었는데, 43일로 늘어납니다. 10%보다 낮게 말한 날도 전체의 20%에서 28%로 늘어납니다. 모형이 “거의 확실히 온다”, “거의 확실히 안 온다”고 말하는 날이 많아진 것이죠. 숫자만 보면 더 좋은 모형 같습니다.</p>
-<p>하지만 이 모형은 우리의 질문에 답하지 않습니다. 우리의 질문은 “오늘 저녁의 날씨로 본 내일 비의 확률”이었습니다. 내일 아침의 습도는 오늘 21시에는 알 수 없는 값입니다. 이 값을 쓴 모형의 확률은 “내일 아침이 이만큼 습하다면 내일 비가 올 확률”이지, 오늘 21시에 말할 수 있는 확률이 아닙니다. 계산은 맞는데 물은 것에 대한 답이 아닌 것입니다.</p>
-<p>AI에게 데이터를 주고 분석을 맡기면 이런 일이 생기기 쉽습니다. 일별 데이터 파일에는 날마다 하루 평균 습도, 하루 강수량처럼 하루 전체의 값이 한 행에 나란히 들어 있습니다. AI가 그 행을 그대로 쓰면, 21시 이후에 측정된 값까지 섞인 변수로 회귀식을 만들 수 있습니다. 보고서의 숫자만 봐서는 이런 일이 드러나지 않습니다. 변수 하나하나가 결과보다 먼저 알 수 있는 값인지는 사람이 확인해야 합니다.</p>
-<p>💡 <strong>팁:</strong> 결과가 “내일”, “다음 달”, “1년 뒤”의 일이라면, AI에게 “설명변수가 모두 결과보다 먼저 알 수 있는 값인지 확인하고, 변수마다 언제 측정된 값인지 표로 보여 줘”라고 요청하세요. 이번 장의 보고서를 받을 때도 21시까지의 값만 쓰도록 요청했습니다.</p>
+<h3>계수 하나만 움직여 보면<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<p>이제 가정한 열흘의 예를 떠나, 이 장의 날씨 데이터 3,651일로 돌아옵니다. 그리고 보고서의 모형처럼 변수를 넣습니다. 그러면 날마다 점수가 다르고 비 올 확률도 다릅니다. 찾을 것은 확률 하나가 아니라 상수와 계수 다섯, 모두 여섯 개입니다. 그래도 생각은 같습니다. 여섯 숫자의 후보마다 3,651일의 곱을 계산하고, 곱이 가장 큰 곳을 찾습니다.</p>
+<p>여섯 개를 한꺼번에 그릴 수는 없으니 하나만 골라 봅시다. 기압 변화의 계수를 고르겠습니다. 나머지 다섯은 보고서의 값에 그대로 두고, 이 계수의 값만 바꿔 가며 곱이 어떻게 달라지는지 봅시다. 그렇게 그린 것이 그림 5-2입니다. 역시 산 모양이고, 봉우리는 −0.155, 보고서의 값입니다. 다른 계수도 하나씩 바꿔 보면 모두 보고서의 값에서 봉우리가 됩니다. 보고서의 여섯 숫자는 여섯 개를 함께 바꿔 가며 찾은, 곱이 가장 커지는 조합이기 때문입니다.</p>
+<p><img alt="기압 변화의 계수만 바꿀 때의 가능도 — 10년치" src="../_images/fig_g5_2_slice.png" /></p>
+<p><strong>그림 5-2.</strong> 보고서의 모형에서 기압 변화의 계수만 바꾸고 나머지 계수는 그대로 둘 때의 가능도(10년치, 3,651일). 봉우리는 −0.155, 보고서의 계수다.</p>
+<p>3,651개의 확률을 곱하면 소수점 아래로 0이 수백 개 붙는 아주 작은 수가 됩니다. 그래서 통계 프로그램은 곱 대신 확률마다 로그를 취해 더한 값(로그 가능도, log likelihood)을 씁니다. 곱이 클수록 로그의 합도 크므로 봉우리의 자리는 같습니다. AI가 내놓는 결과에 “Log-Likelihood”라는 줄이 있다면 이 값입니다.</p>
+<p>이 봉우리는 최소제곱법과 달리 식 하나로 바로 계산되지 않습니다. 그렇다고 후보를 하나씩 모두 계산해 볼 수도 없습니다. 앞에서 후보가 셀 수 없이 많다고 한 까닭이 여기 있습니다. 계수는 −0.155와 −0.156 사이에도 −0.1551, −0.1552처럼 얼마든지 잘게 나눌 수 있는 숫자이고, 그런 숫자 여섯 개를 함께 정해야 합니다. 그래서 컴퓨터는 산을 오르듯이 찾습니다. 아무 후보에서 출발해 곱이 커지는 쪽으로 계수를 조금씩 옮기고, 더 이상 커지지 않으면 멈춥니다. 그 자리가 최대가능도 추정의 답입니다. 우리가 직접 할 일은 없습니다. AI나 통계 프로그램에 로지스틱 회귀를 해 달라고 하면 이 계산을 합니다.</p>
+</section>
 </section>
 <section id="id6">
-<h2>함께 나타나는 것과 원인<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
-<p>보고서의 한계에는 “함께 나타나는 정도를 설명한 것이다. 이 결과로 무엇이 비를 부르는지는 말할 수 없다”는 줄이 있습니다. 오늘비의 계수가 양수라고 해서 오늘 내린 비가 내일 비를 부른다는 뜻은 아닙니다. 기압 변화의 계수가 음수라고 해서 기압을 낮추면 비가 온다는 뜻도 아닙니다. 이 회귀식은 그런 날의 다음 날에 비가 더 자주 왔다는 것을 확률로 정리했을 뿐입니다. 내일 비가 올 확률을 말하는 데는 함께 나타나는 것이면 충분합니다. 무엇을 바꾸면 결과가 달라지는지는 다른 물음이고, 인과 추론 장에서 다룬 물음입니다.</p>
+<h2>봉우리의 모양과 표준오차<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
+<p>봉우리의 자리가 계수라면, 봉우리의 모양은 무엇을 말할까요? 같은 기압 변화의 계수를 2016년 한 해, 366일의 데이터만으로 구해 봅시다. 그림 5-3의 주황 곡선입니다. 파란 곡선은 그림 5-2의 10년치 산입니다. 봉우리는 −0.142로 10년치의 −0.155와 비슷합니다. 그런데 모양이 다릅니다. 두 곡선의 꼭대기 높이를 맞춰 놓고 보면 10년치의 산은 뾰족하고 1년치의 산은 완만합니다.</p>
+<p><img alt="기압 변화의 계수만 바꿀 때의 가능도 — 10년치와 2016년 한 해" src="../_images/fig_g5_3_two_hills.png" /></p>
+<p><strong>그림 5-3.</strong> 기압 변화의 계수만 바꿀 때의 가능도. 파랑은 그림 5-2와 같은 10년치(3,651일), 주황은 2016년 한 해(366일)만으로 구한 것이다. 가능도의 크기가 서로 크게 달라 두 곡선 모두 꼭대기를 같은 높이로 맞춰 그렸다. 세로축에 숫자가 없는 것도 같은 까닭이다.</p>
+<p>뾰족한 산에서는 봉우리에서 조금만 벗어나도 곱이 크게 줄어듭니다. 데이터가 그 계수를 분명하게 가리키는 것입니다. 완만한 산에서는 봉우리에서 꽤 떨어진 값도 곱이 별로 줄지 않습니다. 데이터가 그만큼 덜 분명하게 가리킵니다.</p>
+<p>봉우리의 뾰족함이 표준오차로 이어집니다. 컴퓨터는 봉우리 근처의 모양으로 표준오차를 계산합니다. 보고서에서 기압 변화의 표준오차는 0.017이고, 1년치로 구하면 0.048로 거의 세 배입니다. 봉우리가 뾰족할수록 표준오차가 작고, 완만할수록 큽니다. 데이터가 많을수록 봉우리는 뾰족해집니다.</p>
+<p>표준오차가 정해지면 그다음은 지금까지와 같습니다. 표준오차는 다른 날들로 데이터를 다시 모아 계산하면 계수가 얼마나 흔들릴지를 말하고, <span class="math notranslate nohighlight">\(p\)</span>값은 참값이 0이라면 이만한 계수가 우연히 나올 확률입니다. 기압 변화의 계수 −0.155는 표준오차 0.017의 9배쯤이라 <span class="math notranslate nohighlight">\(p\)</span>값이 0.001보다 작습니다. 표 3-2에서 오늘비의 계수 0.281은 표준오차 0.110의 두 배 반쯤이고(<span class="math notranslate nohighlight">\(p\)</span>값 0.011), 나머지 네 계수는 표준오차의 3.6배에서 14.9배입니다(<span class="math notranslate nohighlight">\(p\)</span>값 모두 0.001 미만). 계산 방법은 달라도 표준오차와 <span class="math notranslate nohighlight">\(p\)</span>값의 뜻은 그대로입니다.</p>
+<section id="r-2">
+<h3>보고서에 <span class="math notranslate nohighlight">\(R^2\)</span>이 없는 까닭<a class="headerlink" href="#r-2" title="Link to this heading">#</a></h3>
+<p>다중회귀분석 장의 보고서에는 <span class="math notranslate nohighlight">\(R^2\)</span>이 있었는데, 이번 보고서에는 없습니다. <span class="math notranslate nohighlight">\(R^2\)</span>은 최소제곱법에서 나온 숫자이기 때문입니다. 로지스틱 회귀는 최소제곱법을 쓰지 않으므로 보통의 <span class="math notranslate nohighlight">\(R^2\)</span>이 없습니다. 비슷한 역할을 하도록 만든 숫자(유사 <span class="math notranslate nohighlight">\(R^2\)</span>, pseudo <span class="math notranslate nohighlight">\(R^2\)</span>)가 있고 AI가 보고서에 넣기도 하지만, 보통의 <span class="math notranslate nohighlight">\(R^2\)</span>처럼 “흩어짐의 몇 퍼센트를 설명했다”로 해석할 수 없어서 이 장에서는 쓰지 않습니다. 모형이 확률을 얼마나 잘 말하는지는 6절에서 다른 방법으로 확인합니다.</p>
 </section>
 <section id="id7">
-<h2>확률을 내놓는데 왜 예보가 아닌가<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
-<p>보고서 한계의 마지막 줄은 “이 식은 예보가 아니라 관계를 설명한 것이다”입니다. 이번 장의 모형도 날마다 내일 비가 올 확률을 내놓으니, 일기예보와 무엇이 다른지 궁금할 수 있습니다.</p>
-<p>기상청의 강수확률은 대기의 움직임을 계산하는 수치예보 모형을 바탕으로 만듭니다. 넓은 지역의 관측을 모아 내일 대기가 어떻게 움직일지 계산하고, 거기에 예보관의 판단을 더합니다. 목적은 내일 비를 맞히는 것입니다. 이번 장의 회귀식이 한 일은 다릅니다. 서울 관측소 한 곳의 10년 기록에서, 오늘 저녁의 날씨가 이랬던 날들의 다음 날에 비가 얼마나 자주 왔는지를 정리했습니다. 결과가 확률의 꼴을 하고 있을 뿐, 오늘 저녁의 날씨와 내일 비가 어떻게 함께 움직였는지를 설명한 것입니다. 그래서 이번 장은 계수가 무슨 뜻인지, 모형이 말한 확률이 실제와 맞는지를 물었고, 몇 번이나 맞혔는지는 묻지 않았습니다.</p>
-<p>같은 데이터라도 내일 비를 맞히는 데 목적을 두면 물음이 달라집니다. 계수 하나하나의 뜻보다, 모형이 처음 보는 날에 얼마나 잘 맞히는지가 중요해집니다. 이런 채점은 머신러닝을 다루는 장들의 몫이고, 그 장들은 이번 장과 같은 서울의 비 데이터로 이 물음을 다룹니다.</p>
-</section>
-<section id="id8">
-<h2>이 장을 마치며<a class="headerlink" href="#id8" title="Link to this heading">#</a></h2>
-<p>이번 장은 결과가 0과 1인 회귀를 다뤘습니다. 출발점은 0과 1의 평균이 비율이라는 사실이었습니다. 그래서 회귀식은 조건이 같은 날들 가운데 비가 온 날의 비율, 즉 확률을 설명합니다.</p>
-<p>직선의 회귀식을 그대로 쓰는 선형확률모형은 계수를 퍼센트포인트로 바로 해석할 수 있다는 장점이 있었습니다. 하지만 직선이 0%에서 멈추지 않아서 138일의 확률을 0%보다 낮게 내놓았고, 같은 변화를 어느 날에나 같은 크기로 말했습니다. 로지스틱 회귀는 변수에 계수를 곱해 더한 점수를 S자 곡선에 넣어 확률을 0%와 100% 사이에 가둡니다. 곡선은 가운데가 가파르고 양 끝이 평평해서, 같은 변화도 출발점에 따라 다르게 작용합니다.</p>
-<p>그래서 로지스틱 회귀의 계수는 두 가지 말로 바꿔 이해합니다. 오즈비는 어느 날에나 같은 배수라서 숫자 하나로 말할 수 있지만, 확률의 배수는 아닙니다. 확률의 차이는 이해하기 쉽지만 날마다 달라서, 대표적인 날을 골라 계산하거나 모든 날의 평균(평균 한계효과)으로 말합니다. 마지막으로, 모형이 말한 확률은 같은 확률을 받은 날들을 모아 실제 비율과 비교해 확인하고, 설명변수가 결과보다 먼저 알 수 있는 값인지 따집니다.</p>
-<p>이제 이 장의 질문에 답할 수 있습니다. 오늘 흐리고 습하며 낮 동안 기압이 4hPa 내렸다면, 내일 비가 올 확률은 51%입니다. 기압이 조금 더 내리면 확률이 얼마나 오르는지는 그날에 따라 다릅니다. 모든 날을 평균하면 1hPa에 2.6%포인트이지만, 같은 2hPa이 맑은 날에는 3.5%포인트, 흐린 날에는 7.4%포인트를 올립니다.</p>
-<p>그리고 이 장의 첫머리에서 말한 “강수확률 30%는 무슨 뜻인가?”에도 답할 수 있습니다. 오늘과 날씨가 비슷한 날을 많이 모으면, 그 가운데 열에 셋쯤은 다음 날 비가 왔다는 뜻입니다. 그리고 그 30%가 믿을 만한지는 30%라고 한 날들을 모아 보면 압니다. 다만 이번 장의 30%는 지난 10년 동안 오늘 저녁의 날씨와 내일 비가 어떻게 함께 움직였는지를 설명한 확률이지, 예보가 아닙니다. 같은 데이터로 내일 비를 맞히는 일은 머신러닝을 다루는 장들에서 이어집니다.</p>
-<p>💡 <strong>팁:</strong> 결과가 예, 아니요인 분석을 AI에게 맡길 때 받아야 할 것은 네 가지입니다. 계수와 오즈비, 확률의 말로 바꾼 숫자(평균 한계효과와 대표적인 경우의 예측 확률), 예측 확률과 실제 비율을 비교한 표, 그리고 설명변수가 모두 결과보다 먼저 알 수 있는 값이라는 확인입니다. 이번 장의 보고서는 앞의 세 가지를 담고 있고, 넷째는 보고서를 요청할 때 조건으로 걸었습니다.</p>
+<h3>평균은 맞는다, 그러면 날마다는<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<p>최대가능도 추정에는 쓸모 있는 성질이 하나 있습니다. 상수가 들어 있는 로지스틱 회귀를 이 방법으로 구하면, 모형이 3,651일에 계산한 비 올 확률의 평균은 실제로 비가 온 날의 비율과 정확히 같아집니다. 이 장의 모형에서는 둘 다 29.5%입니다. 변수가 없는 모형의 봉우리가 실제 비율이었던 것과 같은 이치입니다. 전체로 보면 모형의 확률은 실제와 맞는 셈입니다. 그러면 날마다의 확률도 맞을까요? 30%라고 한 날들에는 정말 열에 셋쯤 비가 왔을까요? 다음 절의 물음입니다.</p>
 <blockquote>
 <div><p><strong>요약 — 이 절의 물음과 답</strong></p>
 <ul class="simple">
-<li><p><strong>모형이 말한 30%는 무슨 뜻인가?</strong> 이런 날을 많이 모으면 열에 셋쯤 다음 날 비가 온다는 뜻이다. 하루만 보고는 확률이 맞았는지 알 수 없고, 같은 확률을 받은 날들을 모아 실제 비율과 비교해 확인한다.</p></li>
-<li><p><strong>이 장의 모형이 말한 확률은 실제와 맞나?</strong> 대체로 그렇다. 20 ~ 30%라고 한 461일 가운데 23.4%가 비가 왔다. 다만 60%가 넘는 날에는 실제로 비가 온 비율이 모형의 확률보다 높았다.</p></li>
-<li><p><strong>왜 설명변수의 측정 시점을 따지나?</strong> 오늘 21시에 알 수 없는 값(21시 이후의 비, 내일 아침의 습도)을 넣으면 모형은 더 자신 있게 말하지만, “오늘 저녁의 날씨로 본 내일 비”라는 질문에는 답하지 않게 된다. 변수마다 결과보다 먼저 알 수 있는 값인지는 사람이 확인해야 한다.</p></li>
-<li><p><strong>확률을 내놓는데 왜 예보가 아닌가?</strong> 이 식은 오늘 저녁의 날씨와 내일 비가 어떻게 함께 움직였는지를 설명한 것이다. 내일 비를 맞히는 데 목적을 두면 처음 보는 날에 얼마나 잘 맞히는지를 채점해야 하고, 그것은 머신러닝을 다루는 장들의 물음이다.</p></li>
+<li><p><strong>로지스틱 회귀의 계수는 어떻게 구하나?</strong> 계수의 후보마다 모형이 날마다 실제로 일어난 일에 매긴 확률을 구해 모두 곱한다. 이 곱이 가능도이고, 가능도가 가장 커지는 계수를 고르는 방법이 최대가능도 추정이다. 실제로 일어난 일을 가장 그럴듯하게 만드는 계수다.</p></li>
+<li><p><strong>가장 큰 곱은 어떻게 찾나?</strong> 식 하나로 바로 계산되지 않아서, 컴퓨터가 곱이 커지는 쪽으로 계수를 조금씩 옮기다 더 커지지 않는 곳에서 멈춘다. 변수가 없는 모형이라면 봉우리는 실제로 비가 온 날의 비율이다. 프로그램은 곱 대신 로그의 합(로그 가능도)을 쓴다.</p></li>
+<li><p><strong>표준오차는 어디서 나오나?</strong> 봉우리 근처의 모양에서 나온다. 봉우리가 뾰족할수록 표준오차가 작다. 데이터가 많을수록 봉우리는 뾰족해진다. 표준오차와 <span class="math notranslate nohighlight">\(p\)</span>값의 뜻은 지금까지와 같고, 보통의 <span class="math notranslate nohighlight">\(R^2\)</span>은 없다.</p></li>
 </ul>
 </div></blockquote>
+</section>
 </section>
 </section>
 
@@ -655,11 +689,11 @@
       </div>
     </a>
     <a class="right-next"
-       href="practice-prompt.html"
+       href="section-g6.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">다음</p>
-        <p class="prev-next-title">직접 해 보기 1 — 프롬프트로 내 보고서 받기</p>
+        <p class="prev-next-title">6. 30%라고 한 날 열에 셋 — 예측 확률 읽기</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -681,15 +715,17 @@
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">강수확률 30%는 무슨 뜻인가</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">모형이 말한 확률과 실제</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">확률을 확인하는 것과 맞혔는지 채점하는 것</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">실제로 일어난 일에 매긴 확률</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">곱이 가장 커지는 계수</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">변수가 없는 모형으로 생각하면</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">계수 하나만 움직여 보면</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">오늘 밤에 알 수 있는 것만 쓴다</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">함께 나타나는 것과 원인</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">확률을 내놓는데 왜 예보가 아닌가</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">이 장을 마치며</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">봉우리의 모양과 표준오차</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#r-2">보고서에 <span class="math notranslate nohighlight">\(R^2\)</span>이 없는 까닭</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">평균은 맞는다, 그러면 날마다는</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
