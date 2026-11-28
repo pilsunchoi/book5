@@ -14,8 +14,8 @@
 
 - [1\. 보고서 — 학력이 높을수록 혈압이 낮을까](https://www.youtube.com/watch?v=o648EPGXoTQ)
 - [2\. 표본이 모집단을 닮게 — 가중치와 표본설계](https://www.youtube.com/watch?v=DROOeKNJUIg)
-- 3\. 다른 조건이 같다면 — 계수는 무엇을 비교하나 (준비 중)
-- 4\. 회귀식 밖에 남은 것 — 설명력, 빠진 변수, 남녀의 차이 (준비 중)
-- 5\. 약 먹고 잰 혈압 — 표본을 정하는 판단과 거꾸로 된 순서 (준비 중)
-- 6\. 횡단면이 말해 주지 않는 것 — 측정과 데이터의 범위 (준비 중)
-- 직접 해 보기(프롬프트와 파이썬 노트북) (준비 중)
+- [3\. 다른 조건이 같다면 — 계수는 무엇을 비교하나](https://www.youtube.com/watch?v=FZmHz663jWI)
+- [4\. 회귀식 밖에 남은 것 — 설명력, 빠진 변수, 남녀의 차이](https://www.youtube.com/watch?v=2yOaXbSyRRY)
+- [5\. 약 먹고 잰 혈압 — 표본을 정하는 판단과 거꾸로 된 순서](https://www.youtube.com/watch?v=IaqynbdGLxA)
+- [6\. 횡단면이 말해 주지 않는 것 — 측정과 데이터의 범위](https://www.youtube.com/watch?v=drongl0ollI)
+- [직접 해 보기(프롬프트와 파이썬 노트북)](https://www.youtube.com/watch?v=ldhJNlGMuaE)
