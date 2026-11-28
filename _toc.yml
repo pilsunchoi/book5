@@ -83,5 +83,6 @@ chapters:
       - file: logistic-regression/section-g3
       - file: logistic-regression/section-g4
       - file: logistic-regression/section-g5
+      - file: logistic-regression/section-g6
       - file: logistic-regression/practice-prompt
       - file: logistic-regression/practice-notebook
